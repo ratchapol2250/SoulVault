@@ -37,7 +37,7 @@ button,input,select{font:inherit}button{cursor:pointer}.top{height:68px;border-b
 </div></aside>
 <main>
 <section id="collection">
-<div class="title"><div><h1>Card Database</h1><p>ค้นหา ดูระดับแรร์ และเลือกดูการ์ดแต่ละระดับ</p></div><button class="btn" onclick="openDeckModal()">＋ สร้างเด็ค</button></div>
+<div class="title"><div><h1>Card Database</h1><p>การ์ดใน Collection ของคุณจะถูกเก็บบน Supabase และใช้ได้ทุกเครื่องเมื่อ Login</p></div><button class="btn" onclick="openDeckModal()">＋ สร้างเด็ค</button></div>
 <div class="controls">
 <input id="search" placeholder="ค้นหาชื่อการ์ด..." oninput="renderCards()">
 <select id="rarityFilter" onchange="renderCards()"><option value="">ทุกความแรร์</option><option>Common</option><option>Rare</option><option>Epic</option><option>Legendary</option><option>Mythic</option></select>
@@ -67,8 +67,19 @@ button,input,select{font:inherit}button{cursor:pointer}.top{height:68px;border-b
 <script src="config.js"></script>
 <script>
 let supabaseClient = null;
-try { supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}); } catch(e) { console.error(e); }
+try {
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+  });
+} catch(e) { console.error(e); }
+
 let authMode = "login";
+let selectedLevel = null;
+let collectionMap = {};
+let state = {
+  email:"", userId:"", decks:[], activeDeckId:null, selected:null, draw:[]
+};
+
 const cards=[
 {id:1,name:"Soulvault",type:"Skill",rarity:"Epic",levels:[1,2,3],icon:"✦",desc:"เก็บพลังวิญญาณไว้ในคลัง แล้วปลดปล่อยเมื่อถึงจังหวะที่เหมาะสม"},
 {id:2,name:"Draconic Fury",type:"Action",rarity:"Legendary",levels:[1,2,3,4],icon:"🐉",desc:"พลังความโกรธของมังกรที่เพิ่มแรงกดดันให้คู่ต่อสู้"},
@@ -83,10 +94,15 @@ const cards=[
 {id:11,name:"Varethorn",type:"Unit",rarity:"Mythic",levels:[1,2,3,4],icon:"♜",desc:"ผู้พิทักษ์แห่งแกนดวงดาว"},
 {id:12,name:"Crimson Hunter",type:"Unit",rarity:"Rare",levels:[1,2,3],icon:"♞",desc:"นักล่าที่ออกตามรอยเป้าหมายอย่างไม่ลดละ"}
 ];
-let state={email:"",userId:"",decks:JSON.parse(localStorage.getItem("sa_decks")||"null")||[{name:"Starter Deck",cards:{1:2,4:2,5:2,8:1,10:1}}],activeDeck:0,selected:null,draw:[]};
-function save(){localStorage.setItem("sa_decks",JSON.stringify(state.decks))}
-function toast(t){let x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",1800)}
-function authMessage(t){document.getElementById("authMessage").textContent=t||""}
+
+function toast(t){
+  const x=document.getElementById("toast"); x.textContent=t; x.style.display="block";
+  clearTimeout(window.__toastTimer); window.__toastTimer=setTimeout(()=>x.style.display="none",2200);
+}
+function authMessage(t){document.getElementById("authMessage").textContent=t||"";}
+function getCard(id){return cards.find(c=>c.id==id);}
+function currentDeck(){return state.decks.find(d=>d.id===state.activeDeckId)||state.decks[0]||null;}
+
 function toggleAuthMode(){
   authMode=authMode==="login"?"signup":"login";
   document.getElementById("authTitle").textContent=authMode==="login"?"LOGIN":"CREATE ACCOUNT";
@@ -96,6 +112,7 @@ function toggleAuthMode(){
   document.getElementById("authHint").textContent=authMode==="login"?"เข้าสู่ระบบด้วย Email และ Password":"สร้างบัญชี STEAL AREA ด้วย Email และ Password";
   authMessage("");
 }
+
 async function submitAuth(){
   if(!supabaseClient)return authMessage("ยังไม่ได้ตั้งค่า Supabase ใน config.js");
   const email=document.getElementById("email").value.trim();
@@ -107,62 +124,217 @@ async function submitAuth(){
     if(password!==p2)return authMessage("Password ทั้งสองช่องไม่ตรงกัน");
     const {data,error}=await supabaseClient.auth.signUp({email,password});
     if(error)return authMessage(error.message);
-    if(data.session){ startFromUser(data.user); }
+    if(data.session) await startFromUser(data.user);
     else authMessage("สมัครสำเร็จ กรุณาตรวจสอบ Email เพื่อยืนยันบัญชี แล้วกลับมาเข้าสู่ระบบ");
   }else{
     const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
     if(error)return authMessage(error.message);
-    startFromUser(data.user);
+    await startFromUser(data.user);
   }
 }
-function startFromUser(user){
-  state.email=user?.email||"";
-  state.userId=user?.id||"";
+
+async function startFromUser(user){
+  state.email=user?.email||""; state.userId=user?.id||"";
   document.getElementById("login").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
   document.getElementById("userEmail").textContent=state.email;
-  renderCards();renderDecks();renderDraw();
+  await loadUserData();
 }
+
 async function logout(){
   if(supabaseClient) await supabaseClient.auth.signOut();
-  state.email="";state.userId="";
+  state={email:"",userId:"",decks:[],activeDeckId:null,selected:null,draw:[]};
+  collectionMap={};
   document.getElementById("app").classList.add("hidden");
   document.getElementById("login").classList.remove("hidden");
   document.getElementById("password").value="";
   authMessage("");
 }
+
 async function initAuth(){
   if(!supabaseClient)return;
   const {data}=await supabaseClient.auth.getSession();
-  if(data?.session?.user) startFromUser(data.session.user);
-  supabaseClient.auth.onAuthStateChange((event,session)=>{
-    if(session?.user && event==="SIGNED_IN") startFromUser(session.user);
+  if(data?.session?.user) await startFromUser(data.session.user);
+  supabaseClient.auth.onAuthStateChange(async(event,session)=>{
+    if(session?.user && event==="SIGNED_IN") await startFromUser(session.user);
     if(event==="SIGNED_OUT"){
       document.getElementById("app").classList.add("hidden");
       document.getElementById("login").classList.remove("hidden");
     }
   });
 }
+
+async function loadUserData(){
+  const [collectionsResult,decksResult]=await Promise.all([
+    supabaseClient.from("collections").select("card_id,quantity").eq("user_id",state.userId),
+    supabaseClient.from("decks").select("id,user_id,name,created_at,updated_at").eq("user_id",state.userId).order("created_at",{ascending:true})
+  ]);
+  if(collectionsResult.error){console.error(collectionsResult.error);toast("โหลด Collection ไม่สำเร็จ: "+collectionsResult.error.message);}
+  if(decksResult.error){console.error(decksResult.error);toast("โหลด Deck ไม่สำเร็จ: "+decksResult.error.message);}
+  collectionMap={};
+  (collectionsResult.data||[]).forEach(r=>collectionMap[String(r.card_id)]=Number(r.quantity)||0);
+  const rawDecks=decksResult.data||[];
+  state.decks=rawDecks.map(d=>({id:d.id,name:d.name,cards:{}}));
+
+  if(state.decks.length===0){
+    await importLocalDecksIfAvailable();
+  }else{
+    await loadDeckCards();
+  }
+  if(state.decks.length===0){
+    await createDeckOnServer("Starter Deck",{1:2,4:2,5:2,8:1,10:1},true);
+  }
+  if(!state.activeDeckId || !state.decks.some(d=>d.id===state.activeDeckId)) state.activeDeckId=state.decks[0].id;
+  renderCards(); renderDecks(); renderDraw();
+}
+
+async function loadDeckCards(){
+  if(!state.decks.length)return;
+  const ids=state.decks.map(d=>d.id);
+  const {data,error}=await supabaseClient.from("deck_cards").select("deck_id,card_id,quantity").in("deck_id",ids);
+  if(error){console.error(error);toast("โหลดการ์ดใน Deck ไม่สำเร็จ: "+error.message);return;}
+  state.decks.forEach(d=>d.cards={});
+  (data||[]).forEach(r=>{
+    const d=state.decks.find(x=>x.id===r.deck_id);
+    if(d)d.cards[String(r.card_id)]=Number(r.quantity)||0;
+  });
+}
+
+async function importLocalDecksIfAvailable(){
+  let local=null;
+  try{local=JSON.parse(localStorage.getItem("sa_decks")||"null");}catch(e){local=null;}
+  if(!Array.isArray(local)||!local.length)return;
+  if(!confirm("พบ Deck เดิมที่เก็บอยู่ใน Browser ต้องการย้าย Deck เหล่านี้เข้า Account ของคุณหรือไม่?"))return;
+  for(const oldDeck of local){
+    await createDeckOnServer(oldDeck.name||"Imported Deck",oldDeck.cards||{},true);
+  }
+  localStorage.removeItem("sa_decks");
+  toast("ย้าย Deck เดิมเข้า Account แล้ว");
+}
+
+async function createDeckOnServer(name,cardsObj={},silent=false){
+  const {data,error}=await supabaseClient.from("decks").insert({user_id:state.userId,name}).select().single();
+  if(error){toast("สร้าง Deck ไม่สำเร็จ: "+error.message);return null;}
+  const deck={id:data.id,name:data.name,cards:{}};
+  state.decks.push(deck); state.activeDeckId=deck.id;
+  const rows=Object.entries(cardsObj).filter(([id,q])=>Number(q)>0).map(([card_id,quantity])=>({deck_id:deck.id,card_id:String(card_id),quantity:Number(quantity)}));
+  if(rows.length){
+    const {error:cardError}=await supabaseClient.from("deck_cards").insert(rows);
+    if(cardError){console.error(cardError);toast("สร้าง Deck แล้ว แต่บันทึกการ์ดไม่สำเร็จ: "+cardError.message);}
+    else rows.forEach(r=>deck.cards[r.card_id]=r.quantity);
+  }
+  if(!silent)toast("สร้างเด็คแล้ว");
+  return deck;
+}
+
+async function ensureCollection(cardId,amount=1){
+  const key=String(cardId); const current=collectionMap[key]||0; const next=current+amount;
+  const {error}=await supabaseClient.from("collections").upsert({user_id:state.userId,card_id:key,quantity:next},{onConflict:"user_id,card_id"});
+  if(error){console.error(error);toast("บันทึก Collection ไม่สำเร็จ: "+error.message);return false;}
+  collectionMap[key]=next; return true;
+}
+
+async function addToCollection(id,amount=1){
+  if(!state.userId)return;
+  if(await ensureCollection(id,amount)){
+    renderCards(); toast("เพิ่ม "+getCard(id).name+" เข้า Collection แล้ว");
+  }
+}
+
+function renderCards(){
+  const q=document.getElementById("search").value.toLowerCase();
+  const r=document.getElementById("rarityFilter").value;
+  const t=document.getElementById("typeFilter").value;
+  const l=document.getElementById("levelFilter").value;
+  const out=cards.filter(c=>(!q||c.name.toLowerCase().includes(q))&&(!r||c.rarity===r)&&(!t||c.type===t)&&(!l||c.levels.includes(+l))).map(c=>{
+    const owned=collectionMap[String(c.id)]||0;
+    return `<div class="card"><div class="art">${c.icon}<span class="rarity">${c.rarity}</span></div><div class="cardbody"><div class="cardname">${c.name}</div><div class="type">${c.type} · ${c.levels.map(x=>"Lv."+x).join(" / ")}</div><div class="hint" style="margin-bottom:9px">ในคลัง: <b>${owned}</b> ใบ</div><div class="row"><button class="btn secondary" onclick="openDetail(${c.id})">ดูการ์ด</button><button class="btn" onclick="addToDeck(${c.id})">＋ เด็ค</button></div><button class="btn secondary" style="width:100%;margin-top:7px" onclick="addToCollection(${c.id})">＋ เพิ่มเข้าคลัง</button></div></div>`;
+  }).join("");
+  document.getElementById("cards").innerHTML=out||'<p class="hint">ไม่พบการ์ดที่ค้นหา</p>';
+}
+
+function openDetail(id){
+  state.selected=id; selectedLevel=null;
+  const c=getCard(id); document.getElementById("detailName").textContent=c.name; document.getElementById("detailArt").textContent=c.icon;
+  document.getElementById("detailLevels").innerHTML=c.levels.map(x=>`<button class="level" onclick="pickLevel(this,${x})">Lv.${x}</button>`).join("");
+  document.getElementById("detailInfo").innerHTML=`<b>${c.type}</b> · <b>${c.rarity}</b><br><br>${c.desc}<br><br>ใน Collection: <b>${collectionMap[String(id)]||0}</b> ใบ`;
+  document.getElementById("detailModal").classList.add("show");
+}
+function pickLevel(el,l){document.querySelectorAll(".level").forEach(x=>x.classList.remove("active"));el.classList.add("active");selectedLevel=l;toast("เลือกดู Lv."+l);}
+function closeModal(id){document.getElementById(id).classList.remove("show");}
+function openDeckModal(){document.getElementById("deckName").value="";document.getElementById("deckModal").classList.add("show");}
+
+async function createDeck(){
+  const n=document.getElementById("deckName").value.trim(); if(!n)return toast("ใส่ชื่อเด็คก่อน");
+  const d=await createDeckOnServer(n,{}); if(d){closeModal("deckModal");renderDecks();renderDraw();}
+}
+
+async function addToDeck(id){
+  const d=currentDeck(); if(!d)return toast("กรุณาสร้าง Deck ก่อน");
+  const key=String(id); const current=Number(d.cards[key]||0); const owned=Number(collectionMap[key]||0);
+  if(owned<=0)return toast("การ์ดนี้ยังไม่มีใน Collection — เพิ่มเข้าคลังก่อน");
+  const next=current+1;
+  const {error}=await supabaseClient.from("deck_cards").upsert({deck_id:d.id,card_id:key,quantity:next},{onConflict:"deck_id,card_id"});
+  if(error)return toast("เพิ่มการ์ดไม่สำเร็จ: "+error.message);
+  d.cards[key]=next; renderDecks(); renderDraw(); toast("เพิ่ม "+getCard(id).name+" เข้า "+d.name);
+}
+async function addSelectedToDeck(){if(state.selected)await addToDeck(state.selected);closeModal("detailModal");}
+
+function renderDecks(){
+  const dl=document.getElementById("deckList");
+  dl.innerHTML=state.decks.map(d=>{const n=Object.values(d.cards).reduce((a,b)=>a+Number(b),0);return `<div class="deck-item ${d.id===state.activeDeckId?"active":""}" onclick="selectDeck(${d.id})"><span>${escapeHtml(d.name)}</span><span class="count">${n} cards</span></div>`;}).join("")||'<p class="hint">ยังไม่มีเด็ค</p>';
+  const d=currentDeck(); if(!d){document.getElementById("deckHeader").innerHTML="";document.getElementById("deckCards").innerHTML="";return;}
+  const total=Object.values(d.cards).reduce((a,b)=>a+Number(b),0);
+  document.getElementById("deckHeader").innerHTML=`<div style="display:flex;justify-content:space-between"><div><h2 style="margin:0">${escapeHtml(d.name)}</h2><p class="hint">${total} ใบ · เก็บบน Supabase</p></div><button class="btn danger" onclick="deleteDeck()">ลบเด็ค</button></div>`;
+  document.getElementById("deckCards").innerHTML=Object.entries(d.cards).filter(([id,q])=>q>0).map(([id,q])=>{const c=getCard(id);if(!c)return"";return `<div class="mini"><div class="art">${c.icon}<span class="rarity">${c.rarity}</span></div><b>${c.name}</b><div class="qty"><button onclick="changeQty(${id},-1)">−</button><span>x${q}</span><button onclick="changeQty(${id},1)">＋</button></div></div>`;}).join("")||'<p class="hint">ยังไม่มีการ์ดในเด็ค ไปที่คลังการ์ดเพื่อเพิ่มการ์ด</p>';
+}
+
+async function selectDeck(id){state.activeDeckId=Number(id);state.draw=[];renderDecks();renderDraw();}
+
+async function changeQty(id,n){
+  const d=currentDeck(); if(!d)return;
+  const key=String(id); const current=Number(d.cards[key]||0); const next=current+n;
+  if(next>0){
+    const {error}=await supabaseClient.from("deck_cards").upsert({deck_id:d.id,card_id:key,quantity:next},{onConflict:"deck_id,card_id"});
+    if(error)return toast("บันทึกจำนวนไม่สำเร็จ: "+error.message);
+    d.cards[key]=next;
+  }else{
+    const {error}=await supabaseClient.from("deck_cards").delete().eq("deck_id",d.id).eq("card_id",key);
+    if(error)return toast("ลบการ์ดไม่สำเร็จ: "+error.message);
+    delete d.cards[key];
+  }
+  renderDecks();renderDraw();
+}
+
+async function deleteDeck(){
+  if(state.decks.length===1)return toast("ต้องมีอย่างน้อย 1 เด็ค");
+  const d=currentDeck(); if(!d)return;
+  if(!confirm("ลบเด็คนี้หรือไม่?"))return;
+  const {error}=await supabaseClient.from("decks").delete().eq("id",d.id);
+  if(error)return toast("ลบเด็คไม่สำเร็จ: "+error.message);
+  state.decks=state.decks.filter(x=>x.id!==d.id); state.activeDeckId=state.decks[0]?.id||null; state.draw=[]; renderDecks();renderDraw(); toast("ลบเด็คแล้ว");
+}
+
+function deckPool(){
+  const d=currentDeck(); if(!d)return [];
+  const a=[]; Object.entries(d.cards).forEach(([id,q])=>{for(let i=0;i<Number(q);i++)a.push(Number(id));}); return a;
+}
+function renderDraw(){
+  const s=document.getElementById("drawDeck"); if(!s)return;
+  s.innerHTML=state.decks.map(d=>`<option value="${d.id}" ${d.id===state.activeDeckId?"selected":""}>${escapeHtml(d.name)}</option>`).join("");
+  document.getElementById("drawCount").textContent=state.draw.length+" ใบ";
+  document.getElementById("remain").textContent=Math.max(0,deckPool().length-state.draw.length)+" ใบ";
+  document.getElementById("hand").innerHTML=state.draw.map(obj=>{const c=getCard(obj.id);return `<div class="mini"><div class="art">${c.icon}</div><b>${c.name}</b><div class="hint">${c.rarity}</div></div>`;}).join("")||'<p class="hint">กดจั่วเพื่อเริ่มทดลอง</p>';
+}
+function drawOne(){const all=deckPool();if(state.draw.length>=all.length)return toast("การ์ดในกองหมดแล้ว");const used=state.draw.map(x=>x.__idx);const available=all.map((id,i)=>({id,i})).filter(x=>!used.includes(x.i));const pick=available[Math.floor(Math.random()*available.length)];state.draw.push({id:pick.id,__idx:pick.i});renderDraw();}
+function drawFive(){for(let i=0;i<5;i++){if(state.draw.length>=deckPool().length)break;drawOne();}}
+function resetDraw(){const val=Number(document.getElementById("drawDeck").value);if(val)state.activeDeckId=val;state.draw=[];renderDraw();}
+function showPage(id,btn){["collection","decks","draw"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==id));document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));btn.classList.add("active");if(id==="decks")renderDecks();if(id==="draw")renderDraw();}
+function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&!document.getElementById("login").classList.contains("hidden"))submitAuth();});
 initAuth();
-function showPage(id,btn){["collection","decks","draw"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==id));document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));btn.classList.add("active");if(id==="decks")renderDecks();if(id==="draw")renderDraw()}
-function renderCards(){let q=document.getElementById("search").value.toLowerCase(),r=document.getElementById("rarityFilter").value,t=document.getElementById("typeFilter").value,l=document.getElementById("levelFilter").value;let out=cards.filter(c=>(!q||c.name.toLowerCase().includes(q))&&(!r||c.rarity===r)&&(!t||c.type===t)&&(!l||c.levels.includes(+l))).map(c=>`<div class="card"><div class="art">${c.icon}<span class="rarity">${c.rarity}</span></div><div class="cardbody"><div class="cardname">${c.name}</div><div class="type">${c.type} · ${c.levels.map(x=>"Lv."+x).join(" / ")}</div><div class="row"><button class="btn secondary" onclick="openDetail(${c.id})">ดูการ์ด</button><button class="btn" onclick="addToDeck(${c.id})">＋ เด็ค</button></div></div></div>`).join("");document.getElementById("cards").innerHTML=out||'<p class="hint">ไม่พบการ์ดที่ค้นหา</p>'}
-function openDetail(id){state.selected=id;let c=cards.find(x=>x.id===id);document.getElementById("detailName").textContent=c.name;document.getElementById("detailArt").textContent=c.icon;document.getElementById("detailLevels").innerHTML=c.levels.map(x=>`<button class="level" onclick="pickLevel(this,${x})">Lv.${x}</button>`).join("");document.getElementById("detailInfo").innerHTML=`<b>${c.type}</b> · <b>${c.rarity}</b><br><br>${c.desc}<br><br>การ์ดนี้มี ${c.levels.length} ระดับ สามารถเลือกดูแต่ละระดับได้`;document.getElementById("detailModal").classList.add("show")}
-function pickLevel(el,l){document.querySelectorAll(".level").forEach(x=>x.classList.remove("active"));el.classList.add("active");toast("เลือกดู Lv."+l)}
-function closeModal(id){document.getElementById(id).classList.remove("show")}
-function openDeckModal(){document.getElementById("deckName").value="";document.getElementById("deckModal").classList.add("show")}
-function createDeck(){let n=document.getElementById("deckName").value.trim();if(!n)return toast("ใส่ชื่อเด็คก่อน");state.decks.push({name:n,cards:{}});state.activeDeck=state.decks.length-1;save();closeModal("deckModal");renderDecks();toast("สร้างเด็คแล้ว")}
-function addToDeck(id){let d=state.decks[state.activeDeck];d.cards[id]=(d.cards[id]||0)+1;save();toast("เพิ่มการ์ดเข้า "+d.name)}
-function addSelectedToDeck(){if(state.selected)addToDeck(state.selected);closeModal("detailModal");renderDecks()}
-function renderDecks(){let dl=document.getElementById("deckList");dl.innerHTML=state.decks.map((d,i)=>{let n=Object.values(d.cards).reduce((a,b)=>a+b,0);return `<div class="deck-item ${i===state.activeDeck?"active":""}" onclick="selectDeck(${i})"><span>${d.name}</span><span class="count">${n} cards</span></div>`}).join("");let d=state.decks[state.activeDeck];let total=Object.values(d.cards).reduce((a,b)=>a+b,0);document.getElementById("deckHeader").innerHTML=`<div style="display:flex;justify-content:space-between"><div><h2 style="margin:0">${d.name}</h2><p class="hint">${total} ใบ</p></div><button class="btn danger" onclick="deleteDeck()">ลบเด็ค</button></div>`;document.getElementById("deckCards").innerHTML=Object.entries(d.cards).filter(([id,q])=>q>0).map(([id,q])=>{let c=cards.find(x=>x.id==id);return `<div class="mini"><div class="art">${c.icon}<span class="rarity">${c.rarity}</span></div><b>${c.name}</b><div class="qty"><button onclick="changeQty(${id},-1)">−</button><span>x${q}</span><button onclick="changeQty(${id},1)">＋</button></div></div>`}).join("")||'<p class="hint">ยังไม่มีการ์ดในเด็ค ไปที่คลังการ์ดเพื่อเพิ่มการ์ด</p>'}
-function selectDeck(i){state.activeDeck=i;save();renderDecks();renderDraw()}
-function changeQty(id,n){let d=state.decks[state.activeDeck];d.cards[id]=(d.cards[id]||0)+n;if(d.cards[id]<=0)delete d.cards[id];save();renderDecks();renderDraw()}
-function deleteDeck(){if(state.decks.length===1)return toast("ต้องมีอย่างน้อย 1 เด็ค");if(confirm("ลบเด็คนี้หรือไม่?")){state.decks.splice(state.activeDeck,1);state.activeDeck=0;save();renderDecks();renderDraw()}}
-function deckPool(){let d=state.decks[state.activeDeck],a=[];Object.entries(d.cards).forEach(([id,q])=>{for(let i=0;i<q;i++)a.push(+id)});return a}
-function renderDraw(){let s=document.getElementById("drawDeck");if(!s)return;s.innerHTML=state.decks.map((d,i)=>`<option value="${i}" ${i===state.activeDeck?"selected":""}>${d.name}</option>`).join("");document.getElementById("drawCount").textContent=state.draw.length+" ใบ";document.getElementById("remain").textContent=Math.max(0,deckPool().length-state.draw.length)+" ใบ";document.getElementById("hand").innerHTML=state.draw.map(obj=>{let c=cards.find(x=>x.id===obj.id);return `<div class="mini"><div class="art">${c.icon}</div><b>${c.name}</b><div class="hint">${c.rarity}</div></div>`}).join("")||'<p class="hint">กดจั่วเพื่อเริ่มทดลอง</p>'}
-function drawOne(){let all=deckPool();if(state.draw.length>=all.length)return toast("การ์ดในกองหมดแล้ว");let used=state.draw.map(x=>x.__idx);let available=all.map((id,i)=>({id,i})).filter(x=>!used.includes(x.i));let pick=available[Math.floor(Math.random()*available.length)];let obj={id:pick.id,__idx:pick.i};state.draw.push(obj);renderDraw()}
-function drawFive(){for(let i=0;i<5;i++){if(state.draw.length>=deckPool().length)break;drawOne()}}
-function resetDraw(){state.activeDeck=+document.getElementById("drawDeck").value||state.activeDeck;state.draw=[];renderDraw()}
-document.addEventListener("keydown",e=>{if(e.key==="Enter" && !document.getElementById("login").classList.contains("hidden")) submitAuth();});
 </script>
+
 </body>
 </html>
