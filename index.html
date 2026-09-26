@@ -72,7 +72,7 @@ main{padding:12px}
 </section>
 
 <section id="decks" class="hidden">
-<div class="title"><div><h1>My Decks</h1><p>สร้างได้หลายเด็คและจัดการ์ดเข้าเด็ค</p></div><button class="btn" onclick="openDeckModal()">＋ สร้างเด็ค</button></div>
+<div class="title"><div><h1>My Decks</h1><p>สร้างได้หลายเด็คและจัดการ์ดเข้าเด็ค</p><p id="deckStatus" class="hint"></p></div><div class="row"><button class="btn secondary" onclick="refreshDecks()">↻ รีเฟรช Deck</button><button class="btn" onclick="openDeckModal()">＋ สร้างเด็ค</button></div></div>
 <div class="deck-grid"><div class="panel"><h3 style="margin-top:0">เด็คของฉัน</h3><div id="deckList" class="deck-list"></div></div><div class="panel"><div id="deckHeader"></div><div id="deckCards" class="deck-cards"></div></div></div>
 </section>
 
@@ -189,27 +189,54 @@ async function initAuth(){
 }
 
 async function loadUserData(){
-  const [collectionsResult,decksResult]=await Promise.all([
-    supabaseClient.from("collections").select("card_id,quantity").eq("user_id",state.userId),
-    supabaseClient.from("decks").select("id,user_id,name,created_at,updated_at").eq("user_id",state.userId).order("created_at",{ascending:true})
-  ]);
-  if(collectionsResult.error){console.error(collectionsResult.error);toast("โหลด Collection ไม่สำเร็จ: "+collectionsResult.error.message);}
-  if(decksResult.error){console.error(decksResult.error);toast("โหลด Deck ไม่สำเร็จ: "+decksResult.error.message);}
   collectionMap={};
-  (collectionsResult.data||[]).forEach(r=>collectionMap[String(r.card_id)]=Number(r.quantity)||0);
-  const rawDecks=decksResult.data||[];
-  state.decks=rawDecks.map(d=>({id:d.id,name:d.name,cards:{}}));
-
-  if(state.decks.length===0){
-    await importLocalDecksIfAvailable();
-  }else{
-    await loadDeckCards();
-  }
-  if(state.decks.length===0){
-    await createDeckOnServer("Starter Deck",{1:2,4:2,5:2,8:1,10:1},true);
-  }
-  if(!state.activeDeckId || !state.decks.some(d=>d.id===state.activeDeckId)) state.activeDeckId=state.decks[0].id;
+  const {data,error}=await supabaseClient.from("collections").select("card_id,quantity").eq("user_id",state.userId);
+  if(error){console.error(error);toast("โหลด Collection ไม่สำเร็จ: "+error.message);}
+  (data||[]).forEach(r=>collectionMap[String(r.card_id)]=Number(r.quantity)||0);
+  await loadDecksFromServer(true);
   renderCards(); renderDecks(); renderDraw();
+}
+
+async function loadDecksFromServer(allowImport=false){
+  if(!state.userId){return false;}
+  const previousId=state.activeDeckId;
+  const {data,error}=await supabaseClient
+    .from("decks")
+    .select("id,user_id,name,created_at,updated_at")
+    .eq("user_id",state.userId)
+    .order("created_at",{ascending:true});
+
+  if(error){
+    console.error("load decks error",error);
+    document.getElementById("deckStatus").textContent="โหลด Deck ไม่สำเร็จ: "+error.message;
+    toast("โหลด Deck ไม่สำเร็จ: "+error.message);
+    return false;
+  }
+
+  const rawDecks=data||[];
+  state.decks=rawDecks.map(d=>({id:Number(d.id),name:d.name,cards:{}}));
+
+  if(state.decks.length===0 && allowImport){
+    await importLocalDecksIfAvailable();
+    if(state.decks.length===0){
+      await createDeckOnServer("Starter Deck",{1:2,4:2,5:2,8:1,10:1},true);
+    }
+  }
+
+  await loadDeckCards();
+
+  if(previousId!=null && state.decks.some(d=>d.id===Number(previousId))) state.activeDeckId=Number(previousId);
+  else if(!state.activeDeckId || !state.decks.some(d=>d.id===Number(state.activeDeckId))) state.activeDeckId=state.decks[0]?.id||null;
+
+  const status=document.getElementById("deckStatus");
+  if(status) status.textContent=state.decks.length ? `พบ ${state.decks.length} Deck · ซิงก์จาก Supabase แล้ว` : "ยังไม่มี Deck";
+  return true;
+}
+
+async function refreshDecks(){
+  const ok=await loadDecksFromServer(false);
+  renderDecks(); renderDraw();
+  if(ok) toast("รีเฟรช Deck จาก Supabase แล้ว");
 }
 
 async function loadDeckCards(){
@@ -353,7 +380,7 @@ function renderDraw(){
 function drawOne(){const all=deckPool();if(state.draw.length>=all.length)return toast("การ์ดในกองหมดแล้ว");const used=state.draw.map(x=>x.__idx);const available=all.map((id,i)=>({id,i})).filter(x=>!used.includes(x.i));const pick=available[Math.floor(Math.random()*available.length)];state.draw.push({id:pick.id,__idx:pick.i});renderDraw();}
 function drawFive(){for(let i=0;i<5;i++){if(state.draw.length>=deckPool().length)break;drawOne();}}
 function resetDraw(){const val=Number(document.getElementById("drawDeck").value);if(val)state.activeDeckId=val;state.draw=[];renderDraw();}
-function showPage(id,btn){["collection","decks","draw"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==id));document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));btn.classList.add("active");if(id==="decks")renderDecks();if(id==="draw")renderDraw();}
+async function showPage(id,btn){["collection","decks","draw"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==id));document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));btn.classList.add("active");if(id==="decks"){await loadDecksFromServer(false);renderDecks();}if(id==="draw"){await loadDecksFromServer(false);renderDraw();}}
 function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&!document.getElementById("login").classList.contains("hidden"))submitAuth();});
