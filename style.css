@@ -803,69 +803,28 @@
 .supply-save{margin-top:16px;width:100%}
 @media(max-width:900px){.supply-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.supply-header{display:block}.supply-toolbar{display:block}.supply-search{width:100%;margin-top:10px}.supply-grid{grid-template-columns:1fr}}
 
-/* ===== LANGUAGE SWITCHER ===== */
-.language-switch{
-  position:absolute;
-  top:18px;
-  right:18px;
-  display:flex;
-  align-items:center;
-  gap:4px;
-  z-index:50;
-  font:600 9px Cinzel;
-  letter-spacing:1px;
-}
-.language-switch .lang-btn{
-  background:transparent;
-  border:0;
-  color:#666;
-  padding:3px 5px;
-  cursor:pointer;
-  font:600 9px Cinzel;
-}
-.language-switch .lang-btn.active{color:#d4b25e}
-.language-switch > span{color:#3d362b}
-
 /* ===== VISIBLE LANGUAGE SWITCHER ===== */
-#languageSwitch.language-switch{
+#languageSwitch{
   position:fixed!important;
-  top:16px!important;
-  right:22px!important;
-  z-index:2147483647!important;
+  top:14px!important;
+  right:18px!important;
+  z-index:999999!important;
   display:flex!important;
   align-items:center!important;
-  justify-content:center!important;
-  gap:3px!important;
-  width:auto!important;
-  height:34px!important;
-  padding:3px 7px!important;
+  gap:2px!important;
+  padding:4px 6px!important;
   background:#0b0b0b!important;
   border:1px solid #8b6b32!important;
-  border-radius:2px!important;
-  box-shadow:0 4px 18px rgba(0,0,0,.55)!important;
-  box-sizing:border-box!important;
+  box-shadow:0 3px 14px rgba(0,0,0,.55)!important;
 }
 #languageSwitch .lang-btn{
   display:block!important;
-  visibility:visible!important;
-  opacity:1!important;
-  background:transparent!important;
   border:0!important;
+  background:transparent!important;
   color:#777!important;
-  padding:5px 8px!important;
-  margin:0!important;
+  padding:6px 8px!important;
   cursor:pointer!important;
-  font:700 11px Arial,sans-serif!important;
-  line-height:1!important;
+  font:bold 11px Arial,sans-serif!important;
 }
-#languageSwitch .lang-btn.active{
-  color:#d4b25e!important;
-  text-shadow:0 0 8px rgba(212,178,94,.25)!important;
-}
-#languageSwitch .lang-divider{
-  color:#55452a!important;
-  font-size:11px!important;
-}
-@media(max-width:600px){
-  #languageSwitch.language-switch{top:10px!important;right:10px!important}
-}
+#languageSwitch .lang-btn.active{color:#d4b25e!important}
+#languageSwitch .lang-divider{color:#55452a!important}
