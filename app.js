@@ -112,7 +112,16 @@ let decks=JSON.parse(localStorage.getItem("stealAreaDecks")||"[]");
 let currentDeckId=null;
 let currentDeck=null;
 
-function persistDecks(){localStorage.setItem("stealAreaDecks",JSON.stringify(decks))}
+function persistDecks(){
+  localStorage.setItem("stealAreaDecks",JSON.stringify(decks));
+  if(currentDeckId) localStorage.setItem("stealAreaActiveDeckId",currentDeckId);
+}
+function reloadDecksFromStorage(){
+  try{
+    const stored=JSON.parse(localStorage.getItem("stealAreaDecks")||"[]");
+    if(Array.isArray(stored)) decks=stored;
+  }catch(e){}
+}
 
 function makeDeck(){
   const d={
@@ -134,6 +143,7 @@ function makeDeck(){
 function selectDeck(id){
   currentDeckId=id;
   currentDeck=decks.find(d=>d.id===id)||null;
+  if(currentDeckId) localStorage.setItem("stealAreaActiveDeckId",currentDeckId);
   initDeck();
 }
 
@@ -152,7 +162,8 @@ function initDeck(){
   }
 
   if(!currentDeck) {
-    currentDeck=decks[0];
+    const activeId=localStorage.getItem("stealAreaActiveDeckId");
+    currentDeck=decks.find(d=>d.id===activeId)||decks[0];
     currentDeckId=currentDeck.id;
   }
 
@@ -433,7 +444,13 @@ function saveDeck(){
   const i=decks.findIndex(d=>d.id===currentDeck.id);
   if(i>=0)decks[i]=currentDeck;
   persistDecks();
+  localStorage.setItem("stealAreaActiveDeckId",currentDeck.id);
   renderDeckLibrary();
+  if(typeof buildTestDeck==="function" && document.querySelector("#testDeckSelect")){
+    refreshTestDeckSelect();
+    document.querySelector("#testDeckSelect").value=currentDeck.id;
+    buildTestDeck();
+  }
   alert("บันทึก Deck แล้ว");
 }
 
@@ -472,22 +489,55 @@ let testTurn=0;
 let testBoard={leader:null,zone:null,soul1:null,soul2:null,chars:[null,null,null,null],pocket:[],energy:null};
 
 function refreshTestDeckSelect(){
+  reloadDecksFromStorage();
   const sel=document.querySelector("#testDeckSelect");
   if(!sel)return;
-  sel.innerHTML=decks.length?decks.map(d=>`<option value="${d.id}">${escapeHtml(d.name||"New Deck")}</option>`).join(""):`<option value="">No Deck</option>`;
-  if(testDeck?.id && decks.some(d=>d.id===testDeck.id))sel.value=testDeck.id;
+
+  const activeId=localStorage.getItem("stealAreaActiveDeckId");
+  const wantedId=testDeck?.id||activeId;
+
+  sel.innerHTML=decks.length
+    ? decks.map(d=>`<option value="${d.id}">${escapeHtml(d.name||"New Deck")}</option>`).join("")
+    : `<option value="">No Deck</option>`;
+
+  if(wantedId && decks.some(d=>d.id===wantedId)) sel.value=wantedId;
+  else if(decks.length) sel.value=decks[0].id;
 }
 function buildTestDeck(){
-  const id=document.querySelector("#testDeckSelect")?.value;
+  reloadDecksFromStorage();
+  const sel=document.querySelector("#testDeckSelect");
+  const id=sel?.value||localStorage.getItem("stealAreaActiveDeckId");
   testDeck=decks.find(d=>d.id===id)||decks[0]||null;
-  if(!testDeck){testStack=[];testHand=[];testTomb=[];return}
+
+  if(!testDeck){
+    testStack=[];testHand=[];testTomb=[];testTurn=0;
+    renderTest();
+    return;
+  }
+
+  localStorage.setItem("stealAreaActiveDeckId",testDeck.id);
+
+  /* Draw Test uses the actual MAIN DECK only.
+     Leader / Zone / Untimeat / Soul Core are separate and are not draw-pile cards.
+     POCKET is already stored inside main, so it is included automatically. */
   testStack=[];
-  Object.entries(testDeck.main||{}).forEach(([id,n])=>{
-    for(let i=0;i<n;i++)testStack.push(id);
+  Object.entries(testDeck.main||{}).forEach(([cardId,count])=>{
+    const n=Math.max(0,Number(count)||0);
+    for(let i=0;i<n;i++) testStack.push(cardId);
   });
+
   testStack.sort(()=>Math.random()-.5);
   testHand=[];testTomb=[];testTurn=0;
-  testBoard={leader:testDeck.leader||null,zone:testDeck.zone||null,soul1:testDeck.soulCores?.[0]||null,soul2:testDeck.soulCores?.[1]||null,chars:[null,null,null,null],pocket:[],energy:null,unit:null};
+  testBoard={
+    leader:testDeck.leader||null,
+    zone:testDeck.zone||null,
+    untimeat:testDeck.untimeat||null,
+    soulCores:[...(testDeck.soulCores||[])],
+    chars:[null,null,null,null],
+    pocket:[],
+    energy:null,
+    unit:null
+  };
   renderTest();
 }
 function drawCards(n){
@@ -599,9 +649,9 @@ function showDrawnCard(id){
 }
 
 function initDrawTest(){
+  reloadDecksFromStorage();
   refreshTestDeckSelect();
-  if(!testDeck && decks.length)buildTestDeck();
-  else renderTest();
+  buildTestDeck();
 }
 document.querySelector("#testDeckSelect").onchange=buildTestDeck;
 document.querySelector("#drawFiveBtn").onclick=()=>drawCards(5);
