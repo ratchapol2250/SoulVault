@@ -98,12 +98,104 @@ document.querySelector("#saveSupplyBtn")?.addEventListener("click",()=>{
  persistSupplies(); document.querySelector("#supplyModal").classList.add("hidden");
  ["supplyName","supplyImage","supplyDesc","supplyPrice"].forEach(id=>document.querySelector("#"+id).value=""); renderSupplies();
 });
+
+/* ---------------- COLLECTION / WISHLIST ---------------- */
+let wantedCards=[];
+try{
+  const savedWanted=JSON.parse(localStorage.getItem("stealAreaWantedCards")||"[]");
+  wantedCards=Array.isArray(savedWanted)?savedWanted:[];
+}catch(e){ wantedCards=[]; }
+
+function persistWantedCards(){
+  localStorage.setItem("stealAreaWantedCards",JSON.stringify(wantedCards));
+}
+
+function isWanted(id){
+  return wantedCards.includes(String(id));
+}
+
+function toggleWanted(id){
+  id=String(id);
+  if(isWanted(id)){
+    wantedCards=wantedCards.filter(x=>x!==id);
+  }else{
+    wantedCards.push(id);
+  }
+  persistWantedCards();
+  renderCollection();
+}
+
+function collectionCardHTML(c){
+  const wanted=isWanted(c.id);
+  return `<article class="collection-card ${wanted?"wanted":""}" data-id="${c.id}">
+    <div class="collection-card-art ${rarityClass(c.rarity)}">
+      <div class="card-symbol">${c.symbol}</div>
+      <span class="rarity-orb">${c.rarity[0]}</span>
+      <span class="collection-set">${c.set||"BT01"}</span>
+    </div>
+    <div class="collection-card-info">
+      <div class="tag-row">
+        <span class="tag">${c.type}</span>
+        <span class="tag rarity">${c.rarity}</span>
+      </div>
+      <h3>${escapeHtml(c.name)}</h3>
+      <p>${escapeHtml(c.subtitle||"")}</p>
+      <button class="wanted-btn ${wanted?"checked":""}" data-wanted="${c.id}">
+        <span>${wanted?"✓":"□"}</span> ${wanted?"อยากได้แล้ว":"เพิ่มในรายการที่อยากได้"}
+      </button>
+    </div>
+  </article>`;
+}
+
+function renderCollection(){
+  const grid=document.querySelector("#collectionGrid");
+  if(!grid)return;
+  const search=(document.querySelector("#collectionSearch")?.value||"").toLowerCase().trim();
+  const set=document.querySelector("#collectionSetFilter")?.value||"All";
+  const type=document.querySelector("#collectionTypeFilter")?.value||"All";
+  const view=document.querySelector("#collectionViewFilter")?.value||"all";
+
+  const list=cards.filter(c=>{
+    const wanted=isWanted(c.id);
+    return (set==="All"||c.set===set)
+      &&(type==="All"||c.type===type)
+      &&(view==="all"||(view==="wanted"&&wanted)||(view==="unwanted"&&!wanted))
+      &&[c.name,c.subtitle,c.type,c.rarity,c.set,c.element].join(" ").toLowerCase().includes(search);
+  });
+
+  grid.innerHTML=list.map(collectionCardHTML).join("");
+  document.querySelector("#collectionEmpty")?.classList.toggle("hidden",list.length!==0);
+
+  document.querySelector("#wantedCount").textContent=wantedCards.length;
+  document.querySelector("#collectionTotal").textContent=cards.length;
+
+  grid.querySelectorAll(".wanted-btn").forEach(btn=>{
+    btn.onclick=e=>{
+      e.stopPropagation();
+      toggleWanted(btn.dataset.wanted);
+    };
+  });
+  grid.querySelectorAll(".collection-card").forEach(el=>{
+    el.onclick=e=>{
+      if(e.target.closest(".wanted-btn"))return;
+      openCard(cards.find(c=>String(c.id)===String(el.dataset.id)));
+    };
+  });
+}
+
+document.querySelector("#collectionSearch")?.addEventListener("input",renderCollection);
+document.querySelector("#collectionSetFilter")?.addEventListener("change",renderCollection);
+document.querySelector("#collectionTypeFilter")?.addEventListener("change",renderCollection);
+document.querySelector("#collectionViewFilter")?.addEventListener("change",renderCollection);
+renderCollection();
+
 document.querySelectorAll(".nav").forEach(btn=>btn.onclick=()=>{
  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
  document.querySelectorAll(".section").forEach(x=>x.classList.remove("active-section"));
  document.querySelector("#"+btn.dataset.section).classList.add("active-section");
  document.querySelector(".sidebar").classList.remove("open");
  if(btn.dataset.section==="deck") initDeck();
+ if(btn.dataset.section==="collection") renderCollection();
  if(btn.dataset.section==="supply") initSupply();
 });
 

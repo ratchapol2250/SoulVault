@@ -805,3 +805,76 @@
 
 
 .set-tag{color:#d4b25e!important;border-color:#6b5228!important}#setFilter,#deckSetFilter{min-width:110px}
+
+
+/* Collection wishlist */
+.collection-header{align-items:center}
+.collection-progress{
+  min-width:150px;
+  padding:14px 18px;
+  border:1px solid rgba(197,158,74,.35);
+  background:rgba(197,158,74,.05);
+  text-align:center;
+  color:#d8b866;
+  font-size:22px;
+}
+.collection-progress small{display:block;color:#8e8069;font-size:11px;margin-top:3px}
+.collection-toolbar{
+  display:grid;
+  grid-template-columns:minmax(240px,1fr) 150px 170px 170px;
+  gap:10px;
+  margin:22px 0;
+}
+.collection-toolbar select,
+.collection-toolbar input{min-height:44px}
+.collection-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+.collection-card{
+  border:1px solid rgba(255,255,255,.10);
+  background:#11100f;
+  transition:.18s ease;
+  overflow:hidden;
+}
+.collection-card:hover{border-color:rgba(197,158,74,.55);transform:translateY(-2px)}
+.collection-card.wanted{border-color:rgba(197,158,74,.8);box-shadow:0 0 0 1px rgba(197,158,74,.12)}
+.collection-card-art{
+  height:230px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.collection-card-art .card-symbol{font-size:68px}
+.collection-set{
+  position:absolute;
+  left:10px;
+  bottom:10px;
+  padding:4px 7px;
+  border:1px solid rgba(212,178,94,.55);
+  color:#d4b25e;
+  font-size:10px;
+}
+.collection-card-info{padding:14px}
+.collection-card-info h3{margin:10px 0 4px}
+.collection-card-info p{margin:0 0 12px;color:#827968;font-size:12px}
+.wanted-btn{
+  width:100%;
+  padding:10px 8px;
+  border:1px solid #5e4a27;
+  background:transparent;
+  color:#cdb16b;
+  cursor:pointer;
+}
+.wanted-btn:hover,.wanted-btn.checked{background:rgba(197,158,74,.12);border-color:#b9954d}
+@media(max-width:1000px){
+  .collection-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .collection-toolbar{grid-template-columns:1fr 1fr}
+}
+@media(max-width:700px){
+  .collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .collection-toolbar{grid-template-columns:1fr}
+  .collection-progress{min-width:0}
+}
