@@ -162,11 +162,11 @@
     </section>
 
     <section id="drawtest" class="section">
-      <div class="draw-header">
+      <div class="draw-header simple-draw-header">
         <div>
-          <div class="eyebrow">PLAYTEST / DRAW SIMULATOR</div>
-          <h2>Draw Test</h2>
-          <p>เลือก Deck แล้วทดลองจั่วและวางการ์ดบนสนามตามรูปแบบ STEAL AREA</p>
+          <div class="eyebrow">DRAW TEST</div>
+          <h2>ทดลองจั่ว</h2>
+          <p>เลือก Deck แล้วทดลองจั่วการ์ด โดยไม่ใช้สนามเล่น</p>
         </div>
         <div class="draw-controls">
           <select id="testDeckSelect"></select>
@@ -176,41 +176,34 @@
         </div>
       </div>
 
-      <div class="playtest-info">
+      <div class="playtest-info simple-draw-info">
         <span>DECK: <b id="testDeckName">-</b></span>
         <span>CARDS LEFT: <b id="testCardsLeft">0</b></span>
         <span>HAND: <b id="testHandCount">0</b></span>
-        <span>TURN: <b id="testTurn">0</b></span>
+        <span>DRAW: <b id="testTurn">0</b></span>
       </div>
 
-      <div class="playmat">
-        <div class="mat-slot energy-slot"><div class="slot-title">ENERGY</div><div class="mat-card" id="energyCard"></div></div>
+      <div class="draw-area">
+        <div class="draw-deck-panel">
+          <div class="draw-deck" id="testDeckPile">
+            <span>DECK</span>
+            <b id="pileCount">0</b>
+          </div>
+          <button class="gold-btn draw-pile-btn" id="drawPileBtn">DRAW 1 CARD</button>
+        </div>
 
-        <div class="mat-slot soul-slot soul1"><div class="slot-title">SOUL CORE</div><div class="mat-card" id="soul1"></div></div>
-        <div class="mat-slot soul-slot soul2"><div class="slot-title">SOUL CORE</div><div class="mat-card" id="soul2"></div></div>
-
-        <div class="mat-slot char-slot c1"><div class="slot-title">CHARACTER</div><div class="mat-card" id="char1"></div></div>
-        <div class="mat-slot char-slot c2"><div class="slot-title">CHARACTER</div><div class="mat-card" id="char2"></div></div>
-        <div class="mat-slot leader-slot"><div class="slot-title">LEADER</div><div class="mat-card" id="testLeader"></div></div>
-        <div class="mat-slot zone-slot"><div class="slot-title">ZONE</div><div class="mat-card" id="testZone"></div></div>
-        <div class="mat-slot char-slot c3"><div class="slot-title">CHARACTER</div><div class="mat-card" id="char3"></div></div>
-        <div class="mat-slot char-slot c4"><div class="slot-title">CHARACTER</div><div class="mat-card" id="char4"></div></div>
-
-        <div class="mat-slot unit-slot"><div class="slot-title">UNIT</div><div class="mat-card" id="testUnit"></div></div>
-        <div class="mat-pile deck-pile" id="testDeckPile"><span>DECK</span><b id="pileCount">0</b></div>
-        <div class="mat-pile tomb-pile" id="testTomb"><span>TOMB</span><b id="tombCount">0</b></div>
-
-        <div class="pocket-area" id="pocketArea"><div class="pocket-title">POCKET</div><div id="pocketCards"></div></div>
+        <div class="draw-hand-panel">
+          <div class="draw-hand-title">
+            <span>HAND</span>
+            <small>คลิกการ์ดเพื่อดูรายละเอียด</small>
+          </div>
+          <div id="testHand" class="test-hand draw-test-hand"></div>
+        </div>
       </div>
 
-      <div class="hand-area">
-        <div class="hand-title">HAND <small>คลิกการ์ดเพื่อวางลงสนาม</small></div>
-        <div id="testHand" class="test-hand"></div>
-      </div>
-
-      <div class="playtest-help">
-        <b>วิธีทดลอง:</b> เลือก Deck → DRAW 5 → คลิกการ์ดในมือเพื่อวางลงสนามอัตโนมัติ
-        <span>• Leader / Zone / Soul Core จะแยกออกจาก Main Deck ตามโครงสร้าง Deck</span>
+      <div class="draw-tomb">
+        <span>TOTAL DRAWN</span>
+        <b id="tombCount">0</b>
       </div>
     </section>
 

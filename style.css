@@ -66,7 +66,7 @@
   padding:0;
   overflow:hidden;
   border:0;
-  background:#fff url("assets/playmat-reference.jpg") center center / 100% 100% no-repeat;
+  background:#fff;
 }
 .playmat:before{display:none}
 
@@ -496,4 +496,110 @@
   max-width:63mm!important;
   max-height:88mm!important;
   flex:0 0 63mm!important;
+}
+
+/* ===== DRAW TEST ONLY — NO PLAYMAT ===== */
+#drawtest .playmat,
+#drawtest .pocket-area,
+#drawtest .mat-slot,
+#drawtest .hand-area{display:none!important}
+
+.simple-draw-header{align-items:center}
+.simple-draw-info{margin-top:12px}
+.draw-area{
+  display:flex;
+  gap:28px;
+  align-items:flex-start;
+  background:#0c0c0c;
+  border:1px solid #29241d;
+  padding:28px;
+  min-height:520px;
+}
+.draw-deck-panel{
+  width:150px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  position:sticky;
+  top:20px;
+}
+.draw-deck{
+  width:126px;
+  height:176px;
+  background:linear-gradient(145deg,#172b40,#08111d);
+  border:1px solid #8d6e34;
+  box-shadow:0 12px 28px #0009;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  user-select:none;
+}
+.draw-deck span{
+  font:600 22px Cinzel;
+  color:#caa85b;
+  letter-spacing:2px;
+}
+.draw-deck b{font-size:11px;color:#9a9388;margin-top:10px}
+.draw-pile-btn{font-size:9px;padding:10px 12px}
+.draw-hand-panel{
+  flex:1;
+  min-width:0;
+  border-left:1px solid #29241d;
+  padding-left:28px;
+}
+.draw-hand-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#c8a65b;
+  font:600 12px Cinzel;
+  letter-spacing:1.5px;
+  margin-bottom:15px;
+}
+.draw-hand-title small{font:normal 9px Inter;color:#686158;letter-spacing:0}
+.draw-test-hand{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  justify-content:flex-start!important;
+  align-items:flex-start!important;
+  gap:12px!important;
+  min-height:400px!important;
+  height:auto!important;
+  margin:0!important;
+}
+.draw-test-hand .test-card{
+  width:63mm!important;
+  height:88mm!important;
+  min-width:63mm!important;
+  min-height:88mm!important;
+  max-width:63mm!important;
+  max-height:88mm!important;
+  flex:0 0 63mm!important;
+  position:relative!important;
+  inset:auto!important;
+  cursor:pointer;
+}
+.draw-test-hand .test-card:hover{
+  transform:translateY(-7px);
+  border-color:#c5a65d;
+}
+.draw-tomb{
+  display:inline-flex;
+  gap:10px;
+  align-items:center;
+  margin-top:12px;
+  padding:10px 14px;
+  border:1px solid #29241d;
+  background:#101010;
+  color:#6d665d;
+  font-size:9px;
+}
+.draw-tomb b{color:#c8a65b;font-size:11px}
+@media(max-width:800px){
+  .draw-area{display:block;min-height:0}
+  .draw-deck-panel{position:relative;width:auto;flex-direction:row;justify-content:flex-start;margin-bottom:25px}
+  .draw-hand-panel{border-left:0;border-top:1px solid #29241d;padding-left:0;padding-top:20px}
 }

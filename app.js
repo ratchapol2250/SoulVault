@@ -494,5 +494,6 @@ document.querySelector("#drawFiveBtn").onclick=()=>drawCards(5);
 document.querySelector("#drawOneBtn").onclick=()=>drawCards(1);
 document.querySelector("#resetTestBtn").onclick=resetTest;
 document.querySelector("#testDeckPile").onclick=()=>drawCards(1);
+document.querySelector("#drawPileBtn").onclick=()=>drawCards(1);
 
 initDrawTest();
