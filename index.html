@@ -199,7 +199,10 @@ async function initAuth(){
   const {data}=await supabaseClient.auth.getSession();
   if(data?.session?.user) await startFromUser(data.session.user);
   supabaseClient.auth.onAuthStateChange(async(event,session)=>{
-    if(session?.user && event==="SIGNED_IN") await startFromUser(session.user);
+    if(session?.user && event==="SIGNED_IN"){
+      if(state.userId===session.user.id) return; // already loaded above via getSession(), avoid double-fetch
+      await startFromUser(session.user);
+    }
     if(event==="SIGNED_OUT"){
       document.getElementById("app").classList.add("hidden");
       document.getElementById("login").classList.remove("hidden");
