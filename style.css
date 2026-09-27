@@ -802,3 +802,26 @@
 .supply-form{display:grid;gap:12px}.supply-form label{display:grid;gap:6px;color:#8f877b;font-size:10px}.supply-form input,.supply-form select,.supply-form textarea{background:#0b0b0b;border:1px solid #322b21;color:#ddd;padding:10px;font:inherit}
 .supply-save{margin-top:16px;width:100%}
 @media(max-width:900px){.supply-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.supply-header{display:block}.supply-toolbar{display:block}.supply-search{width:100%;margin-top:10px}.supply-grid{grid-template-columns:1fr}}
+
+/* ===== LANGUAGE SWITCHER ===== */
+.language-switch{
+  position:absolute;
+  top:18px;
+  right:18px;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  z-index:50;
+  font:600 9px Cinzel;
+  letter-spacing:1px;
+}
+.language-switch .lang-btn{
+  background:transparent;
+  border:0;
+  color:#666;
+  padding:3px 5px;
+  cursor:pointer;
+  font:600 9px Cinzel;
+}
+.language-switch .lang-btn.active{color:#d4b25e}
+.language-switch > span{color:#3d362b}
