@@ -179,7 +179,7 @@ function initDeck(){
 function renderDeckLibrary(){
   const box=document.querySelector("#deckCards");
   box.innerHTML=decks.map(d=>{
-    const count=Object.values(d.main||{}).reduce((a,b)=>a+b,0)+(d.leader?1:0)+(d.zone?1:0)+(d.untimeat?1:0)+((d.soulCores||[]).length);
+    const count=Object.values(d.main||{}).reduce((a,b)=>a+b,0)+(d.leader?1:0)+(d.zone?1:0)+((d.soulCores||[]).length);
     const cover=cards.find(c=>c.id===d.cover);
     const coverClass=cover?rarityClass(cover.rarity):"rarity-common";
     const symbol=cover?cover.symbol:"SA";
@@ -226,7 +226,10 @@ function deleteDeckById(id){
 }
 
 function getCount(){
-  return Object.values(currentDeck.main||{}).reduce((a,b)=>a+b,0)+(currentDeck.leader?1:0)+(currentDeck.zone?1:0)+(currentDeck.untimeat?1:0)+((currentDeck.soulCores||[]).length);
+  return Object.values(currentDeck.main||{}).reduce((a,b)=>a+b,0)
+    +(currentDeck.leader?1:0)
+    +(currentDeck.zone?1:0)
+    +((currentDeck.soulCores||[]).length);
 }
 
 function addToDeck(id){
@@ -245,6 +248,8 @@ function addToDeck(id){
     if(currentDeck.untimeat===c.id)return;
     if(currentDeck.untimeat)return alert("Untimeat ได้สูงสุด 1 ใบ");
     currentDeck.untimeat=c.id;
+    /* Untimeat is part of MAIN DECK, but remains limited to 1 copy. */
+    currentDeck.main[c.id]=1;
   }else if(c.type==="Soul Core"){
     currentDeck.soulCores=currentDeck.soulCores||[];
     const soulTotal=currentDeck.soulCores.length;
@@ -270,7 +275,12 @@ function removeFromDeck(id,type){
   if(!currentDeck)return;
   if(type==="Leader")currentDeck.leader=null;
   else if(type==="Zone")currentDeck.zone=null;
-  else if(type==="Untimeat")currentDeck.untimeat=null;
+  else if(type==="Untimeat"){
+    if(currentDeck.untimeat && currentDeck.main?.[currentDeck.untimeat]){
+      delete currentDeck.main[currentDeck.untimeat];
+    }
+    currentDeck.untimeat=null;
+  }
   else if(type==="Soul Core")currentDeck.soulCores=(currentDeck.soulCores||[]).filter(x=>x!==id);
   else{
     if(!currentDeck.main[id])return;
@@ -336,7 +346,11 @@ function renderDeck(){
     return `<div class="deck-row">
       <div class="mini-art ${rarityClass(c.rarity)}">${c.symbol}</div>
       <div class="row-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
-      <div class="qty"><button onclick="removeFromDeck('${c.id}','Main')">−</button><b>${n}</b><button onclick="addToDeck('${c.id}')">＋</button></div>
+      <div class="qty">${
+        c.type==="Untimeat"
+          ? `<button onclick="removeFromDeck('${c.id}','Untimeat')">−</button><b>1</b><button disabled>＋</button>`
+          : `<button onclick="removeFromDeck('${c.id}','Main')">−</button><b>${n}</b><button onclick="addToDeck('${c.id}')">＋</button>`
+      }</div>
     </div>`;
   }).join(""):`<div class="empty-main">ยังไม่มีการ์ดใน Main Deck</div>`;
 
@@ -433,6 +447,10 @@ function validateDeckBeforeSave(){
     alert("ไม่สามารถบันทึก Deck ได้\n\nต้องมี Untimeat 1 ใบ");
     return false;
   }
+  if((currentDeck.main?.[currentDeck.untimeat]||0)!==1){
+    alert("ไม่สามารถบันทึก Deck ได้\n\nUntimeat ต้องอยู่ใน MAIN DECK จำนวน 1 ใบ");
+    return false;
+  }
   return true;
 }
 
@@ -525,6 +543,14 @@ function buildTestDeck(){
     const n=Math.max(0,Number(count)||0);
     for(let i=0;i<n;i++) testStack.push(cardId);
   });
+
+  /* UNTIMEAT belongs to MAIN DECK. Add it if loading an older deck
+     that has untimeat saved separately but is missing from main. */
+  if(testDeck.untimeat){
+    const uid=String(testDeck.untimeat);
+    const alreadyInMain=Object.prototype.hasOwnProperty.call(testDeck.main||{},uid);
+    if(!alreadyInMain) testStack.push(uid);
+  }
 
   testStack.sort(()=>Math.random()-.5);
   testHand=[];testTomb=[];testTurn=0;
