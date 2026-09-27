@@ -38,7 +38,6 @@ main{padding:12px}
 </style>
 </head>
 <body>
-<div id="diagBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#3a1010;color:#ffdada;border-bottom:2px solid #b84b4b;padding:10px 14px;font-size:13px;font-family:monospace;white-space:pre-wrap;word-break:break-word;max-height:40vh;overflow:auto"></div>
 <div id="login" class="login">
   <div class="loginbox">
     <div style="text-align:center"><div class="logo">STEAL AREA</div><h1 id="authTitle">LOGIN</h1></div>
@@ -91,29 +90,12 @@ main{padding:12px}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script>
-function diag(msg){
-  const b=document.getElementById("diagBanner");
-  if(!b)return;
-  const time=new Date().toLocaleTimeString();
-  b.style.display="block";
-  b.textContent += (b.textContent?"\n":"") + "["+time+"] " + msg;
-  console.error(msg);
-}
-window.addEventListener("error",e=>{diag("JS Error: "+(e.message||e)+(e.filename?(" @ "+e.filename+":"+e.lineno):""));});
-window.addEventListener("unhandledrejection",e=>{diag("Unhandled Promise Rejection: "+(e.reason?.message||e.reason));});
-
 let supabaseClient = null;
-if (typeof window.supabase === "undefined") {
-  diag("โหลด supabase-js ไม่สำเร็จ (CDN ถูกบล็อกหรือเน็ตช้า) — ลองเช็คว่าโหลด https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2 ได้จริงไหม");
-} else if (typeof SUPABASE_URL === "undefined" || typeof SUPABASE_PUBLISHABLE_KEY === "undefined") {
-  diag("ไม่พบ SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY — แปลว่า config.js โหลดไม่สำเร็จ (เช็คชื่อไฟล์ตัวพิมพ์เล็ก-ใหญ่ และว่าอัปโหลด config.js ขึ้นโฮสต์จริงหรือยัง)");
-} else {
-  try {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-      auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
-    });
-  } catch(e) { diag("สร้าง Supabase client ไม่สำเร็จ: "+e.message); }
-}
+try {
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+    auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+  });
+} catch(e) { console.error(e); }
 
 let authMode = "login";
 let selectedLevel = null;
@@ -177,7 +159,6 @@ async function submitAuth(){
 
 async function startFromUser(user){
   state.email=user?.email||""; state.userId=user?.id||"";
-  diag("Login OK — user: "+state.email+" | user_id: "+state.userId);
   document.getElementById("login").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
   document.getElementById("userEmail").textContent=state.email;
@@ -195,14 +176,11 @@ async function logout(){
 }
 
 async function initAuth(){
-  if(!supabaseClient){diag("initAuth: supabaseClient เป็น null — ดูข้อความ error ด้านบนสุดของหน้าเพื่อดูสาเหตุ");return;}
+  if(!supabaseClient)return;
   const {data}=await supabaseClient.auth.getSession();
   if(data?.session?.user) await startFromUser(data.session.user);
   supabaseClient.auth.onAuthStateChange(async(event,session)=>{
-    if(session?.user && event==="SIGNED_IN"){
-      if(state.userId===session.user.id) return; // already loaded above via getSession(), avoid double-fetch
-      await startFromUser(session.user);
-    }
+    if(session?.user && event==="SIGNED_IN") await startFromUser(session.user);
     if(event==="SIGNED_OUT"){
       document.getElementById("app").classList.add("hidden");
       document.getElementById("login").classList.remove("hidden");
@@ -212,61 +190,47 @@ async function initAuth(){
 
 async function loadUserData(){
   collectionMap={};
-  if(!supabaseClient){diag("loadUserData: supabaseClient เป็น null");renderCards();renderDecks();renderDraw();return;}
-  try{
-    const {data,error}=await supabaseClient.from("collections").select("card_id,quantity").eq("user_id",state.userId);
-    if(error){diag("load collections error: "+error.message);toast("โหลด Collection ไม่สำเร็จ: "+error.message);}
-    (data||[]).forEach(r=>collectionMap[String(r.card_id)]=Number(r.quantity)||0);
-  }catch(e){
-    diag("loadUserData (collections) เกิด exception: "+e.message);
-  }
+  const {data,error}=await supabaseClient.from("collections").select("card_id,quantity").eq("user_id",state.userId);
+  if(error){console.error(error);toast("โหลด Collection ไม่สำเร็จ: "+error.message);}
+  (data||[]).forEach(r=>collectionMap[String(r.card_id)]=Number(r.quantity)||0);
   await loadDecksFromServer(true);
   renderCards(); renderDecks(); renderDraw();
 }
 
 async function loadDecksFromServer(allowImport=false){
-  if(!supabaseClient){diag("loadDecksFromServer: supabaseClient เป็น null (ดูข้อความ error ด้านบนสุดของหน้า)");return false;}
   if(!state.userId){return false;}
   const previousId=state.activeDeckId;
-  try{
-    const {data,error}=await supabaseClient
-      .from("decks")
-      .select("id,user_id,name,created_at,updated_at")
-      .eq("user_id",state.userId)
-      .order("created_at",{ascending:true});
+  const {data,error}=await supabaseClient
+    .from("decks")
+    .select("id,user_id,name,created_at,updated_at")
+    .eq("user_id",state.userId)
+    .order("created_at",{ascending:true});
 
-    if(error){
-      diag("load decks error: "+error.message+(error.code?(" (code: "+error.code+")"):"")+(error.hint?(" hint: "+error.hint):""));
-      document.getElementById("deckStatus").textContent="โหลด Deck ไม่สำเร็จ: "+error.message;
-      toast("โหลด Deck ไม่สำเร็จ: "+error.message);
-      return false;
-    }
-
-    const rawDecks=data||[];
-    state.decks=rawDecks.map(d=>({id:Number(d.id),name:d.name,cards:{}}));
-    diag("Query decks สำเร็จ — พบ "+rawDecks.length+" deck(s) สำหรับ user_id: "+state.userId);
-
-    if(state.decks.length===0 && allowImport){
-      await importLocalDecksIfAvailable();
-      if(state.decks.length===0){
-        await createDeckOnServer("Starter Deck",{1:2,4:2,5:2,8:1,10:1},true);
-      }
-    }
-
-    await loadDeckCards();
-
-    if(previousId!=null && state.decks.some(d=>d.id===Number(previousId))) state.activeDeckId=Number(previousId);
-    else if(!state.activeDeckId || !state.decks.some(d=>d.id===Number(state.activeDeckId))) state.activeDeckId=state.decks[0]?.id||null;
-
-    const status=document.getElementById("deckStatus");
-    if(status) status.textContent=state.decks.length ? `พบ ${state.decks.length} Deck · ซิงก์จาก Supabase แล้ว` : "ยังไม่มี Deck";
-    return true;
-  }catch(e){
-    diag("loadDecksFromServer เกิด exception (มักเกิดจากเน็ตมือถือหลุด/DNS/CORS): "+e.message);
-    const status=document.getElementById("deckStatus");
-    if(status) status.textContent="โหลด Deck ไม่สำเร็จ (เน็ตเวิร์กเออเรอร์): "+e.message;
+  if(error){
+    console.error("load decks error",error);
+    document.getElementById("deckStatus").textContent="โหลด Deck ไม่สำเร็จ: "+error.message;
+    toast("โหลด Deck ไม่สำเร็จ: "+error.message);
     return false;
   }
+
+  const rawDecks=data||[];
+  state.decks=rawDecks.map(d=>({id:Number(d.id),name:d.name,cards:{}}));
+
+  if(state.decks.length===0 && allowImport){
+    await importLocalDecksIfAvailable();
+    if(state.decks.length===0){
+      await createDeckOnServer("Starter Deck",{1:2,4:2,5:2,8:1,10:1},true);
+    }
+  }
+
+  await loadDeckCards();
+
+  if(previousId!=null && state.decks.some(d=>d.id===Number(previousId))) state.activeDeckId=Number(previousId);
+  else if(!state.activeDeckId || !state.decks.some(d=>d.id===Number(state.activeDeckId))) state.activeDeckId=state.decks[0]?.id||null;
+
+  const status=document.getElementById("deckStatus");
+  if(status) status.textContent=state.decks.length ? `พบ ${state.decks.length} Deck · ซิงก์จาก Supabase แล้ว` : "ยังไม่มี Deck";
+  return true;
 }
 
 async function refreshDecks(){
@@ -278,17 +242,13 @@ async function refreshDecks(){
 async function loadDeckCards(){
   if(!state.decks.length)return;
   const ids=state.decks.map(d=>d.id);
-  try{
-    const {data,error}=await supabaseClient.from("deck_cards").select("deck_id,card_id,quantity").in("deck_id",ids);
-    if(error){diag("loadDeckCards error: "+error.message);toast("โหลดการ์ดใน Deck ไม่สำเร็จ: "+error.message);return;}
-    state.decks.forEach(d=>d.cards={});
-    (data||[]).forEach(r=>{
-      const d=state.decks.find(x=>x.id===r.deck_id);
-      if(d)d.cards[String(r.card_id)]=Number(r.quantity)||0;
-    });
-  }catch(e){
-    diag("loadDeckCards เกิด exception: "+e.message);
-  }
+  const {data,error}=await supabaseClient.from("deck_cards").select("deck_id,card_id,quantity").in("deck_id",ids);
+  if(error){console.error(error);toast("โหลดการ์ดใน Deck ไม่สำเร็จ: "+error.message);return;}
+  state.decks.forEach(d=>d.cards={});
+  (data||[]).forEach(r=>{
+    const d=state.decks.find(x=>x.id===r.deck_id);
+    if(d)d.cards[String(r.card_id)]=Number(r.quantity)||0;
+  });
 }
 
 async function importLocalDecksIfAvailable(){
@@ -305,7 +265,7 @@ async function importLocalDecksIfAvailable(){
 
 async function createDeckOnServer(name,cardsObj={},silent=false){
   const {data,error}=await supabaseClient.from("decks").insert({user_id:state.userId,name}).select().single();
-  if(error){diag("createDeckOnServer error: "+error.message);toast("สร้าง Deck ไม่สำเร็จ: "+error.message);return null;}
+  if(error){toast("สร้าง Deck ไม่สำเร็จ: "+error.message);return null;}
   const deck={id:data.id,name:data.name,cards:{}};
   state.decks.push(deck); state.activeDeckId=deck.id;
   const rows=Object.entries(cardsObj).filter(([id,q])=>Number(q)>0).map(([card_id,quantity])=>({deck_id:deck.id,card_id:String(card_id),quantity:Number(quantity)}));
