@@ -212,3 +212,67 @@
   .playtest-info{min-width:760px}
   .playtest-help{min-width:760px}
 }
+
+/* ===== HAND FIX: outside the playmat, never overlaps the board ===== */
+.playmat{overflow:hidden!important}
+.hand-area{
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:auto!important;
+  width:100%!important;
+  min-height:130px!important;
+  margin-top:12px!important;
+  border:1px solid #28231a!important;
+  background:#0d0d0d!important;
+  padding:12px!important;
+}
+.hand-title{
+  display:block!important;
+  position:relative!important;
+  color:#9c8c69!important;
+  margin-bottom:8px!important;
+}
+.test-hand{
+  position:relative!important;
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+  gap:8px!important;
+  width:100%!important;
+  min-height:100px!important;
+  height:100px!important;
+  margin:0!important;
+}
+.test-hand .test-card{
+  position:relative!important;
+  width:70px!important;
+  min-width:70px!important;
+  max-width:70px!important;
+  height:98px!important;
+  min-height:98px!important;
+  max-height:98px!important;
+  flex:0 0 70px!important;
+  inset:auto!important;
+}
+.hand-empty{padding-top:30px!important}
+
+/* Never let overlay card containers inherit board-sized dimensions. */
+.mat-slot>.mat-card{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
+.mat-slot>.mat-card>.test-card{position:relative!important;width:100%!important;height:100%!important;inset:auto!important}
+
+/* Keep the large Pocket area clean; only actual Pocket cards appear inside it. */
+.pocket-area #pocketCards .test-card{
+  position:relative!important;
+  width:70px!important;
+  min-width:70px!important;
+  height:98px!important;
+  min-height:98px!important;
+  flex:0 0 70px!important;
+  inset:auto!important;
+}
+@media(max-width:650px){
+  .hand-area{min-width:760px!important}
+  .test-hand{justify-content:flex-start!important;padding-left:15px!important}
+}
