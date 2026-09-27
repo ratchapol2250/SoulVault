@@ -825,3 +825,47 @@
 }
 .language-switch .lang-btn.active{color:#d4b25e}
 .language-switch > span{color:#3d362b}
+
+/* ===== VISIBLE LANGUAGE SWITCHER ===== */
+#languageSwitch.language-switch{
+  position:fixed!important;
+  top:16px!important;
+  right:22px!important;
+  z-index:2147483647!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  width:auto!important;
+  height:34px!important;
+  padding:3px 7px!important;
+  background:#0b0b0b!important;
+  border:1px solid #8b6b32!important;
+  border-radius:2px!important;
+  box-shadow:0 4px 18px rgba(0,0,0,.55)!important;
+  box-sizing:border-box!important;
+}
+#languageSwitch .lang-btn{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  background:transparent!important;
+  border:0!important;
+  color:#777!important;
+  padding:5px 8px!important;
+  margin:0!important;
+  cursor:pointer!important;
+  font:700 11px Arial,sans-serif!important;
+  line-height:1!important;
+}
+#languageSwitch .lang-btn.active{
+  color:#d4b25e!important;
+  text-shadow:0 0 8px rgba(212,178,94,.25)!important;
+}
+#languageSwitch .lang-divider{
+  color:#55452a!important;
+  font-size:11px!important;
+}
+@media(max-width:600px){
+  #languageSwitch.language-switch{top:10px!important;right:10px!important}
+}
