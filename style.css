@@ -929,3 +929,45 @@
 .deck-choice:hover{border-color:#c19b4d;background:rgba(197,158,74,.10)}
 .deck-choice small{color:#8e806d}
 .no-decks{padding:20px;border:1px dashed #4e4028;color:#8e806d}
+
+.add-deck-quantity{
+  margin:16px 0 4px;
+  padding:14px;
+  border:1px solid #3e3424;
+  background:#0d0c0b;
+}
+.add-deck-quantity label{
+  display:block;
+  color:#d7b865;
+  font-size:12px;
+  margin-bottom:8px;
+}
+.quantity-control{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.quantity-control button{
+  width:42px;
+  height:40px;
+  border:1px solid #765d2c;
+  background:#15120d;
+  color:#e0c273;
+  cursor:pointer;
+  font-size:18px;
+}
+.quantity-control button:hover{background:rgba(197,158,74,.15)}
+.quantity-control input{
+  width:90px;
+  height:40px;
+  text-align:center;
+  border:1px solid #765d2c;
+  background:#090909;
+  color:#eee;
+  font-size:16px;
+}
+.add-deck-quantity small{
+  display:block;
+  margin-top:7px;
+  color:#80745f;
+}

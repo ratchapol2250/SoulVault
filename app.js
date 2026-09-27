@@ -228,6 +228,7 @@ function openAddToDeckModal(cardId){
   const modal=document.createElement("div");
   modal.id="addToDeckModal";
   modal.className="draw-card-detail";
+
   const options=decks.length
     ? decks.map(d=>`<button class="deck-choice" data-deck-id="${escapeHtml(d.id)}">
         <span>${escapeHtml(d.name||"New Deck")}</span>
@@ -235,82 +236,107 @@ function openAddToDeckModal(cardId){
       </button>`).join("")
     : `<div class="no-decks">ยังไม่มี Deck กรุณาสร้าง Deck ก่อน</div>`;
 
+  const limit=card.type==="Leader"||card.type==="Zone"||card.type==="Untimeat" ? 1 :
+              card.type==="Soul Core" ? 7 :
+              card.type==="POCKET" ? 10 : 3;
+
   modal.innerHTML=`
     <div class="draw-card-detail-inner add-deck-modal-inner">
       <button class="draw-card-close">×</button>
       <div class="eyebrow">ADD TO DECK</div>
       <h3>เพิ่ม ${escapeHtml(card.name)} เข้าเด็ค</h3>
-      <p>เลือก Deck ที่ต้องการเพิ่มการ์ดใบนี้</p>
+      <p>เลือก Deck และจำนวนการ์ดที่ต้องการใส่</p>
+
+      <div class="add-deck-quantity">
+        <label>จำนวน</label>
+        <div class="quantity-control">
+          <button type="button" id="qtyMinus">−</button>
+          <input id="deckAddQty" type="number" min="1" max="${limit}" value="1">
+          <button type="button" id="qtyPlus">＋</button>
+        </div>
+        <small>สูงสุดตามประเภทการ์ด: ${limit} ใบ</small>
+      </div>
+
       <div class="deck-choice-list">${options}</div>
     </div>`;
 
   document.body.appendChild(modal);
+
+  const input=modal.querySelector("#deckAddQty");
+  const clampQty=()=>{
+    let q=parseInt(input.value,10)||1;
+    q=Math.max(1,Math.min(limit,q));
+    input.value=q;
+    return q;
+  };
+  modal.querySelector("#qtyMinus").onclick=()=>{input.value=Math.max(1,(parseInt(input.value)||1)-1)};
+  modal.querySelector("#qtyPlus").onclick=()=>{input.value=Math.min(limit,(parseInt(input.value)||1)+1)};
+  input.onchange=clampQty;
+  input.oninput=()=>{if(parseInt(input.value)>limit)input.value=limit};
+
   modal.querySelector(".draw-card-close").onclick=()=>modal.remove();
   modal.onclick=e=>{if(e.target===modal)modal.remove()};
 
   modal.querySelectorAll(".deck-choice").forEach(btn=>{
     btn.onclick=()=>{
-      addCardFromRosterToDeck(cardId,btn.dataset.deckId);
-      modal.remove();
+      const qty=clampQty();
+      addCardFromRosterToDeck(cardId,btn.dataset.deckId,qty);
+      if(!document.querySelector("#addToDeckModal"))return;
+      // addCardFromRosterToDeck closes the modal on success.
     };
   });
 }
 
-function addCardFromRosterToDeck(cardId,deckId){
+
+function addCardFromRosterToDeck(cardId,deckId,requestedQty=1){
   reloadDecksFromStorage();
   const deck=decks.find(d=>String(d.id)===String(deckId));
   const card=cards.find(c=>String(c.id)===String(cardId));
   if(!deck||!card)return;
 
+  let qty=Math.max(1,parseInt(requestedQty,10)||1);
   deck.main=deck.main||{};
   deck.soulCores=deck.soulCores||[];
 
   if(card.type==="Leader"){
-    if(deck.leader && deck.leader!==card.id){
-      alert("Deck นี้มี Leader อยู่แล้ว 1 ใบ");
-      return;
-    }
+    if(qty!==1){alert("Leader ใส่ได้ 1 ใบเท่านั้น");return;}
+    if(deck.leader && deck.leader!==card.id){alert("Deck นี้มี Leader อยู่แล้ว 1 ใบ");return;}
     deck.leader=card.id;
   }else if(card.type==="Zone"){
-    if(deck.zone && deck.zone!==card.id){
-      alert("Deck นี้มี Zone อยู่แล้ว 1 ใบ");
-      return;
-    }
+    if(qty!==1){alert("Zone ใส่ได้ 1 ใบเท่านั้น");return;}
+    if(deck.zone && deck.zone!==card.id){alert("Deck นี้มี Zone อยู่แล้ว 1 ใบ");return;}
     deck.zone=card.id;
   }else if(card.type==="Soul Core"){
-    if(deck.soulCores.length>=7){
-      alert("Soul Core เต็ม 7 ใบแล้ว");
-      return;
-    }
-    deck.soulCores.push(card.id);
+    const remaining=7-deck.soulCores.length;
+    if(qty>remaining){alert(`Soul Core เหลือช่องอีก ${remaining} ใบ`);return;}
+    for(let i=0;i<qty;i++)deck.soulCores.push(card.id);
   }else if(card.type==="Untimeat"){
-    if(deck.untimeat && deck.untimeat!==card.id){
-      alert("Deck นี้มี Untimeat อยู่แล้ว 1 ใบ");
-      return;
-    }
-    if(getMainDeckCount(deck)>=50 && !deck.main[card.id]){
-      alert("MAIN DECK ครบ 50 ใบแล้ว");
-      return;
-    }
+    if(qty!==1){alert("Untimeat ใส่ได้ 1 ใบเท่านั้น");return;}
+    if(deck.untimeat && deck.untimeat!==card.id){alert("Deck นี้มี Untimeat อยู่แล้ว 1 ใบ");return;}
+    const oldQty=Number(deck.main[card.id]||0);
+    if(oldQty<1 && getMainDeckCount(deck)>=50){alert("MAIN DECK ครบ 50 ใบแล้ว");return;}
     deck.untimeat=card.id;
     deck.main[card.id]=1;
   }else{
-    const qty=Number(deck.main[card.id]||0);
     const limit=card.type==="POCKET"?10:3;
-    if(qty>=limit){
-      alert(`${card.type==="POCKET"?"Pocket":"การ์ดใบนี้"} ใส่ได้สูงสุด ${limit} ใบ`);
+    const currentQty=Number(deck.main[card.id]||0);
+    if(currentQty+qty>limit){
+      alert(`${card.type==="POCKET"?"Pocket":"การ์ดใบนี้"} ใส่ได้สูงสุด ${limit} ใบ (ตอนนี้มี ${currentQty} ใบ)`);
       return;
     }
-    if(getMainDeckCount(deck)>=50){
-      alert("MAIN DECK ครบ 50 ใบแล้ว");
+    const available=50-getMainDeckCount(deck);
+    if(qty>available){
+      alert(`MAIN DECK เหลือพื้นที่อีก ${available} ใบ`);
       return;
     }
-    deck.main[card.id]=qty+1;
+    deck.main[card.id]=currentQty+qty;
   }
 
   localStorage.setItem("stealAreaDecks",JSON.stringify(decks));
   localStorage.setItem("stealAreaActiveDeckId",deck.id);
-  alert(`เพิ่ม ${card.name} เข้า ${deck.name||"Deck"} แล้ว`);
+  const modal=document.querySelector("#addToDeckModal");
+  if(modal)modal.remove();
+  alert(`เพิ่ม ${card.name} จำนวน ${qty} ใบ เข้า ${deck.name||"Deck"} แล้ว`);
   render();
 }
 
