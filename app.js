@@ -188,7 +188,7 @@ function renderDeckLibrary(){
       <div class="library-cover ${coverClass}"><span>${symbol}</span></div>
       <div class="library-info">
         <h4>${escapeHtml(d.name||"New Deck")}</h4>
-        <div><span>${count} CARDS</span><span>${d.leader?"LEADER ✓":"NO LEADER"}</span><span>${d.zone?"ZONE ✓":"NO ZONE"}</span></div>
+        <div><span>${getMainDeckCount(d)} MAIN DECK</span><span>${d.leader?"LEADER ✓":"NO LEADER"}</span><span>${d.zone?"ZONE ✓":"NO ZONE"}</span></div>
       </div>
       <button class="library-delete" data-delete="${d.id}" title="Delete Deck">×</button>
     </div>`;
@@ -300,7 +300,7 @@ function removeFromDeck(id,type){
 
 function renderDeck(){
   if(!currentDeck)return;
-  document.querySelector("#deckCount").textContent=getCount();
+  document.querySelector("#deckCount").textContent=getMainDeckCount(currentDeck);
   document.querySelector("#leaderCount").textContent=(currentDeck.leader?1:0)+"/1";
   document.querySelector("#zoneCount").textContent=(currentDeck.zone?1:0)+"/1";
   document.querySelector("#untimeatCount").textContent=(currentDeck.untimeat?1:0)+"/1";
