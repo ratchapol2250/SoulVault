@@ -69,7 +69,79 @@
     </section>
 
     <section id="deck" class="section">
-      <div class="placeholder"><span>◇</span><h2>Deck Builder</h2><p>พื้นที่สำหรับระบบสร้าง Deck</p></div>
+      <div class="deck-header">
+        <div>
+          <div class="eyebrow">DECK CONSTRUCTION</div>
+          <h2>Deck Builder</h2>
+          <p>สร้างเด็ค เลือก Leader / Zone / การ์ด และกำหนดหน้าปกได้ตามต้องการ</p>
+        </div>
+        <button class="gold-btn" id="newDeckBtn">＋ NEW DECK</button>
+      </div>
+
+      <div id="deckEmpty" class="deck-empty">
+        <div class="empty-symbol">◇</div>
+        <h3>ยังไม่มี Deck</h3>
+        <p>สร้าง Deck แรกของคุณเพื่อเริ่มจัดการ์ด</p>
+        <button class="gold-btn" id="newDeckBtn2">CREATE DECK</button>
+      </div>
+
+      <div id="deckWorkspace" class="deck-workspace hidden">
+        <div class="deck-top">
+          <div class="deck-cover-wrap">
+            <div id="deckCover" class="deck-cover rarity-common"><span id="coverSymbol">SA</span></div>
+            <button class="cover-btn" id="coverBtn">เลือกหน้าปก</button>
+          </div>
+          <div class="deck-meta">
+            <input id="deckName" class="deck-name" placeholder="ชื่อ Deck">
+            <div class="deck-summary">
+              <span>CARDS <b id="deckCount">0</b></span>
+              <span>LEADER <b id="leaderCount">0/1</b></span>
+              <span>ZONE <b id="zoneCount">0/1</b></span>
+            </div>
+            <div class="deck-actions">
+              <button class="gold-btn" id="saveDeckBtn">SAVE DECK</button>
+              <button class="danger-btn" id="deleteDeckBtn">DELETE</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="deck-layout">
+          <div>
+            <div class="deck-section-title"><span>LEADER</span><small>MAX 1</small></div>
+            <div id="leaderSlot" class="special-slot"></div>
+
+            <div class="deck-section-title"><span>ZONE</span><small>MAX 1</small></div>
+            <div id="zoneSlot" class="special-slot"></div>
+
+            <div class="deck-section-title"><span>MAIN DECK</span><small>MAX 3 / CARD</small></div>
+            <div id="deckList" class="deck-list"></div>
+          </div>
+
+          <aside class="card-picker">
+            <div class="picker-title">ADD CARDS</div>
+            <input id="deckSearch" placeholder="ค้นหาการ์ด...">
+            <select id="deckTypeFilter">
+              <option value="All">ALL TYPES</option>
+              <option value="Character">CHARACTER</option>
+              <option value="Skill">SKILL</option>
+              <option value="Action">ACTION</option>
+              <option value="Item">ITEM</option>
+              <option value="Leader">LEADER</option>
+              <option value="Zone">ZONE</option>
+            </select>
+            <div id="pickerList"></div>
+          </aside>
+        </div>
+      </div>
+
+      <div id="coverModal" class="modal hidden">
+        <div class="cover-picker-modal">
+          <button class="close" id="closeCover">×</button>
+          <h2>เลือกหน้าปก Deck</h2>
+          <p>หน้าปกสามารถใช้รูปของการ์ดและจะแสดงตามความแรร์ของการ์ด</p>
+          <div id="coverGrid" class="cover-grid"></div>
+        </div>
+      </div>
     </section>
   </main>
 
