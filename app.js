@@ -217,6 +217,16 @@ renderCollection();
 
 
 /* ---------------- ADD CARD TO DECK FROM ROSTER ---------------- */
+function showToast(message){
+  const old=document.querySelector(".app-toast");
+  if(old)old.remove();
+  const el=document.createElement("div");
+  el.className="app-toast";
+  el.textContent=message;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2200);
+}
+
 function openAddToDeckModal(cardId){
   reloadDecksFromStorage();
   const card=cards.find(c=>String(c.id)===String(cardId));
@@ -227,40 +237,80 @@ function openAddToDeckModal(cardId){
 
   const modal=document.createElement("div");
   modal.id="addToDeckModal";
-  modal.className="draw-card-detail";
-
-  const options=decks.length
-    ? decks.map(d=>`<button class="deck-choice" data-deck-id="${escapeHtml(d.id)}">
-        <span>${escapeHtml(d.name||"New Deck")}</span>
-        <small>MAIN ${getMainDeckCount(d)}/50</small>
-      </button>`).join("")
-    : `<div class="no-decks">ยังไม่มี Deck กรุณาสร้าง Deck ก่อน</div>`;
+  modal.className="deck-add-overlay";
 
   const limit=card.type==="Leader"||card.type==="Zone"||card.type==="Untimeat" ? 1 :
               card.type==="Soul Core" ? 7 :
               card.type==="POCKET" ? 10 : 3;
 
-  modal.innerHTML=`
-    <div class="draw-card-detail-inner add-deck-modal-inner">
-      <button class="draw-card-close">×</button>
-      <div class="eyebrow">ADD TO DECK</div>
-      <h3>เพิ่ม ${escapeHtml(card.name)} เข้าเด็ค</h3>
-      <p>เลือก Deck และจำนวนการ์ดที่ต้องการใส่</p>
+  const deckOptions=decks.map(d=>{
+    const selected=d.id===localStorage.getItem("stealAreaActiveDeckId");
+    return `<button class="deck-select-card ${selected?"selected":""}" data-deck-id="${escapeHtml(String(d.id))}">
+      <span class="deck-select-main">
+        <strong>${escapeHtml(d.name||"New Deck")}</strong>
+        <small>MAIN DECK ${getMainDeckCount(d)}/50</small>
+      </span>
+      ${selected?'<span class="deck-selected-mark">✓</span>':""}
+    </button>`;
+  }).join("");
 
-      <div class="add-deck-quantity">
-        <label>จำนวน</label>
-        <div class="quantity-control">
-          <button type="button" id="qtyMinus">−</button>
-          <input id="deckAddQty" type="number" min="1" max="${limit}" value="1">
-          <button type="button" id="qtyPlus">＋</button>
-        </div>
-        <small>สูงสุดตามประเภทการ์ด: ${limit} ใบ</small>
+  modal.innerHTML=`
+    <div class="deck-add-modal">
+      <button class="deck-add-close" aria-label="ปิด">×</button>
+
+      <div class="deck-add-top">
+        <div class="eyebrow">ADD TO DECK</div>
+        <h2>เพิ่มการ์ดเข้าเด็ค</h2>
+        <p>เลือกเด็คและจำนวนการ์ดที่ต้องการใส่</p>
       </div>
 
-      <div class="deck-choice-list">${options}</div>
+      <div class="deck-add-card-preview">
+        <div class="deck-mini-card ${rarityClass(card.rarity)}">
+          <span>${escapeHtml(card.symbol)}</span>
+        </div>
+        <div>
+          <div class="deck-card-type">${escapeHtml(card.type)} · ${escapeHtml(card.rarity)}</div>
+          <h3>${escapeHtml(card.name)}</h3>
+          <p>${escapeHtml(card.subtitle||"")}</p>
+        </div>
+      </div>
+
+      <div class="deck-add-body">
+        <div class="deck-picker">
+          <div class="section-label">เลือกเด็ค</div>
+          <div class="deck-select-list">
+            ${deckOptions || '<div class="no-decks">ยังไม่มีเด็ค กรุณาสร้างเด็คก่อน</div>'}
+          </div>
+        </div>
+
+        <div class="deck-quantity-box">
+          <div class="section-label">จำนวน</div>
+          <div class="quantity-control large">
+            <button type="button" id="qtyMinus">−</button>
+            <input id="deckAddQty" type="number" min="1" max="${limit}" value="1">
+            <button type="button" id="qtyPlus">＋</button>
+          </div>
+          <div class="quantity-limit">สูงสุด ${limit} ใบ ตามประเภทการ์ด</div>
+          <button class="confirm-deck-add" id="confirmDeckAdd" disabled>เพิ่มเข้าเด็ค</button>
+        </div>
+      </div>
     </div>`;
 
   document.body.appendChild(modal);
+
+  let selectedDeckId=null;
+  const selectedSaved=localStorage.getItem("stealAreaActiveDeckId");
+  if(decks.some(d=>String(d.id)===String(selectedSaved))) selectedDeckId=String(selectedSaved);
+
+  const buttons=modal.querySelectorAll(".deck-select-card");
+  buttons.forEach(btn=>{
+    btn.onclick=()=>{
+      selectedDeckId=String(btn.dataset.deckId);
+      buttons.forEach(b=>b.classList.remove("selected"));
+      btn.classList.add("selected");
+      modal.querySelector("#confirmDeckAdd").disabled=false;
+    };
+  });
 
   const input=modal.querySelector("#deckAddQty");
   const clampQty=()=>{
@@ -272,19 +322,15 @@ function openAddToDeckModal(cardId){
   modal.querySelector("#qtyMinus").onclick=()=>{input.value=Math.max(1,(parseInt(input.value)||1)-1)};
   modal.querySelector("#qtyPlus").onclick=()=>{input.value=Math.min(limit,(parseInt(input.value)||1)+1)};
   input.onchange=clampQty;
-  input.oninput=()=>{if(parseInt(input.value)>limit)input.value=limit};
+  input.oninput=()=>{ if(parseInt(input.value)>limit)input.value=limit; };
 
-  modal.querySelector(".draw-card-close").onclick=()=>modal.remove();
+  modal.querySelector("#confirmDeckAdd").onclick=()=>{
+    if(!selectedDeckId)return;
+    addCardFromRosterToDeck(cardId,selectedDeckId,clampQty());
+  };
+
+  modal.querySelector(".deck-add-close").onclick=()=>modal.remove();
   modal.onclick=e=>{if(e.target===modal)modal.remove()};
-
-  modal.querySelectorAll(".deck-choice").forEach(btn=>{
-    btn.onclick=()=>{
-      const qty=clampQty();
-      addCardFromRosterToDeck(cardId,btn.dataset.deckId,qty);
-      if(!document.querySelector("#addToDeckModal"))return;
-      // addCardFromRosterToDeck closes the modal on success.
-    };
-  });
 }
 
 
@@ -336,7 +382,7 @@ function addCardFromRosterToDeck(cardId,deckId,requestedQty=1){
   localStorage.setItem("stealAreaActiveDeckId",deck.id);
   const modal=document.querySelector("#addToDeckModal");
   if(modal)modal.remove();
-  alert(`เพิ่ม ${card.name} จำนวน ${qty} ใบ เข้า ${deck.name||"Deck"} แล้ว`);
+  showToast(`เพิ่ม ${card.name} จำนวน ${qty} ใบ เข้า ${deck.name||"Deck"} แล้ว`);
   render();
 }
 
