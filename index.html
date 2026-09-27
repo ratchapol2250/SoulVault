@@ -81,7 +81,7 @@
         <div>
           <div class="eyebrow">MY COLLECTION</div>
           <h2>คอลเลกชัน</h2>
-          <p>เช็กลิสต์การ์ดที่อยากได้ เก็บรายการไว้ในเครื่องนี้อัตโนมัติ</p>
+          <p>เพิ่มการ์ดจากหน้า รายการการ์ด เข้ามาเก็บไว้ในคอลเลกชันของคุณ</p>
         </div>
         <div class="collection-progress">
           <span id="wantedCount">0</span> / <span id="collectionTotal">0</span>
@@ -109,14 +109,12 @@
           <option value="POCKET">POCKET</option>
         </select>
         <select id="collectionViewFilter">
-          <option value="all">แสดงทั้งหมด</option>
-          <option value="wanted">เฉพาะที่อยากได้</option>
-          <option value="unwanted">ยังไม่ได้เลือก</option>
+          <option value="wanted">การ์ดในคอลเลกชัน</option>
         </select>
       </div>
 
       <div id="collectionGrid" class="collection-grid"></div>
-      <div id="collectionEmpty" class="empty hidden">ไม่พบการ์ดที่ตรงกับรายการ</div>
+      <div id="collectionEmpty" class="empty hidden">ยังไม่มีการ์ดในคอลเลกชัน<br><small>ไปที่ "รายการการ์ด" แล้วกด เพิ่มเข้าคอลเลกชัน</small></div>
     </section>
 
     <section id="deck" class="section active-section">

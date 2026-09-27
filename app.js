@@ -27,13 +27,30 @@ function render(){
  const list=cards.filter(c=>(type==="All"||c.type===type)&&(rarity==="All"||c.rarity===rarity)&&(set==="All"||c.set===set)&&[c.name,c.subtitle,c.type,c.element,c.ability,c.set].join(" ").toLowerCase().includes(q));
  grid.innerHTML=list.map(c=>cardHTML(c,false)).join("");
  document.querySelector("#empty").classList.toggle("hidden",list.length!==0);
- document.querySelectorAll("#grid .card").forEach(el=>el.onclick=()=>openCard(cards.find(c=>c.id===el.dataset.id)));
+ document.querySelectorAll("#grid .card").forEach(el=>{
+   el.onclick=e=>{
+     if(e.target.closest(".collection-add-btn"))return;
+     openCard(cards.find(c=>c.id===el.dataset.id));
+   };
+ });
+ document.querySelectorAll("#grid .collection-add-btn").forEach(btn=>{
+   btn.onclick=e=>{
+     e.stopPropagation();
+     toggleWanted(btn.dataset.collectionId);
+     render();
+   };
+ });
 }
 function cardHTML(c,small=true){
+ const inCollection=isWanted(c.id);
  return `<article class="card ${small?'small-card':''}" data-id="${c.id}">
    <div class="card-art ${rarityClass(c.rarity)}"><div class="card-symbol">${c.symbol}</div><span class="rarity-orb">${c.rarity[0]}</span></div>
    <div class="card-info"><div class="tag-row"><span class="tag">${c.type}</span><span class="tag rarity">${c.rarity}</span><span class="tag set-tag">${c.set||"BT01"}</span></div>
-   <h3>${c.name}</h3><p>${c.subtitle}</p></div></article>`;
+   <h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.subtitle)}</p>
+   <button class="collection-add-btn ${inCollection?"added":""}" data-collection-id="${c.id}">
+     ${inCollection?"✓ อยู่ในคอลเลกชัน":"＋ เพิ่มเข้าคอลเลกชัน"}
+   </button>
+   </div></article>`;
 }
 function openCard(c){
  document.querySelector("#detailType").textContent=c.type.toUpperCase();
@@ -123,6 +140,7 @@ function toggleWanted(id){
   }
   persistWantedCards();
   renderCollection();
+  if(typeof render==="function")render();
 }
 
 function collectionCardHTML(c){
@@ -141,7 +159,7 @@ function collectionCardHTML(c){
       <h3>${escapeHtml(c.name)}</h3>
       <p>${escapeHtml(c.subtitle||"")}</p>
       <button class="wanted-btn ${wanted?"checked":""}" data-wanted="${c.id}">
-        <span>${wanted?"✓":"□"}</span> ${wanted?"อยากได้แล้ว":"เพิ่มในรายการที่อยากได้"}
+        <span>✓</span> ลบออกจากคอลเลกชัน
       </button>
     </div>
   </article>`;
@@ -150,16 +168,16 @@ function collectionCardHTML(c){
 function renderCollection(){
   const grid=document.querySelector("#collectionGrid");
   if(!grid)return;
+
   const search=(document.querySelector("#collectionSearch")?.value||"").toLowerCase().trim();
   const set=document.querySelector("#collectionSetFilter")?.value||"All";
   const type=document.querySelector("#collectionTypeFilter")?.value||"All";
-  const view=document.querySelector("#collectionViewFilter")?.value||"all";
 
   const list=cards.filter(c=>{
     const wanted=isWanted(c.id);
-    return (set==="All"||c.set===set)
+    return wanted
+      &&(set==="All"||c.set===set)
       &&(type==="All"||c.type===type)
-      &&(view==="all"||(view==="wanted"&&wanted)||(view==="unwanted"&&!wanted))
       &&[c.name,c.subtitle,c.type,c.rarity,c.set,c.element].join(" ").toLowerCase().includes(search);
   });
 
@@ -167,7 +185,7 @@ function renderCollection(){
   document.querySelector("#collectionEmpty")?.classList.toggle("hidden",list.length!==0);
 
   document.querySelector("#wantedCount").textContent=wantedCards.length;
-  document.querySelector("#collectionTotal").textContent=cards.length;
+  document.querySelector("#collectionTotal").textContent=wantedCards.length;
 
   grid.querySelectorAll(".wanted-btn").forEach(btn=>{
     btn.onclick=e=>{
@@ -182,6 +200,7 @@ function renderCollection(){
     };
   });
 }
+
 
 document.querySelector("#collectionSearch")?.addEventListener("input",renderCollection);
 document.querySelector("#collectionSetFilter")?.addEventListener("change",renderCollection);

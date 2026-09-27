@@ -878,3 +878,23 @@
   .collection-toolbar{grid-template-columns:1fr}
   .collection-progress{min-width:0}
 }
+
+
+.collection-add-btn{
+  width:100%;
+  margin-top:10px;
+  padding:9px 8px;
+  border:1px solid #5e4a27;
+  background:rgba(197,158,74,.05);
+  color:#cdb16b;
+  cursor:pointer;
+  font-size:11px;
+}
+.collection-add-btn:hover,
+.collection-add-btn.added{
+  border-color:#b9954d;
+  background:rgba(197,158,74,.14);
+}
+.collection-card-info .wanted-btn{
+  margin-top:6px;
+}
