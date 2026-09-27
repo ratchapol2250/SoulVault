@@ -458,7 +458,12 @@ function sendToTomb(id,fromHand=true){
 }
 function testCardHTML(id,clickable=false){
   if(!id)return "";
-  const c=cards.find(x=>x.id===id);if(!c)return "";
+  const c=cards.find(x=>String(x.id)===String(id));
+  if(!c){
+    return `<div class="test-card rarity-common ${clickable?"clickable":""}" data-id="${escapeHtml(id)}">
+      <span>?</span><b>${escapeHtml(id)}</b><small>CARD</small>
+    </div>`;
+  }
   return `<div class="test-card ${rarityClass(c.rarity)} ${clickable?"clickable":""}" data-id="${c.id}">
     <span>${c.symbol}</span><b>${escapeHtml(c.name)}</b><small>${c.rarity}</small>
   </div>`;
@@ -480,7 +485,9 @@ function renderTest(){
   document.querySelector("#soul2").innerHTML=testCardHTML(testBoard.soul2);
   testBoard.chars.forEach((id,i)=>document.querySelector("#char"+(i+1)).innerHTML=testCardHTML(id));
   document.querySelector("#pocketCards").innerHTML=testBoard.pocket.map(id=>testCardHTML(id)).join("");
-  document.querySelector("#testHand").innerHTML=testHand.map(id=>testCardHTML(id,true)).join("") || `<div class="hand-empty">กด DRAW 5 เพื่อเริ่มทดลองจั่ว</div>`;
+  const handEl=document.querySelector("#testHand");
+  handEl.innerHTML=testHand.map(id=>testCardHTML(id,true)).join("") || `<div class="hand-empty">กด DRAW 5 เพื่อเริ่มทดลองจั่ว</div>`;
+  handEl.dataset.count=String(testHand.length);
 
   document.querySelectorAll("#testHand .clickable").forEach(el=>el.onclick=()=>playHandCard(el.dataset.id));
 }

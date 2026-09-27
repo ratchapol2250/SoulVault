@@ -603,3 +603,55 @@
   .draw-deck-panel{position:relative;width:auto;flex-direction:row;justify-content:flex-start;margin-bottom:25px}
   .draw-hand-panel{border-left:0;border-top:1px solid #29241d;padding-left:0;padding-top:20px}
 }
+
+/* ===== DRAWED CARDS MUST ALWAYS BE VISIBLE ===== */
+#drawtest #testHand{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  position:relative!important;
+  z-index:20!important;
+  overflow:visible!important;
+}
+#drawtest #testHand .test-card{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  position:relative!important;
+  z-index:21!important;
+  width:63mm!important;
+  height:88mm!important;
+  min-width:63mm!important;
+  min-height:88mm!important;
+  max-width:63mm!important;
+  max-height:88mm!important;
+  flex:0 0 63mm!important;
+  background-color:#171717!important;
+  color:#ddd!important;
+  border:1px solid #8f7137!important;
+  box-sizing:border-box!important;
+}
+#drawtest #testHand .test-card span,
+#drawtest #testHand .test-card b,
+#drawtest #testHand .test-card small{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+#drawtest #testHand .test-card span{
+  font-size:28px!important;
+  color:#d7b45f!important;
+}
+#drawtest #testHand .test-card b{
+  color:#e4ded2!important;
+  font-size:11px!important;
+  margin-top:8px!important;
+}
+#drawtest #testHand .test-card small{
+  color:#9b9388!important;
+  font-size:8px!important;
+}
+#drawtest .draw-hand-panel{
+  min-height:430px!important;
+  overflow:visible!important;
+}
