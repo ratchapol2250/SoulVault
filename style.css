@@ -276,3 +276,110 @@
   .hand-area{min-width:760px!important}
   .test-hand{justify-content:flex-start!important;padding-left:15px!important}
 }
+
+/* ===== CARD FIT: every card exactly fills its own playmat slot ===== */
+.playmat .mat-slot{
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+  padding:0!important;
+  margin:0!important;
+}
+.playmat .mat-slot > .mat-card{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+}
+.playmat .mat-slot > .mat-card > .test-card{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:none!important;
+  max-height:none!important;
+  padding:0!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  border:1px solid rgba(30,25,15,.65)!important;
+  overflow:hidden!important;
+}
+
+/* Exact card slots */
+.playmat .energy-slot,
+.playmat .soul1,
+.playmat .soul2,
+.playmat .c1,
+.playmat .c2,
+.playmat .c3,
+.playmat .c4,
+.playmat .leader-slot,
+.playmat .zone-slot{
+  overflow:hidden!important;
+}
+
+/* Cards must not change the size of the slot according to their content. */
+.playmat .test-card span,
+.playmat .test-card b,
+.playmat .test-card small{
+  max-width:92%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-align:center;
+  box-sizing:border-box;
+}
+
+/* Do not use the hand/pocket card dimensions for board cards. */
+.playmat .mat-slot .test-card{
+  width:100%!important;
+  height:100%!important;
+  flex:0 0 auto!important;
+}
+
+/* Pocket cards are separate cards, not stretched across the pocket zone. */
+.playmat .pocket-area #pocketCards{
+  overflow:hidden!important;
+  display:flex!important;
+  align-items:center!important;
+}
+.playmat .pocket-area #pocketCards .test-card{
+  position:relative!important;
+  inset:auto!important;
+  width:70px!important;
+  height:98px!important;
+  min-width:70px!important;
+  min-height:98px!important;
+  max-width:70px!important;
+  max-height:98px!important;
+  flex:0 0 70px!important;
+}
+
+/* Hand cards are separate from the playmat. */
+.hand-area .test-hand .test-card{
+  position:relative!important;
+  inset:auto!important;
+  width:70px!important;
+  height:98px!important;
+  min-width:70px!important;
+  min-height:98px!important;
+  max-width:70px!important;
+  max-height:98px!important;
+  flex:0 0 70px!important;
+}
+
+.unit-slot{
+  left:80.908%!important;
+  top:2.345%!important;
+  width:11.230%!important;
+  height:13.400%!important;
+  background:transparent!important;
+  overflow:hidden!important;
+}
+.unit-slot .mat-card:empty{display:none}

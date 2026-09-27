@@ -425,7 +425,7 @@ function buildTestDeck(){
   });
   testStack.sort(()=>Math.random()-.5);
   testHand=[];testTomb=[];testTurn=0;
-  testBoard={leader:testDeck.leader||null,zone:testDeck.zone||null,soul1:testDeck.soulCores?.[0]||null,soul2:testDeck.soulCores?.[1]||null,chars:[null,null,null,null],pocket:[],energy:null};
+  testBoard={leader:testDeck.leader||null,zone:testDeck.zone||null,soul1:testDeck.soulCores?.[0]||null,soul2:testDeck.soulCores?.[1]||null,chars:[null,null,null,null],pocket:[],energy:null,unit:null};
   renderTest();
 }
 function drawCards(n){
@@ -473,6 +473,7 @@ function renderTest(){
   document.querySelector("#pileCount").textContent=testStack.length;
   document.querySelector("#tombCount").textContent=testTomb.length;
 
+  document.querySelector("#testUnit").innerHTML=testCardHTML(testBoard.unit);
   document.querySelector("#testLeader").innerHTML=testCardHTML(testBoard.leader);
   document.querySelector("#testZone").innerHTML=testCardHTML(testBoard.zone);
   document.querySelector("#soul1").innerHTML=testCardHTML(testBoard.soul1);
