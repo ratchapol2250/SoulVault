@@ -10,7 +10,11 @@ const cards=[
 {id:"SA-009",name:"Eclipse King",subtitle:"Leader of the Black Sun",type:"Leader",rarity:"Legendary",element:"Eclipse",cost:"8",ability:"Leader — กำหนดกฎพิเศษของ Deck และเพิ่มพลังให้การ์ด Eclipse",symbol:"K"},
 {id:"SA-010",name:"Land of Eternal Love",subtitle:"Forbidden Zone",type:"Zone",rarity:"Epic",element:"Mystic",cost:"0",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",symbol:"Z"},
 {id:"SA-011",name:"Neon Succubus",subtitle:"Temptation Protocol",type:"Character",rarity:"Epic",element:"Neon",cost:"5",ability:"เมื่อการ์ดนี้ทำงาน ให้เลือกการ์ดฝ่ายตรงข้าม 1 ใบและลดประสิทธิภาพของมัน",symbol:"N"},
-{id:"SA-012",name:"Relic Core",subtitle:"Ancient Power",type:"Item",rarity:"Rare",element:"Relic",cost:"2",ability:"ติดตั้งให้ Character 1 ใบเพื่อเพิ่มผลของความสามารถ",symbol:"C"}
+{id:"SA-012",name:"Relic Core",subtitle:"Ancient Power",type:"Item",rarity:"Rare",element:"Relic",cost:"2",ability:"ติดตั้งให้ Character 1 ใบเพื่อเพิ่มผลของความสามารถ",symbol:"C"},
+{id:"SA-013",name:"Soul Core Alpha",subtitle:"Origin of the Soul",type:"Soul Core",rarity:"Legendary",element:"Soul",cost:"0",ability:"Soul Core — แกนพลังประจำ Deck ใช้สำหรับกำหนดพลังเริ่มต้นของผู้เล่น",symbol:"SC"},
+{id:"SA-014",name:"Soul Core Eclipse",subtitle:"Black Soul Reactor",type:"Soul Core",rarity:"Epic",element:"Eclipse",cost:"0",ability:"Soul Core — เพิ่มผลของการ์ด Eclipse เมื่อถูกวางในสนาม",symbol:"SC"},
+{id:"SA-015",name:"Pocket Relic",subtitle:"Stored Artifact",type:"POCKET",rarity:"Rare",element:"Relic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ในพื้นที่ Pocket และเรียกใช้ในจังหวะที่กำหนด",symbol:"P"},
+{id:"SA-016",name:"Pocket Trick",subtitle:"Hidden Move",type:"POCKET",rarity:"Common",element:"Mystic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ใน Pocket เพื่อเตรียมใช้เป็นการกระทำพิเศษ",symbol:"P"}
 ];
 
 const rarityClass=r=>`rarity-${r.toLowerCase()}`;
@@ -73,6 +77,7 @@ function makeDeck(){
   };
   decks.push(d);
   currentDeckId=d.id;
+  d.soulCores=[];
   currentDeck=d;
   persistDecks();
   initDeck();
@@ -115,7 +120,7 @@ function initDeck(){
 function renderDeckLibrary(){
   const box=document.querySelector("#deckCards");
   box.innerHTML=decks.map(d=>{
-    const count=Object.values(d.main||{}).reduce((a,b)=>a+b,0)+(d.leader?1:0)+(d.zone?1:0);
+    const count=Object.values(d.main||{}).reduce((a,b)=>a+b,0)+(d.leader?1:0)+(d.zone?1:0)+((d.soulCores||[]).length);
     const cover=cards.find(c=>c.id===d.cover);
     const coverClass=cover?rarityClass(cover.rarity):"rarity-common";
     const symbol=cover?cover.symbol:"SA";
@@ -162,7 +167,7 @@ function deleteDeckById(id){
 }
 
 function getCount(){
-  return Object.values(currentDeck.main||{}).reduce((a,b)=>a+b,0)+(currentDeck.leader?1:0)+(currentDeck.zone?1:0);
+  return Object.values(currentDeck.main||{}).reduce((a,b)=>a+b,0)+(currentDeck.leader?1:0)+(currentDeck.zone?1:0)+((currentDeck.soulCores||[]).length);
 }
 
 function addToDeck(id){
@@ -177,6 +182,13 @@ function addToDeck(id){
     if(currentDeck.zone===c.id)return;
     if(currentDeck.zone)return alert("Zone ได้สูงสุด 1 ใบ");
     currentDeck.zone=c.id;
+  }else if(c.type==="Soul Core"){
+    currentDeck.soulCores=currentDeck.soulCores||[];
+    const soulTotal=currentDeck.soulCores.length;
+    const sameSoul=currentDeck.soulCores.filter(x=>x===c.id).length;
+    if(soulTotal>=7)return alert("Soul Core ต้องมีสูงสุด 7 ใบ");
+    if(sameSoul>=3)return alert("Soul Core ใบเดิมใส่ได้สูงสุด 3 ใบ");
+    currentDeck.soulCores.push(c.id);
   }else{
     const n=currentDeck.main[c.id]||0;
     if(n>=3)return alert("การ์ดใบนี้ใส่ได้สูงสุด 3 ใบ");
@@ -191,6 +203,7 @@ function removeFromDeck(id,type){
   if(!currentDeck)return;
   if(type==="Leader")currentDeck.leader=null;
   else if(type==="Zone")currentDeck.zone=null;
+  else if(type==="Soul Core")currentDeck.soulCores=(currentDeck.soulCores||[]).filter(x=>x!==id);
   else{
     if(!currentDeck.main[id])return;
     currentDeck.main[id]--;
@@ -206,8 +219,21 @@ function renderDeck(){
   document.querySelector("#deckCount").textContent=getCount();
   document.querySelector("#leaderCount").textContent=(currentDeck.leader?1:0)+"/1";
   document.querySelector("#zoneCount").textContent=(currentDeck.zone?1:0)+"/1";
+  const soulCoreCount=(currentDeck.soulCores||[]).length;
+  const soulEl=document.querySelector("#soulCoreCount");
+  soulEl.textContent=soulCoreCount+"/7";
+  soulEl.classList.toggle("valid",soulCoreCount===7);
+  soulEl.classList.toggle("invalid",soulCoreCount!==7);
+
+  const pocketCount=Object.entries(currentDeck.main||{}).reduce((sum,[id,n])=>sum+(cards.find(c=>c.id===id)?.type==="POCKET"?n:0),0);
+  const pocketEl=document.querySelector("#pocketCount");
+  pocketEl.textContent=pocketCount+"/10";
+  pocketEl.classList.toggle("valid",pocketCount===10);
+  pocketEl.classList.toggle("invalid",pocketCount!==10);
   document.querySelector("#deckName").value=currentDeck.name;
 
+  currentDeck.soulCores=currentDeck.soulCores||[];
+  const soulCores=currentDeck.soulCores.map(id=>cards.find(c=>c.id===id)).filter(Boolean);
   const leader=cards.find(c=>c.id===currentDeck.leader);
   const zone=cards.find(c=>c.id===currentDeck.zone);
 
@@ -215,6 +241,21 @@ function renderDeck(){
   document.querySelector("#zoneSlot").innerHTML=zone?specialHTML(zone,"Zone"):`<div class="empty-slot">＋ ADD ZONE</div>`;
 
   if(leader)document.querySelector("#leaderSlot .remove-card").onclick=()=>removeFromDeck(leader.id,"Leader");
+
+  const soulWrap=document.querySelector("#leaderSlot").parentElement;
+  let soulSection=document.querySelector("#soulCoreBuilderSlot");
+  if(!soulSection){
+    soulSection=document.createElement("div");
+    soulSection.id="soulCoreBuilderSlot";
+    soulSection.className="special-slot soul-builder-slot";
+    document.querySelector("#leaderSlot").before(soulSection);
+  }
+  soulSection.innerHTML=`<div class="soul-builder-title"><span>SOUL CORE</span><small>${soulCores.length}/7 · ใบเดิมสูงสุด 3</small></div>`+
+    (soulCores.length?soulCores.map((c,i)=>specialHTML(c,"Soul Core")).join(""):`<div class="empty-slot">＋ ADD SOUL CORE · ต้องมี 7 ใบก่อน SAVE</div>`);
+  soulCores.forEach((c,i)=>{
+    const buttons=soulSection.querySelectorAll(".remove-card");
+    if(buttons[i])buttons[i].onclick=()=>removeFromDeck(c.id,"Soul Core");
+  });
   if(zone)document.querySelector("#zoneSlot .remove-card").onclick=()=>removeFromDeck(zone.id,"Zone");
 
   const entries=Object.entries(currentDeck.main);
@@ -247,8 +288,9 @@ function renderPicker(){
   const list=cards.filter(c=>(t==="All"||c.type===t)&&[c.name,c.subtitle,c.rarity,c.type].join(" ").toLowerCase().includes(q));
 
   document.querySelector("#pickerList").innerHTML=list.map(c=>{
-    let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):(currentDeck.main[c.id]||0);
-    let limit=c.type==="Leader"||c.type==="Zone"?1:3;
+    let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):c.type==="Soul Core"?((currentDeck.soulCores||[]).filter(x=>x===c.id).length):(currentDeck.main[c.id]||0);
+    let limit=c.type==="Leader"||c.type==="Zone"?1:c.type==="Soul Core"?3:3;
+    if(c.type==="Soul Core" && (currentDeck.soulCores||[]).length>=7) limit=qty;
     return `<div class="picker-row">
       <div class="picker-art ${rarityClass(c.rarity)}">${c.symbol}</div>
       <div class="picker-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
@@ -287,8 +329,39 @@ function chooseCover(id){
   document.querySelector("#coverModal").classList.add("hidden");
 }
 
+function getPocketCount(deck=currentDeck){
+  return Object.entries(deck?.main||{}).reduce((sum,[id,n])=>{
+    const c=cards.find(x=>x.id===id);
+    return sum+(c?.type==="POCKET"?n:0);
+  },0);
+}
+
+function validateDeckBeforeSave(){
+  const pocketCount=getPocketCount();
+  const soulCoreCount=(currentDeck.soulCores||[]).length;
+  if(soulCoreCount!==7){
+    alert(`ไม่สามารถบันทึก Deck ได้\\n\\nSOUL CORE ต้องมีทั้งหมด 7 ใบ\\nตอนนี้มี ${soulCoreCount} ใบ`);
+    return false;
+  }
+  if(pocketCount!==10){
+    alert(`ไม่สามารถบันทึก Deck ได้\\n\\nPOCKET ต้องมีทั้งหมด 10 ใบ\\nตอนนี้มี ${pocketCount} ใบ`);
+    return false;
+  }
+  if(!currentDeck.leader){
+    alert("ไม่สามารถบันทึก Deck ได้\\n\\nต้องมี Leader 1 ใบ");
+    return false;
+  }
+  if(!currentDeck.zone){
+    alert("ไม่สามารถบันทึก Deck ได้\\n\\nต้องมี Zone 1 ใบ");
+    return false;
+  }
+  return true;
+}
+
 function saveDeck(){
   if(!currentDeck)return;
+  if(!validateDeckBeforeSave())return;
+
   currentDeck.name=(document.querySelector("#deckName").value.trim()||"New Deck");
   const i=decks.findIndex(d=>d.id===currentDeck.id);
   if(i>=0)decks[i]=currentDeck;
@@ -321,3 +394,99 @@ document.querySelector("#deckName").oninput=e=>{
 
 render();
 initDeck();
+
+
+/* ---------------- DRAW TEST / PLAYMAT ---------------- */
+let testDeck=null;
+let testStack=[];
+let testHand=[];
+let testTomb=[];
+let testTurn=0;
+let testBoard={leader:null,zone:null,soul1:null,soul2:null,chars:[null,null,null,null],pocket:[],energy:null};
+
+function refreshTestDeckSelect(){
+  const sel=document.querySelector("#testDeckSelect");
+  if(!sel)return;
+  sel.innerHTML=decks.length?decks.map(d=>`<option value="${d.id}">${escapeHtml(d.name||"New Deck")}</option>`).join(""):`<option value="">No Deck</option>`;
+  if(testDeck?.id && decks.some(d=>d.id===testDeck.id))sel.value=testDeck.id;
+}
+function buildTestDeck(){
+  const id=document.querySelector("#testDeckSelect")?.value;
+  testDeck=decks.find(d=>d.id===id)||decks[0]||null;
+  if(!testDeck){testStack=[];testHand=[];testTomb=[];return}
+  testStack=[];
+  Object.entries(testDeck.main||{}).forEach(([id,n])=>{
+    for(let i=0;i<n;i++)testStack.push(id);
+  });
+  testStack.sort(()=>Math.random()-.5);
+  testHand=[];testTomb=[];testTurn=0;
+  testBoard={leader:testDeck.leader||null,zone:testDeck.zone||null,soul1:testDeck.soulCores?.[0]||null,soul2:testDeck.soulCores?.[1]||null,chars:[null,null,null,null],pocket:[],energy:null};
+  renderTest();
+}
+function drawCards(n){
+  for(let i=0;i<n && testStack.length;i++)testHand.push(testStack.pop());
+  testTurn++;
+  renderTest();
+}
+function resetTest(){buildTestDeck()}
+function playHandCard(id){
+  const idx=testHand.indexOf(id);
+  if(idx<0)return;
+  const c=cards.find(x=>x.id===id);
+  if(!c)return;
+
+  if(c.type==="POCKET"){
+    testBoard.pocket.push(id);
+  }else{
+    const slot=testBoard.chars.findIndex(x=>x===null);
+    if(slot<0){alert("Character Zone เต็มแล้ว");return}
+    testBoard.chars[slot]=id;
+  }
+  testHand.splice(idx,1);
+  renderTest();
+}
+function sendToTomb(id,fromHand=true){
+  if(fromHand){
+    const i=testHand.indexOf(id);if(i>=0)testHand.splice(i,1);
+  }
+  testTomb.push(id);renderTest();
+}
+function testCardHTML(id,clickable=false){
+  if(!id)return "";
+  const c=cards.find(x=>x.id===id);if(!c)return "";
+  return `<div class="test-card ${rarityClass(c.rarity)} ${clickable?"clickable":""}" data-id="${c.id}">
+    <span>${c.symbol}</span><b>${escapeHtml(c.name)}</b><small>${c.rarity}</small>
+  </div>`;
+}
+function renderTest(){
+  refreshTestDeckSelect();
+  if(!testDeck){document.querySelector("#testDeckName").textContent="-";return}
+  document.querySelector("#testDeckName").textContent=testDeck.name;
+  document.querySelector("#testCardsLeft").textContent=testStack.length;
+  document.querySelector("#testHandCount").textContent=testHand.length;
+  document.querySelector("#testTurn").textContent=testTurn;
+  document.querySelector("#pileCount").textContent=testStack.length;
+  document.querySelector("#tombCount").textContent=testTomb.length;
+
+  document.querySelector("#testLeader").innerHTML=testCardHTML(testBoard.leader);
+  document.querySelector("#testZone").innerHTML=testCardHTML(testBoard.zone);
+  document.querySelector("#soul1").innerHTML=testCardHTML(testBoard.soul1);
+  document.querySelector("#soul2").innerHTML=testCardHTML(testBoard.soul2);
+  testBoard.chars.forEach((id,i)=>document.querySelector("#char"+(i+1)).innerHTML=testCardHTML(id));
+  document.querySelector("#pocketCards").innerHTML=testBoard.pocket.map(id=>testCardHTML(id)).join("");
+  document.querySelector("#testHand").innerHTML=testHand.map(id=>testCardHTML(id,true)).join("") || `<div class="hand-empty">กด DRAW 5 เพื่อเริ่มทดลองจั่ว</div>`;
+
+  document.querySelectorAll("#testHand .clickable").forEach(el=>el.onclick=()=>playHandCard(el.dataset.id));
+}
+function initDrawTest(){
+  refreshTestDeckSelect();
+  if(!testDeck && decks.length)buildTestDeck();
+  else renderTest();
+}
+document.querySelector("#testDeckSelect").onchange=buildTestDeck;
+document.querySelector("#drawFiveBtn").onclick=()=>drawCards(5);
+document.querySelector("#drawOneBtn").onclick=()=>drawCards(1);
+document.querySelector("#resetTestBtn").onclick=resetTest;
+document.querySelector("#testDeckPile").onclick=()=>drawCards(1);
+
+initDrawTest();
