@@ -434,3 +434,66 @@
 .playmat .pocket-area #pocketCards .test-card small{
   font-size:5px!important;
 }
+
+/* ===== UNIVERSAL CARD SIZE: 6.3 × 8.8 cm ===== */
+.test-card{
+  width:63mm!important;
+  height:88mm!important;
+  min-width:63mm!important;
+  min-height:88mm!important;
+  max-width:63mm!important;
+  max-height:88mm!important;
+  flex:0 0 63mm!important;
+  aspect-ratio:63 / 88!important;
+  box-sizing:border-box!important;
+}
+
+/* Board cards keep the requested physical size and are centered in their zones. */
+.playmat .mat-slot > .mat-card > .test-card{
+  position:absolute!important;
+  width:63mm!important;
+  height:88mm!important;
+  min-width:63mm!important;
+  min-height:88mm!important;
+  max-width:63mm!important;
+  max-height:88mm!important;
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  transform:translate(-50%,-50%)!important;
+}
+
+/* Soul Core is horizontal: 8.8 cm wide × 6.3 cm high. */
+.playmat .soul1 > .mat-card > .test-card,
+.playmat .soul2 > .mat-card > .test-card{
+  width:88mm!important;
+  height:63mm!important;
+  min-width:88mm!important;
+  min-height:63mm!important;
+  max-width:88mm!important;
+  max-height:63mm!important;
+  aspect-ratio:88 / 63!important;
+}
+
+/* Pocket remains portrait and each card is 6.3 × 8.8 cm. */
+.playmat .pocket-area #pocketCards .test-card{
+  width:63mm!important;
+  height:88mm!important;
+  min-width:63mm!important;
+  min-height:88mm!important;
+  max-width:63mm!important;
+  max-height:88mm!important;
+  flex:0 0 63mm!important;
+}
+
+/* Hand cards are also exactly 6.3 × 8.8 cm. */
+.hand-area .test-hand .test-card{
+  width:63mm!important;
+  height:88mm!important;
+  min-width:63mm!important;
+  min-height:88mm!important;
+  max-width:63mm!important;
+  max-height:88mm!important;
+  flex:0 0 63mm!important;
+}
