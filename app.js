@@ -225,8 +225,14 @@ function deleteDeckById(id){
   initDeck();
 }
 
+
+function getMainDeckCount(deck=currentDeck){
+  if(!deck) return 0;
+  return Object.values(deck.main||{}).reduce((sum,n)=>sum+(Number(n)||0),0);
+}
+
 function getCount(){
-  return Object.values(currentDeck.main||{}).reduce((a,b)=>a+b,0)
+  return getMainDeckCount(currentDeck)
     +(currentDeck.leader?1:0)
     +(currentDeck.zone?1:0)
     +((currentDeck.soulCores||[]).length);
@@ -425,6 +431,11 @@ function getPocketCount(deck=currentDeck){
 }
 
 function validateDeckBeforeSave(){
+  const mainCount=getMainDeckCount(currentDeck);
+  if(mainCount>50){
+    alert("ไม่สามารถบันทึก Deck ได้\n\nMAIN DECK มี "+mainCount+" ใบ\nสูงสุด 50 ใบ\n\nPocket และ Untimeat นับรวมใน 50 ใบนี้");
+    return false;
+  }
   const pocketCount=getPocketCount();
   const soulCoreCount=(currentDeck.soulCores||[]).length;
   if(soulCoreCount!==7){
@@ -552,6 +563,7 @@ function buildTestDeck(){
     if(!alreadyInMain) testStack.push(uid);
   }
 
+  testStack=testStack.slice(0,50);
   testStack.sort(()=>Math.random()-.5);
   testHand=[];testTomb=[];testTurn=0;
   testBoard={
