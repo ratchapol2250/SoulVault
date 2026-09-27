@@ -1,20 +1,20 @@
 const cards=[
-{id:"SA-001",name:"Varethorn",subtitle:"The Shadow Thief",type:"Character",rarity:"Legendary",element:"Void",cost:"6",ability:"เมื่อเข้าสู่สนาม สามารถเลือกการ์ด 1 ใบจากมือฝ่ายตรงข้ามและทำให้การ์ดนั้นถูกล็อกชั่วคราว",symbol:"V"},
-{id:"SA-002",name:"Draconic Fury",subtitle:"Wrath of the Dragon",type:"Action",rarity:"Epic",element:"Inferno",cost:"3",ability:"เพิ่มพลังโจมตีให้ตัวละครของคุณ และสร้างแรงกดดันต่อคู่ต่อสู้ในเทิร์นนี้",symbol:"D"},
-{id:"SA-003",name:"Soulvault",subtitle:"The Endless Archive",type:"Skill",rarity:"Rare",element:"Soul",cost:"2",ability:"เก็บการ์ด 1 ใบจากสุสานของคุณกลับมาไว้ในมือ",symbol:"S"},
-{id:"SA-004",name:"Azrakar",subtitle:"Keeper of the Red Core",type:"Character",rarity:"Legendary",element:"Red Core",cost:"7",ability:"เมื่อพลังชีวิตของคุณลดลงต่ำกว่าครึ่ง ความสามารถของ Azrakar จะทำงานทันที",symbol:"A"},
-{id:"SA-005",name:"Death Error",subtitle:"System Failure",type:"Skill",rarity:"Rare",element:"Void",cost:"4",ability:"ยกเลิกความสามารถที่กำลังทำงานของการ์ดเป้าหมาย 1 ใบ",symbol:"E"},
-{id:"SA-006",name:"Scarlet Night",subtitle:"Blood Moon Protocol",type:"Action",rarity:"Epic",element:"Crimson",cost:"4",ability:"เปลี่ยนสนามให้เข้าสู่สถานะ Scarlet Night และเพิ่มผลของการ์ดธาตุ Crimson",symbol:"N"},
-{id:"SA-007",name:"Core Shield",subtitle:"Relic Barrier",type:"Skill",rarity:"Common",element:"Relic",cost:"1",ability:"ป้องกันความเสียหายที่กำลังจะเกิดขึ้น 1 ครั้ง",symbol:"C"},
-{id:"SA-008",name:"Forbidden Relic",subtitle:"Artifact of the Lost",type:"Item",rarity:"Common",element:"Relic",cost:"2",ability:"ค้นหาการ์ด Relic จาก Deck แล้วนำขึ้นมือ 1 ใบ",symbol:"R"},
-{id:"SA-009",name:"Eclipse King",subtitle:"Leader of the Black Sun",type:"Leader",rarity:"Legendary",element:"Eclipse",cost:"8",ability:"Leader — กำหนดกฎพิเศษของ Deck และเพิ่มพลังให้การ์ด Eclipse",symbol:"K"},
-{id:"SA-010",name:"Land of Eternal Love",subtitle:"Forbidden Zone",type:"Zone",rarity:"Epic",element:"Mystic",cost:"0",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",symbol:"Z"},
-{id:"SA-011",name:"Neon Succubus",subtitle:"Temptation Protocol",type:"Character",rarity:"Epic",element:"Neon",cost:"5",ability:"เมื่อการ์ดนี้ทำงาน ให้เลือกการ์ดฝ่ายตรงข้าม 1 ใบและลดประสิทธิภาพของมัน",symbol:"N"},
-{id:"SA-012",name:"Relic Core",subtitle:"Ancient Power",type:"Item",rarity:"Rare",element:"Relic",cost:"2",ability:"ติดตั้งให้ Character 1 ใบเพื่อเพิ่มผลของความสามารถ",symbol:"C"},
-{id:"SA-013",name:"Soul Core Alpha",subtitle:"Origin of the Soul",type:"Soul Core",rarity:"Legendary",element:"Soul",cost:"0",ability:"Soul Core — แกนพลังประจำ Deck ใช้สำหรับกำหนดพลังเริ่มต้นของผู้เล่น",symbol:"SC"},
-{id:"SA-014",name:"Soul Core Eclipse",subtitle:"Black Soul Reactor",type:"Soul Core",rarity:"Epic",element:"Eclipse",cost:"0",ability:"Soul Core — เพิ่มผลของการ์ด Eclipse เมื่อถูกวางในสนาม",symbol:"SC"},
-{id:"SA-015",name:"Pocket Relic",subtitle:"Stored Artifact",type:"POCKET",rarity:"Rare",element:"Relic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ในพื้นที่ Pocket และเรียกใช้ในจังหวะที่กำหนด",symbol:"P"},
-{id:"SA-016",name:"Pocket Trick",subtitle:"Hidden Move",type:"POCKET",rarity:"Common",element:"Mystic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ใน Pocket เพื่อเตรียมใช้เป็นการกระทำพิเศษ",symbol:"P"}
+{id:"SA-001",set:"BT01",name:"Varethorn",subtitle:"The Shadow Thief",type:"Character",rarity:"Legendary",element:"Void",cost:"6",ability:"เมื่อเข้าสู่สนาม สามารถเลือกการ์ด 1 ใบจากมือฝ่ายตรงข้ามและทำให้การ์ดนั้นถูกล็อกชั่วคราว",symbol:"V"},
+{id:"SA-002",set:"BT01",name:"Draconic Fury",subtitle:"Wrath of the Dragon",type:"Action",rarity:"Epic",element:"Inferno",cost:"3",ability:"เพิ่มพลังโจมตีให้ตัวละครของคุณ และสร้างแรงกดดันต่อคู่ต่อสู้ในเทิร์นนี้",symbol:"D"},
+{id:"SA-003",set:"BT01",name:"Soulvault",subtitle:"The Endless Archive",type:"Skill",rarity:"Rare",element:"Soul",cost:"2",ability:"เก็บการ์ด 1 ใบจากสุสานของคุณกลับมาไว้ในมือ",symbol:"S"},
+{id:"SA-004",set:"BT01",name:"Azrakar",subtitle:"Keeper of the Red Core",type:"Character",rarity:"Legendary",element:"Red Core",cost:"7",ability:"เมื่อพลังชีวิตของคุณลดลงต่ำกว่าครึ่ง ความสามารถของ Azrakar จะทำงานทันที",symbol:"A"},
+{id:"SA-005",set:"BT01",name:"Death Error",subtitle:"System Failure",type:"Skill",rarity:"Rare",element:"Void",cost:"4",ability:"ยกเลิกความสามารถที่กำลังทำงานของการ์ดเป้าหมาย 1 ใบ",symbol:"E"},
+{id:"SA-006",set:"BT01",name:"Scarlet Night",subtitle:"Blood Moon Protocol",type:"Action",rarity:"Epic",element:"Crimson",cost:"4",ability:"เปลี่ยนสนามให้เข้าสู่สถานะ Scarlet Night และเพิ่มผลของการ์ดธาตุ Crimson",symbol:"N"},
+{id:"SA-007",set:"BT02",name:"Core Shield",subtitle:"Relic Barrier",type:"Skill",rarity:"Common",element:"Relic",cost:"1",ability:"ป้องกันความเสียหายที่กำลังจะเกิดขึ้น 1 ครั้ง",symbol:"C"},
+{id:"SA-008",set:"BT02",name:"Forbidden Relic",subtitle:"Artifact of the Lost",type:"Item",rarity:"Common",element:"Relic",cost:"2",ability:"ค้นหาการ์ด Relic จาก Deck แล้วนำขึ้นมือ 1 ใบ",symbol:"R"},
+{id:"SA-009",set:"BT02",name:"Eclipse King",subtitle:"Leader of the Black Sun",type:"Leader",rarity:"Legendary",element:"Eclipse",cost:"8",ability:"Leader — กำหนดกฎพิเศษของ Deck และเพิ่มพลังให้การ์ด Eclipse",symbol:"K"},
+{id:"SA-010",set:"BT02",name:"Land of Eternal Love",subtitle:"Forbidden Zone",type:"Zone",rarity:"Epic",element:"Mystic",cost:"0",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",symbol:"Z"},
+{id:"SA-011",set:"BT02",name:"Neon Succubus",subtitle:"Temptation Protocol",type:"Character",rarity:"Epic",element:"Neon",cost:"5",ability:"เมื่อการ์ดนี้ทำงาน ให้เลือกการ์ดฝ่ายตรงข้าม 1 ใบและลดประสิทธิภาพของมัน",symbol:"N"},
+{id:"SA-012",set:"BT03",name:"Relic Core",subtitle:"Ancient Power",type:"Item",rarity:"Rare",element:"Relic",cost:"2",ability:"ติดตั้งให้ Character 1 ใบเพื่อเพิ่มผลของความสามารถ",symbol:"C"},
+{id:"SA-013",set:"BT03",name:"Soul Core Alpha",subtitle:"Origin of the Soul",type:"Soul Core",rarity:"Legendary",element:"Soul",cost:"0",ability:"Soul Core — แกนพลังประจำ Deck ใช้สำหรับกำหนดพลังเริ่มต้นของผู้เล่น",symbol:"SC"},
+{id:"SA-014",set:"BT03",name:"Soul Core Eclipse",subtitle:"Black Soul Reactor",type:"Soul Core",rarity:"Epic",element:"Eclipse",cost:"0",ability:"Soul Core — เพิ่มผลของการ์ด Eclipse เมื่อถูกวางในสนาม",symbol:"SC"},
+{id:"SA-015",set:"BT03",name:"Pocket Relic",subtitle:"Stored Artifact",type:"POCKET",rarity:"Rare",element:"Relic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ในพื้นที่ Pocket และเรียกใช้ในจังหวะที่กำหนด",symbol:"P"},
+{id:"SA-016",set:"BT03",name:"Pocket Trick",subtitle:"Hidden Move",type:"POCKET",rarity:"Common",element:"Mystic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ใน Pocket เพื่อเตรียมใช้เป็นการกระทำพิเศษ",symbol:"P"}
 ];
 
 const rarityClass=r=>`rarity-${r.toLowerCase()}`;
@@ -22,8 +22,8 @@ const grid=document.querySelector("#grid"),search=document.querySelector("#searc
 document.querySelector("#totalCount").textContent=String(cards.length).padStart(2,"0");
 
 function render(){
- const q=search.value.toLowerCase().trim(), type=typeFilter.value, rarity=rarityFilter.value;
- const list=cards.filter(c=>(type==="All"||c.type===type)&&(rarity==="All"||c.rarity===rarity)&&[c.name,c.subtitle,c.type,c.element,c.ability].join(" ").toLowerCase().includes(q));
+ const q=search.value.toLowerCase().trim(), type=typeFilter.value, rarity=rarityFilter.value, set=(document.querySelector("#setFilter")?.value||"All");
+ const list=cards.filter(c=>(type==="All"||c.type===type)&&(rarity==="All"||c.rarity===rarity)&&(set==="All"||c.set===set)&&[c.name,c.subtitle,c.type,c.element,c.ability,c.set].join(" ").toLowerCase().includes(q));
  grid.innerHTML=list.map(c=>cardHTML(c,false)).join("");
  document.querySelector("#empty").classList.toggle("hidden",list.length!==0);
  document.querySelectorAll("#grid .card").forEach(el=>el.onclick=()=>openCard(cards.find(c=>c.id===el.dataset.id)));
@@ -31,7 +31,7 @@ function render(){
 function cardHTML(c,small=true){
  return `<article class="card ${small?'small-card':''}" data-id="${c.id}">
    <div class="card-art ${rarityClass(c.rarity)}"><div class="card-symbol">${c.symbol}</div><span class="rarity-orb">${c.rarity[0]}</span></div>
-   <div class="card-info"><div class="tag-row"><span class="tag">${c.type}</span><span class="tag rarity">${c.rarity}</span></div>
+   <div class="card-info"><div class="tag-row"><span class="tag">${c.type}</span><span class="tag rarity">${c.rarity}</span><span class="tag set-tag">${c.set||"BT01"}</span></div>
    <h3>${c.name}</h3><p>${c.subtitle}</p></div></article>`;
 }
 function openCard(c){
@@ -47,7 +47,7 @@ function openCard(c){
  document.querySelector("#modal").classList.remove("hidden");
 }
 function closeModal(){document.querySelector("#modal").classList.add("hidden")}
-search.oninput=render;typeFilter.onchange=render;rarityFilter.onchange=render;
+search.oninput=render;typeFilter.onchange=render;rarityFilter.onchange=render;document.querySelector("#setFilter").onchange=render;
 document.querySelector("#close").onclick=closeModal;
 document.querySelector("#modal").onclick=e=>{if(e.target.id==="modal")closeModal()};
 document.querySelector("#menuBtn").onclick=()=>document.querySelector(".sidebar").classList.toggle("open");
@@ -336,7 +336,8 @@ function renderPicker(){
   if(!currentDeck)return;
   const q=(document.querySelector("#deckSearch").value||"").toLowerCase();
   const t=document.querySelector("#deckTypeFilter").value;
-  const list=cards.filter(c=>(t==="All"||c.type===t)&&[c.name,c.subtitle,c.rarity,c.type].join(" ").toLowerCase().includes(q));
+  const s=(document.querySelector("#deckSetFilter")?.value||"All");
+  const list=cards.filter(c=>(t==="All"||c.type===t)&&(s==="All"||c.set===s)&&[c.name,c.subtitle,c.rarity,c.type,c.set].join(" ").toLowerCase().includes(q));
 
   document.querySelector("#pickerList").innerHTML=list.map(c=>{
     let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):c.type==="Soul Core"?((currentDeck.soulCores||[]).filter(x=>x===c.id).length):(currentDeck.main[c.id]||0);
@@ -435,7 +436,7 @@ document.querySelector("#coverBtn").onclick=openCoverPicker;
 document.querySelector("#closeCover").onclick=()=>document.querySelector("#coverModal").classList.add("hidden");
 document.querySelector("#coverModal").onclick=e=>{if(e.target.id==="coverModal")e.currentTarget.classList.add("hidden")};
 document.querySelector("#deckSearch").oninput=renderPicker;
-document.querySelector("#deckTypeFilter").onchange=renderPicker;
+document.querySelector("#deckTypeFilter").onchange=renderPicker;document.querySelector("#deckSetFilter").onchange=renderPicker;
 document.querySelector("#deckName").oninput=e=>{
   if(currentDeck){
     currentDeck.name=e.target.value;

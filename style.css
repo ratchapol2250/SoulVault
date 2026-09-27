@@ -803,3 +803,5 @@
 .supply-save{margin-top:16px;width:100%}
 @media(max-width:900px){.supply-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.supply-header{display:block}.supply-toolbar{display:block}.supply-search{width:100%;margin-top:10px}.supply-grid{grid-template-columns:1fr}}
 
+
+.set-tag{color:#d4b25e!important;border-color:#6b5228!important}#setFilter,#deckSetFilter{min-width:110px}
