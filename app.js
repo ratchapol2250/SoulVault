@@ -57,111 +57,267 @@ document.querySelectorAll(".nav").forEach(btn=>btn.onclick=()=>{
 
 /* ---------------- DECK BUILDER ---------------- */
 let decks=JSON.parse(localStorage.getItem("stealAreaDecks")||"[]");
+let currentDeckId=null;
 let currentDeck=null;
 
-function makeDeck(){
- currentDeck={id:"D"+Date.now(),name:"New Deck",cover:null,leader:null,zone:null,main:{}};
- decks.push(currentDeck);
- persistDecks(); initDeck();
-}
-function initDeck(){
- if(!currentDeck) currentDeck=decks[0]||null;
- const empty=document.querySelector("#deckEmpty"), work=document.querySelector("#deckWorkspace");
- if(!currentDeck){empty.classList.remove("hidden");work.classList.add("hidden");return}
- empty.classList.add("hidden");work.classList.remove("hidden");
- document.querySelector("#deckName").value=currentDeck.name;
- renderDeck();
-}
 function persistDecks(){localStorage.setItem("stealAreaDecks",JSON.stringify(decks))}
+
+function makeDeck(){
+  const d={
+    id:"D"+Date.now()+Math.random().toString(36).slice(2,6),
+    name:"New Deck",
+    cover:null,
+    leader:null,
+    zone:null,
+    main:{}
+  };
+  decks.push(d);
+  currentDeckId=d.id;
+  currentDeck=d;
+  persistDecks();
+  initDeck();
+}
+
+function selectDeck(id){
+  currentDeckId=id;
+  currentDeck=decks.find(d=>d.id===id)||null;
+  initDeck();
+}
+
+function initDeck(){
+  const empty=document.querySelector("#deckEmpty");
+  const library=document.querySelector("#deckLibrary");
+  const work=document.querySelector("#deckWorkspace");
+
+  if(!decks.length){
+    currentDeck=null;
+    currentDeckId=null;
+    empty.classList.remove("hidden");
+    library.classList.add("hidden");
+    work.classList.add("hidden");
+    return;
+  }
+
+  if(!currentDeck) {
+    currentDeck=decks[0];
+    currentDeckId=currentDeck.id;
+  }
+
+  empty.classList.add("hidden");
+  library.classList.remove("hidden");
+  work.classList.remove("hidden");
+
+  document.querySelector("#deckName").value=currentDeck.name;
+  renderDeckLibrary();
+  renderDeck();
+}
+
+function renderDeckLibrary(){
+  const box=document.querySelector("#deckCards");
+  box.innerHTML=decks.map(d=>{
+    const count=Object.values(d.main||{}).reduce((a,b)=>a+b,0)+(d.leader?1:0)+(d.zone?1:0);
+    const cover=cards.find(c=>c.id===d.cover);
+    const coverClass=cover?rarityClass(cover.rarity):"rarity-common";
+    const symbol=cover?cover.symbol:"SA";
+    const active=d.id===currentDeckId?" active":"";
+    return `<div class="deck-library-card${active}" data-deck="${d.id}">
+      <div class="library-cover ${coverClass}"><span>${symbol}</span></div>
+      <div class="library-info">
+        <h4>${escapeHtml(d.name||"New Deck")}</h4>
+        <div><span>${count} CARDS</span><span>${d.leader?"LEADER ✓":"NO LEADER"}</span><span>${d.zone?"ZONE ✓":"NO ZONE"}</span></div>
+      </div>
+      <button class="library-delete" data-delete="${d.id}" title="Delete Deck">×</button>
+    </div>`;
+  }).join("");
+
+  box.querySelectorAll(".deck-library-card").forEach(el=>{
+    el.onclick=(e)=>{
+      if(e.target.closest(".library-delete"))return;
+      selectDeck(el.dataset.deck);
+    };
+  });
+  box.querySelectorAll(".library-delete").forEach(btn=>{
+    btn.onclick=(e)=>{
+      e.stopPropagation();
+      deleteDeckById(btn.dataset.delete);
+    };
+  });
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function deleteDeckById(id){
+  const d=decks.find(x=>x.id===id);
+  if(!d)return;
+  if(!confirm(`ลบ Deck "${d.name}" ใช่หรือไม่?`))return;
+  decks=decks.filter(x=>x.id!==id);
+  if(currentDeckId===id){
+    currentDeck=decks[0]||null;
+    currentDeckId=currentDeck?.id||null;
+  }
+  persistDecks();
+  initDeck();
+}
+
 function getCount(){
- return Object.values(currentDeck.main||{}).reduce((a,b)=>a+b,0)+(currentDeck.leader?1:0)+(currentDeck.zone?1:0);
+  return Object.values(currentDeck.main||{}).reduce((a,b)=>a+b,0)+(currentDeck.leader?1:0)+(currentDeck.zone?1:0);
 }
+
 function addToDeck(id){
- const c=cards.find(x=>x.id===id); if(!c)return;
- if(c.type==="Leader"){
-   if(currentDeck.leader===c.id)return alert("Leader ได้สูงสุด 1 ใบ");
-   currentDeck.leader=c.id;
- }else if(c.type==="Zone"){
-   if(currentDeck.zone===c.id)return alert("Zone ได้สูงสุด 1 ใบ");
-   currentDeck.zone=c.id;
- }else{
-   const n=currentDeck.main[c.id]||0;
-   if(n>=3)return alert("การ์ดใบนี้ใส่ได้สูงสุด 3 ใบ");
-   currentDeck.main[c.id]=n+1;
- }
- renderDeck();
+  const c=cards.find(x=>x.id===id);
+  if(!c||!currentDeck)return;
+
+  if(c.type==="Leader"){
+    if(currentDeck.leader===c.id)return;
+    if(currentDeck.leader)return alert("Leader ได้สูงสุด 1 ใบ");
+    currentDeck.leader=c.id;
+  }else if(c.type==="Zone"){
+    if(currentDeck.zone===c.id)return;
+    if(currentDeck.zone)return alert("Zone ได้สูงสุด 1 ใบ");
+    currentDeck.zone=c.id;
+  }else{
+    const n=currentDeck.main[c.id]||0;
+    if(n>=3)return alert("การ์ดใบนี้ใส่ได้สูงสุด 3 ใบ");
+    currentDeck.main[c.id]=n+1;
+  }
+  persistDecks();
+  renderDeck();
+  renderDeckLibrary();
 }
+
 function removeFromDeck(id,type){
- if(type==="Leader")currentDeck.leader=null;
- else if(type==="Zone")currentDeck.zone=null;
- else{
-   if(!currentDeck.main[id])return;
-   currentDeck.main[id]--;
-   if(currentDeck.main[id]<=0)delete currentDeck.main[id];
- }
- renderDeck();
+  if(!currentDeck)return;
+  if(type==="Leader")currentDeck.leader=null;
+  else if(type==="Zone")currentDeck.zone=null;
+  else{
+    if(!currentDeck.main[id])return;
+    currentDeck.main[id]--;
+    if(currentDeck.main[id]<=0)delete currentDeck.main[id];
+  }
+  persistDecks();
+  renderDeck();
+  renderDeckLibrary();
 }
+
 function renderDeck(){
- document.querySelector("#deckCount").textContent=getCount();
- document.querySelector("#leaderCount").textContent=(currentDeck.leader?1:0)+"/1";
- document.querySelector("#zoneCount").textContent=(currentDeck.zone?1:0)+"/1";
- document.querySelector("#deckName").value=currentDeck.name;
+  if(!currentDeck)return;
+  document.querySelector("#deckCount").textContent=getCount();
+  document.querySelector("#leaderCount").textContent=(currentDeck.leader?1:0)+"/1";
+  document.querySelector("#zoneCount").textContent=(currentDeck.zone?1:0)+"/1";
+  document.querySelector("#deckName").value=currentDeck.name;
 
- const leader=cards.find(c=>c.id===currentDeck.leader), zone=cards.find(c=>c.id===currentDeck.zone);
- document.querySelector("#leaderSlot").innerHTML=leader?specialHTML(leader,"Leader"):`<div class="empty-slot">＋ ADD LEADER</div>`;
- document.querySelector("#zoneSlot").innerHTML=zone?specialHTML(zone,"Zone"):`<div class="empty-slot">＋ ADD ZONE</div>`;
- if(leader)document.querySelector("#leaderSlot .remove-card").onclick=()=>removeFromDeck(leader.id,"Leader");
- if(zone)document.querySelector("#zoneSlot .remove-card").onclick=()=>removeFromDeck(zone.id,"Zone");
+  const leader=cards.find(c=>c.id===currentDeck.leader);
+  const zone=cards.find(c=>c.id===currentDeck.zone);
 
- const entries=Object.entries(currentDeck.main);
- document.querySelector("#deckList").innerHTML=entries.length?entries.map(([id,n])=>{
-   const c=cards.find(x=>x.id===id); return `<div class="deck-row"><div class="mini-art ${rarityClass(c.rarity)}">${c.symbol}</div><div class="row-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div><div class="qty"><button onclick="removeFromDeck('${c.id}','Main')">−</button><b>${n}</b><button onclick="addToDeck('${c.id}')">＋</button></div></div>`;
- }).join(""):`<div class="empty-main">ยังไม่มีการ์ดใน Main Deck</div>`;
- renderPicker();
- updateCover();
+  document.querySelector("#leaderSlot").innerHTML=leader?specialHTML(leader,"Leader"):`<div class="empty-slot">＋ ADD LEADER</div>`;
+  document.querySelector("#zoneSlot").innerHTML=zone?specialHTML(zone,"Zone"):`<div class="empty-slot">＋ ADD ZONE</div>`;
+
+  if(leader)document.querySelector("#leaderSlot .remove-card").onclick=()=>removeFromDeck(leader.id,"Leader");
+  if(zone)document.querySelector("#zoneSlot .remove-card").onclick=()=>removeFromDeck(zone.id,"Zone");
+
+  const entries=Object.entries(currentDeck.main);
+  document.querySelector("#deckList").innerHTML=entries.length?entries.map(([id,n])=>{
+    const c=cards.find(x=>x.id===id);
+    return `<div class="deck-row">
+      <div class="mini-art ${rarityClass(c.rarity)}">${c.symbol}</div>
+      <div class="row-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
+      <div class="qty"><button onclick="removeFromDeck('${c.id}','Main')">−</button><b>${n}</b><button onclick="addToDeck('${c.id}')">＋</button></div>
+    </div>`;
+  }).join(""):`<div class="empty-main">ยังไม่มีการ์ดใน Main Deck</div>`;
+
+  renderPicker();
+  updateCover();
+  renderDeckLibrary();
 }
+
 function specialHTML(c,label){
- return `<div class="special-card"><div class="special-art ${rarityClass(c.rarity)}">${c.symbol}</div><div><b>${c.name}</b><small>${label} · ${c.rarity}</small></div><button class="remove-card">×</button></div>`;
+  return `<div class="special-card">
+    <div class="special-art ${rarityClass(c.rarity)}">${c.symbol}</div>
+    <div><b>${c.name}</b><small>${label} · ${c.rarity}</small></div>
+    <button class="remove-card">×</button>
+  </div>`;
 }
+
 function renderPicker(){
- const q=(document.querySelector("#deckSearch").value||"").toLowerCase(), t=document.querySelector("#deckTypeFilter").value;
- const list=cards.filter(c=>(t==="All"||c.type===t)&&[c.name,c.subtitle,c.rarity,c.type].join(" ").toLowerCase().includes(q));
- document.querySelector("#pickerList").innerHTML=list.map(c=>{
-   let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):(currentDeck.main[c.id]||0);
-   let limit=c.type==="Leader"||c.type==="Zone"?1:3;
-   return `<div class="picker-row"><div class="picker-art ${rarityClass(c.rarity)}">${c.symbol}</div><div class="picker-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div><div class="picker-qty">${qty}/${limit}</div><button ${qty>=limit?"disabled":""} onclick="addToDeck('${c.id}')">＋</button></div>`;
- }).join("");
+  if(!currentDeck)return;
+  const q=(document.querySelector("#deckSearch").value||"").toLowerCase();
+  const t=document.querySelector("#deckTypeFilter").value;
+  const list=cards.filter(c=>(t==="All"||c.type===t)&&[c.name,c.subtitle,c.rarity,c.type].join(" ").toLowerCase().includes(q));
+
+  document.querySelector("#pickerList").innerHTML=list.map(c=>{
+    let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):(currentDeck.main[c.id]||0);
+    let limit=c.type==="Leader"||c.type==="Zone"?1:3;
+    return `<div class="picker-row">
+      <div class="picker-art ${rarityClass(c.rarity)}">${c.symbol}</div>
+      <div class="picker-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
+      <div class="picker-qty">${qty}/${limit}</div>
+      <button ${qty>=limit?"disabled":""} onclick="addToDeck('${c.id}')">＋</button>
+    </div>`;
+  }).join("");
 }
+
 function updateCover(){
- const c=cards.find(x=>x.id===currentDeck.cover);
- const cover=document.querySelector("#deckCover");
- if(c){cover.className=`deck-cover ${rarityClass(c.rarity)}`;document.querySelector("#coverSymbol").textContent=c.symbol}
- else {cover.className="deck-cover rarity-common";document.querySelector("#coverSymbol").textContent="SA"}
+  const c=cards.find(x=>x.id===currentDeck.cover);
+  const cover=document.querySelector("#deckCover");
+  if(c){
+    cover.className=`deck-cover ${rarityClass(c.rarity)}`;
+    document.querySelector("#coverSymbol").textContent=c.symbol;
+  }else{
+    cover.className="deck-cover rarity-common";
+    document.querySelector("#coverSymbol").textContent="SA";
+  }
 }
+
 function openCoverPicker(){
- document.querySelector("#coverGrid").innerHTML=cards.map(c=>`<button class="cover-option ${rarityClass(c.rarity)}" onclick="chooseCover('${c.id}')"><span>${c.symbol}</span><b>${c.name}</b><small>${c.rarity}</small></button>`).join("");
- document.querySelector("#coverModal").classList.remove("hidden");
+  document.querySelector("#coverGrid").innerHTML=cards.map(c=>
+    `<button class="cover-option ${rarityClass(c.rarity)}" onclick="chooseCover('${c.id}')">
+      <span>${c.symbol}</span><b>${c.name}</b><small>${c.rarity}</small>
+    </button>`
+  ).join("");
+  document.querySelector("#coverModal").classList.remove("hidden");
 }
-function chooseCover(id){currentDeck.cover=id;persistDecks();updateCover();document.querySelector("#coverModal").classList.add("hidden")}
+
+function chooseCover(id){
+  currentDeck.cover=id;
+  persistDecks();
+  updateCover();
+  renderDeckLibrary();
+  document.querySelector("#coverModal").classList.add("hidden");
+}
+
 function saveDeck(){
- currentDeck.name=(document.querySelector("#deckName").value.trim()||"New Deck");
- const i=decks.findIndex(d=>d.id===currentDeck.id); if(i>=0)decks[i]=currentDeck; else decks.push(currentDeck);
- persistDecks(); alert("บันทึก Deck แล้ว");
+  if(!currentDeck)return;
+  currentDeck.name=(document.querySelector("#deckName").value.trim()||"New Deck");
+  const i=decks.findIndex(d=>d.id===currentDeck.id);
+  if(i>=0)decks[i]=currentDeck;
+  persistDecks();
+  renderDeckLibrary();
+  alert("บันทึก Deck แล้ว");
 }
-function deleteDeck(){
- if(!confirm("ลบ Deck นี้ใช่หรือไม่?"))return;
- decks=decks.filter(d=>d.id!==currentDeck.id);currentDeck=decks[0]||null;persistDecks();initDeck();
+
+function deleteCurrentDeck(){
+  if(currentDeck)deleteDeckById(currentDeck.id);
 }
+
 document.querySelector("#newDeckBtn").onclick=makeDeck;
 document.querySelector("#newDeckBtn2").onclick=makeDeck;
+document.querySelector("#libraryNewDeck").onclick=makeDeck;
 document.querySelector("#saveDeckBtn").onclick=saveDeck;
-document.querySelector("#deleteDeckBtn").onclick=deleteDeck;
+document.querySelector("#deleteDeckBtn").onclick=deleteCurrentDeck;
 document.querySelector("#coverBtn").onclick=openCoverPicker;
 document.querySelector("#closeCover").onclick=()=>document.querySelector("#coverModal").classList.add("hidden");
 document.querySelector("#coverModal").onclick=e=>{if(e.target.id==="coverModal")e.currentTarget.classList.add("hidden")};
 document.querySelector("#deckSearch").oninput=renderPicker;
 document.querySelector("#deckTypeFilter").onchange=renderPicker;
-document.querySelector("#deckName").oninput=e=>{currentDeck.name=e.target.value};
+document.querySelector("#deckName").oninput=e=>{
+  if(currentDeck){
+    currentDeck.name=e.target.value;
+    persistDecks();
+    renderDeckLibrary();
+  }
+};
 
 render();
 initDeck();
