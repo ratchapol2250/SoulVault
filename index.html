@@ -3,26 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STEAL AREA — Card Roster</title>
+  <title>STEAL AREA — รายการการ์ด</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="languageSwitch" class="language-switch" aria-label="Language">
-    <button type="button" data-lang="th" class="lang-btn active">TH</button>
-    <span class="lang-divider">|</span>
-    <button type="button" data-lang="en" class="lang-btn">EN</button>
-  </div>
-  <aside class="sidebar">
+<aside class="sidebar">
     <div class="brand">
       <div class="brand-mark">SA</div>
       <div><b>STEAL AREA</b><small>TACTICAL CARD DATABASE</small></div>
     </div>
     <nav>
-      <button class="nav" data-section="roster">◈ <span data-i18n="nav.cards">Card Roster</span></button>
-      <button class="nav" data-section="collection">▣ <span data-i18n="nav.collection">Collection</span></button>
-      <button class="nav active" data-section="deck">◇ <span data-i18n="nav.deck">Deck Builder</span></button>
-      <button class="nav" data-section="drawtest">♢ <span data-i18n="nav.draw">Draw Test</span></button>
-      <button class="nav" data-section="supply">▤ <span data-i18n="nav.supply">Supply</span></button>
+      <button class="nav" data-section="roster">◈ <span>รายการการ์ด</span></button>
+      <button class="nav" data-section="collection">▣ <span>คอลเลกชัน</span></button>
+      <button class="nav active" data-section="deck">◇ <span>สร้างเด็ค</span></button>
+      <button class="nav" data-section="drawtest">♢ <span>ทดลองจั่ว</span></button>
+      <button class="nav" data-section="supply">▤ <span>อุปกรณ์เสริม</span></button>
     </nav>
     <div class="sidebar-bottom">
       <div class="version">STEAL AREA v1.0</div>
@@ -34,7 +29,7 @@
       <button class="mobile-menu" id="menuBtn">☰</button>
       <div>
         <div class="eyebrow">DATABASE / ROSTER</div>
-        <h1>Card Roster</h1>
+        <h1>รายการการ์ด</h1>
       </div>
       <div class="stats"><span id="totalCount">08</span> CARDS</div>
     </header>
@@ -52,14 +47,14 @@
       <div class="toolbar">
         <div class="search-wrap"><span>⌕</span><input id="search" placeholder="Search cards, characters, abilities..."></div>
         <select id="typeFilter">
-          <option value="All">ALL TYPES</option>
+          <option value="All">ทั้งหมด TYPES</option>
           <option value="Character">CHARACTER</option>
           <option value="Skill">SKILL</option>
           <option value="Action">ACTION</option>
           <option value="Item">ITEM</option>
         </select>
         <select id="rarityFilter">
-          <option value="All">ALL RARITY</option>
+          <option value="All">ทั้งหมด RARITY</option>
           <option value="Legendary">LEGENDARY</option>
           <option value="Epic">EPIC</option>
           <option value="Rare">RARE</option>
@@ -72,14 +67,14 @@
     </section>
 
     <section id="collection" class="section">
-      <div class="placeholder"><span>▣</span><h2>Collection</h2><p>พื้นที่สำหรับระบบ Collection ของผู้เล่น</p></div>
+      <div class="placeholder"><span>▣</span><h2>คอลเลกชัน</h2><p>พื้นที่สำหรับระบบ คอลเลกชัน ของผู้เล่น</p></div>
     </section>
 
     <section id="deck" class="section active-section">
       <div class="deck-header">
         <div>
           <div class="eyebrow">DECK CONSTRUCTION</div>
-          <h2>Deck Builder</h2>
+          <h2>สร้างเด็ค</h2>
           <p>สร้างเด็ค เลือก Leader / Zone / การ์ด และกำหนดหน้าปกได้ตามต้องการ</p>
         </div>
         <button class="gold-btn" id="newDeckBtn">＋ NEW DECK</button>
@@ -142,7 +137,7 @@
             <div class="picker-title">ADD CARDS</div>
             <input id="deckSearch" placeholder="ค้นหาการ์ด...">
             <select id="deckTypeFilter">
-              <option value="All">ALL TYPES</option>
+              <option value="All">ทั้งหมด TYPES</option>
               <option value="Character">CHARACTER</option>
               <option value="Skill">SKILL</option>
               <option value="Action">ACTION</option>
@@ -218,35 +213,35 @@
       <div class="supply-header">
         <div>
           <div class="eyebrow">SUPPLY</div>
-          <h1 data-i18n="supply.title">Playmat & Sleeve</h1>
-          <p data-i18n="supply.subtitle">รวมอุปกรณ์เสริมสำหรับ STEAL AREA</p>
+          <h1>เพลย์แมตและซองการ์ด</h1>
+          <p>รวมอุปกรณ์เสริมสำหรับ STEAL AREA</p>
         </div>
       </div>
       <div class="supply-toolbar">
         <div class="supply-tabs">
-          <button class="supply-tab active" data-supply-filter="ALL" data-i18n="supply.all">ALL</button>
-          <button class="supply-tab" data-supply-filter="PLAYMAT" data-i18n="supply.playmat">PLAYMAT</button>
-          <button class="supply-tab" data-supply-filter="SLEEVE" data-i18n="supply.sleeve">SLEEVE</button>
+          <button class="supply-tab active" data-supply-filter="ทั้งหมด">ทั้งหมด</button>
+          <button class="supply-tab" data-supply-filter="เพลย์แมต">เพลย์แมต</button>
+          <button class="supply-tab" data-supply-filter="ซองการ์ด">ซองการ์ด</button>
         </div>
-        <input id="supplySearch" class="supply-search" type="text" data-i18n-placeholder="supply.search" placeholder="ค้นหา Playmat / Sleeve...">
+        <input id="supplySearch" class="supply-search" type="text" placeholder="ค้นหาเพลย์แมต / ซองการ์ด...">
       </div>
       <div id="supplyGrid" class="supply-grid"></div>
       <div id="supplyEmpty" class="supply-empty hidden">
-        <div>◇</div><h3>ยังไม่มี Supply</h3><p>กด ADD SUPPLY เพื่อเพิ่ม Playmat หรือ Sleeve</p>
+        <div>◇</div><h3>ยังไม่มี อุปกรณ์เสริม</h3><p>กด เพิ่มอุปกรณ์เสริม เพื่อเพิ่ม Playmat หรือ Sleeve</p>
       </div>
       <div id="supplyModal" class="supply-modal hidden">
         <div class="supply-modal-box">
           <button class="supply-close" id="supplyClose">×</button>
-          <div class="eyebrow">NEW SUPPLY</div>
+          <div class="eyebrow">เพิ่มอุปกรณ์เสริม</div>
           <h2>เพิ่ม Playmat / Sleeve</h2>
           <div class="supply-form">
-            <label>ประเภท<select id="supplyType"><option value="PLAYMAT">PLAYMAT</option><option value="SLEEVE">SLEEVE</option></select></label>
+            <label>ประเภท<select id="supplyType"><option value="เพลย์แมต">เพลย์แมต</option><option value="ซองการ์ด">ซองการ์ด</option></select></label>
             <label>ชื่อ<input id="supplyName" placeholder="เช่น Crimson Night"></label>
             <label>รูปภาพ URL<input id="supplyImage" placeholder="https://..."></label>
-            <label>รายละเอียด<textarea id="supplyDesc" rows="3" placeholder="รายละเอียดของ Supply"></textarea></label>
+            <label>รายละเอียด<textarea id="supplyDesc" rows="3" placeholder="รายละเอียดของ อุปกรณ์เสริม"></textarea></label>
             <label>ราคา<input id="supplyPrice" placeholder="เช่น 590"></label>
           </div>
-          <button class="gold-btn supply-save" id="saveSupplyBtn">SAVE SUPPLY</button>
+          <button class="gold-btn supply-save" id="saveอุปกรณ์เสริมBtn">บันทึกอุปกรณ์เสริม</button>
         </div>
       </div>
     </section>

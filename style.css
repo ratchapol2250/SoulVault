@@ -803,28 +803,3 @@
 .supply-save{margin-top:16px;width:100%}
 @media(max-width:900px){.supply-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.supply-header{display:block}.supply-toolbar{display:block}.supply-search{width:100%;margin-top:10px}.supply-grid{grid-template-columns:1fr}}
 
-/* ===== VISIBLE LANGUAGE SWITCHER ===== */
-#languageSwitch{
-  position:fixed!important;
-  top:14px!important;
-  right:18px!important;
-  z-index:999999!important;
-  display:flex!important;
-  align-items:center!important;
-  gap:2px!important;
-  padding:4px 6px!important;
-  background:#0b0b0b!important;
-  border:1px solid #8b6b32!important;
-  box-shadow:0 3px 14px rgba(0,0,0,.55)!important;
-}
-#languageSwitch .lang-btn{
-  display:block!important;
-  border:0!important;
-  background:transparent!important;
-  color:#777!important;
-  padding:6px 8px!important;
-  cursor:pointer!important;
-  font:bold 11px Arial,sans-serif!important;
-}
-#languageSwitch .lang-btn.active{color:#d4b25e!important}
-#languageSwitch .lang-divider{color:#55452a!important}
