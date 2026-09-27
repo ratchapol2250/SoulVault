@@ -47,103 +47,135 @@
 @media(max-width:900px){.deck-cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.deck-cards{grid-template-columns:1fr}.library-cover{width:58px;height:76px}.library-info h4{font-size:13px}}
 
-/* ===== PLAYTEST ===== */
+/* ===== PLAYTEST — EXACT REFERENCE PLAYMAT ===== */
 .draw-header{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:15px}
-.draw-header h2{font:600 31px Cinzel;margin:6px 0}.draw-header p{font-size:12px;color:var(--muted)}
-.draw-controls{display:flex;gap:6px;flex-wrap:wrap}.draw-controls select{background:#101010;color:#ccc;border:1px solid #322b20;padding:10px 12px;min-width:170px}
+.draw-header h2{font:600 31px Cinzel;margin:6px 0}
+.draw-header p{font-size:12px;color:var(--muted)}
+.draw-controls{display:flex;gap:6px;flex-wrap:wrap}
+.draw-controls select{background:#101010;color:#ccc;border:1px solid #322b20;padding:10px 12px;min-width:170px}
 .playtest-info{display:flex;gap:20px;flex-wrap:wrap;border:1px solid #28231a;background:#101010;padding:10px 14px;margin-bottom:12px;font-size:9px;color:#716b62;letter-spacing:1px}
 .playtest-info b{color:var(--gold2);font-size:11px}
 
-/* Reference playmat: 2048 × 1194, positions mapped directly from the supplied image. */
+/* The supplied playmat is the actual visual base.
+   2048 × 1194 = exact reference aspect ratio. */
 .playmat{
   position:relative;
   width:100%;
   aspect-ratio:2048 / 1194;
   min-height:0;
-  background:#f8f8f6;
-  border:1px solid #cfcfcf;
-  overflow:hidden;
   padding:0;
+  overflow:hidden;
+  border:0;
+  background:#fff url("assets/playmat-reference.jpg") center center / 100% 100% no-repeat;
 }
 .playmat:before{display:none}
 
-.mat-slot{position:absolute;display:block;align-items:unset;justify-content:unset}
-.slot-title{
-  position:absolute;top:auto;left:0;right:0;
-  font-size:0;letter-spacing:0;color:transparent;
+/* Transparent overlay zones: their only job is to receive real cards. */
+.mat-slot{
+  position:absolute;
+  display:block;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
 }
+.slot-title{display:none}
 
-/* Each mat-card fills its slot exactly like a physical card zone. */
-.mat-card{position:absolute;inset:0;width:100%;height:100%}
+/* Exact zones measured from the 2048 × 1194 reference image. */
+.energy-slot{left:1.758%;top:.921%;width:10.449%;height:25.377%}
+.soul1{left:35.059%;top:0;width:14.648%;height:5.779%}
+.soul2{left:50.146%;top:0;width:14.697%;height:5.779%}
 
-/* Left ENERGY */
-.energy-slot{left:1.37%;top:1.34%;width:8.15%;height:19.43%;background:#ffd900}
-.energy-slot:after{content:"ENERGY";position:absolute;inset:0;display:grid;place-items:center;font:600 2.4vw Cinzel;color:#111;writing-mode:vertical-rl;transform:rotate(180deg);pointer-events:none}
+.c1{left:33.691%;top:11.474%;width:10.645%;height:19.430%}
+.c2{left:55.762%;top:11.809%;width:10.645%;height:19.513%}
+.leader-slot{left:44.824%;top:17.504%;width:10.156%;height:19.430%;transform:none}
+.c3{left:22.900%;top:31.993%;width:10.693%;height:19.430%}
+.c4{left:66.699%;top:31.490%;width:10.645%;height:19.598%}
+.zone-slot{left:44.824%;top:37.604%;width:10.156%;height:19.262%;transform:none}
 
-/* Soul Core ×2 at the top center */
-.soul1{left:27.29%;top:0;width:11.28%;height:5.78%}
-.soul2{left:39.11%;top:0;width:11.28%;height:5.78%}
+/* U / Deck / Tomb are already drawn by the reference image. */
+.unit-label{left:80.908%;top:2.345%;width:11.230%;height:13.400%;background:transparent!important;color:transparent!important;font-size:0!important}
+.unit-label:after{display:none!important}
 
-/* Unit slot at upper-right */
-.unit-label{
-  left:62.89%;right:auto;top:2.35%;
-  width:11.38%;height:13.89%;
-  background:#6a2b75;
-  color:transparent;
-  writing-mode:initial;
-  letter-spacing:0;
-  font-size:0;
+.deck-pile{left:84.766%;top:17.001%;width:7.373%;height:19.430%;right:auto}
+.tomb-pile{left:84.766%;top:37.688%;width:7.373%;height:19.430%;right:auto}
+.mat-pile{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:transparent!important;
+  cursor:pointer;
 }
-.unit-label:after{content:"U";position:absolute;inset:0;display:grid;place-items:center;font:600 2.5vw Cinzel;color:#080808}
+.mat-pile span,.mat-pile b{display:none}
 
-/* Main character layout */
-.c1{left:26.22%;top:11.47%;width:8.11%;height:19.43%}
-.c2{left:43.31%;top:11.81%;width:8.06%;height:19.51%}
-.leader-slot{left:34.77%;top:17.42%;width:8.11%;height:19.43%;transform:none}
-.c3{left:17.92%;top:32.08%;width:8.11%;height:19.43%}
-.c4{left:51.90%;top:31.66%;width:8.06%;height:19.51%}
-.zone-slot{left:34.77%;top:37.69%;width:8.11%;height:19.51%;transform:none}
-
-/* Deck / Tomb on right */
-.deck-pile{right:auto;left:66.11%;top:17.09%;width:8.11%;height:19.43%}
-.tomb-pile{right:auto;left:66.11%;top:37.69%;width:8.11%;height:19.35%}
-.mat-pile{border:0;border-radius:0;background:#748aa2;box-shadow:none;display:grid;place-content:center;text-align:center;cursor:pointer}
-.mat-pile span{font:600 1.9vw Cinzel;color:#111}.mat-pile b{font-size:9px;color:#111;margin-top:5px}
-.deck-pile:after{content:"";position:absolute;inset:0;border:0}
-.tomb-pile:after{content:"";position:absolute;inset:0;border:0}
-
-/* Pocket is the large bottom-left rectangle */
+/* Pocket is already painted in the reference image. */
 .pocket-area{
-  position:absolute;left:1.37%;right:auto;top:57.54%;bottom:auto;
-  width:64.31%;height:19.35%;
-  border:0;background:#72a1d2;
-  display:block;padding:0;
+  left:1.758%;top:57.454%;width:84.766%;height:19.430%;
+  right:auto;bottom:auto;
+  border:0!important;
+  background:transparent!important;
+  padding:0;
+  display:block;
 }
-.pocket-title{position:absolute;inset:0;display:grid;place-items:center;font:600 3.1vw Cinzel;color:#111;margin:0}
-.pocket-area #pocketCards{position:absolute;left:1%;right:1%;top:7%;bottom:7%;height:auto;display:flex;gap:6px;justify-content:flex-start;align-items:center;overflow:hidden}
-.pocket-area .test-card{width:6%;height:86%;flex:0 0 auto}
-
-/* Physical card appearance in the playmat */
-.test-card{
-  width:100%;height:100%;
-  border:0;
-  border-radius:0;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  background:#a91d23;
-  box-shadow:none;
+.pocket-title{display:none!important}
+.pocket-area #pocketCards{
+  position:absolute;
+  inset:5% 1% 5% 1%;
+  height:auto;
+  display:flex;
+  gap:6px;
+  align-items:center;
   overflow:hidden;
 }
-.test-card span{font:700 3.2vw Cinzel;color:#050505;text-shadow:none}
-.test-card b{font-size:8px;color:#111;padding:4px 4px 0}.test-card small{font-size:7px;color:#111}
-.clickable{cursor:pointer}
-.test-hand .test-card{cursor:pointer;transition:.15s}
+.pocket-area .test-card{
+  width:5.5%;
+  height:90%;
+  flex:0 0 auto;
+}
 
-/* Match the simple flat color language of the supplied playmat reference. */
-.soul-slot .test-card{background:#b7952c!important}
-.leader-slot .test-card,.zone-slot .test-card{background:#b7952c!important}
-.char-slot .test-card{background:#a91d23!important}
-.unit-label .test-card{background:transparent!important}
-.energy-slot .mat-card{background:transparent!important}
+/* Real cards cover the placeholder art only when a card is actually present. */
+.mat-card{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+.test-card{
+  width:100%;
+  height:100%;
+  border:1px solid rgba(40,30,10,.65);
+  border-radius:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  box-shadow:0 3px 8px #0005;
+  overflow:hidden;
+}
+.test-card span{font:700 2.4vw Cinzel;color:#111;text-shadow:none}
+.test-card b{font-size:8px;color:#111;padding:4px}
+.test-card small{font-size:7px;color:#111}
+.test-card.clickable{cursor:pointer}
+.test-hand .test-card{cursor:pointer;transition:.15s}
+.test-hand .test-card:hover{transform:translateY(-12px)}
+
+.hand-area{
+  position:absolute;
+  left:4%;right:4%;bottom:20px;
+  min-height:125px;
+  border-top:1px solid #3c3528;
+  padding-top:9px;
+}
+.hand-title{font:600 10px Cinzel;color:#9c8c69;letter-spacing:1.5px}
+.hand-title small{font:normal 8px Inter;color:#615c53;margin-left:8px}
+.test-hand{display:flex;justify-content:center;gap:7px;margin-top:8px;min-height:100px}
+.hand-empty{color:#514d46;font-size:10px;align-self:center;padding-top:35px}
+
+/* Rarity remains available for real cards placed over the zones. */
+.rarity-legendary{background:radial-gradient(circle at 50% 30%,#a06c1b,#38250e 36%,#090909 75%)!important}
+.rarity-epic{background:radial-gradient(circle at 50% 30%,#693a91,#241334 38%,#090909 75%)!important}
+.rarity-rare{background:radial-gradient(circle at 50% 30%,#235f91,#11243a 38%,#090909 75%)!important}
+.rarity-common{background:radial-gradient(circle at 50% 30%,#626262,#292929 38%,#090909 75%)!important}
 @media(max-width:900px){.playmat{min-height:690px}.mat-card,.soul1,.soul2,.char-slot,.leader-slot,.zone-slot{width:72px;height:100px}.test-card{font-size:7px}.c1{left:18%}.c2{left:33%}.c3{left:56%}.c4{left:71%}.deck-pile,.tomb-pile{right:12px;width:70px;height:100px}.energy-slot{left:12px;width:70px}.pocket-area{bottom:145px}.hand-area{bottom:12px}}
 @media(max-width:650px){.draw-header{display:block}.draw-controls{margin-top:12px}.playmat{min-width:720px}.playtest-wrap{overflow:auto}.playmat{transform-origin:top left}.section#drawtest{overflow-x:auto}.playtest-info{min-width:720px}.playtest-help{min-width:720px}}
 
@@ -164,6 +196,17 @@
 }
 @media(max-width:650px){
   .draw-header{display:block}.draw-controls{margin-top:12px}
+  .section#drawtest{overflow-x:auto}
+  .playmat{min-width:760px}
+  .playtest-info{min-width:760px}
+  .playtest-help{min-width:760px}
+}
+
+@media(max-width:900px){
+  .playmat{min-width:760px}
+  .playtest-info{min-width:760px}
+}
+@media(max-width:650px){
   .section#drawtest{overflow-x:auto}
   .playmat{min-width:760px}
   .playtest-info{min-width:760px}
