@@ -383,3 +383,54 @@
   overflow:hidden!important;
 }
 .unit-slot .mat-card:empty{display:none}
+
+/* ===== ORIENTATION / CARD SIZE ===== */
+/* Soul Core cards use the exact dimensions of the two horizontal Soul Core slots. */
+.playmat .soul1 > .mat-card,
+.playmat .soul2 > .mat-card{
+  width:100%!important;
+  height:100%!important;
+}
+.playmat .soul1 > .mat-card > .test-card,
+.playmat .soul2 > .mat-card > .test-card{
+  width:100%!important;
+  height:100%!important;
+  aspect-ratio:auto!important;
+}
+
+/* Pocket cards are portrait/vertical and line up left-to-right inside Pocket. */
+.playmat .pocket-area #pocketCards{
+  left:1%!important;
+  right:1%!important;
+  top:4%!important;
+  bottom:4%!important;
+  display:flex!important;
+  flex-direction:row!important;
+  flex-wrap:nowrap!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:8px!important;
+  overflow:hidden!important;
+}
+.playmat .pocket-area #pocketCards .test-card{
+  position:relative!important;
+  width:6.5%!important;
+  min-width:6.5%!important;
+  max-width:6.5%!important;
+  height:92%!important;
+  min-height:92%!important;
+  max-height:92%!important;
+  aspect-ratio:7 / 10!important;
+  flex:0 0 6.5%!important;
+}
+
+/* Keep the cards vertical even when rarity styles are applied. */
+.playmat .pocket-area #pocketCards .test-card span{
+  font-size:1.8vw!important;
+}
+.playmat .pocket-area #pocketCards .test-card b{
+  font-size:6px!important;
+}
+.playmat .pocket-area #pocketCards .test-card small{
+  font-size:5px!important;
+}
