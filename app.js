@@ -7,6 +7,7 @@ const cards=[
 {id:"SA-006",set:"BT01",name:"Scarlet Night",subtitle:"Blood Moon Protocol",type:"Action",rarity:"Epic",element:"Crimson",cost:"4",ability:"เปลี่ยนสนามให้เข้าสู่สถานะ Scarlet Night และเพิ่มผลของการ์ดธาตุ Crimson",symbol:"N"},
 {id:"SA-007",set:"BT02",name:"Core Shield",subtitle:"Relic Barrier",type:"Skill",rarity:"Common",element:"Relic",cost:"1",ability:"ป้องกันความเสียหายที่กำลังจะเกิดขึ้น 1 ครั้ง",symbol:"C"},
 {id:"SA-008",set:"BT02",name:"Forbidden Relic",subtitle:"Artifact of the Lost",type:"Item",rarity:"Common",element:"Relic",cost:"2",ability:"ค้นหาการ์ด Relic จาก Deck แล้วนำขึ้นมือ 1 ใบ",symbol:"R"},
+{id:"SA-017",name:"Untimeat",subtitle:"The Unbroken Oath",type:"Untimeat",rarity:"Legendary",element:"Void",cost:"0",ability:"Untimeat — การ์ดประจำเด็คที่ต้องมี 1 ใบ",symbol:"U",set:"BT03"},
 {id:"SA-009",set:"BT02",name:"Eclipse King",subtitle:"Leader of the Black Sun",type:"Leader",rarity:"Legendary",element:"Eclipse",cost:"8",ability:"Leader — กำหนดกฎพิเศษของ Deck และเพิ่มพลังให้การ์ด Eclipse",symbol:"K"},
 {id:"SA-010",set:"BT02",name:"Land of Eternal Love",subtitle:"Forbidden Zone",type:"Zone",rarity:"Epic",element:"Mystic",cost:"0",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",symbol:"Z"},
 {id:"SA-011",set:"BT02",name:"Neon Succubus",subtitle:"Temptation Protocol",type:"Character",rarity:"Epic",element:"Neon",cost:"5",ability:"เมื่อการ์ดนี้ทำงาน ให้เลือกการ์ดฝ่ายตรงข้าม 1 ใบและลดประสิทธิภาพของมัน",symbol:"N"},
@@ -167,7 +168,7 @@ function initDeck(){
 function renderDeckLibrary(){
   const box=document.querySelector("#deckCards");
   box.innerHTML=decks.map(d=>{
-    const count=Object.values(d.main||{}).reduce((a,b)=>a+b,0)+(d.leader?1:0)+(d.zone?1:0)+((d.soulCores||[]).length);
+    const count=Object.values(d.main||{}).reduce((a,b)=>a+b,0)+(d.leader?1:0)+(d.zone?1:0)+(d.untimeat?1:0)+((d.soulCores||[]).length);
     const cover=cards.find(c=>c.id===d.cover);
     const coverClass=cover?rarityClass(cover.rarity):"rarity-common";
     const symbol=cover?cover.symbol:"SA";
@@ -214,7 +215,7 @@ function deleteDeckById(id){
 }
 
 function getCount(){
-  return Object.values(currentDeck.main||{}).reduce((a,b)=>a+b,0)+(currentDeck.leader?1:0)+(currentDeck.zone?1:0)+((currentDeck.soulCores||[]).length);
+  return Object.values(currentDeck.main||{}).reduce((a,b)=>a+b,0)+(currentDeck.leader?1:0)+(currentDeck.zone?1:0)+(currentDeck.untimeat?1:0)+((currentDeck.soulCores||[]).length);
 }
 
 function addToDeck(id){
@@ -229,6 +230,10 @@ function addToDeck(id){
     if(currentDeck.zone===c.id)return;
     if(currentDeck.zone)return alert("Zone ได้สูงสุด 1 ใบ");
     currentDeck.zone=c.id;
+  }else if(c.type==="Untimeat"){
+    if(currentDeck.untimeat===c.id)return;
+    if(currentDeck.untimeat)return alert("Untimeat ได้สูงสุด 1 ใบ");
+    currentDeck.untimeat=c.id;
   }else if(c.type==="Soul Core"){
     currentDeck.soulCores=currentDeck.soulCores||[];
     const soulTotal=currentDeck.soulCores.length;
@@ -254,6 +259,7 @@ function removeFromDeck(id,type){
   if(!currentDeck)return;
   if(type==="Leader")currentDeck.leader=null;
   else if(type==="Zone")currentDeck.zone=null;
+  else if(type==="Untimeat")currentDeck.untimeat=null;
   else if(type==="Soul Core")currentDeck.soulCores=(currentDeck.soulCores||[]).filter(x=>x!==id);
   else{
     if(!currentDeck.main[id])return;
@@ -270,6 +276,7 @@ function renderDeck(){
   document.querySelector("#deckCount").textContent=getCount();
   document.querySelector("#leaderCount").textContent=(currentDeck.leader?1:0)+"/1";
   document.querySelector("#zoneCount").textContent=(currentDeck.zone?1:0)+"/1";
+  document.querySelector("#untimeatCount").textContent=(currentDeck.untimeat?1:0)+"/1";
   const soulCoreCount=(currentDeck.soulCores||[]).length;
   const soulEl=document.querySelector("#soulCoreCount");
   soulEl.textContent=soulCoreCount+"/7";
@@ -290,6 +297,8 @@ function renderDeck(){
 
   document.querySelector("#leaderSlot").innerHTML=leader?specialHTML(leader,"Leader"):`<div class="empty-slot">＋ ADD LEADER</div>`;
   document.querySelector("#zoneSlot").innerHTML=zone?specialHTML(zone,"Zone"):`<div class="empty-slot">＋ ADD ZONE</div>`;
+  const untimeat=currentDeck.untimeat?cards.find(c=>c.id===currentDeck.untimeat):null;
+  document.querySelector("#untimeatSlot").innerHTML=untimeat?specialHTML(untimeat,"Untimeat"):`<div class="empty-slot">＋ ADD UNTIMEAT</div>`;
 
   if(leader)document.querySelector("#leaderSlot .remove-card").onclick=()=>removeFromDeck(leader.id,"Leader");
 
@@ -308,6 +317,7 @@ function renderDeck(){
     if(buttons[i])buttons[i].onclick=()=>removeFromDeck(c.id,"Soul Core");
   });
   if(zone)document.querySelector("#zoneSlot .remove-card").onclick=()=>removeFromDeck(zone.id,"Zone");
+  if(untimeat)document.querySelector("#untimeatSlot .remove-card").onclick=()=>removeFromDeck(untimeat.id,"Untimeat");
 
   const entries=Object.entries(currentDeck.main);
   document.querySelector("#deckList").innerHTML=entries.length?entries.map(([id,n])=>{
@@ -340,8 +350,8 @@ function renderPicker(){
   const list=cards.filter(c=>(t==="All"||c.type===t)&&(s==="All"||c.set===s)&&[c.name,c.subtitle,c.rarity,c.type,c.set].join(" ").toLowerCase().includes(q));
 
   document.querySelector("#pickerList").innerHTML=list.map(c=>{
-    let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):c.type==="Soul Core"?((currentDeck.soulCores||[]).filter(x=>x===c.id).length):(currentDeck.main[c.id]||0);
-    let limit=c.type==="Leader"||c.type==="Zone"?1:c.type==="Soul Core"?7:c.type==="POCKET"?10:3;
+    let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):c.type==="Untimeat"?(currentDeck.untimeat===c.id?1:0):c.type==="Soul Core"?((currentDeck.soulCores||[]).filter(x=>x===c.id).length):(currentDeck.main[c.id]||0);
+    let limit=c.type==="Leader"||c.type==="Zone"||c.type==="Untimeat"?1:c.type==="Soul Core"?7:c.type==="POCKET"?10:3;
     if(c.type==="Soul Core" && (currentDeck.soulCores||[]).length>=7) limit=qty;
     if(c.type==="POCKET" && getPocketCount()>=10) limit=qty;
     return `<div class="picker-row">
@@ -406,6 +416,10 @@ function validateDeckBeforeSave(){
   }
   if(!currentDeck.zone){
     alert("ไม่สามารถบันทึก Deck ได้\\n\\nต้องมี Zone 1 ใบ");
+    return false;
+  }
+  if(!currentDeck.untimeat){
+    alert("ไม่สามารถบันทึก Deck ได้\n\nต้องมี Untimeat 1 ใบ");
     return false;
   }
   return true;
