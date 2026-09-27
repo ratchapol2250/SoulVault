@@ -48,7 +48,102 @@
 @media(max-width:600px){.deck-cards{grid-template-columns:1fr}.library-cover{width:58px;height:76px}.library-info h4{font-size:13px}}
 
 /* ===== PLAYTEST ===== */
-.draw-header{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:15px}.draw-header h2{font:600 31px Cinzel;margin:6px 0}.draw-header p{font-size:12px;color:var(--muted)}.draw-controls{display:flex;gap:6px;flex-wrap:wrap}.draw-controls select{background:#101010;color:#ccc;border:1px solid #322b20;padding:10px 12px;min-width:170px}.playtest-info{display:flex;gap:20px;flex-wrap:wrap;border:1px solid #28231a;background:#101010;padding:10px 14px;margin-bottom:12px;font-size:9px;color:#716b62;letter-spacing:1px}.playtest-info b{color:var(--gold2);font-size:11px}.playmat{position:relative;min-height:780px;background:linear-gradient(135deg,#0b0d0e,#111715 48%,#0a0c0c);border:1px solid #3a3020;overflow:hidden;padding:18px}.playmat:before{content:"";position:absolute;inset:12px;border:1px solid #463820;pointer-events:none}.mat-slot{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center}.slot-title{position:absolute;top:-18px;font-size:7px;letter-spacing:1.5px;color:#6e665b}.mat-card{width:92px;height:128px}.test-card{width:100%;height:100%;border:1px solid #54431f;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:#151515;box-shadow:0 7px 15px #0008;overflow:hidden}.test-card span{font:700 27px Cinzel;color:#dfbd6b;text-shadow:0 0 15px #6f501b}.test-card b{font-size:8px;color:#ddd;padding:4px 4px 0}.test-card small{font-size:7px;color:#8c857a}.energy-slot{left:28px;top:95px;width:100px;height:170px}.soul1{left:50%;top:35px;transform:translateX(-112px);width:92px;height:128px}.soul2{left:50%;top:35px;transform:translateX(20px);width:92px;height:128px}.c1{left:24%;top:245px;width:92px;height:128px}.c2{left:37%;top:245px;width:92px;height:128px}.leader-slot{left:50%;top:245px;transform:translateX(-46px);width:92px;height:128px}.zone-slot{left:50%;top:390px;transform:translateX(-46px);width:92px;height:128px}.c3{left:57%;top:245px;width:92px;height:128px}.c4{left:70%;top:245px;width:92px;height:128px}.unit-label{right:19px;top:95px;color:#796d5d;font:600 10px Cinzel;writing-mode:vertical-rl;letter-spacing:2px}.mat-pile{position:absolute;width:100px;height:140px;border:1px solid #554322;background:#15130f;display:grid;place-content:center;text-align:center;cursor:pointer;box-shadow:0 10px 20px #0008}.mat-pile span{font:600 20px Cinzel;color:#9f8a60}.mat-pile b{font-size:10px;color:#6e675c;margin-top:7px}.deck-pile{right:28px;top:205px}.tomb-pile{right:28px;top:365px}.pocket-area{position:absolute;left:4%;right:4%;bottom:165px;height:105px;border:1px solid #3b352a;background:#101313dd;display:flex;align-items:center;gap:8px;padding:12px}.pocket-title{font:600 22px Cinzel;color:#7d765e;margin-right:12px}.pocket-area #pocketCards{display:flex;gap:6px;height:78px}.pocket-area .test-card{width:55px;height:78px}.hand-area{position:absolute;left:4%;right:4%;bottom:20px;min-height:125px;border-top:1px solid #3c3528;padding-top:9px}.hand-title{font:600 10px Cinzel;color:#9c8c69;letter-spacing:1.5px}.hand-title small{font:normal 8px Inter;color:#615c53;margin-left:8px}.test-hand{display:flex;justify-content:center;gap:7px;margin-top:8px;min-height:100px}.test-hand .test-card{width:70px;height:98px;cursor:pointer;transition:.15s}.test-hand .test-card:hover{transform:translateY(-12px);border-color:#c39b4e}.hand-empty{color:#514d46;font-size:10px;align-self:center;padding-top:35px}.playtest-help{font-size:10px;color:#716b61;margin-top:10px;padding:10px 12px;border:1px solid #28231a;background:#0f0f0f}.playtest-help span{margin-left:15px;color:#565149}
+.draw-header{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:15px}
+.draw-header h2{font:600 31px Cinzel;margin:6px 0}.draw-header p{font-size:12px;color:var(--muted)}
+.draw-controls{display:flex;gap:6px;flex-wrap:wrap}.draw-controls select{background:#101010;color:#ccc;border:1px solid #322b20;padding:10px 12px;min-width:170px}
+.playtest-info{display:flex;gap:20px;flex-wrap:wrap;border:1px solid #28231a;background:#101010;padding:10px 14px;margin-bottom:12px;font-size:9px;color:#716b62;letter-spacing:1px}
+.playtest-info b{color:var(--gold2);font-size:11px}
+
+/* Reference playmat: 2048 × 1194, positions mapped directly from the supplied image. */
+.playmat{
+  position:relative;
+  width:100%;
+  aspect-ratio:2048 / 1194;
+  min-height:0;
+  background:#f8f8f6;
+  border:1px solid #cfcfcf;
+  overflow:hidden;
+  padding:0;
+}
+.playmat:before{display:none}
+
+.mat-slot{position:absolute;display:block;align-items:unset;justify-content:unset}
+.slot-title{
+  position:absolute;top:auto;left:0;right:0;
+  font-size:0;letter-spacing:0;color:transparent;
+}
+
+/* Each mat-card fills its slot exactly like a physical card zone. */
+.mat-card{position:absolute;inset:0;width:100%;height:100%}
+
+/* Left ENERGY */
+.energy-slot{left:1.37%;top:1.34%;width:8.15%;height:19.43%;background:#ffd900}
+.energy-slot:after{content:"ENERGY";position:absolute;inset:0;display:grid;place-items:center;font:600 2.4vw Cinzel;color:#111;writing-mode:vertical-rl;transform:rotate(180deg);pointer-events:none}
+
+/* Soul Core ×2 at the top center */
+.soul1{left:27.29%;top:0;width:11.28%;height:5.78%}
+.soul2{left:39.11%;top:0;width:11.28%;height:5.78%}
+
+/* Unit slot at upper-right */
+.unit-label{
+  left:62.89%;right:auto;top:2.35%;
+  width:11.38%;height:13.89%;
+  background:#6a2b75;
+  color:transparent;
+  writing-mode:initial;
+  letter-spacing:0;
+  font-size:0;
+}
+.unit-label:after{content:"U";position:absolute;inset:0;display:grid;place-items:center;font:600 2.5vw Cinzel;color:#080808}
+
+/* Main character layout */
+.c1{left:26.22%;top:11.47%;width:8.11%;height:19.43%}
+.c2{left:43.31%;top:11.81%;width:8.06%;height:19.51%}
+.leader-slot{left:34.77%;top:17.42%;width:8.11%;height:19.43%;transform:none}
+.c3{left:17.92%;top:32.08%;width:8.11%;height:19.43%}
+.c4{left:51.90%;top:31.66%;width:8.06%;height:19.51%}
+.zone-slot{left:34.77%;top:37.69%;width:8.11%;height:19.51%;transform:none}
+
+/* Deck / Tomb on right */
+.deck-pile{right:auto;left:66.11%;top:17.09%;width:8.11%;height:19.43%}
+.tomb-pile{right:auto;left:66.11%;top:37.69%;width:8.11%;height:19.35%}
+.mat-pile{border:0;border-radius:0;background:#748aa2;box-shadow:none;display:grid;place-content:center;text-align:center;cursor:pointer}
+.mat-pile span{font:600 1.9vw Cinzel;color:#111}.mat-pile b{font-size:9px;color:#111;margin-top:5px}
+.deck-pile:after{content:"";position:absolute;inset:0;border:0}
+.tomb-pile:after{content:"";position:absolute;inset:0;border:0}
+
+/* Pocket is the large bottom-left rectangle */
+.pocket-area{
+  position:absolute;left:1.37%;right:auto;top:57.54%;bottom:auto;
+  width:64.31%;height:19.35%;
+  border:0;background:#72a1d2;
+  display:block;padding:0;
+}
+.pocket-title{position:absolute;inset:0;display:grid;place-items:center;font:600 3.1vw Cinzel;color:#111;margin:0}
+.pocket-area #pocketCards{position:absolute;left:1%;right:1%;top:7%;bottom:7%;height:auto;display:flex;gap:6px;justify-content:flex-start;align-items:center;overflow:hidden}
+.pocket-area .test-card{width:6%;height:86%;flex:0 0 auto}
+
+/* Physical card appearance in the playmat */
+.test-card{
+  width:100%;height:100%;
+  border:0;
+  border-radius:0;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  background:#a91d23;
+  box-shadow:none;
+  overflow:hidden;
+}
+.test-card span{font:700 3.2vw Cinzel;color:#050505;text-shadow:none}
+.test-card b{font-size:8px;color:#111;padding:4px 4px 0}.test-card small{font-size:7px;color:#111}
+.clickable{cursor:pointer}
+.test-hand .test-card{cursor:pointer;transition:.15s}
+
+/* Match the simple flat color language of the supplied playmat reference. */
+.soul-slot .test-card{background:#b7952c!important}
+.leader-slot .test-card,.zone-slot .test-card{background:#b7952c!important}
+.char-slot .test-card{background:#a91d23!important}
+.unit-label .test-card{background:transparent!important}
+.energy-slot .mat-card{background:transparent!important}
 @media(max-width:900px){.playmat{min-height:690px}.mat-card,.soul1,.soul2,.char-slot,.leader-slot,.zone-slot{width:72px;height:100px}.test-card{font-size:7px}.c1{left:18%}.c2{left:33%}.c3{left:56%}.c4{left:71%}.deck-pile,.tomb-pile{right:12px;width:70px;height:100px}.energy-slot{left:12px;width:70px}.pocket-area{bottom:145px}.hand-area{bottom:12px}}
 @media(max-width:650px){.draw-header{display:block}.draw-controls{margin-top:12px}.playmat{min-width:720px}.playtest-wrap{overflow:auto}.playmat{transform-origin:top left}.section#drawtest{overflow-x:auto}.playtest-info{min-width:720px}.playtest-help{min-width:720px}}
 
@@ -62,3 +157,15 @@
 .soul-builder-title small{color:#756d61;font-size:8px}
 #soulCoreCount.invalid{color:#c77868!important}
 #soulCoreCount.valid{color:#86b875!important}
+
+@media(max-width:900px){
+  .playmat{min-width:760px}
+  .playtest-info{min-width:760px}
+}
+@media(max-width:650px){
+  .draw-header{display:block}.draw-controls{margin-top:12px}
+  .section#drawtest{overflow-x:auto}
+  .playmat{min-width:760px}
+  .playtest-info{min-width:760px}
+  .playtest-help{min-width:760px}
+}
