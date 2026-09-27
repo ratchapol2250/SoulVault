@@ -655,3 +655,110 @@
   min-height:430px!important;
   overflow:visible!important;
 }
+
+/* ===== DRAW TEST: FACE-UP CARDS ===== */
+#drawtest #testHand{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:14px!important;
+  min-height:430px!important;
+  height:auto!important;
+  overflow:visible!important;
+  padding:4px!important;
+}
+#drawtest #testHand .test-card{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  position:relative!important;
+  width:63mm!important;
+  height:88mm!important;
+  min-width:63mm!important;
+  min-height:88mm!important;
+  max-width:63mm!important;
+  max-height:88mm!important;
+  flex:0 0 63mm!important;
+  box-sizing:border-box!important;
+  border:1px solid #a7833e!important;
+  background:#171717!important;
+  color:#eee!important;
+  overflow:hidden!important;
+  cursor:pointer!important;
+}
+#drawtest #testHand .test-card span{
+  display:block!important;
+  font-size:30px!important;
+  color:#d6b25b!important;
+}
+#drawtest #testHand .test-card b{
+  display:block!important;
+  color:#eee!important;
+  font-size:11px!important;
+  margin-top:10px!important;
+}
+#drawtest #testHand .test-card small{
+  display:block!important;
+  color:#aaa!important;
+  font-size:8px!important;
+  margin-top:5px!important;
+}
+#drawtest #testHand .test-card:hover{
+  transform:translateY(-8px)!important;
+  border-color:#d4b35f!important;
+}
+
+/* Card detail popup */
+.draw-card-detail{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:rgba(0,0,0,.82);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.draw-card-detail-inner{
+  display:flex;
+  align-items:center;
+  gap:30px;
+  max-width:760px;
+  background:#111;
+  border:1px solid #6f572c;
+  padding:24px;
+  position:relative;
+}
+.draw-card-close{
+  position:absolute;
+  right:8px;
+  top:5px;
+  border:0;
+  background:none;
+  color:#c9a75a;
+  font-size:28px;
+  cursor:pointer;
+}
+.draw-preview-card{
+  width:63mm!important;
+  height:88mm!important;
+  flex:0 0 63mm;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  border:1px solid #9a793a;
+}
+.draw-preview-card span{font:700 35px Cinzel;color:#d7b45f}
+.draw-preview-card b{font-size:13px;color:#eee;margin-top:12px}
+.draw-preview-card small{font-size:9px;color:#aaa;margin-top:6px}
+.draw-detail-text{max-width:360px}
+.draw-detail-text h3{font:600 24px Cinzel;color:#ddd;margin:7px 0 12px}
+.draw-detail-text p{font-size:12px;color:#aaa;line-height:1.7}
+@media(max-width:650px){
+  #drawtest #testHand{min-height:300px!important}
+  .draw-card-detail-inner{display:block}
+  .draw-detail-text{margin-top:18px}
+}

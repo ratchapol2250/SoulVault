@@ -470,27 +470,72 @@ function testCardHTML(id,clickable=false){
 }
 function renderTest(){
   refreshTestDeckSelect();
-  if(!testDeck){document.querySelector("#testDeckName").textContent="-";return}
-  document.querySelector("#testDeckName").textContent=testDeck.name;
-  document.querySelector("#testCardsLeft").textContent=testStack.length;
-  document.querySelector("#testHandCount").textContent=testHand.length;
-  document.querySelector("#testTurn").textContent=testTurn;
-  document.querySelector("#pileCount").textContent=testStack.length;
-  document.querySelector("#tombCount").textContent=testTomb.length;
+  if(!testDeck){
+    const nameEl=document.querySelector("#testDeckName");
+    if(nameEl)nameEl.textContent="-";
+    const handEl=document.querySelector("#testHand");
+    if(handEl)handEl.innerHTML=`<div class="hand-empty">ยังไม่มี Deck สำหรับทดลองจั่ว</div>`;
+    return;
+  }
 
-  document.querySelector("#testUnit").innerHTML=testCardHTML(testBoard.unit);
-  document.querySelector("#testLeader").innerHTML=testCardHTML(testBoard.leader);
-  document.querySelector("#testZone").innerHTML=testCardHTML(testBoard.zone);
-  document.querySelector("#soul1").innerHTML=testCardHTML(testBoard.soul1);
-  document.querySelector("#soul2").innerHTML=testCardHTML(testBoard.soul2);
-  testBoard.chars.forEach((id,i)=>document.querySelector("#char"+(i+1)).innerHTML=testCardHTML(id));
-  document.querySelector("#pocketCards").innerHTML=testBoard.pocket.map(id=>testCardHTML(id)).join("");
+  const setText=(selector,value)=>{
+    const el=document.querySelector(selector);
+    if(el)el.textContent=value;
+  };
+
+  setText("#testDeckName",testDeck.name);
+  setText("#testCardsLeft",testStack.length);
+  setText("#testHandCount",testHand.length);
+  setText("#testTurn",testTurn);
+  setText("#pileCount",testStack.length);
+  setText("#tombCount",testTomb.length);
+
+  /* Draw Test is intentionally card-only: no playmat elements are required. */
   const handEl=document.querySelector("#testHand");
-  handEl.innerHTML=testHand.map(id=>testCardHTML(id,true)).join("") || `<div class="hand-empty">กด DRAW 5 เพื่อเริ่มทดลองจั่ว</div>`;
+  if(!handEl)return;
+
+  if(testHand.length===0){
+    handEl.innerHTML=`<div class="hand-empty">กด DRAW 5 เพื่อเริ่มทดลองจั่ว</div>`;
+  }else{
+    handEl.innerHTML=testHand.map((id,index)=>testCardHTML(id,true,index)).join("");
+  }
+
   handEl.dataset.count=String(testHand.length);
 
-  document.querySelectorAll("#testHand .clickable").forEach(el=>el.onclick=()=>playHandCard(el.dataset.id));
+  handEl.querySelectorAll(".clickable").forEach(el=>{
+    el.onclick=()=>showDrawnCard(el.dataset.id);
+  });
 }
+
+function showDrawnCard(id){
+  const c=cards.find(x=>String(x.id)===String(id));
+  if(!c)return;
+
+  const old=document.querySelector("#drawCardDetail");
+  if(old)old.remove();
+
+  const detail=document.createElement("div");
+  detail.id="drawCardDetail";
+  detail.className="draw-card-detail";
+  detail.innerHTML=`
+    <div class="draw-card-detail-inner">
+      <button class="draw-card-close">×</button>
+      <div class="draw-preview-card ${rarityClass(c.rarity)}">
+        <span>${c.symbol}</span>
+        <b>${escapeHtml(c.name)}</b>
+        <small>${escapeHtml(c.rarity)}</small>
+      </div>
+      <div class="draw-detail-text">
+        <div class="eyebrow">${escapeHtml(c.type)}</div>
+        <h3>${escapeHtml(c.name)}</h3>
+        <p>${escapeHtml(c.ability||c.subtitle||"")}</p>
+      </div>
+    </div>`;
+  document.body.appendChild(detail);
+  detail.querySelector(".draw-card-close").onclick=()=>detail.remove();
+  detail.onclick=e=>{if(e.target===detail)detail.remove()};
+}
+
 function initDrawTest(){
   refreshTestDeckSelect();
   if(!testDeck && decks.length)buildTestDeck();
