@@ -4,3 +4,40 @@
 @media(max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:720px){.sidebar{transform:translateX(-100%);transition:.2s}.sidebar.open{transform:translateX(0)}main{margin-left:0;padding:20px 14px}.mobile-menu{display:block}.topbar{gap:10px}.topbar>div:nth-child(2){margin-right:auto}.hero{padding:27px 23px}.hero h2{font-size:26px}.sigil{right:30px;opacity:.18}.toolbar{flex-wrap:wrap}.search-wrap{min-width:100%}.toolbar select{height:42px;flex:1}.grid{grid-template-columns:repeat(2,1fr);gap:10px}.card h3{font-size:14px}.modal-card{grid-template-columns:1fr}.detail-image{min-height:210px}.detail{padding:25px}.detail h2{font-size:24px}}
 @media(max-width:420px){.grid{grid-template-columns:1fr 1fr}.card-art{aspect-ratio:.75}}
+
+/* ===== DECK BUILDER ===== */
+.deck-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:25px}
+.deck-header h2{font:600 31px Cinzel;margin:7px 0}
+.deck-header p{font-size:12px;color:var(--muted)}
+.gold-btn,.danger-btn{border:1px solid #795d29;background:#1a140b;color:var(--gold2);padding:11px 15px;font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer}
+.gold-btn:hover{background:#2a200f;border-color:var(--gold)}
+.danger-btn{color:#bd8d82;border-color:#50302b;background:#170e0d}
+.deck-empty{text-align:center;border:1px dashed #30291e;padding:90px 20px}
+.empty-symbol{font:60px Cinzel;color:#755827}
+.deck-empty h3{font:20px Cinzel;color:#ddd}
+.deck-empty p{color:var(--muted);font-size:12px;margin-bottom:22px}
+.deck-workspace{border:1px solid #28231a;background:#0c0c0c;padding:22px}
+.deck-top{display:flex;gap:22px;border-bottom:1px solid #28231a;padding-bottom:22px}
+.deck-cover-wrap{width:150px}.deck-cover{height:190px;border:1px solid #51401f;display:grid;place-items:center;position:relative;overflow:hidden}
+.deck-cover span{font:700 70px Cinzel;color:#d9ad52;text-shadow:0 0 30px #000}
+.deck-cover:after{content:"";position:absolute;inset:12px;border:1px solid #d9ad52;opacity:.35;transform:rotate(45deg)}
+.cover-btn{width:100%;margin-top:8px;background:#111;border:1px solid #2e291f;color:#aaa;padding:9px;font-size:10px;cursor:pointer}
+.deck-meta{flex:1;display:flex;flex-direction:column;justify-content:center}
+.deck-name{background:transparent;border:0;border-bottom:1px solid #3a3123;color:#f0eadf;font:600 29px Cinzel;padding:9px 0;outline:0;margin-bottom:20px}
+.deck-summary{display:flex;gap:25px;color:#716b61;font-size:9px;letter-spacing:1px}.deck-summary b{color:var(--gold2);font-size:15px;margin-left:5px}.deck-actions{margin-top:25px;display:flex;gap:8px}
+.deck-layout{display:grid;grid-template-columns:1fr 320px;gap:22px;padding-top:22px}
+.deck-section-title{display:flex;justify-content:space-between;color:var(--gold2);font-size:10px;letter-spacing:2px;border-bottom:1px solid #28231a;padding:12px 0}.deck-section-title small{color:#625b51}
+.special-slot{margin:10px 0 20px;min-height:70px}
+.empty-slot{height:70px;border:1px dashed #3a3020;display:grid;place-items:center;color:#6b645a;font-size:10px;letter-spacing:1px}
+.special-card{display:flex;align-items:center;background:#121212;border:1px solid #332a1d;padding:8px;gap:12px}
+.special-art{width:54px;height:54px;display:grid;place-items:center;font:22px Cinzel;color:#e2c06c;border:1px solid #5b4723}
+.special-card b{font:15px Cinzel;color:#ddd;display:block}.special-card small{color:#777;font-size:9px}.remove-card{margin-left:auto;background:none;border:0;color:#777;font-size:20px;cursor:pointer}.deck-list{display:flex;flex-direction:column;gap:5px}.deck-row{display:flex;align-items:center;background:#111;border:1px solid #211e19;padding:7px;gap:10px}.mini-art{width:38px;height:45px;display:grid;place-items:center;color:#e0bc66;font:15px Cinzel;border:1px solid #48381f}.row-name{flex:1}.row-name b{font-size:11px;display:block}.row-name small{font-size:8px;color:#706a60}.qty{display:flex;align-items:center;gap:9px}.qty button{width:24px;height:24px;background:#18140e;border:1px solid #3c301d;color:#d7b662;cursor:pointer}.qty b{font-size:11px}.empty-main{padding:25px;color:#5f5a52;font-size:11px;border:1px dashed #28231a;text-align:center}
+.card-picker{background:#101010;border:1px solid #28231a;padding:14px;height:max-content;position:sticky;top:15px}.picker-title{font:600 13px Cinzel;color:var(--gold2);letter-spacing:1px;margin-bottom:12px}.card-picker input,.card-picker select{width:100%;height:38px;background:#090909;border:1px solid #29251f;color:#aaa;padding:0 9px;margin-bottom:8px;outline:0}.picker-row{display:flex;align-items:center;gap:8px;border-top:1px solid #211e19;padding:8px 0}.picker-art{width:35px;height:43px;display:grid;place-items:center;color:#d8b25d;font:13px Cinzel;border:1px solid #4a3a20}.picker-name{flex:1;min-width:0}.picker-name b{display:block;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.picker-name small{display:block;color:#69645c;font-size:8px}.picker-qty{font-size:8px;color:#797269}.picker-row button{border:1px solid #48381f;background:#17130c;color:#d9b85e;width:27px;height:27px;cursor:pointer}.picker-row button:disabled{opacity:.25;cursor:not-allowed}
+.rarity-legendary{background:radial-gradient(circle at 50% 30%,#a06c1b,#38250e 36%,#090909 75%)!important}.rarity-epic{background:radial-gradient(circle at 50% 30%,#693a91,#241334 38%,#090909 75%)!important}.rarity-rare{background:radial-gradient(circle at 50% 30%,#235f91,#11243a 38%,#090909 75%)!important}.rarity-common{background:radial-gradient(circle at 50% 30%,#626262,#292929 38%,#090909 75%)!important}.rarity-orb{position:absolute;right:7px;top:7px;width:20px;height:20px;border-radius:50%;border:1px solid #caa65a;background:#0c0c0caa;color:#d9b85e;font-size:8px;display:grid;place-items:center}
+.cover-picker-modal{width:min(700px,100%);background:#101010;border:1px solid #46371f;padding:30px;position:relative}.cover-picker-modal h2{font:600 25px Cinzel;color:#e5d5af}.cover-picker-modal p{font-size:11px;color:#777}.cover-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}.cover-option{height:150px;border:1px solid #39301f;color:#ddd;cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative}.cover-option span{font:35px Cinzel;color:#e1bd67}.cover-option b{font-size:10px;margin-top:8px}.cover-option small{font-size:8px;color:#777;margin-top:3px}
+@media(max-width:850px){.deck-layout{grid-template-columns:1fr}.card-picker{position:static}.cover-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.deck-header{align-items:flex-start;gap:10px}.deck-header h2{font-size:24px}.deck-top{align-items:center}.deck-cover-wrap{width:105px}.deck-cover{height:135px}.deck-cover span{font-size:45px}.deck-name{font-size:22px}.deck-summary{gap:10px;flex-wrap:wrap}.deck-workspace{padding:12px}.cover-grid{grid-template-columns:repeat(2,1fr)}}
+
+.create-big{font-size:12px;padding:14px 22px;box-shadow:0 0 25px rgba(160,120,40,.12)}
+.deck-empty .empty-symbol{margin-bottom:5px}
+.deck-header .gold-btn{white-space:nowrap}
