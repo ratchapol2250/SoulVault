@@ -177,6 +177,7 @@ async function submitAuth(){
 
 async function startFromUser(user){
   state.email=user?.email||""; state.userId=user?.id||"";
+  diag("Login OK — user: "+state.email+" | user_id: "+state.userId);
   document.getElementById("login").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
   document.getElementById("userEmail").textContent=state.email;
@@ -240,6 +241,7 @@ async function loadDecksFromServer(allowImport=false){
 
     const rawDecks=data||[];
     state.decks=rawDecks.map(d=>({id:Number(d.id),name:d.name,cards:{}}));
+    diag("Query decks สำเร็จ — พบ "+rawDecks.length+" deck(s) สำหรับ user_id: "+state.userId);
 
     if(state.decks.length===0 && allowImport){
       await importLocalDecksIfAvailable();
@@ -300,7 +302,7 @@ async function importLocalDecksIfAvailable(){
 
 async function createDeckOnServer(name,cardsObj={},silent=false){
   const {data,error}=await supabaseClient.from("decks").insert({user_id:state.userId,name}).select().single();
-  if(error){toast("สร้าง Deck ไม่สำเร็จ: "+error.message);return null;}
+  if(error){diag("createDeckOnServer error: "+error.message);toast("สร้าง Deck ไม่สำเร็จ: "+error.message);return null;}
   const deck={id:data.id,name:data.name,cards:{}};
   state.decks.push(deck); state.activeDeckId=deck.id;
   const rows=Object.entries(cardsObj).filter(([id,q])=>Number(q)>0).map(([card_id,quantity])=>({deck_id:deck.id,card_id:String(card_id),quantity:Number(quantity)}));
