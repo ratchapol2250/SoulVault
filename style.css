@@ -898,3 +898,34 @@
 .collection-card-info .wanted-btn{
   margin-top:6px;
 }
+
+.deck-add-btn{
+  width:100%;
+  margin-top:7px;
+  padding:9px 8px;
+  border:1px solid #765d2c;
+  background:rgba(120,92,35,.10);
+  color:#e0c273;
+  cursor:pointer;
+  font-size:11px;
+}
+.deck-add-btn:hover{background:rgba(197,158,74,.18);border-color:#c19b4d}
+.add-deck-modal-inner{max-width:520px}
+.add-deck-modal-inner h3{margin:8px 0}
+.add-deck-modal-inner p{color:#8f8371}
+.deck-choice-list{display:grid;gap:8px;margin-top:18px;max-height:55vh;overflow:auto}
+.deck-choice{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  padding:13px 15px;
+  border:1px solid #4e4028;
+  background:#11100e;
+  color:#e0c273;
+  cursor:pointer;
+  text-align:left;
+}
+.deck-choice:hover{border-color:#c19b4d;background:rgba(197,158,74,.10)}
+.deck-choice small{color:#8e806d}
+.no-decks{padding:20px;border:1px dashed #4e4028;color:#8e806d}

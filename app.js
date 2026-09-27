@@ -40,6 +40,12 @@ function render(){
      render();
    };
  });
+ document.querySelectorAll("#grid .deck-add-btn").forEach(btn=>{
+   btn.onclick=e=>{
+     e.stopPropagation();
+     openAddToDeckModal(btn.dataset.deckCardId);
+   };
+ });
 }
 function cardHTML(c,small=true){
  const inCollection=isWanted(c.id);
@@ -50,6 +56,7 @@ function cardHTML(c,small=true){
    <button class="collection-add-btn ${inCollection?"added":""}" data-collection-id="${c.id}">
      ${inCollection?"✓ อยู่ในคอลเลกชัน":"＋ เพิ่มเข้าคอลเลกชัน"}
    </button>
+   <button class="deck-add-btn" data-deck-card-id="${c.id}">＋ เพิ่มเข้าเด็ค</button>
    </div></article>`;
 }
 function openCard(c){
@@ -207,6 +214,105 @@ document.querySelector("#collectionSetFilter")?.addEventListener("change",render
 document.querySelector("#collectionTypeFilter")?.addEventListener("change",renderCollection);
 document.querySelector("#collectionViewFilter")?.addEventListener("change",renderCollection);
 renderCollection();
+
+
+/* ---------------- ADD CARD TO DECK FROM ROSTER ---------------- */
+function openAddToDeckModal(cardId){
+  reloadDecksFromStorage();
+  const card=cards.find(c=>String(c.id)===String(cardId));
+  if(!card)return;
+
+  const old=document.querySelector("#addToDeckModal");
+  if(old)old.remove();
+
+  const modal=document.createElement("div");
+  modal.id="addToDeckModal";
+  modal.className="draw-card-detail";
+  const options=decks.length
+    ? decks.map(d=>`<button class="deck-choice" data-deck-id="${escapeHtml(d.id)}">
+        <span>${escapeHtml(d.name||"New Deck")}</span>
+        <small>MAIN ${getMainDeckCount(d)}/50</small>
+      </button>`).join("")
+    : `<div class="no-decks">ยังไม่มี Deck กรุณาสร้าง Deck ก่อน</div>`;
+
+  modal.innerHTML=`
+    <div class="draw-card-detail-inner add-deck-modal-inner">
+      <button class="draw-card-close">×</button>
+      <div class="eyebrow">ADD TO DECK</div>
+      <h3>เพิ่ม ${escapeHtml(card.name)} เข้าเด็ค</h3>
+      <p>เลือก Deck ที่ต้องการเพิ่มการ์ดใบนี้</p>
+      <div class="deck-choice-list">${options}</div>
+    </div>`;
+
+  document.body.appendChild(modal);
+  modal.querySelector(".draw-card-close").onclick=()=>modal.remove();
+  modal.onclick=e=>{if(e.target===modal)modal.remove()};
+
+  modal.querySelectorAll(".deck-choice").forEach(btn=>{
+    btn.onclick=()=>{
+      addCardFromRosterToDeck(cardId,btn.dataset.deckId);
+      modal.remove();
+    };
+  });
+}
+
+function addCardFromRosterToDeck(cardId,deckId){
+  reloadDecksFromStorage();
+  const deck=decks.find(d=>String(d.id)===String(deckId));
+  const card=cards.find(c=>String(c.id)===String(cardId));
+  if(!deck||!card)return;
+
+  deck.main=deck.main||{};
+  deck.soulCores=deck.soulCores||[];
+
+  if(card.type==="Leader"){
+    if(deck.leader && deck.leader!==card.id){
+      alert("Deck นี้มี Leader อยู่แล้ว 1 ใบ");
+      return;
+    }
+    deck.leader=card.id;
+  }else if(card.type==="Zone"){
+    if(deck.zone && deck.zone!==card.id){
+      alert("Deck นี้มี Zone อยู่แล้ว 1 ใบ");
+      return;
+    }
+    deck.zone=card.id;
+  }else if(card.type==="Soul Core"){
+    if(deck.soulCores.length>=7){
+      alert("Soul Core เต็ม 7 ใบแล้ว");
+      return;
+    }
+    deck.soulCores.push(card.id);
+  }else if(card.type==="Untimeat"){
+    if(deck.untimeat && deck.untimeat!==card.id){
+      alert("Deck นี้มี Untimeat อยู่แล้ว 1 ใบ");
+      return;
+    }
+    if(getMainDeckCount(deck)>=50 && !deck.main[card.id]){
+      alert("MAIN DECK ครบ 50 ใบแล้ว");
+      return;
+    }
+    deck.untimeat=card.id;
+    deck.main[card.id]=1;
+  }else{
+    const qty=Number(deck.main[card.id]||0);
+    const limit=card.type==="POCKET"?10:3;
+    if(qty>=limit){
+      alert(`${card.type==="POCKET"?"Pocket":"การ์ดใบนี้"} ใส่ได้สูงสุด ${limit} ใบ`);
+      return;
+    }
+    if(getMainDeckCount(deck)>=50){
+      alert("MAIN DECK ครบ 50 ใบแล้ว");
+      return;
+    }
+    deck.main[card.id]=qty+1;
+  }
+
+  localStorage.setItem("stealAreaDecks",JSON.stringify(decks));
+  localStorage.setItem("stealAreaActiveDeckId",deck.id);
+  alert(`เพิ่ม ${card.name} เข้า ${deck.name||"Deck"} แล้ว`);
+  render();
+}
 
 document.querySelectorAll(".nav").forEach(btn=>btn.onclick=()=>{
  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
