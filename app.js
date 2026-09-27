@@ -185,13 +185,17 @@ function addToDeck(id){
   }else if(c.type==="Soul Core"){
     currentDeck.soulCores=currentDeck.soulCores||[];
     const soulTotal=currentDeck.soulCores.length;
-    const sameSoul=currentDeck.soulCores.filter(x=>x===c.id).length;
-    if(soulTotal>=7)return alert("Soul Core ต้องมีสูงสุด 7 ใบ");
-    if(sameSoul>=3)return alert("Soul Core ใบเดิมใส่ได้สูงสุด 3 ใบ");
+    if(soulTotal>=7)return alert("Soul Core มีได้สูงสุด 7 ใบ");
     currentDeck.soulCores.push(c.id);
   }else{
     const n=currentDeck.main[c.id]||0;
-    if(n>=3)return alert("การ์ดใบนี้ใส่ได้สูงสุด 3 ใบ");
+    if(c.type==="POCKET"){
+      const pocketTotal=getPocketCount();
+      if(pocketTotal>=10)return alert("POCKET มีได้สูงสุด 10 ใบ");
+      if(n>=10)return alert("POCKET ใบนี้ใส่ได้สูงสุด 10 ใบ");
+    }else{
+      if(n>=3)return alert("การ์ดใบนี้ใส่ได้สูงสุด 3 ใบ");
+    }
     currentDeck.main[c.id]=n+1;
   }
   persistDecks();
@@ -289,8 +293,9 @@ function renderPicker(){
 
   document.querySelector("#pickerList").innerHTML=list.map(c=>{
     let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):c.type==="Soul Core"?((currentDeck.soulCores||[]).filter(x=>x===c.id).length):(currentDeck.main[c.id]||0);
-    let limit=c.type==="Leader"||c.type==="Zone"?1:c.type==="Soul Core"?3:3;
+    let limit=c.type==="Leader"||c.type==="Zone"?1:c.type==="Soul Core"?7:c.type==="POCKET"?10:3;
     if(c.type==="Soul Core" && (currentDeck.soulCores||[]).length>=7) limit=qty;
+    if(c.type==="POCKET" && getPocketCount()>=10) limit=qty;
     return `<div class="picker-row">
       <div class="picker-art ${rarityClass(c.rarity)}">${c.symbol}</div>
       <div class="picker-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
