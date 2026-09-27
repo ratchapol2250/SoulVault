@@ -51,12 +51,59 @@ search.oninput=render;typeFilter.onchange=render;rarityFilter.onchange=render;
 document.querySelector("#close").onclick=closeModal;
 document.querySelector("#modal").onclick=e=>{if(e.target.id==="modal")closeModal()};
 document.querySelector("#menuBtn").onclick=()=>document.querySelector(".sidebar").classList.toggle("open");
+
+/* ---------------- SUPPLY ---------------- */
+const defaultSupplies=[
+{id:"PM1",type:"PLAYMAT",name:"Steal Area — Black Gold",image:"",desc:"Playmat ธีมหลักของ STEAL AREA",price:"590"},
+{id:"PM2",type:"PLAYMAT",name:"Scarlet Night",image:"",desc:"Playmat โทนแดงดำ",price:"590"},
+{id:"PM3",type:"PLAYMAT",name:"Eternal Void",image:"",desc:"Playmat โทนม่วงเข้ม",price:"650"},
+{id:"SL1",type:"SLEEVE",name:"Steal Area — Gold",image:"",desc:"Card Sleeve ลายโลโก้ STEAL AREA",price:"250"},
+{id:"SL2",type:"SLEEVE",name:"Scarlet Night",image:"",desc:"Card Sleeve ธีม Scarlet Night",price:"250"},
+{id:"SL3",type:"SLEEVE",name:"Void Core",image:"",desc:"Card Sleeve โทนม่วงดำ",price:"280"}];
+let supplies=JSON.parse(localStorage.getItem("stealAreaSupplies")||"null")||defaultSupplies;
+let supplyFilter="ALL";
+function persistSupplies(){localStorage.setItem("stealAreaSupplies",JSON.stringify(supplies))}
+function supplyImage(s){
+ if(s.image)return `<img src="${escapeHtml(s.image)}" alt="${escapeHtml(s.name)}" loading="lazy">`;
+ return `<div class="supply-art ${s.type.toLowerCase()}-art"><span>${s.type==="PLAYMAT"?"PM":"SL"}</span></div>`;
+}
+function renderSupplies(){
+ const grid=document.querySelector("#supplyGrid"); if(!grid)return;
+ const q=(document.querySelector("#supplySearch")?.value||"").trim().toLowerCase();
+ const list=supplies.filter(s=>(supplyFilter==="ALL"||s.type===supplyFilter)&&(!q||`${s.name} ${s.type} ${s.desc}`.toLowerCase().includes(q)));
+ grid.innerHTML=list.map(s=>`<article class="supply-card">
+ <div class="supply-image">${supplyImage(s)}<span class="supply-type">${s.type}</span></div>
+ <div class="supply-body"><h3>${escapeHtml(s.name)}</h3><p>${escapeHtml(s.desc||"")}</p>
+ <div class="supply-footer"><strong>${s.price?escapeHtml(s.price)+" ฿":"—"}</strong><button class="supply-detail" data-id="${s.id}">DETAIL</button></div></div></article>`).join("");
+ document.querySelector("#supplyEmpty").classList.toggle("hidden",list.length>0);
+ grid.classList.toggle("hidden",list.length===0);
+ grid.querySelectorAll(".supply-detail").forEach(b=>b.onclick=()=>{
+   const s=supplies.find(x=>x.id===b.dataset.id); if(s)alert(`${s.name}\n\nประเภท: ${s.type}\n${s.desc||""}\n\nราคา: ${s.price?s.price+" ฿":"ไม่ระบุ"}`);
+ });
+}
+function initSupply(){renderSupplies()}
+
+document.querySelectorAll(".supply-tab").forEach(btn=>btn.onclick=()=>{
+ document.querySelectorAll(".supply-tab").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active"); supplyFilter=btn.dataset.supplyFilter; renderSupplies();
+});
+document.querySelector("#supplySearch")?.addEventListener("input",renderSupplies);
+document.querySelector("#addSupplyBtn")?.addEventListener("click",()=>document.querySelector("#supplyModal").classList.remove("hidden"));
+document.querySelector("#supplyClose")?.addEventListener("click",()=>document.querySelector("#supplyModal").classList.add("hidden"));
+document.querySelector("#supplyModal")?.addEventListener("click",e=>{if(e.target.id==="supplyModal")e.currentTarget.classList.add("hidden")});
+document.querySelector("#saveSupplyBtn")?.addEventListener("click",()=>{
+ const name=document.querySelector("#supplyName").value.trim(); if(!name)return alert("กรุณาใส่ชื่อ Supply");
+ supplies.unshift({id:"S"+Date.now(),type:document.querySelector("#supplyType").value,name,image:document.querySelector("#supplyImage").value.trim(),desc:document.querySelector("#supplyDesc").value.trim(),price:document.querySelector("#supplyPrice").value.trim()});
+ persistSupplies(); document.querySelector("#supplyModal").classList.add("hidden");
+ ["supplyName","supplyImage","supplyDesc","supplyPrice"].forEach(id=>document.querySelector("#"+id).value=""); renderSupplies();
+});
 document.querySelectorAll(".nav").forEach(btn=>btn.onclick=()=>{
  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
  document.querySelectorAll(".section").forEach(x=>x.classList.remove("active-section"));
  document.querySelector("#"+btn.dataset.section).classList.add("active-section");
  document.querySelector(".sidebar").classList.remove("open");
  if(btn.dataset.section==="deck") initDeck();
+ if(btn.dataset.section==="supply") initSupply();
 });
 
 /* ---------------- DECK BUILDER ---------------- */

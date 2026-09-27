@@ -17,6 +17,7 @@
       <button class="nav" data-section="collection">▣ <span>Collection</span></button>
       <button class="nav active" data-section="deck">◇ <span>Deck Builder</span></button>
       <button class="nav" data-section="drawtest">♢ <span>Draw Test</span></button>
+      <button class="nav" data-section="supply">▤ <span>Supply</span></button>
     </nav>
     <div class="sidebar-bottom">
       <div class="version">STEAL AREA v1.0</div>
@@ -207,7 +208,46 @@
       </div>
     </section>
 
-  </main>
+  
+    <section id="supply" class="section">
+      <div class="supply-header">
+        <div>
+          <div class="eyebrow">SUPPLY</div>
+          <h1>Playmat & Sleeve</h1>
+          <p>รวมอุปกรณ์เสริมสำหรับ STEAL AREA</p>
+        </div>
+        <button class="gold-btn" id="addSupplyBtn">＋ ADD SUPPLY</button>
+      </div>
+      <div class="supply-toolbar">
+        <div class="supply-tabs">
+          <button class="supply-tab active" data-supply-filter="ALL">ALL</button>
+          <button class="supply-tab" data-supply-filter="PLAYMAT">PLAYMAT</button>
+          <button class="supply-tab" data-supply-filter="SLEEVE">SLEEVE</button>
+        </div>
+        <input id="supplySearch" class="supply-search" type="text" placeholder="ค้นหา Playmat / Sleeve...">
+      </div>
+      <div id="supplyGrid" class="supply-grid"></div>
+      <div id="supplyEmpty" class="supply-empty hidden">
+        <div>◇</div><h3>ยังไม่มี Supply</h3><p>กด ADD SUPPLY เพื่อเพิ่ม Playmat หรือ Sleeve</p>
+      </div>
+      <div id="supplyModal" class="supply-modal hidden">
+        <div class="supply-modal-box">
+          <button class="supply-close" id="supplyClose">×</button>
+          <div class="eyebrow">NEW SUPPLY</div>
+          <h2>เพิ่ม Playmat / Sleeve</h2>
+          <div class="supply-form">
+            <label>ประเภท<select id="supplyType"><option value="PLAYMAT">PLAYMAT</option><option value="SLEEVE">SLEEVE</option></select></label>
+            <label>ชื่อ<input id="supplyName" placeholder="เช่น Crimson Night"></label>
+            <label>รูปภาพ URL<input id="supplyImage" placeholder="https://..."></label>
+            <label>รายละเอียด<textarea id="supplyDesc" rows="3" placeholder="รายละเอียดของ Supply"></textarea></label>
+            <label>ราคา<input id="supplyPrice" placeholder="เช่น 590"></label>
+          </div>
+          <button class="gold-btn supply-save" id="saveSupplyBtn">SAVE SUPPLY</button>
+        </div>
+      </div>
+    </section>
+
+</main>
 
   <div class="modal hidden" id="modal">
     <div class="modal-card">
