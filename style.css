@@ -762,3 +762,23 @@
   .draw-card-detail-inner{display:block}
   .draw-detail-text{margin-top:18px}
 }
+
+/* ===== DRAW TEST — SMALLER HAND CARDS ===== */
+#drawtest #testHand .test-card{
+  width:45mm!important;
+  height:63mm!important;
+  min-width:45mm!important;
+  min-height:63mm!important;
+  max-width:45mm!important;
+  max-height:63mm!important;
+  flex:0 0 45mm!important;
+}
+#drawtest #testHand .test-card span{
+  font-size:24px!important;
+}
+#drawtest #testHand .test-card b{
+  font-size:10px!important;
+}
+#drawtest #testHand .test-card small{
+  font-size:7px!important;
+}
