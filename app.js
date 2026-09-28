@@ -15,10 +15,26 @@ const cards=[
 {id:"SA-013",set:"BT03",name:"Soul Core Alpha",subtitle:"Origin of the Soul",type:"Soul Core",rarity:"Legendary",element:"Soul",cost:"0",ability:"Soul Core — แกนพลังประจำ Deck ใช้สำหรับกำหนดพลังเริ่มต้นของผู้เล่น",symbol:"SC"},
 {id:"SA-014",set:"BT03",name:"Soul Core Eclipse",subtitle:"Black Soul Reactor",type:"Soul Core",rarity:"Epic",element:"Eclipse",cost:"0",ability:"Soul Core — เพิ่มผลของการ์ด Eclipse เมื่อถูกวางในสนาม",symbol:"SC"},
 {id:"SA-015",set:"BT03",name:"Pocket Relic",subtitle:"Stored Artifact",type:"POCKET",rarity:"Rare",element:"Relic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ในพื้นที่ Pocket และเรียกใช้ในจังหวะที่กำหนด",symbol:"P"},
-{id:"SA-016",set:"BT03",name:"Pocket Trick",subtitle:"Hidden Move",type:"POCKET",rarity:"Common",element:"Mystic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ใน Pocket เพื่อเตรียมใช้เป็นการกระทำพิเศษ",symbol:"P"}
+{id:"SA-016",set:"BT03",name:"Pocket Trick",subtitle:"Hidden Move",type:"POCKET",rarity:"Common",element:"Mystic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ใน Pocket เพื่อเตรียมใช้เป็นการกระทำพิเศษ",symbol:"P"},
+
+{id:"HD-001",set:"HD",name:"เพอร่า ยามค่ำคืน",subtitle:"Pera at Night",type:"Character",rarity:"Common",element:"Crimson",cost:"3",ability:"การ์ดตัวละครจากชุด HD",symbol:"P",image:"/images/cards/hd-001-pera-at-night.jpg"},
+{id:"HD-002",set:"HD",name:"You Die!",subtitle:"Criminal Protocol",type:"Skill",rarity:"Common",element:"Void",cost:"3",ability:"การ์ดสกิลจากชุด HD",symbol:"Y",image:"/images/cards/hd-002-you-die.jpg"},
+{id:"HD-003",set:"HD",name:"คำเชิญชวนแห่งภูติ",subtitle:"Fairy's Invitation",type:"Action",rarity:"Common",element:"Mystic",cost:"2",ability:"การ์ดแอ็กชันจากชุด HD",symbol:"F",image:"/images/cards/hd-003-fairys-invitation.jpg"},
+{id:"HD-004",set:"HD",name:"เกลสาวโหด ณ 3 แยก",subtitle:"The Brutal Girl",type:"Character",rarity:"Common",element:"Crimson",cost:"4",ability:"การ์ดตัวละครจากชุด HD",symbol:"G",image:"/images/cards/hd-004-brutal-girl.jpg"},
+{id:"HD-005",set:"HD",name:"Aegiron The Starforged",subtitle:"The Starforged",type:"Character",rarity:"Common",element:"Star",cost:"5",ability:"การ์ดตัวละครจากชุด HD",symbol:"A",image:"/images/cards/hd-005-aegiron.jpg"},
+{id:"HD-006",set:"HD",name:"ไนธีเรีย ผู้เฝ้าประตูนรก",subtitle:"Guardian of Hell's Gate",type:"Character",rarity:"Common",element:"Void",cost:"3",ability:"การ์ดตัวละครจากชุด HD",symbol:"N",image:"/images/cards/hd-006-nytheria.jpg"},
+{id:"HD-007",set:"HD",name:"Heaven's Embrace",subtitle:"Heaven's Embrace",type:"Skill",rarity:"Common",element:"Holy",cost:"2",ability:"การ์ดสกิลจากชุด HD",symbol:"H",image:"/images/cards/hd-007-heavens-embrace.jpg"},
+{id:"HD-008",set:"HD",name:"จอมโจร100หน้า LUPIN",subtitle:"Lupin, 100 Faces",type:"Character",rarity:"Common",element:"Criminal",cost:"4",ability:"การ์ดตัวละครจากชุด HD",symbol:"L",image:"/images/cards/hd-008-lupin.jpg"},
+{id:"HD-009",set:"HD",name:"Death Error",subtitle:"System Failure",type:"Skill",rarity:"Common",element:"Void",cost:"4",ability:"การ์ดสกิลจากชุด HD",symbol:"E",image:"/images/cards/hd-009-death-error.jpg"},
+{id:"HD-010",set:"HD",name:"สัมผัสต้องห้าม",subtitle:"Forbidden Touch",type:"Skill",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ดสกิลจากชุด HD",symbol:"T",image:"/images/cards/hd-010-forbidden-touch.jpg"},
+{id:"HD-011",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ด Gear จากชุด HD",symbol:"C",image:"/images/cards/hd-011-cerberus-blade.jpg"}
+
 ];
 
 const rarityClass=r=>`rarity-${r.toLowerCase()}`;
+function cardImageHTML(c, className="card-real-image"){
+  return c.image ? `<img class="${className}" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}" loading="lazy">` : "";
+}
 const grid=document.querySelector("#grid"),search=document.querySelector("#search"),typeFilter=document.querySelector("#typeFilter"),rarityFilter=document.querySelector("#rarityFilter");
 document.querySelector("#totalCount").textContent=String(cards.length).padStart(2,"0");
 
@@ -50,7 +66,7 @@ function render(){
 function cardHTML(c,small=true){
  const inCollection=isWanted(c.id);
  return `<article class="card ${small?'small-card':''}" data-id="${c.id}">
-   <div class="card-art ${rarityClass(c.rarity)}"><div class="card-symbol">${c.symbol}</div><span class="rarity-orb">${c.rarity[0]}</span></div>
+   <div class="card-art ${rarityClass(c.rarity)}">${cardImageHTML(c)}${c.image?"":`<div class="card-symbol">${c.symbol}</div>`}<span class="rarity-orb">${c.rarity[0]}</span></div>
    <div class="card-info"><div class="tag-row"><span class="tag">${c.type}</span><span class="tag rarity">${c.rarity}</span><span class="tag set-tag">${c.set||"BT01"}</span></div>
    <h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.subtitle)}</p>
    <button class="collection-add-btn ${inCollection?"added":""}" data-collection-id="${c.id}">
@@ -69,6 +85,7 @@ function openCard(c){
  document.querySelector("#detailElement").textContent=c.element;
  document.querySelector("#detailCost").textContent=c.cost;
  document.querySelector("#detailImage").className=`detail-image ${rarityClass(c.rarity)}`;
+ document.querySelector("#detailImage").innerHTML=c.image ? `<img class="detail-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span class="detail-placeholder">✦</span>`;
  document.querySelector("#modal").classList.remove("hidden");
 }
 function closeModal(){document.querySelector("#modal").classList.add("hidden")}
@@ -165,7 +182,7 @@ function collectionCardHTML(c){
   const wanted=isWanted(c.id);
   return `<article class="collection-card ${wanted?"wanted":""}" data-id="${c.id}">
     <div class="collection-card-art ${rarityClass(c.rarity)}">
-      <div class="card-symbol">${c.symbol}</div>
+      ${cardImageHTML(c,"collection-real-image")}${c.image?"":`<div class="card-symbol">${c.symbol}</div>`}
       <span class="rarity-orb">${c.rarity[0]}</span>
       <span class="collection-set">${c.set||"BT01"}</span>
     </div>
@@ -661,7 +678,7 @@ function renderDeck(){
   document.querySelector("#deckList").innerHTML=entries.length?entries.map(([id,n])=>{
     const c=cards.find(x=>x.id===id);
     return `<div class="deck-row">
-      <div class="mini-art ${rarityClass(c.rarity)}">${c.symbol}</div>
+      <div class="mini-art ${rarityClass(c.rarity)}">${cardImageHTML(c,"mini-real-image")}${c.image?"":c.symbol}</div>
       <div class="row-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
       <div class="qty">${
         c.type==="Untimeat"
@@ -678,7 +695,7 @@ function renderDeck(){
 
 function specialHTML(c,label){
   return `<div class="special-card">
-    <div class="special-art ${rarityClass(c.rarity)}">${c.symbol}</div>
+    <div class="special-art ${rarityClass(c.rarity)}">${cardImageHTML(c,"special-real-image")}${c.image?"":c.symbol}</div>
     <div><b>${c.name}</b><small>${label} · ${c.rarity}</small></div>
     <button class="remove-card">×</button>
   </div>`;
@@ -698,7 +715,7 @@ function renderPicker(){
     if(c.type==="Soul Core" && (currentDeck.soulCores||[]).length>=7) limit=qty;
     if(c.type==="POCKET" && getPocketCount()>=10) limit=qty;
     return `<div class="picker-row">
-      <div class="picker-art ${rarityClass(c.rarity)}">${c.symbol}</div>
+      <div class="picker-art ${rarityClass(c.rarity)}">${cardImageHTML(c,"picker-real-image")}${c.image?"":c.symbol}</div>
       <div class="picker-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
       <div class="picker-qty">${qty}/${limit}</div>
       <button ${qty>=limit?"disabled":""} onclick="addToDeck('${c.id}')">＋</button>
@@ -942,7 +959,7 @@ function testCardHTML(id,clickable=false){
     </div>`;
   }
   return `<div class="test-card ${rarityClass(c.rarity)} ${clickable?"clickable":""}" data-id="${c.id}">
-    <span>${c.symbol}</span><b>${escapeHtml(c.name)}</b><small>${c.rarity}</small>
+    ${c.image ? `<img class="test-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span>${c.symbol}</span><b>${escapeHtml(c.name)}</b><small>${c.rarity}</small>`}
   </div>`;
 }
 function renderTest(){
@@ -998,9 +1015,7 @@ function showDrawnCard(id){
     <div class="draw-card-detail-inner">
       <button class="draw-card-close">×</button>
       <div class="draw-preview-card ${rarityClass(c.rarity)}">
-        <span>${c.symbol}</span>
-        <b>${escapeHtml(c.name)}</b>
-        <small>${escapeHtml(c.rarity)}</small>
+        ${c.image ? `<img class="draw-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span>${c.symbol}</span><b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.rarity)}</small>`}
       </div>
       <div class="draw-detail-text">
         <div class="eyebrow">${escapeHtml(c.type)}</div>
