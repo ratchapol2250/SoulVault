@@ -47,17 +47,23 @@ function render(){
    };
  });
 }
-function cardHTML(c,small=true){
- const inCollection=isWanted(c.id);
- return `<article class="card ${small?'small-card':''}" data-id="${c.id}">
-   <div class="card-art ${rarityClass(c.rarity)}"><div class="card-symbol">${c.symbol}</div><span class="rarity-orb">${c.rarity[0]}</span></div>
-   <div class="card-info"><div class="tag-row"><span class="tag">${c.type}</span><span class="tag rarity">${c.rarity}</span><span class="tag set-tag">${c.set||"BT01"}</span></div>
-   <h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.subtitle)}</p>
-   <button class="collection-add-btn ${inCollection?"added":""}" data-collection-id="${c.id}">
-     ${inCollection?"✓ อยู่ในคอลเลกชัน":"＋ เพิ่มเข้าคอลเลกชัน"}
-   </button>
-   <button class="deck-add-btn" data-deck-card-id="${c.id}">＋ เพิ่มเข้าเด็ค</button>
-   </div></article>`;
+function cardHTML(c, small = true){
+  const inCollection = isWanted(c.id);
+
+  return `
+    <article class="card ${small ? 'small-card' : ''}" data-id="${c.id}">
+      
+      <div class="card-art ${rarityClass(c.rarity)}">
+        <img src="${c.image}" alt="${c.name}">
+        <span class="rarity-orb">${c.rarity[0]}</span>
+      </div>
+
+      <div class="card-info">
+        ...
+      </div>
+
+    </article>
+  `;
 }
 function openCard(c){
  document.querySelector("#detailType").textContent=c.type.toUpperCase();
