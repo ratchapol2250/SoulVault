@@ -17,7 +17,7 @@ const cards=[
 {id:"SA-015",set:"BT03",name:"Pocket Relic",subtitle:"Stored Artifact",type:"POCKET",rarity:"Rare",element:"Relic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ในพื้นที่ Pocket และเรียกใช้ในจังหวะที่กำหนด",symbol:"P"},
 {id:"SA-016",set:"BT03",name:"Pocket Trick",subtitle:"Hidden Move",type:"POCKET",rarity:"Common",element:"Mystic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ใน Pocket เพื่อเตรียมใช้เป็นการกระทำพิเศษ",symbol:"P"},
 
-{id:"HD-001",image:"/public/images/cards/hd-001-pera-at-night.jpg",set:"HD",name:"เพอร่า ยามค่ำคืน",subtitle:"ผู้หญิง",type:"Character",rarity:"Common",element:"-",cost:"3",ability:"เมื่อเข้าสู่สนามจั่วการ์ด 1 ใบ"},
+{id:"HD-001",image:"/public/images/cards/hd-001-pera-at-night.jpg",set:"HD",name:"เพอร่า ยามค่ำคืน",subtitle:"Pera at Night",type:"Character",rarity:"Common",element:"Crimson",cost:"3",ability:"การ์ดตัวละครจากชุด HD",symbol:"P",image:"/public/images/cards/hd-001-pera-at-night.jpg"},
 {id:"HD-002",image:"/public/images/cards/hd-002-you-die.jpg",set:"HD",name:"You Die!",subtitle:"Criminal Protocol",type:"Skill",rarity:"Common",element:"Void",cost:"3",ability:"การ์ดสกิลจากชุด HD",symbol:"Y",image:"/public/images/cards/hd-002-you-die.jpg"},
 {id:"HD-003",image:"/public/images/cards/hd-003-fairys-invitation.jpg",set:"HD",name:"คำเชิญชวนแห่งภูติ",subtitle:"Fairy's Invitation",type:"Action",rarity:"Common",element:"Mystic",cost:"2",ability:"การ์ดแอ็กชันจากชุด HD",symbol:"F",image:"/public/images/cards/hd-003-fairys-invitation.jpg"},
 {id:"HD-004",image:"/public/images/cards/hd-004-brutal-girl.jpg",set:"HD",name:"เกลสาวโหด ณ 3 แยก",subtitle:"The Brutal Girl",type:"Character",rarity:"Common",element:"Crimson",cost:"4",ability:"การ์ดตัวละครจากชุด HD",symbol:"G",image:"/public/images/cards/hd-004-brutal-girl.jpg"},
@@ -85,7 +85,7 @@ function openCard(c){
  document.querySelector("#detailElement").textContent=c.element;
  document.querySelector("#detailCost").textContent=c.cost;
  document.querySelector("#detailImage").className=`detail-image ${rarityClass(c.rarity)}`;
- document.querySelector("#detailImage").innerHTML=c.image ? `<img class="detail-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span class="detail-placeholder">✦</span>`;
+ document.querySelector("#detailImage").innerHTML=c.image ? `<img class="detail-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span class="detail-placeholder"></span>`;
  document.querySelector("#modal").classList.remove("hidden");
 }
 function closeModal(){document.querySelector("#modal").classList.add("hidden")}
