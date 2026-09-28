@@ -72,7 +72,18 @@ function openCard(c){
  document.querySelector("#modal").classList.remove("hidden");
 }
 function closeModal(){document.querySelector("#modal").classList.add("hidden")}
-search.oninput=render;typeFilter.onchange=render;rarityFilter.onchange=render;document.querySelector("#setFilter").onchange=render;
+function resetRosterFilters(){
+  ["search","typeFilter","setFilter","rarityFilter"].forEach(id=>{
+    const el=document.querySelector("#"+id);
+    if(!el)return;
+    if(id==="search")el.value="";
+    else el.value="All";
+  });
+}
+[search,typeFilter,rarityFilter,document.querySelector("#setFilter")].forEach(el=>{
+  if(!el)return;
+  el.addEventListener(el.tagName==="INPUT"?"input":"change",render);
+});
 document.querySelector("#close").onclick=closeModal;
 document.querySelector("#modal").onclick=e=>{if(e.target.id==="modal")closeModal()};
 document.querySelector("#menuBtn").onclick=()=>document.querySelector(".sidebar").classList.toggle("open");
@@ -211,11 +222,19 @@ function renderCollection(){
 }
 
 
-document.querySelector("#collectionSearch")?.addEventListener("input",renderCollection);
-document.querySelector("#collectionSetFilter")?.addEventListener("change",renderCollection);
-document.querySelector("#collectionTypeFilter")?.addEventListener("change",renderCollection);
-document.querySelector("#collectionRarityFilter")?.addEventListener("change",renderCollection);
-document.querySelector("#collectionViewFilter")?.addEventListener("change",renderCollection);
+function resetCollectionFilters(){
+  const search=document.querySelector("#collectionSearch");
+  const set=document.querySelector("#collectionSetFilter");
+  const type=document.querySelector("#collectionTypeFilter");
+  const rarity=document.querySelector("#collectionRarityFilter");
+  if(search)search.value="";
+  if(set)set.value="All";
+  if(type)type.value="All";
+  if(rarity)rarity.value="All";
+}
+[["#collectionSearch","input"],["#collectionSetFilter","change"],["#collectionTypeFilter","change"],["#collectionRarityFilter","change"],["#collectionViewFilter","change"]].forEach(([sel,evt])=>{
+  document.querySelector(sel)?.addEventListener(evt,renderCollection);
+});
 renderCollection();
 
 
@@ -788,8 +807,20 @@ document.querySelector("#deleteDeckBtn").onclick=deleteCurrentDeck;
 document.querySelector("#coverBtn").onclick=openCoverPicker;
 document.querySelector("#closeCover").onclick=()=>document.querySelector("#coverModal").classList.add("hidden");
 document.querySelector("#coverModal").onclick=e=>{if(e.target.id==="coverModal")e.currentTarget.classList.add("hidden")};
-document.querySelector("#deckSearch").oninput=renderPicker;
-document.querySelector("#deckTypeFilter").onchange=renderPicker;document.querySelector("#deckSetFilter").onchange=renderPicker;document.querySelector("#deckRarityFilter").onchange=renderPicker;
+function resetDeckFilters(){
+  const search=document.querySelector("#deckSearch");
+  const type=document.querySelector("#deckTypeFilter");
+  const set=document.querySelector("#deckSetFilter");
+  const rarity=document.querySelector("#deckRarityFilter");
+  if(search)search.value="";
+  if(type)type.value="All";
+  if(set)set.value="All";
+  if(rarity)rarity.value="All";
+}
+document.querySelector("#deckSearch")?.addEventListener("input",renderPicker);
+document.querySelector("#deckTypeFilter")?.addEventListener("change",renderPicker);
+document.querySelector("#deckSetFilter")?.addEventListener("change",renderPicker);
+document.querySelector("#deckRarityFilter")?.addEventListener("change",renderPicker);
 document.querySelector("#deckName").oninput=e=>{
   if(currentDeck){
     currentDeck.name=e.target.value;
@@ -798,8 +829,11 @@ document.querySelector("#deckName").oninput=e=>{
   }
 };
 
+resetRosterFilters();
 render();
 initDeck();
+resetDeckFilters();
+renderPicker();
 
 
 /* ---------------- DRAW TEST / PLAYMAT ---------------- */

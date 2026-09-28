@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STEAL AREA — การ์ดทั้งหมด</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260928-2">
 </head>
 <body>
 <aside class="sidebar">
@@ -15,7 +15,7 @@
     <nav>
       <button class="nav" data-section="roster">◈ <span>รายการการ์ด</span></button>
       <button class="nav" data-section="collection">▣ <span>คอลเลกชัน</span></button>
-      <button class="nav active" data-section="deck">◇ <span>สร้างเด็ค</span></button>
+      <button class="nav" data-section="deck">◇ <span>สร้างเด็ค</span></button>
       <button class="nav" data-section="drawtest">♢ <span>ทดลองจั่ว</span></button>
       <button class="nav" data-section="supply">▤ <span>อุปกรณ์เสริม</span></button>
     </nav>
@@ -34,7 +34,7 @@
       <div class="stats"><span id="totalCount">08</span> CARDS</div>
     </header>
 
-    <section id="roster" class="section">
+    <section id="roster" class="section active-section">
       <div class="hero">
         <div>
           <div class="hero-kicker">STEAL AREA</div>
@@ -128,7 +128,7 @@
       <div id="collectionEmpty" class="empty hidden">ยังไม่มีการ์ดในคอลเลกชัน<br><small>ไปที่ "รายการการ์ด" แล้วกด เพิ่มเข้าคอลเลกชัน</small></div>
     </section>
 
-    <section id="deck" class="section active-section">
+    <section id="deck" class="section">
       <div class="deck-header">
         <div>
           <div class="eyebrow">DECK CONSTRUCTION</div>
@@ -342,6 +342,6 @@
       </div>
     </div>
   </div>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260928-2"></script>
 </body>
 </html>
