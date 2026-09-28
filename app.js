@@ -762,33 +762,33 @@ function getPocketCount(deck=currentDeck){
 function validateDeckBeforeSave(){
   const mainCount=getMainDeckCount(currentDeck);
   if(mainCount>50){
-    alert("ไม่สามารถบันทึก Deck ได้\n\nMAIN DECK มี "+mainCount+" ใบ\nสูงสุด 50 ใบ\n\nPocket และ Untimeat นับรวมใน 50 ใบนี้");
+    alert("ไม่สามารถบันทึก Deck ได้ MAIN DECK มี "+mainCount+" ใบ สูงสุด 50 ใบ Pocket และ Untimeat นับรวมใน 50 ใบนี้");
     return false;
   }
   const pocketCount=getPocketCount();
   const soulCoreCount=(currentDeck.soulCores||[]).length;
   if(soulCoreCount!==7){
-    alert(`ไม่สามารถบันทึก Deck ได้\\n\\nSOUL CORE ต้องมีทั้งหมด 7 ใบ\\nตอนนี้มี ${soulCoreCount} ใบ`);
+    alert(`ไม่สามารถบันทึก Deck ได้ SOUL CORE ต้องมีทั้งหมด 7 ใบ ตอนนี้มี ${soulCoreCount} ใบ`);
     return false;
   }
   if(pocketCount!==10){
-    alert(`ไม่สามารถบันทึก Deck ได้\\n\\nPOCKET ต้องมีทั้งหมด 10 ใบ\\nตอนนี้มี ${pocketCount} ใบ`);
+    alert(`ไม่สามารถบันทึก Deck ได้ POCKET ต้องมีทั้งหมด 10 ใบ ตอนนี้มี ${pocketCount} ใบ`);
     return false;
   }
   if(!currentDeck.leader){
-    alert("ไม่สามารถบันทึก Deck ได้\\n\\nต้องมี Leader 1 ใบ");
+    alert("ไม่สามารถบันทึก Deck ได้ ต้องมี Leader 1 ใบ");
     return false;
   }
   if(!currentDeck.zone){
-    alert("ไม่สามารถบันทึก Deck ได้\\n\\nต้องมี Zone 1 ใบ");
+    alert("ไม่สามารถบันทึก Deck ได้ ต้องมี Zone 1 ใบ");
     return false;
   }
   if(!currentDeck.untimeat){
-    alert("ไม่สามารถบันทึก Deck ได้\n\nต้องมี Untimeat 1 ใบ");
+    alert("ไม่สามารถบันทึก Deck ได้ ต้องมี Untimeat 1 ใบ");
     return false;
   }
   if((currentDeck.main?.[currentDeck.untimeat]||0)!==1){
-    alert("ไม่สามารถบันทึก Deck ได้\n\nUntimeat ต้องอยู่ใน MAIN DECK จำนวน 1 ใบ");
+    alert("ไม่สามารถบันทึก Deck ได้ Untimeat ต้องอยู่ใน MAIN DECK จำนวน 1 ใบ");
     return false;
   }
   return true;
