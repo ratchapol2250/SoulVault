@@ -27,7 +27,7 @@ const cards=[
 {id:"HD-008",image:"/public/images/cards/hd-008-lupin.jpg",set:"HD",name:"จอมโจร100หน้า LUPIN",subtitle:"Lupin, 100 Faces",type:"Character",rarity:"Common",element:"Criminal",cost:"4",ability:"การ์ดตัวละครจากชุด HD",symbol:"L",image:"/public/images/cards/hd-008-lupin.jpg"},
 {id:"HD-009",image:"/public/images/cards/hd-009-death-error.jpg",set:"HD",name:"Death Error",subtitle:"System Failure",type:"Skill",rarity:"Common",element:"Void",cost:"4",ability:"การ์ดสกิลจากชุด HD",symbol:"E",image:"/public/images/cards/hd-009-death-error.jpg"},
 {id:"HD-010",image:"/public/images/cards/hd-010-forbidden-touch.jpg",set:"HD",name:"สัมผัสต้องห้าม",subtitle:"Forbidden Touch",type:"Skill",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ดสกิลจากชุด HD",symbol:"T",image:"/public/images/cards/hd-010-forbidden-touch.jpg"},
-{id:"HD-011",image:"/public/images/cards/hd-011-cerberus-blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ด Gear จากชุด HD",symbol:"C",image:"/public/images/cards/hd-011-cerberus-blade.jpg"}
+{id:"HD-011",image:"/public/images/cards/hd-011-cerberus-blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ด Gear จากชุด HD",symbol:"C",image:"/public/images/cards/hd-011-cerberus-blade.jpg"},
 {id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",set:"HD",name:"pocket",subtitle:"-",type:"pocket",rarity:"Common",element:"-",cost:"-",ability:"การ์ด Gear จากชุด HD",image:"/public/images/cards/Pocket3.jpg"}
 ];
 
