@@ -1,5 +1,5 @@
 const cards=[
-{id:"HD 01",set:"HD",name:"Aegiron The Starforged",subtitle:"นักรบเกราะเหล็ก",type:"Character",rarity:"common",element:"-",cost:"5",ability:"-",symbol:"-",image: "/images/cards/eclipse-king.webp"},
+{id:"SA-001",set:"BT01",name:"Varethorn",subtitle:"The Shadow Thief",type:"Character",rarity:"Legendary",element:"Void",cost:"6",ability:"เมื่อเข้าสู่สนาม สามารถเลือกการ์ด 1 ใบจากมือฝ่ายตรงข้ามและทำให้การ์ดนั้นถูกล็อกชั่วคราว",symbol:"V"},
 {id:"SA-002",set:"BT01",name:"Draconic Fury",subtitle:"Wrath of the Dragon",type:"Action",rarity:"Epic",element:"Inferno",cost:"3",ability:"เพิ่มพลังโจมตีให้ตัวละครของคุณ และสร้างแรงกดดันต่อคู่ต่อสู้ในเทิร์นนี้",symbol:"D"},
 {id:"SA-003",set:"BT01",name:"Soulvault",subtitle:"The Endless Archive",type:"Skill",rarity:"Rare",element:"Soul",cost:"2",ability:"เก็บการ์ด 1 ใบจากสุสานของคุณกลับมาไว้ในมือ",symbol:"S"},
 {id:"SA-004",set:"BT01",name:"Azrakar",subtitle:"Keeper of the Red Core",type:"Character",rarity:"Legendary",element:"Red Core",cost:"7",ability:"เมื่อพลังชีวิตของคุณลดลงต่ำกว่าครึ่ง ความสามารถของ Azrakar จะทำงานทันที",symbol:"A"},
@@ -47,23 +47,17 @@ function render(){
    };
  });
 }
-function cardHTML(c, small = true){
-  const inCollection = isWanted(c.id);
-
-  return `
-    <article class="card ${small ? 'small-card' : ''}" data-id="${c.id}">
-      
-      <div class="card-art ${rarityClass(c.rarity)}">
-        <img src="${c.image}" alt="${c.name}">
-        <span class="rarity-orb">${c.rarity[0]}</span>
-      </div>
-
-      <div class="card-info">
-        ...
-      </div>
-
-    </article>
-  `;
+function cardHTML(c,small=true){
+ const inCollection=isWanted(c.id);
+ return `<article class="card ${small?'small-card':''}" data-id="${c.id}">
+   <div class="card-art ${rarityClass(c.rarity)}"><div class="card-symbol">${c.symbol}</div><span class="rarity-orb">${c.rarity[0]}</span></div>
+   <div class="card-info"><div class="tag-row"><span class="tag">${c.type}</span><span class="tag rarity">${c.rarity}</span><span class="tag set-tag">${c.set||"BT01"}</span></div>
+   <h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.subtitle)}</p>
+   <button class="collection-add-btn ${inCollection?"added":""}" data-collection-id="${c.id}">
+     ${inCollection?"✓ อยู่ในคอลเลกชัน":"＋ เพิ่มเข้าคอลเลกชัน"}
+   </button>
+   <button class="deck-add-btn" data-deck-card-id="${c.id}">＋ เพิ่มเข้าเด็ค</button>
+   </div></article>`;
 }
 function openCard(c){
  document.querySelector("#detailType").textContent=c.type.toUpperCase();
@@ -185,12 +179,14 @@ function renderCollection(){
   const search=(document.querySelector("#collectionSearch")?.value||"").toLowerCase().trim();
   const set=document.querySelector("#collectionSetFilter")?.value||"All";
   const type=document.querySelector("#collectionTypeFilter")?.value||"All";
+  const rarity=document.querySelector("#collectionRarityFilter")?.value||"All";
 
   const list=cards.filter(c=>{
     const wanted=isWanted(c.id);
     return wanted
       &&(set==="All"||c.set===set)
       &&(type==="All"||c.type===type)
+      &&(rarity==="All"||c.rarity===rarity)
       &&[c.name,c.subtitle,c.type,c.rarity,c.set,c.element].join(" ").toLowerCase().includes(search);
   });
 
@@ -218,6 +214,7 @@ function renderCollection(){
 document.querySelector("#collectionSearch")?.addEventListener("input",renderCollection);
 document.querySelector("#collectionSetFilter")?.addEventListener("change",renderCollection);
 document.querySelector("#collectionTypeFilter")?.addEventListener("change",renderCollection);
+document.querySelector("#collectionRarityFilter")?.addEventListener("change",renderCollection);
 document.querySelector("#collectionViewFilter")?.addEventListener("change",renderCollection);
 renderCollection();
 
@@ -673,7 +670,8 @@ function renderPicker(){
   const q=(document.querySelector("#deckSearch").value||"").toLowerCase();
   const t=document.querySelector("#deckTypeFilter").value;
   const s=(document.querySelector("#deckSetFilter")?.value||"All");
-  const list=cards.filter(c=>(t==="All"||c.type===t)&&(s==="All"||c.set===s)&&[c.name,c.subtitle,c.rarity,c.type,c.set].join(" ").toLowerCase().includes(q));
+  const r=(document.querySelector("#deckRarityFilter")?.value||"All");
+  const list=cards.filter(c=>(t==="All"||c.type===t)&&(s==="All"||c.set===s)&&(r==="All"||c.rarity===r)&&[c.name,c.subtitle,c.rarity,c.type,c.set].join(" ").toLowerCase().includes(q));
 
   document.querySelector("#pickerList").innerHTML=list.map(c=>{
     let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):c.type==="Untimeat"?(currentDeck.untimeat===c.id?1:0):c.type==="Soul Core"?((currentDeck.soulCores||[]).filter(x=>x===c.id).length):(currentDeck.main[c.id]||0);
@@ -791,7 +789,7 @@ document.querySelector("#coverBtn").onclick=openCoverPicker;
 document.querySelector("#closeCover").onclick=()=>document.querySelector("#coverModal").classList.add("hidden");
 document.querySelector("#coverModal").onclick=e=>{if(e.target.id==="coverModal")e.currentTarget.classList.add("hidden")};
 document.querySelector("#deckSearch").oninput=renderPicker;
-document.querySelector("#deckTypeFilter").onchange=renderPicker;document.querySelector("#deckSetFilter").onchange=renderPicker;
+document.querySelector("#deckTypeFilter").onchange=renderPicker;document.querySelector("#deckSetFilter").onchange=renderPicker;document.querySelector("#deckRarityFilter").onchange=renderPicker;
 document.querySelector("#deckName").oninput=e=>{
   if(currentDeck){
     currentDeck.name=e.target.value;
