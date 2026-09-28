@@ -14,8 +14,8 @@ const cards=[
 {id:"SA-012",set:"BT03",name:"Relic Core",subtitle:"Ancient Power",type:"Item",rarity:"Rare",element:"Relic",cost:"2",ability:"ติดตั้งให้ Character 1 ใบเพื่อเพิ่มผลของความสามารถ",symbol:"C"},
 {id:"SA-013",set:"BT03",name:"Soul Core Alpha",subtitle:"Origin of the Soul",type:"Soul Core",rarity:"Legendary",element:"Soul",cost:"0",ability:"Soul Core — แกนพลังประจำ Deck ใช้สำหรับกำหนดพลังเริ่มต้นของผู้เล่น",symbol:"SC"},
 {id:"SA-014",set:"BT03",name:"Soul Core Eclipse",subtitle:"Black Soul Reactor",type:"Soul Core",rarity:"Epic",element:"Eclipse",cost:"0",ability:"Soul Core — เพิ่มผลของการ์ด Eclipse เมื่อถูกวางในสนาม",symbol:"SC"},
-{id:"SA-015",set:"BT03",name:"Pocket Relic",subtitle:"Stored Artifact",type:"Pocket",rarity:"Rare",element:"Relic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ในพื้นที่ Pocket และเรียกใช้ในจังหวะที่กำหนด",symbol:"P"},
-{id:"SA-016",set:"BT03",name:"Pocket Trick",subtitle:"Hidden Move",type:"Pocket",rarity:"Common",element:"Mystic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ใน Pocket เพื่อเตรียมใช้เป็นการกระทำพิเศษ",symbol:"P"},
+{id:"SA-015",set:"BT03",name:"Pocket Relic",subtitle:"Stored Artifact",type:"POCKET",rarity:"Rare",element:"Relic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ในพื้นที่ Pocket และเรียกใช้ในจังหวะที่กำหนด",symbol:"P"},
+{id:"SA-016",set:"BT03",name:"Pocket Trick",subtitle:"Hidden Move",type:"POCKET",rarity:"Common",element:"Mystic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ใน Pocket เพื่อเตรียมใช้เป็นการกระทำพิเศษ",symbol:"P"},
 
 {id:"HD-001",image:"/public/images/cards/hd-001-pera-at-night.jpg",set:"HD",name:"เพอร่า ยามค่ำคืน",subtitle:"Pera at Night",type:"Character",rarity:"Common",element:"Crimson",cost:"3",ability:"การ์ดตัวละครจากชุด HD",symbol:"P",image:"/public/images/cards/hd-001-pera-at-night.jpg"},
 {id:"HD-002",image:"/public/images/cards/hd-002-you-die.jpg",set:"HD",name:"You Die!",subtitle:"Criminal Protocol",type:"Skill",rarity:"Common",element:"Void",cost:"3",ability:"การ์ดสกิลจากชุด HD",symbol:"Y",image:"/public/images/cards/hd-002-you-die.jpg"},
@@ -27,8 +27,7 @@ const cards=[
 {id:"HD-008",image:"/public/images/cards/hd-008-lupin.jpg",set:"HD",name:"จอมโจร100หน้า LUPIN",subtitle:"Lupin, 100 Faces",type:"Character",rarity:"Common",element:"Criminal",cost:"4",ability:"การ์ดตัวละครจากชุด HD",symbol:"L",image:"/public/images/cards/hd-008-lupin.jpg"},
 {id:"HD-009",image:"/public/images/cards/hd-009-death-error.jpg",set:"HD",name:"Death Error",subtitle:"System Failure",type:"Skill",rarity:"Common",element:"Void",cost:"4",ability:"การ์ดสกิลจากชุด HD",symbol:"E",image:"/public/images/cards/hd-009-death-error.jpg"},
 {id:"HD-010",image:"/public/images/cards/hd-010-forbidden-touch.jpg",set:"HD",name:"สัมผัสต้องห้าม",subtitle:"Forbidden Touch",type:"Skill",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ดสกิลจากชุด HD",symbol:"T",image:"/public/images/cards/hd-010-forbidden-touch.jpg"},
-{id:"HD-011",image:"/public/images/cards/hd-011-cerberus-blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ด Gear จากชุด HD",symbol:"C",image:"/public/images/cards/hd-011-cerberus-blade.jpg"},
-{id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",set:"HD",name:"pocket",subtitle:"-",type:"Pocket",rarity:"Common",element:"-",cost:"-",ability:"การ์ด Gear จากชุด HD",image:"/public/images/cards/Pocket3.jpg"}
+{id:"HD-011",image:"/public/images/cards/hd-011-cerberus-blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ด Gear จากชุด HD",symbol:"C",image:"/public/images/cards/hd-011-cerberus-blade.jpg"}
 
 ];
 
@@ -281,7 +280,7 @@ function openAddToDeckModal(cardId){
 
   const limit=card.type==="Leader"||card.type==="Zone"||card.type==="Untimeat" ? 1 :
               card.type==="Soul Core" ? 7 :
-              card.type==="Pocket" ? 10 : 3;
+              card.type==="POCKET" ? 10 : 3;
 
   const deckOptions=decks.map(d=>{
     const selected=d.id===localStorage.getItem("stealAreaActiveDeckId");
@@ -404,10 +403,10 @@ function addCardFromRosterToDeck(cardId,deckId,requestedQty=1){
     deck.untimeat=card.id;
     deck.main[card.id]=1;
   }else{
-    const limit=card.type==="Pocket"?10:3;
+    const limit=card.type==="POCKET"?10:3;
     const currentQty=Number(deck.main[card.id]||0);
     if(currentQty+qty>limit){
-      alert(`${card.type==="Pocket"?"Pocket":"การ์ดใบนี้"} ใส่ได้สูงสุด ${limit} ใบ (ตอนนี้มี ${currentQty} ใบ)`);
+      alert(`${card.type==="POCKET"?"Pocket":"การ์ดใบนี้"} ใส่ได้สูงสุด ${limit} ใบ (ตอนนี้มี ${currentQty} ใบ)`);
       return;
     }
     const available=50-getMainDeckCount(deck);
@@ -592,10 +591,10 @@ function addToDeck(id){
     currentDeck.soulCores.push(c.id);
   }else{
     const n=currentDeck.main[c.id]||0;
-    if(c.type==="Pocket"){
+    if(c.type==="POCKET"){
       const pocketTotal=getPocketCount();
-      if(pocketTotal>=10)return alert("Pocket มีได้สูงสุด 10 ใบ");
-      if(n>=10)return alert("Pocket ใบนี้ใส่ได้สูงสุด 10 ใบ");
+      if(pocketTotal>=10)return alert("POCKET มีได้สูงสุด 10 ใบ");
+      if(n>=10)return alert("POCKET ใบนี้ใส่ได้สูงสุด 10 ใบ");
     }else{
       if(n>=3)return alert("การ์ดใบนี้ใส่ได้สูงสุด 3 ใบ");
     }
@@ -639,7 +638,7 @@ function renderDeck(){
   soulEl.classList.toggle("valid",soulCoreCount===7);
   soulEl.classList.toggle("invalid",soulCoreCount!==7);
 
-  const pocketCount=Object.entries(currentDeck.main||{}).reduce((sum,[id,n])=>sum+(cards.find(c=>c.id===id)?.type==="Pocket"?n:0),0);
+  const pocketCount=Object.entries(currentDeck.main||{}).reduce((sum,[id,n])=>sum+(cards.find(c=>c.id===id)?.type==="POCKET"?n:0),0);
   const pocketEl=document.querySelector("#pocketCount");
   pocketEl.textContent=pocketCount+"/10";
   pocketEl.classList.toggle("valid",pocketCount===10);
@@ -712,9 +711,9 @@ function renderPicker(){
 
   document.querySelector("#pickerList").innerHTML=list.map(c=>{
     let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):c.type==="Untimeat"?(currentDeck.untimeat===c.id?1:0):c.type==="Soul Core"?((currentDeck.soulCores||[]).filter(x=>x===c.id).length):(currentDeck.main[c.id]||0);
-    let limit=c.type==="Leader"||c.type==="Zone"||c.type==="Untimeat"?1:c.type==="Soul Core"?7:c.type==="Pocket"?10:3;
+    let limit=c.type==="Leader"||c.type==="Zone"||c.type==="Untimeat"?1:c.type==="Soul Core"?7:c.type==="POCKET"?10:3;
     if(c.type==="Soul Core" && (currentDeck.soulCores||[]).length>=7) limit=qty;
-    if(c.type==="Pocket" && getPocketCount()>=10) limit=qty;
+    if(c.type==="POCKET" && getPocketCount()>=10) limit=qty;
     return `<div class="picker-row">
       <div class="picker-art ${rarityClass(c.rarity)}">${cardImageHTML(c,"picker-real-image")}${c.image?"":c.symbol}</div>
       <div class="picker-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
@@ -756,7 +755,7 @@ function chooseCover(id){
 function getPocketCount(deck=currentDeck){
   return Object.entries(deck?.main||{}).reduce((sum,[id,n])=>{
     const c=cards.find(x=>x.id===id);
-    return sum+(c?.type==="Pocket"?n:0);
+    return sum+(c?.type==="POCKET"?n:0);
   },0);
 }
 
@@ -773,7 +772,7 @@ function validateDeckBeforeSave(){
     return false;
   }
   if(pocketCount!==10){
-    alert(`ไม่สามารถบันทึก Deck ได้\\n\\nPocket ต้องมีทั้งหมด 10 ใบ\\nตอนนี้มี ${pocketCount} ใบ`);
+    alert(`ไม่สามารถบันทึก Deck ได้\\n\\nPOCKET ต้องมีทั้งหมด 10 ใบ\\nตอนนี้มี ${pocketCount} ใบ`);
     return false;
   }
   if(!currentDeck.leader){
@@ -935,7 +934,7 @@ function playHandCard(id){
   const c=cards.find(x=>x.id===id);
   if(!c)return;
 
-  if(c.type==="Pocket"){
+  if(c.type==="POCKET"){
     testBoard.pocket.push(id);
   }else{
     const slot=testBoard.chars.findIndex(x=>x===null);
