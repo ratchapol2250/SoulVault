@@ -29,7 +29,7 @@ const cards=[
 {id:"HD-011",image:"/public/images/cards/สัมผัสต้องห้าม.jpg",set:"HD",name:"สัมผัสต้องห้าม",subtitle:"Forbidden Touch",type:"Action",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ดสกิลจากชุด HD",symbol:"T",image:"/public/images/cards/สัมผัสต้องห้าม.jpg"},
 {id:"HD-006",image:"/public/images/cards/Cerberus Blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ด Gear จากชุด HD",symbol:"C",image:"/public/images/cards/Cerberus Blade.jpg"},
 {id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",set:"HD",name:"pocket",subtitle:"-",type:"POCKET",rarity:"Common",element:"-",cost:"-",ability:"การ์ด Gear จากชุด HD",image:"/public/images/cards/Pocket3.jpg"},
-{id:"HD-012",image:"/public/images/cards/Soul Guard.jpg",set:"HD",name:"Soul Guard",subtitle:"Soul Guard",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"2",ability:"ใช้ได้ต่อเมื่อคู่แข่งสั่งโจมตี\ncouter  จ่าย    1 ทำให้การโจมตีไร้ผล",symbol:"C",image:"/public/images/cards/Soul Guard.jpg"},
+{id:"HD-012",image:"/public/images/cards/Soul Guard.jpg",set:"HD",name:"Soul Guard",subtitle:"Soul Guard",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"2",ability:"ใช้ได้ต่อเมื่อคู่แข่งสั่งโจมตี \n couter  จ่าย    1 ทำให้การโจมตีไร้ผล",symbol:"C",image:"/public/images/cards/Soul Guard.jpg"},
 ];
 
 const rarityClass=r=>`rarity-${r.toLowerCase()}`;
