@@ -1039,11 +1039,7 @@ function formatAbility(text) {
   if (!text) return "";
 
   const icons = {
-    attack: "/images/icons/attack.png",
-    draw: "/images/icons/draw.png",
-    soul: "/images/icons/soul.png",
-    damage: "/images/icons/damage.png",
-    counter: "/images/icons/counter.png"
+    counter: "/public/images/icons/counter.png"
   };
 
   let html = escapeHtml(text);
