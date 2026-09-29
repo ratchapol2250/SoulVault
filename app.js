@@ -1039,8 +1039,7 @@ function formatAbility(text) {
   if (!text) return "";
 
   const icons = {
-    counter: "public/images/icon/counter.png",
-    E: "public/images/icon/E.png"
+    `<img class="ability-icon ability-icon-${name}" src="${src}" alt="${name}">`
   };
 
   let html = escapeHtml(text);
