@@ -1141,8 +1141,8 @@ select option:hover{
   line-height: 1.8;
 }
 .ability-icon {
-  width: 22px;
-  height: 22px;
+  width: 30px;
+  height: 30px;
   object-fit: contain;
   vertical-align: middle;
   margin: 0 4px;
