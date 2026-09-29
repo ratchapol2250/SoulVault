@@ -1047,7 +1047,7 @@ function formatAbility(text) {
   Object.entries(icons).forEach(([name, src]) => {
     html = html.replaceAll(
       `{${name}}`,
-      `<img class="ability-icon" src="${src}" alt="${name}">`
+      `<img class="ability-icon" src="${src}" alt="${name}">`,
     );
   });
 
