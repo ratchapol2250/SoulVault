@@ -1135,3 +1135,8 @@ select option:hover{
   background:#1b1710!important;
   color:#f2d48a!important;
 }
+/* เว้นบรรทัดในข้อความ Ability */
+#detailAbility {
+  white-space: pre-line !important;
+  line-height: 1.8;
+}
