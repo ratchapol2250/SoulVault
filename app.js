@@ -1042,7 +1042,8 @@ function formatAbility(text) {
     attack: "/images/icons/attack.png",
     draw: "/images/icons/draw.png",
     soul: "/images/icons/soul.png",
-    damage: "/images/icons/damage.png"
+    damage: "/images/icons/damage.png",
+    counter: "/images/icons/counter.png"
   };
 
   let html = escapeHtml(text);
