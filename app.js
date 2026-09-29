@@ -1038,7 +1038,7 @@ function initDrawTest(){
 function formatAbility(text) {
   if (!text) return "";
 
-  const icon = {
+  const icons = {
     counter: "public/images/icon/counter.png"
   };
 
