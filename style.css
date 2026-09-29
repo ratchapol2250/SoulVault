@@ -1140,3 +1140,10 @@ select option:hover{
   white-space: pre-line !important;
   line-height: 1.8;
 }
+.ability-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin: 0 4px;
+}
