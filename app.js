@@ -1038,8 +1038,8 @@ function initDrawTest(){
 function formatAbility(text) {
   if (!text) return "";
 
-  const icons = {
-    counter: "public/images/icons/counter.png"
+  const icon = {
+    counter: "public/images/icon/counter.png"
   };
 
   let html = escapeHtml(text);
