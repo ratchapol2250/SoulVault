@@ -1039,7 +1039,9 @@ function formatAbility(text) {
   if (!text) return "";
 
   const icons = {
-    `<img class="ability-icon ability-icon-${name}" src="${src}" alt="${name}">`
+    counter: "/images/icon/counter.png",
+  E: "/images/icon/E.png",
+  draw: "/images/icon/draw.png"
   };
 
   let html = escapeHtml(text);
@@ -1047,7 +1049,7 @@ function formatAbility(text) {
   Object.entries(icons).forEach(([name, src]) => {
     html = html.replaceAll(
       `{${name}}`,
-      `<img class="ability-icon" src="${src}" alt="${name}">`,
+      `<img class="ability-icon ability-icon-${name}" src="${src}" alt="${name}">`,
     );
   });
 
