@@ -728,19 +728,30 @@ function updateCover(){
   const cover=document.querySelector("#deckCover");
   if(c){
     cover.className=`deck-cover ${rarityClass(c.rarity)}`;
-    document.querySelector("#coverSymbol").textContent=c.symbol;
+    cover.innerHTML=cardImageHTML(c,"deck-cover-real-image") || `<span id="coverSymbol">${c.symbol}</span>`;
   }else{
     cover.className="deck-cover rarity-common";
-    document.querySelector("#coverSymbol").textContent="SA";
+    cover.innerHTML=`<span id="coverSymbol">SA</span>`;
   }
 }
 
 function openCoverPicker(){
-  document.querySelector("#coverGrid").innerHTML=cards.map(c=>
+  if(!currentDeck)return;
+  const ids=new Set([
+    ...Object.keys(currentDeck.main||{}),
+    ...(currentDeck.leader?[currentDeck.leader]:[]),
+    ...(currentDeck.zone?[currentDeck.zone]:[]),
+    ...(currentDeck.untimeat?[currentDeck.untimeat]:[]),
+    ...((currentDeck.soulCores||[]))
+  ]);
+  const deckCards=cards.filter(c=>ids.has(c.id));
+  const grid=document.querySelector("#coverGrid");
+  grid.innerHTML=deckCards.length ? deckCards.map(c=>
     `<button class="cover-option ${rarityClass(c.rarity)}" onclick="chooseCover('${c.id}')">
-      <span>${c.symbol}</span><b>${c.name}</b><small>${c.rarity}</small>
+      ${c.image ? cardImageHTML(c,"cover-option-image") : `<span>${c.symbol}</span>`}
+      <b>${escapeHtml(c.name)}</b><small>${c.rarity}</small>
     </button>`
-  ).join("");
+  ).join("") : `<div class="empty">ยังไม่มีการ์ดในเด็คให้เลือกเป็นหน้าปก</div>`;
   document.querySelector("#coverModal").classList.remove("hidden");
 }
 
