@@ -81,7 +81,8 @@ function openCard(c){
  document.querySelector("#detailRarity").textContent=c.rarity.toUpperCase();
  document.querySelector("#detailName").textContent=c.name;
  document.querySelector("#detailSubtitle").textContent=c.subtitle;
- document.querySelector("#detailAbility").textContent=c.ability;
+ document.querySelector("#detailAbility").innerHTML =
+  formatAbility(c.ability);
  document.querySelector("#detailId").textContent=c.id;
  document.querySelector("#detailElement").textContent=c.element;
  document.querySelector("#detailCost").textContent=c.cost;
@@ -1033,6 +1034,27 @@ function initDrawTest(){
   reloadDecksFromStorage();
   refreshTestDeckSelect();
   buildTestDeck();
+}
+function formatAbility(text) {
+  if (!text) return "";
+
+  const icons = {
+    attack: "/images/icons/attack.png",
+    draw: "/images/icons/draw.png",
+    soul: "/images/icons/soul.png",
+    damage: "/images/icons/damage.png"
+  };
+
+  let html = escapeHtml(text);
+
+  Object.entries(icons).forEach(([name, src]) => {
+    html = html.replaceAll(
+      `{${name}}`,
+      `<img class="ability-icon" src="${src}" alt="${name}">`
+    );
+  });
+
+  return html.replace(/\n/g, "<br>");
 }
 document.querySelector("#testDeckSelect").onchange=buildTestDeck;
 document.querySelector("#drawFiveBtn").onclick=()=>drawCards(5);
