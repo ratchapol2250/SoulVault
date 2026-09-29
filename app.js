@@ -1039,7 +1039,7 @@ function formatAbility(text) {
   if (!text) return "";
 
   const icons = {
-    counter: "/public/images/icons/counter.png"
+    counter: "public/images/icons/counter.png"
   };
 
   let html = escapeHtml(text);
