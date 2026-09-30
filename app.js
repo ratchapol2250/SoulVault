@@ -1039,7 +1039,13 @@ function renderTest(){
   const nameEl=document.querySelector("#testDeckName");
   const handEl=document.querySelector("#testHand");
   const boardEl=document.querySelector("#testBoardCards");
+  const leaderEl=document.querySelector("#testLeaderCard");
+  const zoneEl=document.querySelector("#testZoneCard");
+  const soulEl=document.querySelector("#testSoulCoreCards");
   if(!testDeck){
+    if(leaderEl)leaderEl.innerHTML="";
+    if(zoneEl)zoneEl.innerHTML="";
+    if(soulEl)soulEl.innerHTML="";
     if(nameEl)nameEl.textContent="-";
     if(handEl)handEl.innerHTML=`<div class="hand-empty">ยังไม่มี Deck สำหรับทดลองเล่น</div>`;
     if(boardEl)boardEl.innerHTML="";
@@ -1055,6 +1061,26 @@ function renderTest(){
   setText("#testBoardCount",testBoard.freeCards.length);
   setText("#pileCount",testStack.length);
   setText("#tombCount",testTomb.length);
+
+  // Initial battlefield layout: Leader center, Zone below, Soul Core horizontally above center.
+  if(leaderEl){
+    leaderEl.innerHTML=testDeck.leader ? testCardHTML(testDeck.leader,true,0,"leader") : "";
+    const card=leaderEl.querySelector(".test-card");
+    if(card){ card.draggable=false; card.onclick=()=>showDrawnCard(card.dataset.id); }
+  }
+  if(zoneEl){
+    zoneEl.innerHTML=testDeck.zone ? testCardHTML(testDeck.zone,true,0,"zone") : "";
+    const card=zoneEl.querySelector(".test-card");
+    if(card){ card.draggable=false; card.onclick=()=>showDrawnCard(card.dataset.id); }
+  }
+  if(soulEl){
+    const soulIds=(testDeck.soulCores||[]).slice(0,7);
+    soulEl.innerHTML=soulIds.map((id,i)=>testCardHTML(id,true,i,"soulcore")).join("");
+    soulEl.querySelectorAll(".test-card").forEach(card=>{
+      card.draggable=false;
+      card.onclick=()=>showDrawnCard(card.dataset.id);
+    });
+  }
 
   if(handEl){
     handEl.innerHTML=testHand.length

@@ -1397,3 +1397,67 @@ select option:hover{
     box-shadow:0 0 0 14px #211a0e,0 0 0 15px #3a2c18;
   }
 }
+
+/* ===== PLAY TEST INITIAL SPECIAL CARD LAYOUT ===== */
+.test-special-card{
+  position:absolute!important;
+  z-index:4!important;
+  pointer-events:auto;
+}
+.test-special-card .test-card{
+  position:relative!important;
+  width:96px!important;
+  height:134px!important;
+  min-width:96px!important;
+  min-height:134px!important;
+  max-width:96px!important;
+  max-height:134px!important;
+  box-shadow:0 8px 22px #000!important;
+  cursor:pointer!important;
+}
+/* Leader: centered on the battlefield. */
+.test-leader-card{
+  left:50%!important;
+  top:47%!important;
+  transform:translate(-50%,-50%)!important;
+}
+/* Zone: directly below Leader. */
+.test-zone-card{
+  left:50%!important;
+  top:73%!important;
+  transform:translate(-50%,-50%)!important;
+}
+/* Soul Core: horizontal row centered above Leader. */
+.test-soul-core-cards{
+  position:absolute!important;
+  z-index:4!important;
+  left:50%!important;
+  top:12%!important;
+  transform:translateX(-50%)!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:8px!important;
+  width:max-content!important;
+  max-width:78%!important;
+  pointer-events:auto!important;
+}
+.test-soul-core-cards .test-card{
+  position:relative!important;
+  width:82px!important;
+  height:59px!important;
+  min-width:82px!important;
+  min-height:59px!important;
+  max-width:82px!important;
+  max-height:59px!important;
+  flex:0 0 82px!important;
+  transform:none!important;
+  box-shadow:0 6px 16px #000!important;
+  cursor:pointer!important;
+}
+@media(max-width:900px){
+  .test-special-card .test-card{width:82px!important;height:114px!important;min-width:82px!important;min-height:114px!important;max-width:82px!important;max-height:114px!important}
+  .test-soul-core-cards{gap:5px!important;max-width:82%!important}
+  .test-soul-core-cards .test-card{width:68px!important;height:49px!important;min-width:68px!important;min-height:49px!important;max-width:68px!important;max-height:49px!important;flex-basis:68px!important}
+}
