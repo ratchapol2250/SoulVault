@@ -1175,6 +1175,19 @@ function sendToTomb(id,fromHand=true){
   testTomb.push(id);
   renderTest();
 }
+function sendBoardCardToTomb(index){
+  const item=testBoard.freeCards[index];
+  if(!item)return;
+  testTomb.push(item.id);
+  testBoard.freeCards.splice(index,1);
+  renderTest();
+}
+function addSoulCoreToZone(){
+  const all=testDeck?.soulCores||[];
+  if(testSoulCoreUnderZone.length>=all.length)return;
+  testSoulCoreUnderZone.push(all[testSoulCoreUnderZone.length]);
+  renderTest();
+}
 
 function addBoardCard(id,x=.45,y=.45){
   testBoard.freeCards.push({
@@ -1295,12 +1308,18 @@ function renderTest(){
     if(card){
       card.draggable=false;
       card.onclick=()=>openTestCardDetail(card.dataset.id);
-      card.ondblclick=()=>{
-        const all=testDeck.soulCores||[];
-        if(testSoulCoreUnderZone.length>=all.length)return;
-        testSoulCoreUnderZone.push(all[testSoulCoreUnderZone.length]);
-        renderTest();
-      };
+      card.ondblclick=addSoulCoreToZone;
+      const placeBtn=document.createElement("button");
+      placeBtn.type="button";
+      placeBtn.className="soul-core-place-btn";
+      placeBtn.title="นำ Soul Core ไปไว้ใต้ Zone";
+      placeBtn.textContent="↓ ZONE";
+      placeBtn.disabled=testSoulCoreUnderZone.length >= (testDeck.soulCores||[]).length;
+      placeBtn.addEventListener("click",ev=>{
+        ev.preventDefault(); ev.stopPropagation();
+        addSoulCoreToZone();
+      });
+      card.appendChild(placeBtn);
     }
     const count=document.createElement("span");
     count.className="soul-core-pile-count";
@@ -1329,6 +1348,16 @@ function renderTest(){
       };
       el.onclick=()=>openTestCardDetail(el.dataset.id);
       el.ondblclick=()=>sendToTomb(el.dataset.id,true);
+      const tombBtn=document.createElement("button");
+      tombBtn.type="button";
+      tombBtn.className="test-tomb-btn";
+      tombBtn.title="นำการ์ดลง Tomb";
+      tombBtn.textContent="TOMB";
+      tombBtn.addEventListener("click",ev=>{
+        ev.preventDefault(); ev.stopPropagation();
+        sendToTomb(el.dataset.id,true);
+      });
+      el.appendChild(tombBtn);
     });
   }
 
@@ -1363,6 +1392,16 @@ function renderTest(){
         testBoard.freeCards.splice(idx,1);
         renderTest();
       };
+      const tombBtn=document.createElement("button");
+      tombBtn.type="button";
+      tombBtn.className="test-tomb-btn board-tomb-btn";
+      tombBtn.title="นำการ์ดลง Tomb";
+      tombBtn.textContent="TOMB";
+      tombBtn.addEventListener("click",ev=>{
+        ev.preventDefault(); ev.stopPropagation();
+        sendBoardCardToTomb(idx);
+      });
+      el.appendChild(tombBtn);
     });
   }
 }

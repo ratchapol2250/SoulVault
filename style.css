@@ -1694,3 +1694,24 @@ select option:hover{
 .zone-back-face:before{content:"";position:absolute;width:68%;height:68%;border:1px solid rgba(205,168,83,.55);transform:rotate(45deg);box-shadow:0 0 0 14px rgba(205,168,83,.06),0 0 28px rgba(205,168,83,.16);}
 .zone-back-face span,.zone-back-face small{position:relative;z-index:1;color:#d8b55f;font-family:Cinzel;text-align:center;letter-spacing:2px;}
 .zone-back-face span{font-size:20px;font-weight:700}.zone-back-face small{font-size:7px;color:#8e7750;}
+
+/* ===== PLAY TEST CARD ACTION BUTTONS ===== */
+.test-card .test-tomb-btn,
+.test-card .soul-core-place-btn{
+  position:absolute;
+  z-index:30;
+  border:1px solid rgba(220,190,120,.7);
+  background:rgba(8,8,8,.9);
+  color:#e4c46d;
+  border-radius:5px;
+  font:700 7px Inter,Arial,sans-serif;
+  letter-spacing:.5px;
+  cursor:pointer;
+  box-shadow:0 3px 8px rgba(0,0,0,.55);
+}
+.test-card .test-tomb-btn{right:3px;bottom:3px;padding:4px 5px;}
+.test-card .soul-core-place-btn{left:50%;bottom:-31px;transform:translateX(-50%);padding:5px 8px;white-space:nowrap;}
+.test-card .test-tomb-btn:hover,
+.test-card .soul-core-place-btn:hover{background:#211a0e;color:#fff0b0;border-color:#d7b45e;}
+.test-card .soul-core-place-btn:disabled{opacity:.35;cursor:not-allowed;}
+.board-tomb-btn{bottom:4px!important;right:4px!important;}
