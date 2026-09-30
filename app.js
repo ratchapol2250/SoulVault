@@ -121,6 +121,7 @@ function openCard(c){
  document.querySelector("#detailSubtitle").textContent=c.subtitle;
  const cardType=String(c.type||"").trim().toLowerCase();
  const noPowerSteal=["action","pocket","gear","soul core","untimeat","utiment","zone"].includes(cardType);
+ const noCost=["pocket","soul core"].includes(cardType);
  const isLeader=cardType==="leader";
  const abilitySingle=document.querySelector("#detailAbility");
  const abilityDual=document.querySelector("#detailAbilityDual");
@@ -144,8 +145,10 @@ function openCard(c){
  document.querySelector("#detailLevel").textContent=c.cost ?? "—";
  const powerBox=document.querySelector("#detailPowerBox");
  const stealBox=document.querySelector("#detailStealBox");
+ const costBox=document.querySelector("#detailCostBox");
  if(powerBox)powerBox.classList.toggle("hidden",noPowerSteal);
  if(stealBox)stealBox.classList.toggle("hidden",noPowerSteal);
+ if(costBox)costBox.classList.toggle("hidden",noCost);
  document.querySelector("#detailImage").className=`detail-image ${rarityClass(c.rarity)}`;
  document.querySelector("#detailImage").innerHTML=c.image ? `<img class="detail-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span class="detail-placeholder"></span>`;
  document.querySelector("#modal").classList.remove("hidden");
