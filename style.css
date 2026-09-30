@@ -1298,3 +1298,11 @@ select option:hover{
 @media(max-width:600px){
   .detail-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
+
+
+/* ===== LEADER: TWO ABILITIES ===== */
+.leader-abilities{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:0;}
+.leader-ability-box{border:1px solid #28231a;background:#0d0d0d;padding:14px;min-width:0;}
+.leader-ability-box h3{margin:0 0 10px;font-size:9px;letter-spacing:1.8px;color:var(--gold);}
+.leader-ability-box p{margin:0;min-height:70px;white-space:pre-line;line-height:1.8;}
+@media(max-width:600px){.leader-abilities{grid-template-columns:1fr;}}

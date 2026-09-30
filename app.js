@@ -119,14 +119,33 @@ function openCard(c){
  document.querySelector("#detailRarity").textContent=c.rarity.toUpperCase();
  document.querySelector("#detailName").textContent=c.name;
  document.querySelector("#detailSubtitle").textContent=c.subtitle;
- document.querySelector("#detailAbility").innerHTML =
-  formatAbility(c.ability);
+ const cardType=String(c.type||"").trim().toLowerCase();
+ const noPowerSteal=["action","pocket","gear","soul core","untimeat","utiment","zone"].includes(cardType);
+ const isLeader=cardType==="leader";
+ const abilitySingle=document.querySelector("#detailAbility");
+ const abilityDual=document.querySelector("#detailAbilityDual");
+ const abilityLeft=document.querySelector("#detailAbilityLeft");
+ const abilityRight=document.querySelector("#detailAbilityRight");
+ if(isLeader){
+   if(abilitySingle)abilitySingle.classList.add("hidden");
+   if(abilityDual)abilityDual.classList.remove("hidden");
+   if(abilityLeft)abilityLeft.innerHTML=formatAbility(c.abilityLeft ?? c.ability1 ?? c.ability ?? "—");
+   if(abilityRight)abilityRight.innerHTML=formatAbility(c.abilityRight ?? c.ability2 ?? "—");
+ }else{
+   if(abilityDual)abilityDual.classList.add("hidden");
+   if(abilitySingle)abilitySingle.classList.remove("hidden");
+   if(abilitySingle)abilitySingle.innerHTML=formatAbility(c.ability);
+ }
  document.querySelector("#detailId").textContent=c.id;
  document.querySelector("#detailElement").textContent=c.element;
  document.querySelector("#detailPower").textContent=c.power ?? "—";
  document.querySelector("#detailSteal").textContent=c.steal ?? "—";
  document.querySelector("#detailBy").textContent=c.by ?? c.artist ?? "—";
  document.querySelector("#detailLevel").textContent=c.cost ?? "—";
+ const powerBox=document.querySelector("#detailPowerBox");
+ const stealBox=document.querySelector("#detailStealBox");
+ if(powerBox)powerBox.classList.toggle("hidden",noPowerSteal);
+ if(stealBox)stealBox.classList.toggle("hidden",noPowerSteal);
  document.querySelector("#detailImage").className=`detail-image ${rarityClass(c.rarity)}`;
  document.querySelector("#detailImage").innerHTML=c.image ? `<img class="detail-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span class="detail-placeholder"></span>`;
  document.querySelector("#modal").classList.remove("hidden");

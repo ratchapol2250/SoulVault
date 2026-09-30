@@ -342,13 +342,25 @@
         <h2 id="detailName"></h2>
         <p class="subtitle" id="detailSubtitle"></p>
         <div class="divider"></div>
-        <h3>ABILITY</h3>
-        <p id="detailAbility"></p>
+        <div id="detailAbilitySingle">
+          <h3>ABILITY</h3>
+          <p id="detailAbility"></p>
+        </div>
+        <div id="detailAbilityDual" class="leader-abilities hidden">
+          <div class="leader-ability-box">
+            <h3>ABILITY — LEFT</h3>
+            <p id="detailAbilityLeft"></p>
+          </div>
+          <div class="leader-ability-box">
+            <h3>ABILITY — RIGHT</h3>
+            <p id="detailAbilityRight"></p>
+          </div>
+        </div>
         <div class="detail-grid">
           <div><small>CARD ID</small><b id="detailId"></b></div>
           <div><small>ELEMENT</small><b id="detailElement"></b></div>
-          <div><small>พลัง</small><b id="detailPower"></b></div>
-          <div><small>ขโมย</small><b id="detailSteal"></b></div>
+          <div id="detailPowerBox"><small>พลัง</small><b id="detailPower"></b></div>
+          <div id="detailStealBox"><small>ขโมย</small><b id="detailSteal"></b></div>
           <div><small>BY</small><b id="detailBy"></b></div>
           <div><small>COST</small><b id="detailLevel"></b></div>
         </div>
