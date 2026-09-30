@@ -9,8 +9,7 @@
 <body>
 <aside class="sidebar">
    <div class="brand">
-  <img src="/images/logo/steal-area-logo.png" alt="STEAL AREA" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-      <b class="brand-fallback" style="display:none">STEAL AREA</b>
+  <img id="siteLogo" src="/images/logo/steal-area-logo.png" alt="SOULVAULT CARD GAME" onerror="this.style.display='none';this.parentElement.classList.add('logo-fallback')">
 </div>
     <nav>
       <button class="nav" data-section="roster">◈ <span>รายการการ์ด</span></button>
@@ -236,11 +235,11 @@
     </section>
 
     <section id="drawtest" class="section">
-      <div class="draw-header simple-draw-header">
+      <div class="draw-header">
         <div>
-          <div class="eyebrow">DRAW TEST</div>
-          <h2>ทดลองจั่ว</h2>
-          <p>เลือก Deck แล้วทดลองจั่วการ์ด และวางการ์ดบนพื้นที่เล่นได้อิสระ</p>
+          <div class="eyebrow">PLAY TEST</div>
+          <h2>ทดลองเล่น</h2>
+          <p>เลือก Deck แล้วจั่วการ์ด จากนั้นลากการ์ดจากมือไปวางบนสนามได้อย่างอิสระ</p>
         </div>
         <div class="draw-controls">
           <select id="testDeckSelect"></select>
@@ -250,42 +249,43 @@
         </div>
       </div>
 
-      <div class="playtest-info simple-draw-info">
+      <div class="playtest-info">
         <span>DECK: <b id="testDeckName">-</b></span>
         <span>CARDS LEFT: <b id="testCardsLeft">0</b></span>
         <span>HAND: <b id="testHandCount">0</b></span>
         <span>DRAW: <b id="testTurn">0</b></span>
+        <span>BOARD: <b id="testBoardCount">0</b></span>
       </div>
 
-      <div class="draw-area">
-        <div class="draw-play-panel">
-          <div class="draw-play-title"><span>PLAY AREA</span><small>ลากการ์ดจากมือมาวางได้อิสระ • ลากซ้ำเพื่อย้ายตำแหน่ง • ดับเบิลคลิกเพื่อคืนเข้ามือ</small></div>
-          <div id="testPlayArea" class="test-play-area"></div>
-        </div>
-        <div class="draw-deck-panel">
-          <div class="draw-deck" id="testDeckPile">
-            <span>DECK</span>
-            <b id="pileCount">0</b>
+      <div class="manual-playtest">
+        <div class="manual-playmat" id="playBoard">
+          <div class="playmat-hint">ลากการ์ดจาก HAND มาวางตรงไหนก็ได้</div>
+          <div class="board-piles">
+            <div class="board-pile" id="testDeckPile" title="คลิกเพื่อจั่ว 1 ใบ">
+              <span>DECK</span><b id="pileCount">0</b>
+            </div>
+            <div class="board-pile tomb-pile-manual" id="testTombPile" title="สุสาน">
+              <span>TOMB</span><b id="tombCount">0</b>
+            </div>
           </div>
-          <button class="gold-btn draw-pile-btn" id="drawPileBtn">DRAW 1 CARD</button>
+          <div id="testBoardCards" class="test-board-cards"></div>
         </div>
 
-        <div class="draw-hand-panel">
+        <div class="manual-hand-panel">
           <div class="draw-hand-title">
             <span>HAND</span>
-            <small>คลิกการ์ดเพื่อดูรายละเอียด</small>
+            <small>ลากการ์ดไปสนาม · ดับเบิลคลิกเพื่อส่งสุสาน</small>
           </div>
           <div id="testHand" class="test-hand draw-test-hand"></div>
         </div>
       </div>
 
-      <div class="draw-tomb">
-        <span>TOTAL DRAWN</span>
-        <b id="tombCount">0</b>
+      <div class="playtest-actions">
+        <button class="gold-btn" id="drawPileBtn">DRAW 1 CARD</button>
+        <span>คลิกการ์ดในสนามเพื่อดูรายละเอียด · ลากการ์ดบนสนามเพื่อย้ายตำแหน่ง</span>
       </div>
     </section>
 
-  
     <section id="supply" class="section">
       <div class="supply-header">
         <div>

@@ -1,7 +1,31 @@
-STEAL AREA — minimal requested changes
+# STEAL AREA / SOULVAULT update
 
-1. Put the real logo at: public/images/logo/steal-area-logo.png
-2. Deck cover picker now shows only cards already in the current deck and uses the real card image when available.
-3. Draw Test adds a free play area. Drag cards from hand into the area, drag cards to move them, double-click a card on the area to return it to hand.
+สิ่งที่แก้:
+1. โลโก้จริง
+   - index.html ใช้ `/images/logo/steal-area-logo.png`
+   - ให้อัปโหลดโลโก้จริงไว้ที่ `public/images/logo/steal-area-logo.png`
+   - ถ้าไม่พบไฟล์ ระบบจะแสดง SOULVAULT แทนโดยไม่ขึ้นรูปเสีย
 
-No unrelated features/data were intentionally changed.
+2. หน้าปก Deck
+   - ปุ่ม "เลือกหน้าปก" แสดงเฉพาะการ์ดที่อยู่ใน Deck ปัจจุบัน
+   - แสดงรูปการ์ดจริง
+   - เลือกแล้วใช้รูปนั้นเป็นหน้าปกใน Deck Workspace และ Deck Library
+
+3. ทดลองเล่น
+   - เปลี่ยนจากหน้าจอจั่วอย่างเดียวเป็นพื้นที่เล่นจริง
+   - DRAW 1 / DRAW 5 ได้เหมือนเดิม
+   - ลากการ์ดจาก HAND ไปวางตรงไหนก็ได้บนสนาม
+   - ลากการ์ดบนสนามเพื่อย้ายตำแหน่ง
+   - ดับเบิลคลิกการ์ดบนสนามเพื่อเอากลับมือ
+   - ดับเบิลคลิกการ์ดในมือเพื่อส่งสุสาน
+   - คลิกการ์ดเพื่อดูรายละเอียด
+   - คลิก DECK เพื่อจั่ว
+   - คลิก TOMB เพื่อส่งการ์ดบนสนาม 1 ใบลงสุสาน
+
+โครงสร้างโลโก้:
+public/
+  images/
+    logo/
+      steal-area-logo.png
+
+นำ index.html, app.js, style.css ไปแทนไฟล์เดิมใน GitHub แล้ว Commit เข้า main
