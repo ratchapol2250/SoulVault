@@ -1035,9 +1035,8 @@ function formatAbility(text) {
   if (!text) return "";
 
   const icons = {
-    counter: "/images/icon/counter.png",
-  E: "/images/icon/E.png",
-  draw: "/images/icon/draw.png"
+    counter: "public/images/icon/counter.png",
+  E: "public/images/icon/E.png",
   };
 
   let html = escapeHtml(text);
