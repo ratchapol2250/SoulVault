@@ -1119,7 +1119,7 @@ let testTurn=0;
 let testBoard={freeCards:[]};
 let testSoulCoreUnderZone=[];
 let testSpecialRotation={leader:0};
-let testZoneFlipped=false;
+let testZoneFlipped=true;
 
 function refreshTestDeckSelect(){
   reloadDecksFromStorage();
@@ -1140,7 +1140,7 @@ function buildTestDeck(){
   const id=sel?.value||localStorage.getItem("stealAreaActiveDeckId");
   testDeck=decks.find(d=>d.id===id)||decks[0]||null;
   if(!testDeck){
-    testStack=[];testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0};testZoneFlipped=false;
+    testStack=[];testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0};testZoneFlipped=true;
     renderTest(); return;
   }
   localStorage.setItem("stealAreaActiveDeckId",testDeck.id);
@@ -1155,7 +1155,7 @@ function buildTestDeck(){
   }
   testStack=testStack.slice(0,50);
   testStack.sort(()=>Math.random()-.5);
-  testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0};testZoneFlipped=false;
+  testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0};testZoneFlipped=true;
   renderTest();
 }
 
