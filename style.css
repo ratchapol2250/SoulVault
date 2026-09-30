@@ -1369,3 +1369,18 @@ select option:hover{
     box-shadow:0 0 0 14px #211a0e,0 0 0 15px #3a2c18;
   }
 }
+
+/* ===== DECK SHARING / IMPORT ===== */
+.deck-actions{flex-wrap:wrap;align-items:center}
+.deck-actions .gold-btn,.deck-actions .danger-btn{white-space:nowrap}
+.deck-link-modal{width:min(720px,100%)}
+.deck-link-input{
+  width:100%;resize:vertical;min-height:105px;margin-top:15px;
+  background:#090909;border:1px solid #33291b;color:#eee;
+  padding:12px;font:12px Inter,Arial,sans-serif;outline:none;
+}
+.deck-link-input:focus{border-color:#8a6b31;box-shadow:0 0 0 1px #8a6b31}
+.deck-link-actions{display:flex;gap:8px;margin-top:12px}
+@media(max-width:600px){
+  .deck-actions .gold-btn,.deck-actions .danger-btn{flex:1;min-width:140px}
+}
