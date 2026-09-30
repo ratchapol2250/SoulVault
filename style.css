@@ -1334,3 +1334,16 @@ select option:hover{
 .leader-ability-box h3{margin:0 0 10px;font-size:9px;letter-spacing:1.8px;color:var(--gold);}
 .leader-ability-box p{margin:0;min-height:70px;white-space:pre-line;line-height:1.8;}
 @media(max-width:600px){.leader-abilities{grid-template-columns:1fr;}}
+
+
+/* ===== MASCOT HERO: CENTRAL LOGO REMOVED ===== */
+.home-logo{display:none!important;}
+.hero{padding-top:28px;padding-bottom:24px;}
+.home-logo2{min-height:175px;margin-top:0;margin-bottom:10px;}
+.home-logo2 img{width:150px;height:150px;transform:none;}
+.home-logo2 span{margin-top:6px;}
+@media(max-width:720px){
+  .hero{padding-top:24px;padding-bottom:20px;}
+  .home-logo2{min-height:155px;}
+  .home-logo2 img{width:130px;height:130px;}
+}
