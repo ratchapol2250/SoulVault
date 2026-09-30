@@ -1206,6 +1206,34 @@ select option:hover{
 .test-board-cards{position:absolute;inset:0;z-index:3}
 .test-board-cards .test-card{position:absolute!important;width:96px!important;height:134px!important;min-width:96px!important;min-height:134px!important;max-width:96px!important;max-height:134px!important;transform:none!important;cursor:grab;box-shadow:0 8px 22px #000;user-select:none}
 .test-board-cards .test-card:active{cursor:grabbing}
+.test-board-cards .test-card.board-horizontal{
+  transform:rotate(90deg)!important;
+  transform-origin:center center!important;
+}
+.test-board-cards .board-rotate-btn{
+  position:absolute!important;
+  top:5px!important;
+  right:5px!important;
+  z-index:20!important;
+  width:25px!important;
+  height:25px!important;
+  padding:0!important;
+  border:1px solid rgba(217,173,82,.8)!important;
+  border-radius:50%!important;
+  background:rgba(8,8,8,.82)!important;
+  color:#f2d48a!important;
+  font-size:16px!important;
+  line-height:23px!important;
+  display:grid!important;
+  place-items:center!important;
+  cursor:pointer!important;
+  box-shadow:0 2px 8px #000!important;
+}
+.test-board-cards .board-rotate-btn:hover{
+  background:#241b0c!important;
+  border-color:#f2d48a!important;
+}
+
 .manual-hand-panel{border-top:1px solid #29241d;margin-top:14px;padding:14px 4px 2px;min-height:190px}
 .manual-hand-panel .draw-test-hand{display:flex!important;flex-wrap:wrap!important;gap:10px!important;min-height:145px!important;align-items:flex-end!important}
 .manual-hand-panel .draw-test-hand .test-card{position:relative!important;inset:auto!important;width:76px!important;height:106px!important;min-width:76px!important;min-height:106px!important;max-width:76px!important;max-height:106px!important;flex:0 0 76px!important;cursor:grab}
@@ -1368,19 +1396,4 @@ select option:hover{
     transform:translateY(-50%);
     box-shadow:0 0 0 14px #211a0e,0 0 0 15px #3a2c18;
   }
-}
-
-/* ===== DECK SHARING / IMPORT ===== */
-.deck-actions{flex-wrap:wrap;align-items:center}
-.deck-actions .gold-btn,.deck-actions .danger-btn{white-space:nowrap}
-.deck-link-modal{width:min(720px,100%)}
-.deck-link-input{
-  width:100%;resize:vertical;min-height:105px;margin-top:15px;
-  background:#090909;border:1px solid #33291b;color:#eee;
-  padding:12px;font:12px Inter,Arial,sans-serif;outline:none;
-}
-.deck-link-input:focus{border-color:#8a6b31;box-shadow:0 0 0 1px #8a6b31}
-.deck-link-actions{display:flex;gap:8px;margin-top:12px}
-@media(max-width:600px){
-  .deck-actions .gold-btn,.deck-actions .danger-btn{flex:1;min-width:140px}
 }
