@@ -1242,7 +1242,14 @@ function renderTest(){
     if(card){
       card.style.transform=`rotate(${Number(testSpecialRotation.zone||0)}deg)`;
       card.draggable=false;
-      card.onclick=()=>showDrawnCard(card.dataset.id);
+      card.onclick=()=>{
+        const existing=zoneEl.querySelector(".zone-soulcore-info");
+        if(existing){ existing.remove(); return; }
+        const info=document.createElement("div");
+        info.className="zone-soulcore-info";
+        info.innerHTML=`<b>SOUL CORE</b><span>${testSoulCoreUnderZone.length} ใบ</span>`;
+        zoneEl.appendChild(info);
+      };
       const btn=document.createElement("button");
       btn.type="button";
       btn.className="special-rotate-btn";
@@ -1254,6 +1261,11 @@ function renderTest(){
         renderTest();
       });
       card.appendChild(btn);
+
+      const badge=document.createElement("span");
+      badge.className="zone-soulcore-badge";
+      badge.textContent=`SC ${testSoulCoreUnderZone.length}`;
+      card.appendChild(badge);
     }
   }
   if(soulEl){
@@ -1276,16 +1288,14 @@ function renderTest(){
     soulEl.appendChild(count);
   }
   if(soulUnderEl){
+    // Soul Core cards are now visually stacked underneath the Zone card.
+    // Keep this container for the stack data, but place it directly under Zone.
     soulUnderEl.innerHTML=testSoulCoreUnderZone.map((id,i)=>testCardHTML(id,true,i,"soulcore-under")).join("");
     soulUnderEl.querySelectorAll(".test-card").forEach((card,i)=>{
       card.draggable=false;
       card.style.zIndex=String(i+1);
       card.onclick=()=>showDrawnCard(card.dataset.id);
     });
-    const count=document.createElement("span");
-    count.className="soul-under-count";
-    count.textContent=`SOUL CORE ใต้ ZONE: ${testSoulCoreUnderZone.length}`;
-    soulUnderEl.appendChild(count);
   }
 
   if(handEl){
