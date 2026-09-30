@@ -98,7 +98,7 @@ function cardHTML(c,small=true){
    ? `<label class="variant-switch" onclick="event.stopPropagation()">
         <span>Art Card</span>
         <select class="variant-select" aria-label="Select Art Card">
-          ${variants.map(v=>`<option value="${escapeHtml(v.id)}" ${v.id===c.id?"selected":""}>${escapeHtml(v.set||"")}${v.set?" · ":""}${escapeHtml(v.subtitle||"แบบ "+v.id)}</option>`).join("")}
+          ${variants.map(v=>`<option value="${escapeHtml(v.id)}" ${v.id===c.id?"selected":""}>${escapeHtml(v.set||"")}${v.set?" · ":""}${escapeHtml(v.id||"แบบ "+v.id)}</option>`).join("")}
         </select>
       </label>`
    : "";
