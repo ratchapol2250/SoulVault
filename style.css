@@ -1235,36 +1235,42 @@ select option:hover{
 }
 .home-logo2{
   width:100%;
-  min-height:100px;
+  min-height:145px;
   display:flex;
-  justify-content:center;
+  flex-direction:column;
+  justify-content:flex-start;
   align-items:center;
   position:relative;
-  margin-bottom:30px;
+  margin-top:2px;
+  margin-bottom:28px;
 }
 
 .home-logo2 img{
-  width:100px;
-  height:auto;
+  width:88px;
+  height:88px;
   object-fit:contain;
   display:block;
+  position:relative;
+  z-index:2;
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.65));
+  transform:translateY(2px);
 }
 
 .home-logo2 span{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  width:max-content;
+  position:relative;
+  left:auto;
+  top:auto;
+  transform:none;
+  width:auto;
   max-width:90%;
+  margin-top:-2px;
   text-align:center;
   color:#fff;
   font-weight:700;
   font-size:15px;
   line-height:1.4;
   text-shadow:0 2px 8px #000, 0 0 4px #000;
-  z-index:2;
-  pointer-events:none;
+  z-index:3;
 }
 
 /* ===== CARD VARIANTS + DECK CARD DETAILS ===== */
