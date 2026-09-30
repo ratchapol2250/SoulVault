@@ -1,31 +1,14 @@
-# STEAL AREA / SOULVAULT update
+STEAL AREA - Card Variants + Deck Details
 
-สิ่งที่แก้:
-1. โลโก้จริง
-   - index.html ใช้ `/images/logo/steal-area-logo.png`
-   - ให้อัปโหลดโลโก้จริงไว้ที่ `public/images/logo/steal-area-logo.png`
-   - ถ้าไม่พบไฟล์ ระบบจะแสดง SOULVAULT แทนโดยไม่ขึ้นรูปเสีย
+Changes only requested:
+1. Cards with the same name are grouped into one roster card and can switch versions from the "แบบการ์ด" dropdown.
+2. Switching version updates the displayed card image/details and the selected card ID used by Collection / Add to Deck.
+3. Cards already inside Deck Builder can be clicked to open the existing card detail modal with the full card image and ability/details.
+4. Leader / Zone / Untimeat / Soul Core cards in the deck are also clickable for details.
 
-2. หน้าปก Deck
-   - ปุ่ม "เลือกหน้าปก" แสดงเฉพาะการ์ดที่อยู่ใน Deck ปัจจุบัน
-   - แสดงรูปการ์ดจริง
-   - เลือกแล้วใช้รูปนั้นเป็นหน้าปกใน Deck Workspace และ Deck Library
+Replace the existing root files with:
+- index.html
+- app.js
+- style.css
 
-3. ทดลองเล่น
-   - เปลี่ยนจากหน้าจอจั่วอย่างเดียวเป็นพื้นที่เล่นจริง
-   - DRAW 1 / DRAW 5 ได้เหมือนเดิม
-   - ลากการ์ดจาก HAND ไปวางตรงไหนก็ได้บนสนาม
-   - ลากการ์ดบนสนามเพื่อย้ายตำแหน่ง
-   - ดับเบิลคลิกการ์ดบนสนามเพื่อเอากลับมือ
-   - ดับเบิลคลิกการ์ดในมือเพื่อส่งสุสาน
-   - คลิกการ์ดเพื่อดูรายละเอียด
-   - คลิก DECK เพื่อจั่ว
-   - คลิก TOMB เพื่อส่งการ์ดบนสนาม 1 ใบลงสุสาน
-
-โครงสร้างโลโก้:
-public/
-  images/
-    logo/
-      steal-area-logo.png
-
-นำ index.html, app.js, style.css ไปแทนไฟล์เดิมใน GitHub แล้ว Commit เข้า main
+No other project sections were intentionally changed.

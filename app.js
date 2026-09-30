@@ -40,37 +40,73 @@ function cardImageHTML(c, className="card-real-image"){
 const grid=document.querySelector("#grid"),search=document.querySelector("#search"),typeFilter=document.querySelector("#typeFilter"),rarityFilter=document.querySelector("#rarityFilter");
 document.querySelector("#totalCount").textContent=String(cards.length).padStart(2,"0");
 
+function getCardVariants(card){
+  if(!card)return [];
+  return cards.filter(x=>String(x.name).trim()===String(card.name).trim());
+}
+
 function render(){
  const q=search.value.toLowerCase().trim(), type=typeFilter.value, rarity=rarityFilter.value, set=(document.querySelector("#setFilter")?.value||"All");
- const list=cards.filter(c=>(type==="All"||c.type===type)&&(rarity==="All"||c.rarity===rarity)&&(set==="All"||c.set===set)&&[c.name,c.subtitle,c.type,c.element,c.ability,c.set].join(" ").toLowerCase().includes(q));
+ const filtered=cards.filter(c=>(type==="All"||c.type===type)&&(rarity==="All"||c.rarity===rarity)&&(set==="All"||c.set===set)&&[c.name,c.subtitle,c.type,c.element,c.ability,c.set].join(" ").toLowerCase().includes(q));
+ const seenNames=new Set();
+ const list=filtered.filter(c=>{
+   const key=String(c.name).trim();
+   if(seenNames.has(key))return false;
+   seenNames.add(key);
+   return true;
+ });
  grid.innerHTML=list.map(c=>cardHTML(c,false)).join("");
  document.querySelector("#empty").classList.toggle("hidden",list.length!==0);
- document.querySelectorAll("#grid .card").forEach(el=>{
-   el.onclick=e=>{
-     if(e.target.closest(".collection-add-btn"))return;
-     openCard(cards.find(c=>c.id===el.dataset.id));
-   };
- });
- document.querySelectorAll("#grid .collection-add-btn").forEach(btn=>{
-   btn.onclick=e=>{
-     e.stopPropagation();
-     toggleWanted(btn.dataset.collectionId);
-     render();
-   };
- });
- document.querySelectorAll("#grid .deck-add-btn").forEach(btn=>{
-   btn.onclick=e=>{
-     e.stopPropagation();
-     openAddToDeckModal(btn.dataset.deckCardId);
-   };
- });
+
+ function bindRosterCards(){
+   document.querySelectorAll("#grid .card").forEach(el=>{
+     el.onclick=e=>{
+       if(e.target.closest(".collection-add-btn")||e.target.closest(".deck-add-btn")||e.target.closest(".variant-select"))return;
+       openCard(cards.find(c=>c.id===el.dataset.id));
+     };
+   });
+   document.querySelectorAll("#grid .variant-select").forEach(sel=>{
+     sel.onchange=e=>{
+       e.stopPropagation();
+       const selected=cards.find(c=>String(c.id)===String(sel.value));
+       const article=sel.closest(".card");
+       if(!selected||!article)return;
+       article.outerHTML=cardHTML(selected,false);
+       bindRosterCards();
+     };
+   });
+   document.querySelectorAll("#grid .collection-add-btn").forEach(btn=>{
+     btn.onclick=e=>{
+       e.stopPropagation();
+       toggleWanted(btn.dataset.collectionId);
+       render();
+     };
+   });
+   document.querySelectorAll("#grid .deck-add-btn").forEach(btn=>{
+     btn.onclick=e=>{
+       e.stopPropagation();
+       openAddToDeckModal(btn.dataset.deckCardId);
+     };
+   });
+ }
+ bindRosterCards();
 }
 function cardHTML(c,small=true){
  const inCollection=isWanted(c.id);
+ const variants=getCardVariants(c);
+ const variantPicker=variants.length>1
+   ? `<label class="variant-switch" onclick="event.stopPropagation()">
+        <span>แบบการ์ด</span>
+        <select class="variant-select" aria-label="เลือกแบบการ์ด">
+          ${variants.map(v=>`<option value="${escapeHtml(v.id)}" ${v.id===c.id?"selected":""}>${escapeHtml(v.set||"")}${v.set?" · ":""}${escapeHtml(v.subtitle||"แบบ "+v.id)}</option>`).join("")}
+        </select>
+      </label>`
+   : "";
  return `<article class="card ${small?'small-card':''}" data-id="${c.id}">
    <div class="card-art ${rarityClass(c.rarity)}">${cardImageHTML(c)}${c.image?"":`<div class="card-symbol">${c.symbol}</div>`}<span class="rarity-orb">${c.rarity[0]}</span></div>
    <div class="card-info"><div class="tag-row"><span class="tag">${c.type}</span><span class="tag rarity">${c.rarity}</span><span class="tag set-tag">${c.set||"BT01"}</span></div>
    <h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.subtitle)}</p>
+   ${variantPicker}
    <button class="collection-add-btn ${inCollection?"added":""}" data-collection-id="${c.id}">
      ${inCollection?"✓ อยู่ในคอลเลกชัน":"＋ เพิ่มเข้าคอลเลกชัน"}
    </button>
@@ -679,12 +715,20 @@ function renderDeck(){
   if(zone)document.querySelector("#zoneSlot .remove-card").onclick=()=>removeFromDeck(zone.id,"Zone");
   if(untimeat)document.querySelector("#untimeatSlot .remove-card").onclick=()=>removeFromDeck(untimeat.id,"Untimeat");
 
+  document.querySelectorAll("#leaderSlot .special-card,#zoneSlot .special-card,#untimeatSlot .special-card,#soulCoreBuilderSlot .special-card").forEach(el=>{
+    el.onclick=e=>{
+      if(e.target.closest(".remove-card"))return;
+      const c=cards.find(x=>String(x.id)===String(el.dataset.cardId));
+      if(c)openCard(c);
+    };
+  });
+
   const entries=Object.entries(currentDeck.main);
   document.querySelector("#deckList").innerHTML=entries.length?entries.map(([id,n])=>{
     const c=cards.find(x=>x.id===id);
-    return `<div class="deck-row">
+    return `<div class="deck-row deck-card-clickable" data-card-id="${escapeHtml(c.id)}" title="กดเพื่อดูรายละเอียดการ์ด">
       <div class="mini-art ${rarityClass(c.rarity)}">${cardImageHTML(c,"mini-real-image")}${c.image?"":c.symbol}</div>
-      <div class="row-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
+      <div class="row-name"><b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.type)} · ${escapeHtml(c.rarity)}</small></div>
       <div class="qty">${
         c.type==="Untimeat"
           ? `<button onclick="removeFromDeck('${c.id}','Untimeat')">−</button><b>1</b><button disabled>＋</button>`
@@ -693,15 +737,23 @@ function renderDeck(){
     </div>`;
   }).join(""):`<div class="empty-main">ยังไม่มีการ์ดใน Main Deck</div>`;
 
+  document.querySelectorAll("#deckList .deck-card-clickable").forEach(row=>{
+    row.onclick=e=>{
+      if(e.target.closest(".qty"))return;
+      const c=cards.find(x=>String(x.id)===String(row.dataset.cardId));
+      if(c)openCard(c);
+    };
+  });
+
   renderPicker();
   updateCover();
   renderDeckLibrary();
 }
 
 function specialHTML(c,label){
-  return `<div class="special-card">
+  return `<div class="special-card deck-card-clickable" data-card-id="${escapeHtml(c.id)}" title="กดเพื่อดูรายละเอียดการ์ด">
     <div class="special-art ${rarityClass(c.rarity)}">${cardImageHTML(c,"special-real-image")}${c.image?"":c.symbol}</div>
-    <div><b>${c.name}</b><small>${label} · ${c.rarity}</small></div>
+    <div><b>${escapeHtml(c.name)}</b><small>${escapeHtml(label)} · ${escapeHtml(c.rarity)}</small></div>
     <button class="remove-card">×</button>
   </div>`;
 }

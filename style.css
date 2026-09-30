@@ -1244,3 +1244,40 @@ select option:hover{
   height:auto;
   object-fit:contain;
 }
+
+/* ===== CARD VARIANTS + DECK CARD DETAILS ===== */
+.variant-switch{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin:9px 0 7px;
+  color:#817b71;
+  font-size:8px;
+  letter-spacing:.5px;
+}
+.variant-switch span{white-space:nowrap}
+.variant-select{
+  flex:1;
+  min-width:0;
+  height:28px;
+  background:#090909;
+  border:1px solid #3a3020;
+  color:#d9c58f;
+  padding:0 7px;
+  font-size:9px;
+  outline:none;
+}
+.variant-select:focus{border-color:#80632d}
+.deck-card-clickable{cursor:pointer}
+.deck-row.deck-card-clickable:hover,
+.special-card.deck-card-clickable:hover{
+  border-color:#765a2b;
+  background:#17130d;
+}
+.deck-row.deck-card-clickable .qty{cursor:default}
+.deck-row.deck-card-clickable .mini-art,
+.special-card.deck-card-clickable .special-art{pointer-events:none}
+@media(max-width:600px){
+  .variant-switch{font-size:7px}
+  .variant-select{font-size:8px;height:27px}
+}
