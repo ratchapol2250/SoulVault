@@ -1235,7 +1235,7 @@ select option:hover{
 }
 .home-logo2{
   width:100%;
-  min-height:108px;
+  min-height:175px;
   display:flex;
   flex-direction:column;
   justify-content:flex-start;
@@ -1246,14 +1246,14 @@ select option:hover{
 }
 
 .home-logo2 img{
-  width:72px;
-  height:72px;
+  width:132px;
+  height:132px;
   object-fit:contain;
   display:block;
   position:relative;
   z-index:2;
-  filter:drop-shadow(0 8px 14px rgba(0,0,0,.65));
-  transform:translateY(0);
+  filter:drop-shadow(0 10px 22px rgba(0,0,0,.8)) drop-shadow(0 0 12px rgba(214,178,94,.22));
+  transform:translateY(4px);
 }
 
 .home-logo2 span{
@@ -1263,11 +1263,11 @@ select option:hover{
   transform:none;
   width:auto;
   max-width:90%;
-  margin-top:2px;
+  margin-top:8px;
   text-align:center;
   color:#fff;
   font-weight:700;
-  font-size:15px;
+  font-size:16px;
   line-height:1.4;
   text-shadow:0 2px 8px #000, 0 0 4px #000;
   z-index:3;
