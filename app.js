@@ -1186,6 +1186,11 @@ function addBoardCard(id,x=.45,y=.45){
   });
 }
 
+function openTestCardDetail(id){
+  const c=cards.find(x=>String(x.id)===String(id));
+  if(c) openCard(c);
+}
+
 function renderTest(){
   refreshTestDeckSelect();
   const nameEl=document.querySelector("#testDeckName");
@@ -1223,7 +1228,7 @@ function renderTest(){
     if(card){
       card.style.transform=`rotate(${Number(testSpecialRotation.leader||0)}deg)`;
       card.draggable=false;
-      card.onclick=()=>showDrawnCard(card.dataset.id);
+      card.onclick=()=>openTestCardDetail(card.dataset.id);
       const btn=document.createElement("button");
       btn.type="button";
       btn.className="special-rotate-btn";
@@ -1253,14 +1258,7 @@ function renderTest(){
         back.innerHTML=`<span>ZONE</span><small>SOULVAULT</small>`;
         card.appendChild(back);
       }
-      card.onclick=()=>{
-        const existing=zoneEl.querySelector(".zone-soulcore-info");
-        if(existing){ existing.remove(); return; }
-        const info=document.createElement("div");
-        info.className="zone-soulcore-info";
-        info.innerHTML=`<b>SOUL CORE</b><span>${testSoulCoreUnderZone.length} ใบ</span>`;
-        zoneEl.appendChild(info);
-      };
+      card.onclick=()=>openTestCardDetail(card.dataset.id);
       const btn=document.createElement("button");
       btn.type="button";
       btn.className="special-flip-btn";
@@ -1276,6 +1274,16 @@ function renderTest(){
       const badge=document.createElement("span");
       badge.className="zone-soulcore-badge";
       badge.textContent=`SC ${testSoulCoreUnderZone.length}`;
+      badge.title="ดูจำนวน Soul Core";
+      badge.addEventListener("click",ev=>{
+        ev.preventDefault(); ev.stopPropagation();
+        const existing=zoneEl.querySelector(".zone-soulcore-info");
+        if(existing){ existing.remove(); return; }
+        const info=document.createElement("div");
+        info.className="zone-soulcore-info";
+        info.innerHTML=`<b>SOUL CORE</b><span>${testSoulCoreUnderZone.length} ใบ</span>`;
+        zoneEl.appendChild(info);
+      });
       card.appendChild(badge);
     }
   }
@@ -1286,7 +1294,8 @@ function renderTest(){
     const card=soulEl.querySelector(".test-card");
     if(card){
       card.draggable=false;
-      card.onclick=()=>{
+      card.onclick=()=>openTestCardDetail(card.dataset.id);
+      card.ondblclick=()=>{
         const all=testDeck.soulCores||[];
         if(testSoulCoreUnderZone.length>=all.length)return;
         testSoulCoreUnderZone.push(all[testSoulCoreUnderZone.length]);
@@ -1305,7 +1314,7 @@ function renderTest(){
     soulUnderEl.querySelectorAll(".test-card").forEach((card,i)=>{
       card.draggable=false;
       card.style.zIndex=String(i+1);
-      card.onclick=()=>showDrawnCard(card.dataset.id);
+      card.onclick=()=>openTestCardDetail(card.dataset.id);
     });
   }
 
@@ -1318,7 +1327,7 @@ function renderTest(){
       el.ondragstart=e=>{
         e.dataTransfer.setData("text/plain",JSON.stringify({source:"hand",index:Number(el.dataset.index)}));
       };
-      el.onclick=()=>showDrawnCard(el.dataset.id);
+      el.onclick=()=>openTestCardDetail(el.dataset.id);
       el.ondblclick=()=>sendToTomb(el.dataset.id,true);
     });
   }
@@ -1348,7 +1357,7 @@ function renderTest(){
       el.ondragstart=e=>{
         e.dataTransfer.setData("text/plain",JSON.stringify({source:"board",index:idx}));
       };
-      el.onclick=()=>showDrawnCard(el.dataset.id);
+      el.onclick=()=>openTestCardDetail(el.dataset.id);
       el.ondblclick=()=>{
         testHand.push(item.id);
         testBoard.freeCards.splice(idx,1);
