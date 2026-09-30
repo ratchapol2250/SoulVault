@@ -513,9 +513,10 @@ function renderDeckLibrary(){
     const cover=cards.find(c=>c.id===d.cover);
     const coverClass=cover?rarityClass(cover.rarity):"rarity-common";
     const symbol=cover?cover.symbol:"SA";
+    const coverImage=cover?.image ? String(cover.image).replace(/^\/public/,"") : "";
     const active=d.id===currentDeckId?" active":"";
     return `<div class="deck-library-card${active}" data-deck="${d.id}">
-      <div class="library-cover ${coverClass}"><span>${symbol}</span></div>
+      <div class="library-cover ${coverClass}">${coverImage?`<img class="library-cover-image" src="${escapeHtml(coverImage)}" alt="${escapeHtml(cover?.name||"")}">`:`<span>${symbol}</span>`}</div>
       <div class="library-info">
         <h4>${escapeHtml(d.name||"New Deck")}</h4>
         <div><span>${getMainDeckCount(d)} MAIN DECK</span><span>${d.leader?"LEADER ✓":"NO LEADER"}</span><span>${d.zone?"ZONE ✓":"NO ZONE"}</span></div>
@@ -725,28 +726,45 @@ function renderPicker(){
   }).join("");
 }
 
+function getDeckCoverCards(){
+  if(!currentDeck)return [];
+  const ids=[];
+  Object.keys(currentDeck.main||{}).forEach(id=>ids.push(id));
+  if(currentDeck.leader)ids.push(currentDeck.leader);
+  if(currentDeck.zone)ids.push(currentDeck.zone);
+  if(currentDeck.untimeat)ids.push(currentDeck.untimeat);
+  (currentDeck.soulCores||[]).forEach(id=>ids.push(id));
+  return [...new Set(ids)].map(id=>cards.find(c=>String(c.id)===String(id))).filter(Boolean);
+}
 function updateCover(){
   const c=cards.find(x=>x.id===currentDeck.cover);
   const cover=document.querySelector("#deckCover");
   if(c){
     cover.className=`deck-cover ${rarityClass(c.rarity)}`;
-    document.querySelector("#coverSymbol").textContent=c.symbol;
+    const src=c.image?String(c.image).replace(/^\/public/,""):"";
+    cover.innerHTML=src
+      ? `<img class="deck-cover-real-image" src="${escapeHtml(src)}" alt="${escapeHtml(c.name)}">`
+      : `<span id="coverSymbol">${escapeHtml(c.symbol||"SA")}</span>`;
   }else{
     cover.className="deck-cover rarity-common";
-    document.querySelector("#coverSymbol").textContent="SA";
+    cover.innerHTML=`<span id="coverSymbol">SA</span>`;
   }
 }
 
 function openCoverPicker(){
-  document.querySelector("#coverGrid").innerHTML=cards.map(c=>
-    `<button class="cover-option ${rarityClass(c.rarity)}" onclick="chooseCover('${c.id}')">
-      <span>${c.symbol}</span><b>${c.name}</b><small>${c.rarity}</small>
-    </button>`
-  ).join("");
+  const list=getDeckCoverCards();
+  document.querySelector("#coverGrid").innerHTML=list.length ? list.map(c=>{
+    const src=c.image?String(c.image).replace(/^\/public/,""):"";
+    return `<button class="cover-option ${rarityClass(c.rarity)}" onclick="chooseCover('${c.id}')">
+      ${src?`<img class="cover-option-image" src="${escapeHtml(src)}" alt="${escapeHtml(c.name)}">`:`<span>${escapeHtml(c.symbol||"SA")}</span>`}
+      <b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.rarity)}</small>
+    </button>`;
+  }).join("") : `<div class="empty">ยังไม่มีการ์ดใน Deck สำหรับใช้เป็นหน้าปก</div>`;
   document.querySelector("#coverModal").classList.remove("hidden");
 }
 
 function chooseCover(id){
+  if(!getDeckCoverCards().some(c=>String(c.id)===String(id)))return;
   currentDeck.cover=id;
   persistDecks();
   updateCover();
@@ -861,7 +879,7 @@ let testStack=[];
 let testHand=[];
 let testTomb=[];
 let testTurn=0;
-let testBoard={leader:null,zone:null,soul1:null,soul2:null,chars:[null,null,null,null],pocket:[],energy:null};
+let testBoard={leader:null,zone:null,untimeat:null,soulCores:[],chars:[null,null,null,null],pocket:[],energy:null,unit:null,freeCards:[]};
 
 function refreshTestDeckSelect(){
   reloadDecksFromStorage();
@@ -920,7 +938,8 @@ function buildTestDeck(){
     chars:[null,null,null,null],
     pocket:[],
     energy:null,
-    unit:null
+    unit:null,
+    freeCards:[]
   };
   renderTest();
 }
@@ -935,17 +954,61 @@ function playHandCard(id){
   if(idx<0)return;
   const c=cards.find(x=>x.id===id);
   if(!c)return;
-
-  if(c.type==="POCKET"){
-    testBoard.pocket.push(id);
-  }else{
-    const slot=testBoard.chars.findIndex(x=>x===null);
-    if(slot<0){alert("Character Zone เต็มแล้ว");return}
-    testBoard.chars[slot]=id;
-  }
+  testBoard.freeCards=testBoard.freeCards||[];
+  const rect=document.querySelector("#testPlayArea")?.getBoundingClientRect();
+  const x=rect?Math.max(0,rect.width/2-45):20;
+  const y=rect?Math.max(0,rect.height/2-65):20;
+  testBoard.freeCards.push({uid:"F"+Date.now()+Math.random().toString(36).slice(2,7),id:String(id),x,y});
   testHand.splice(idx,1);
   renderTest();
 }
+function renderPlayArea(){
+  const area=document.querySelector("#testPlayArea");
+  if(!area)return;
+  area.innerHTML=(testBoard.freeCards||[]).map(card=>testCardHTML(card.id,false).replace(
+    `data-id="${card.id}"`,
+    `data-id="${card.id}" data-uid="${card.uid}" draggable="true" style="left:${card.x}px;top:${card.y}px"`
+  )).join("");
+  area.querySelectorAll(".test-card").forEach(el=>{
+    el.classList.add("play-card");
+    el.ondragstart=e=>{e.dataTransfer.setData("text/play-card",el.dataset.uid);e.dataTransfer.effectAllowed="move";};
+    el.ondblclick=()=>{
+      const i=(testBoard.freeCards||[]).findIndex(x=>x.uid===el.dataset.uid);
+      if(i<0)return;
+      testHand.push(testBoard.freeCards[i].id);
+      testBoard.freeCards.splice(i,1);
+      renderTest();
+    };
+    el.onclick=e=>{
+      if(e.detail!==1)return;
+      showDrawnCard(el.dataset.id);
+    };
+  });
+  area.ondragover=e=>{e.preventDefault();e.dataTransfer.dropEffect="move";};
+  area.ondrop=e=>{
+    e.preventDefault();
+    const uid=e.dataTransfer.getData("text/play-card");
+    const item=(testBoard.freeCards||[]).find(x=>x.uid===uid);
+    if(item){
+      const r=area.getBoundingClientRect();
+      item.x=Math.max(0,Math.min(r.width-90,e.clientX-r.left-45));
+      item.y=Math.max(0,Math.min(r.height-126,e.clientY-r.top-63));
+      renderTest();
+      return;
+    }
+    const id=e.dataTransfer.getData("text/card-id");
+    if(id){
+      const idx=testHand.indexOf(id);
+      if(idx<0)return;
+      const r=area.getBoundingClientRect();
+      testBoard.freeCards=testBoard.freeCards||[];
+      testBoard.freeCards.push({uid:"F"+Date.now()+Math.random().toString(36).slice(2,7),id:String(id),x:Math.max(0,Math.min(r.width-90,e.clientX-r.left-45)),y:Math.max(0,Math.min(r.height-126,e.clientY-r.top-63))});
+      testHand.splice(idx,1);
+      renderTest();
+    }
+  };
+}
+
 function sendToTomb(id,fromHand=true){
   if(fromHand){
     const i=testHand.indexOf(id);if(i>=0)testHand.splice(i,1);
@@ -993,14 +1056,16 @@ function renderTest(){
   if(testHand.length===0){
     handEl.innerHTML=`<div class="hand-empty">กด DRAW 5 เพื่อเริ่มทดลองจั่ว</div>`;
   }else{
-    handEl.innerHTML=testHand.map((id,index)=>testCardHTML(id,true,index)).join("");
+    handEl.innerHTML=testHand.map((id,index)=>testCardHTML(id,true,index).replace(`data-id="${id}"`,`data-id="${id}" draggable="true"`)).join("");
   }
 
   handEl.dataset.count=String(testHand.length);
 
   handEl.querySelectorAll(".clickable").forEach(el=>{
     el.onclick=()=>showDrawnCard(el.dataset.id);
+    el.ondragstart=e=>{e.dataTransfer.setData("text/card-id",el.dataset.id);e.dataTransfer.effectAllowed="move";};
   });
+  renderPlayArea();
 }
 
 function showDrawnCard(id){
