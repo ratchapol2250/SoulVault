@@ -968,6 +968,8 @@ let testHand=[];
 let testTomb=[];
 let testTurn=0;
 let testBoard={freeCards:[]};
+let testSoulCoreUnderZone=[];
+let testSpecialRotation={leader:0,zone:0};
 
 function refreshTestDeckSelect(){
   reloadDecksFromStorage();
@@ -988,7 +990,7 @@ function buildTestDeck(){
   const id=sel?.value||localStorage.getItem("stealAreaActiveDeckId");
   testDeck=decks.find(d=>d.id===id)||decks[0]||null;
   if(!testDeck){
-    testStack=[];testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};
+    testStack=[];testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0,zone:0};
     renderTest(); return;
   }
   localStorage.setItem("stealAreaActiveDeckId",testDeck.id);
@@ -1003,7 +1005,7 @@ function buildTestDeck(){
   }
   testStack=testStack.slice(0,50);
   testStack.sort(()=>Math.random()-.5);
-  testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};
+  testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0,zone:0};
   renderTest();
 }
 
@@ -1042,10 +1044,12 @@ function renderTest(){
   const leaderEl=document.querySelector("#testLeaderCard");
   const zoneEl=document.querySelector("#testZoneCard");
   const soulEl=document.querySelector("#testSoulCoreCards");
+  const soulUnderEl=document.querySelector("#testSoulCoreUnderZone");
   if(!testDeck){
     if(leaderEl)leaderEl.innerHTML="";
     if(zoneEl)zoneEl.innerHTML="";
     if(soulEl)soulEl.innerHTML="";
+    if(soulUnderEl)soulUnderEl.innerHTML="";
     if(nameEl)nameEl.textContent="-";
     if(handEl)handEl.innerHTML=`<div class="hand-empty">ยังไม่มี Deck สำหรับทดลองเล่น</div>`;
     if(boardEl)boardEl.innerHTML="";
@@ -1062,24 +1066,77 @@ function renderTest(){
   setText("#pileCount",testStack.length);
   setText("#tombCount",testTomb.length);
 
-  // Initial battlefield layout: Leader center, Zone below, Soul Core horizontally above center.
+  // Initial battlefield layout: Leader center, Zone below, Soul Core as a single clickable pile above.
   if(leaderEl){
     leaderEl.innerHTML=testDeck.leader ? testCardHTML(testDeck.leader,true,0,"leader") : "";
     const card=leaderEl.querySelector(".test-card");
-    if(card){ card.draggable=false; card.onclick=()=>showDrawnCard(card.dataset.id); }
+    if(card){
+      card.style.transform=`rotate(${Number(testSpecialRotation.leader||0)}deg)`;
+      card.draggable=false;
+      card.onclick=()=>showDrawnCard(card.dataset.id);
+      const btn=document.createElement("button");
+      btn.type="button";
+      btn.className="special-rotate-btn";
+      btn.title=Number(testSpecialRotation.leader||0)===90 ? "หมุนกลับแนวตั้ง" : "วางแนวนอน";
+      btn.textContent="↻";
+      btn.addEventListener("click",ev=>{
+        ev.preventDefault(); ev.stopPropagation();
+        testSpecialRotation.leader=Number(testSpecialRotation.leader||0)===90?0:90;
+        renderTest();
+      });
+      card.appendChild(btn);
+    }
   }
   if(zoneEl){
     zoneEl.innerHTML=testDeck.zone ? testCardHTML(testDeck.zone,true,0,"zone") : "";
     const card=zoneEl.querySelector(".test-card");
-    if(card){ card.draggable=false; card.onclick=()=>showDrawnCard(card.dataset.id); }
-  }
-  if(soulEl){
-    const soulIds=(testDeck.soulCores||[]).slice(0,7);
-    soulEl.innerHTML=soulIds.map((id,i)=>testCardHTML(id,true,i,"soulcore")).join("");
-    soulEl.querySelectorAll(".test-card").forEach(card=>{
+    if(card){
+      card.style.transform=`rotate(${Number(testSpecialRotation.zone||0)}deg)`;
       card.draggable=false;
       card.onclick=()=>showDrawnCard(card.dataset.id);
+      const btn=document.createElement("button");
+      btn.type="button";
+      btn.className="special-rotate-btn";
+      btn.title=Number(testSpecialRotation.zone||0)===90 ? "หมุนกลับแนวตั้ง" : "วางแนวนอน";
+      btn.textContent="↻";
+      btn.addEventListener("click",ev=>{
+        ev.preventDefault(); ev.stopPropagation();
+        testSpecialRotation.zone=Number(testSpecialRotation.zone||0)===90?0:90;
+        renderTest();
+      });
+      card.appendChild(btn);
+    }
+  }
+  if(soulEl){
+    const remaining=(testDeck.soulCores||[]).filter((_,i)=>i>=testSoulCoreUnderZone.length);
+    const topId=remaining[0];
+    soulEl.innerHTML=topId ? testCardHTML(topId,true,0,"soulcore-pile") : `<div class="soul-core-empty">SOUL CORE<br><b>หมดแล้ว</b></div>`;
+    const card=soulEl.querySelector(".test-card");
+    if(card){
+      card.draggable=false;
+      card.onclick=()=>{
+        const all=testDeck.soulCores||[];
+        if(testSoulCoreUnderZone.length>=all.length)return;
+        testSoulCoreUnderZone.push(all[testSoulCoreUnderZone.length]);
+        renderTest();
+      };
+    }
+    const count=document.createElement("span");
+    count.className="soul-core-pile-count";
+    count.textContent=`${remaining.length} ใบ`;
+    soulEl.appendChild(count);
+  }
+  if(soulUnderEl){
+    soulUnderEl.innerHTML=testSoulCoreUnderZone.map((id,i)=>testCardHTML(id,true,i,"soulcore-under")).join("");
+    soulUnderEl.querySelectorAll(".test-card").forEach((card,i)=>{
+      card.draggable=false;
+      card.style.zIndex=String(i+1);
+      card.onclick=()=>showDrawnCard(card.dataset.id);
     });
+    const count=document.createElement("span");
+    count.className="soul-under-count";
+    count.textContent=`SOUL CORE ใต้ ZONE: ${testSoulCoreUnderZone.length}`;
+    soulUnderEl.appendChild(count);
   }
 
   if(handEl){
