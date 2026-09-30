@@ -172,6 +172,8 @@
             </div>
             <div class="deck-actions">
               <button class="gold-btn" id="saveDeckBtn">SAVE DECK</button>
+              <button class="gold-btn" id="shareDeckBtn">🔗 SHARE DECK</button>
+              <button class="gold-btn" id="importDeckBtn">📥 IMPORT DECK</button>
               <button class="danger-btn" id="deleteDeckBtn">DELETE</button>
               <div class="save-rule">MAIN DECK ไม่เกิน 50 ใบ (ไม่จำเป็นต้องครบ 50) · POCKET 10 · UNTIMEAT 1 · LEADER 1 · ZONE 1 · SOUL CORE 7</div>
             </div>
@@ -223,6 +225,19 @@
         </select>
             <div id="pickerList"></div>
           </aside>
+        </div>
+      </div>
+
+      <div id="deckLinkModal" class="modal hidden">
+        <div class="cover-picker-modal deck-link-modal">
+          <button class="close" id="closeDeckLink">×</button>
+          <h2>นำเข้า Deck จากลิงก์</h2>
+          <p>วางลิงก์ Deck ที่ได้รับจากผู้เล่นคนอื่น แล้วกด IMPORT DECK</p>
+          <textarea id="deckLinkInput" class="deck-link-input" rows="4" placeholder="วางลิงก์ Deck ที่นี่..."></textarea>
+          <div class="deck-link-actions">
+            <button class="gold-btn" id="confirmImportDeck">IMPORT DECK</button>
+            <button class="danger-btn" id="cancelImportDeck">CANCEL</button>
+          </div>
         </div>
       </div>
 

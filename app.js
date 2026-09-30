@@ -772,6 +772,7 @@ function renderDeck(){
   });
 
   renderPicker();
+importDeckFromCurrentURL();
   updateCover();
   renderDeckLibrary();
 }
@@ -902,6 +903,148 @@ function validateDeckBeforeSave(){
   return true;
 }
 
+function normalizeImportedDeck(raw){
+  if(!raw || typeof raw!=="object") throw new Error("รูปแบบ Deck ไม่ถูกต้อง");
+  const knownIds=new Set(cards.map(c=>String(c.id)));
+  const allIds=[];
+  if(raw.leader)allIds.push(String(raw.leader));
+  if(raw.zone)allIds.push(String(raw.zone));
+  if(raw.untimeat)allIds.push(String(raw.untimeat));
+  (Array.isArray(raw.soulCores)?raw.soulCores:[]).forEach(id=>allIds.push(String(id)));
+  Object.keys(raw.main&&typeof raw.main==="object"?raw.main:{}).forEach(id=>allIds.push(String(id)));
+  const missing=[...new Set(allIds.filter(id=>!knownIds.has(id)))];
+  if(missing.length) throw new Error("ไม่พบการ์ดในระบบ: "+missing.join(", "));
+
+  const main={};
+  Object.entries(raw.main&&typeof raw.main==="object"?raw.main:{}).forEach(([id,n])=>{
+    const qty=Number(n)||0;
+    if(qty>0)main[id]=Math.floor(qty);
+  });
+
+  const d={
+    id:"D"+Date.now()+Math.random().toString(36).slice(2,7),
+    name:String(raw.name||"Imported Deck").slice(0,80),
+    cover:raw.cover&&knownIds.has(String(raw.cover))?String(raw.cover):null,
+    leader:raw.leader?String(raw.leader):null,
+    zone:raw.zone?String(raw.zone):null,
+    untimeat:raw.untimeat?String(raw.untimeat):null,
+    main,
+    soulCores:Array.isArray(raw.soulCores)?raw.soulCores.map(String).filter(id=>knownIds.has(id)):[],
+    imported:true
+  };
+  return d;
+}
+
+function encodeDeckForLink(deck){
+  const payload={
+    v:1,
+    name:deck.name||"Shared Deck",
+    cover:deck.cover||null,
+    leader:deck.leader||null,
+    zone:deck.zone||null,
+    untimeat:deck.untimeat||null,
+    main:deck.main||{},
+    soulCores:deck.soulCores||[]
+  };
+  const bytes=new TextEncoder().encode(JSON.stringify(payload));
+  let binary="";
+  const chunk=0x8000;
+  for(let i=0;i<bytes.length;i+=chunk)binary+=String.fromCharCode(...bytes.subarray(i,i+chunk));
+  return btoa(binary).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+
+function decodeDeckFromLink(link){
+  const url=new URL(String(link).trim(),window.location.href);
+  const encoded=url.searchParams.get("deck") || (url.hash.startsWith("#deck=")?url.hash.slice(6):"");
+  if(!encoded)throw new Error("ไม่พบข้อมูล Deck ในลิงก์นี้");
+  const normalized=encoded.replace(/-/g,"+").replace(/_/g,"/");
+  const padded=normalized+"=".repeat((4-normalized.length%4)%4);
+  const binary=atob(padded);
+  const bytes=Uint8Array.from(binary,ch=>ch.charCodeAt(0));
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+function getDeckShareLink(deck=currentDeck){
+  if(!deck)throw new Error("กรุณาเลือก Deck ก่อน");
+  const encoded=encodeDeckForLink(deck);
+  return `${window.location.origin}${window.location.pathname}?deck=${encoded}`;
+}
+
+async function shareCurrentDeck(){
+  if(!currentDeck)return;
+  if(!validateDeckBeforeSave())return;
+  currentDeck.name=(document.querySelector("#deckName").value.trim()||"New Deck");
+  persistDecks();
+  const link=getDeckShareLink(currentDeck);
+  try{
+    await navigator.clipboard.writeText(link);
+    alert("สร้างลิงก์ Deck แล้ว และคัดลอกลิงก์ไว้ใน Clipboard เรียบร้อย");
+  }catch(e){
+    const input=document.createElement("input");
+    input.value=link;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand("copy");
+    input.remove();
+    alert("สร้างลิงก์ Deck แล้ว\n\n"+link);
+  }
+}
+
+function openImportDeckModal(){
+  document.querySelector("#deckLinkInput").value="";
+  document.querySelector("#deckLinkModal").classList.remove("hidden");
+  setTimeout(()=>document.querySelector("#deckLinkInput").focus(),50);
+}
+
+function closeImportDeckModal(){
+  document.querySelector("#deckLinkModal").classList.add("hidden");
+}
+
+function importDeckFromLink(link){
+  try{
+    const raw=decodeDeckFromLink(link);
+    const imported=normalizeImportedDeck(raw);
+    decks.push(imported);
+    currentDeckId=imported.id;
+    currentDeck=imported;
+    persistDecks();
+    closeImportDeckModal();
+    initDeck();
+    alert(`นำเข้า Deck "${imported.name}" สำเร็จ`);
+  }catch(err){
+    alert("นำเข้า Deck ไม่สำเร็จ\n\n"+(err?.message||"ลิงก์ไม่ถูกต้อง"));
+  }
+}
+
+function importDeckFromCurrentURL(){
+  const hasDeck=new URLSearchParams(window.location.search).has("deck") || window.location.hash.startsWith("#deck=");
+  if(!hasDeck)return;
+  try{
+    const raw=decodeDeckFromLink(window.location.href);
+    const imported=normalizeImportedDeck(raw);
+    const exists=decks.some(d=>JSON.stringify({
+      name:d.name,cover:d.cover,leader:d.leader,zone:d.zone,untimeat:d.untimeat,main:d.main,soulCores:d.soulCores
+    })===JSON.stringify({
+      name:imported.name,cover:imported.cover,leader:imported.leader,zone:imported.zone,untimeat:imported.untimeat,main:imported.main,soulCores:imported.soulCores
+    }));
+    if(exists){
+      const ok=confirm(`พบ Deck "${imported.name}" ที่มีอยู่แล้ว ต้องการนำเข้าอีกครั้งหรือไม่?`);
+      if(!ok)return;
+    }
+    decks.push(imported);
+    currentDeckId=imported.id;
+    currentDeck=imported;
+    persistDecks();
+    alert(`พบลิงก์ Deck "${imported.name}" และนำเข้าให้แล้ว`);
+    history.replaceState(null,"",window.location.pathname);
+    initDeck();
+  }catch(err){
+    alert("ลิงก์ Deck ไม่ถูกต้อง\n\n"+(err?.message||"ไม่สามารถอ่านข้อมูล Deck ได้"));
+    history.replaceState(null,"",window.location.pathname);
+  }
+}
+
+
 function saveDeck(){
   if(!currentDeck)return;
   if(!validateDeckBeforeSave())return;
@@ -928,6 +1071,12 @@ document.querySelector("#newDeckBtn").onclick=makeDeck;
 document.querySelector("#newDeckBtn2").onclick=makeDeck;
 document.querySelector("#libraryNewDeck").onclick=makeDeck;
 document.querySelector("#saveDeckBtn").onclick=saveDeck;
+document.querySelector("#shareDeckBtn").onclick=shareCurrentDeck;
+document.querySelector("#importDeckBtn").onclick=openImportDeckModal;
+document.querySelector("#confirmImportDeck").onclick=()=>importDeckFromLink(document.querySelector("#deckLinkInput").value);
+document.querySelector("#cancelImportDeck").onclick=closeImportDeckModal;
+document.querySelector("#closeDeckLink").onclick=closeImportDeckModal;
+document.querySelector("#deckLinkModal").onclick=e=>{if(e.target.id==="deckLinkModal")closeImportDeckModal()};
 document.querySelector("#deleteDeckBtn").onclick=deleteCurrentDeck;
 document.querySelector("#coverBtn").onclick=openCoverPicker;
 document.querySelector("#closeCover").onclick=()=>document.querySelector("#coverModal").classList.add("hidden");
