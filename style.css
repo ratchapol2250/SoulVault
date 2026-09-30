@@ -11,7 +11,9 @@
   .topbar>div:nth-child(2){margin-right:auto}
   .hero{padding:27px 23px}
   .hero h2{font-size:26px}
-
+.hero:after{
+  display:none;
+}
   /* ลบวงแหวนบนมือถือ */
   .sigil{
     display:none;
