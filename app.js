@@ -1118,7 +1118,8 @@ let testTomb=[];
 let testTurn=0;
 let testBoard={freeCards:[]};
 let testSoulCoreUnderZone=[];
-let testSpecialRotation={leader:0,zone:0};
+let testSpecialRotation={leader:0};
+let testZoneFlipped=false;
 
 function refreshTestDeckSelect(){
   reloadDecksFromStorage();
@@ -1139,7 +1140,7 @@ function buildTestDeck(){
   const id=sel?.value||localStorage.getItem("stealAreaActiveDeckId");
   testDeck=decks.find(d=>d.id===id)||decks[0]||null;
   if(!testDeck){
-    testStack=[];testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0,zone:0};
+    testStack=[];testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0};testZoneFlipped=false;
     renderTest(); return;
   }
   localStorage.setItem("stealAreaActiveDeckId",testDeck.id);
@@ -1154,7 +1155,7 @@ function buildTestDeck(){
   }
   testStack=testStack.slice(0,50);
   testStack.sort(()=>Math.random()-.5);
-  testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0,zone:0};
+  testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0};testZoneFlipped=false;
   renderTest();
 }
 
@@ -1240,8 +1241,18 @@ function renderTest(){
     zoneEl.innerHTML=testDeck.zone ? testCardHTML(testDeck.zone,true,0,"zone") : "";
     const card=zoneEl.querySelector(".test-card");
     if(card){
-      card.style.transform=`rotate(${Number(testSpecialRotation.zone||0)}deg)`;
+      card.style.transform="none";
       card.draggable=false;
+      if(testZoneFlipped){
+        card.classList.add("zone-card-back");
+        const img=card.querySelector("img");
+        if(img) img.remove();
+        card.querySelectorAll("span,b,small").forEach(el=>el.remove());
+        const back=document.createElement("div");
+        back.className="zone-back-face";
+        back.innerHTML=`<span>ZONE</span><small>SOULVAULT</small>`;
+        card.appendChild(back);
+      }
       card.onclick=()=>{
         const existing=zoneEl.querySelector(".zone-soulcore-info");
         if(existing){ existing.remove(); return; }
@@ -1252,12 +1263,12 @@ function renderTest(){
       };
       const btn=document.createElement("button");
       btn.type="button";
-      btn.className="special-rotate-btn";
-      btn.title=Number(testSpecialRotation.zone||0)===90 ? "หมุนกลับแนวตั้ง" : "วางแนวนอน";
-      btn.textContent="↻";
+      btn.className="special-flip-btn";
+      btn.title=testZoneFlipped ? "พลิกกลับด้านหน้า" : "พลิกเป็นด้านหลัง";
+      btn.textContent="↔";
       btn.addEventListener("click",ev=>{
         ev.preventDefault(); ev.stopPropagation();
-        testSpecialRotation.zone=Number(testSpecialRotation.zone||0)===90?0:90;
+        testZoneFlipped=!testZoneFlipped;
         renderTest();
       });
       card.appendChild(btn);
