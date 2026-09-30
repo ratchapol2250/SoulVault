@@ -1281,3 +1281,20 @@ select option:hover{
   .variant-switch{font-size:7px}
   .variant-select{font-size:8px;height:27px}
 }
+
+/* ===== CARD DETAIL STATS + ROUNDED CARD ART ===== */
+.detail-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+.detail-grid div{min-width:0;}
+.detail-grid b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+.card-real-image,.collection-real-image,.detail-real-image,.mini-real-image,.special-real-image,.picker-real-image,.test-real-image,.draw-real-image{
+  border-radius:10px;
+}
+.card-art,.collection-card-art,.detail-image,.mini-art,.special-art,.picker-art,.test-card,.draw-preview-card,.cover-option{
+  overflow:hidden;
+  border-radius:10px;
+}
+
+@media(max-width:600px){
+  .detail-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}

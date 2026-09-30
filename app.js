@@ -114,6 +114,7 @@ function cardHTML(c,small=true){
    </div></article>`;
 }
 function openCard(c){
+ if(!c)return;
  document.querySelector("#detailType").textContent=c.type.toUpperCase();
  document.querySelector("#detailRarity").textContent=c.rarity.toUpperCase();
  document.querySelector("#detailName").textContent=c.name;
@@ -122,7 +123,10 @@ function openCard(c){
   formatAbility(c.ability);
  document.querySelector("#detailId").textContent=c.id;
  document.querySelector("#detailElement").textContent=c.element;
- document.querySelector("#detailCost").textContent=c.cost;
+ document.querySelector("#detailPower").textContent=c.power ?? "—";
+ document.querySelector("#detailSteal").textContent=c.steal ?? "—";
+ document.querySelector("#detailBy").textContent=c.by ?? c.artist ?? "—";
+ document.querySelector("#detailLevel").textContent=c.cost ?? "—";
  document.querySelector("#detailImage").className=`detail-image ${rarityClass(c.rarity)}`;
  document.querySelector("#detailImage").innerHTML=c.image ? `<img class="detail-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span class="detail-placeholder"></span>`;
  document.querySelector("#modal").classList.remove("hidden");
