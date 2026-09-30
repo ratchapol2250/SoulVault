@@ -498,12 +498,6 @@
   flex:0 0 63mm!important;
 }
 
-/* ===== DRAW TEST ONLY — NO PLAYMAT ===== */
-#drawtest .playmat,
-#drawtest .pocket-area,
-#drawtest .mat-slot,
-#drawtest .hand-area{display:none!important}
-
 .simple-draw-header{align-items:center}
 .simple-draw-info{margin-top:12px}
 .draw-area{
@@ -1151,4 +1145,52 @@ select option:hover{
   width: 23px;
   height: 23px;
   vertical-align: middle;
+}
+
+
+/* ===== REAL LOGO ===== */
+.brand{min-height:72px}
+.brand #siteLogo{display:block;width:170px;max-width:100%;height:auto;max-height:62px;object-fit:contain}
+.brand.logo-fallback::before{content:"SOULVAULT";display:block;font:700 20px Cinzel;letter-spacing:1.8px;color:#eee9df}
+.brand.logo-fallback::after{content:"CARD GAME";display:block;font:8px Inter;letter-spacing:2px;color:#8e897f;margin-top:3px}
+
+/* ===== REAL DECK COVERS ===== */
+.deck-cover{position:relative}
+.deck-cover-real-image{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;z-index:2}
+.cover-symbol-overlay{position:absolute!important;z-index:4;bottom:8px;left:8px;font:700 18px Cinzel!important;color:#fff!important;text-shadow:0 2px 8px #000!important}
+.library-cover{position:relative;overflow:hidden}
+.library-cover-real-image{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+.cover-option-image{width:100%;height:125px;object-fit:cover;display:block;margin-bottom:7px}
+.cover-option:has(.cover-option-image){justify-content:flex-start;padding:6px;overflow:hidden}
+.cover-option:has(.cover-option-image) b{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cover-empty{grid-column:1/-1;border:1px dashed #3a3020;padding:35px;text-align:center;color:#777}
+
+/* ===== MANUAL PLAYTEST ===== */
+.manual-playtest{background:#090909;border:1px solid #29241d;padding:14px}
+.manual-playmat{position:relative;width:100%;aspect-ratio:16/8.5;min-height:560px;overflow:hidden;border:1px solid #4a3b23;background:
+  radial-gradient(circle at 50% 45%,#17130d 0,#0b0b0b 55%,#070707 100%);
+}
+.manual-playmat:before{content:"";position:absolute;inset:18px;border:1px solid #2e271d;border-radius:12px;pointer-events:none}
+.playmat-hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#5c554c;font-size:12px;letter-spacing:1px;pointer-events:none;text-align:center}
+.board-piles{position:absolute;right:22px;top:22px;z-index:5;display:flex;gap:10px}
+.board-pile{width:88px;height:124px;border:1px solid #70572a;background:linear-gradient(145deg,#151515,#0a0a0a);display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 8px 24px #000}
+.board-pile span{font:600 15px Cinzel;color:#c9a85c;letter-spacing:1px}
+.board-pile b{font-size:10px;color:#777;margin-top:8px}
+.tomb-pile-manual{border-color:#493b2a}
+.test-board-cards{position:absolute;inset:0;z-index:3}
+.test-board-cards .test-card{position:absolute!important;width:96px!important;height:134px!important;min-width:96px!important;min-height:134px!important;max-width:96px!important;max-height:134px!important;transform:none!important;cursor:grab;box-shadow:0 8px 22px #000;user-select:none}
+.test-board-cards .test-card:active{cursor:grabbing}
+.manual-hand-panel{border-top:1px solid #29241d;margin-top:14px;padding:14px 4px 2px;min-height:190px}
+.manual-hand-panel .draw-test-hand{display:flex!important;flex-wrap:wrap!important;gap:10px!important;min-height:145px!important;align-items:flex-end!important}
+.manual-hand-panel .draw-test-hand .test-card{position:relative!important;inset:auto!important;width:76px!important;height:106px!important;min-width:76px!important;min-height:106px!important;max-width:76px!important;max-height:106px!important;flex:0 0 76px!important;cursor:grab}
+.manual-hand-panel .draw-test-hand .test-card:hover{transform:translateY(-8px)!important}
+.playtest-actions{display:flex;align-items:center;gap:15px;margin-top:12px;color:#70695f;font-size:9px}
+@media(max-width:900px){
+  .manual-playmat{min-height:500px}
+  .test-board-cards .test-card{width:82px!important;height:114px!important;min-width:82px!important;min-height:114px!important}
+}
+@media(max-width:650px){
+  .manual-playmat{min-width:760px;min-height:500px}
+  .manual-hand-panel{min-width:760px}
+  .manual-playtest{overflow-x:auto}
 }

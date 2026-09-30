@@ -30,7 +30,6 @@ const cards=[
 {id:"HD-006",image:"/public/images/cards/Cerberus Blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ด Gear จากชุด HD",symbol:"C",image:"/public/images/cards/Cerberus Blade.jpg"},
 {id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",set:"HD",name:"pocket",subtitle:"-",type:"POCKET",rarity:"Common",element:"-",cost:"-",ability:"การ์ด Gear จากชุด HD",image:"/public/images/cards/Pocket3.jpg"},
 {id:"HD-012",image:"/public/images/cards/Soul Guard.jpg",set:"HD",name:"Soul Guard",subtitle:"Soul Guard",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"2",ability:"ใช้ได้ต่อเมื่อคู่แข่งสั่งโจมตี \n\n {counter} จ่าย {E} 1 ทำให้การโจมตีไร้ผล",symbol:"C",image:"/public/images/cards/Soul Guard.jpg"},
-{id:"HD-SC01",image:"/public/images/cards/Soul Core.jpg",set:"HD",name:"Soul Core",subtitle:"-",type:"Soul Core",rarity:"Common",element:"-",cost:"-",ability:"-",image:"/public/images/cards/Soul Core.jpg"},  
 ];
 
 const rarityClass=r=>`rarity-${r.toLowerCase()}`;
@@ -513,10 +512,12 @@ function renderDeckLibrary(){
     const count=Object.values(d.main||{}).reduce((a,b)=>a+b,0)+(d.leader?1:0)+(d.zone?1:0)+((d.soulCores||[]).length);
     const cover=cards.find(c=>c.id===d.cover);
     const coverClass=cover?rarityClass(cover.rarity):"rarity-common";
-    const symbol=cover?cover.symbol:"SA";
     const active=d.id===currentDeckId?" active":"";
+    const coverHTML=cover?.image
+      ? `<img class="library-cover-real-image" src="${escapeHtml(cover.image)}" alt="${escapeHtml(cover.name)}">`
+      : `<span>${escapeHtml(cover?.symbol||"SA")}</span>`;
     return `<div class="deck-library-card${active}" data-deck="${d.id}">
-      <div class="library-cover ${coverClass}"><span>${symbol}</span></div>
+      <div class="library-cover ${coverClass}">${coverHTML}</div>
       <div class="library-info">
         <h4>${escapeHtml(d.name||"New Deck")}</h4>
         <div><span>${getMainDeckCount(d)} MAIN DECK</span><span>${d.leader?"LEADER ✓":"NO LEADER"}</span><span>${d.zone?"ZONE ✓":"NO ZONE"}</span></div>
@@ -726,28 +727,53 @@ function renderPicker(){
   }).join("");
 }
 
+function getDeckCoverCards(deck=currentDeck){
+  if(!deck) return [];
+  const ids=[];
+  if(deck.leader) ids.push(deck.leader);
+  if(deck.zone) ids.push(deck.zone);
+  if(deck.untimeat) ids.push(deck.untimeat);
+  (deck.soulCores||[]).forEach(id=>ids.push(id));
+  Object.keys(deck.main||{}).forEach(id=>ids.push(id));
+  return [...new Set(ids)]
+    .map(id=>cards.find(c=>c.id===id))
+    .filter(Boolean);
+}
+
 function updateCover(){
-  const c=cards.find(x=>x.id===currentDeck.cover);
+  const c=cards.find(x=>x.id===currentDeck?.cover);
   const cover=document.querySelector("#deckCover");
+  const symbol=document.querySelector("#coverSymbol");
   if(c){
     cover.className=`deck-cover ${rarityClass(c.rarity)}`;
-    document.querySelector("#coverSymbol").textContent=c.symbol;
+    if(c.image){
+      cover.innerHTML=`<img class="deck-cover-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}"><span id="coverSymbol" class="cover-symbol-overlay">${escapeHtml(c.symbol||"")}</span>`;
+    }else{
+      cover.innerHTML=`<span id="coverSymbol">${escapeHtml(c.symbol||"SA")}</span>`;
+    }
   }else{
     cover.className="deck-cover rarity-common";
-    document.querySelector("#coverSymbol").textContent="SA";
+    cover.innerHTML=`<span id="coverSymbol">SA</span>`;
   }
 }
 
 function openCoverPicker(){
-  document.querySelector("#coverGrid").innerHTML=cards.map(c=>
+  const list=getDeckCoverCards(currentDeck);
+  const grid=document.querySelector("#coverGrid");
+  grid.innerHTML=list.length ? list.map(c=>
     `<button class="cover-option ${rarityClass(c.rarity)}" onclick="chooseCover('${c.id}')">
-      <span>${c.symbol}</span><b>${c.name}</b><small>${c.rarity}</small>
+      ${c.image
+        ? `<img class="cover-option-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">`
+        : `<span>${escapeHtml(c.symbol||"SA")}</span>`}
+      <b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.type)} · ${escapeHtml(c.rarity)}</small>
     </button>`
-  ).join("");
+  ).join("") : `<div class="cover-empty">ยังไม่มีการ์ดในเด็คสำหรับใช้เป็นหน้าปก</div>`;
   document.querySelector("#coverModal").classList.remove("hidden");
 }
 
 function chooseCover(id){
+  const allowed=getDeckCoverCards(currentDeck).some(c=>c.id===id);
+  if(!allowed)return;
   currentDeck.cover=id;
   persistDecks();
   updateCover();
@@ -862,173 +888,142 @@ let testStack=[];
 let testHand=[];
 let testTomb=[];
 let testTurn=0;
-let testBoard={leader:null,zone:null,soul1:null,soul2:null,chars:[null,null,null,null],pocket:[],energy:null};
+let testBoard={freeCards:[]};
 
 function refreshTestDeckSelect(){
   reloadDecksFromStorage();
   const sel=document.querySelector("#testDeckSelect");
   if(!sel)return;
-
   const activeId=localStorage.getItem("stealAreaActiveDeckId");
   const wantedId=testDeck?.id||activeId;
-
   sel.innerHTML=decks.length
     ? decks.map(d=>`<option value="${d.id}">${escapeHtml(d.name||"New Deck")}</option>`).join("")
     : `<option value="">No Deck</option>`;
-
   if(wantedId && decks.some(d=>d.id===wantedId)) sel.value=wantedId;
   else if(decks.length) sel.value=decks[0].id;
 }
+
 function buildTestDeck(){
   reloadDecksFromStorage();
   const sel=document.querySelector("#testDeckSelect");
   const id=sel?.value||localStorage.getItem("stealAreaActiveDeckId");
   testDeck=decks.find(d=>d.id===id)||decks[0]||null;
-
   if(!testDeck){
-    testStack=[];testHand=[];testTomb=[];testTurn=0;
-    renderTest();
-    return;
+    testStack=[];testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};
+    renderTest(); return;
   }
-
   localStorage.setItem("stealAreaActiveDeckId",testDeck.id);
-
-  /* Draw Test uses the actual MAIN DECK only.
-     Leader / Zone / Untimeat / Soul Core are separate and are not draw-pile cards.
-     POCKET is already stored inside main, so it is included automatically. */
   testStack=[];
   Object.entries(testDeck.main||{}).forEach(([cardId,count])=>{
     const n=Math.max(0,Number(count)||0);
     for(let i=0;i<n;i++) testStack.push(cardId);
   });
-
-  /* UNTIMEAT belongs to MAIN DECK. Add it if loading an older deck
-     that has untimeat saved separately but is missing from main. */
   if(testDeck.untimeat){
     const uid=String(testDeck.untimeat);
-    const alreadyInMain=Object.prototype.hasOwnProperty.call(testDeck.main||{},uid);
-    if(!alreadyInMain) testStack.push(uid);
+    if(!Object.prototype.hasOwnProperty.call(testDeck.main||{},uid)) testStack.push(uid);
   }
-
   testStack=testStack.slice(0,50);
   testStack.sort(()=>Math.random()-.5);
-  testHand=[];testTomb=[];testTurn=0;
-  testBoard={
-    leader:testDeck.leader||null,
-    zone:testDeck.zone||null,
-    untimeat:testDeck.untimeat||null,
-    soulCores:[...(testDeck.soulCores||[])],
-    chars:[null,null,null,null],
-    pocket:[],
-    energy:null,
-    unit:null
-  };
+  testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};
   renderTest();
 }
+
 function drawCards(n){
   for(let i=0;i<n && testStack.length;i++)testHand.push(testStack.pop());
   testTurn++;
   renderTest();
 }
-function resetTest(){buildTestDeck()}
-function playHandCard(id){
-  const idx=testHand.indexOf(id);
-  if(idx<0)return;
-  const c=cards.find(x=>x.id===id);
-  if(!c)return;
 
-  if(c.type==="POCKET"){
-    testBoard.pocket.push(id);
-  }else{
-    const slot=testBoard.chars.findIndex(x=>x===null);
-    if(slot<0){alert("Character Zone เต็มแล้ว");return}
-    testBoard.chars[slot]=id;
-  }
-  testHand.splice(idx,1);
-  renderTest();
-}
+function resetTest(){buildTestDeck()}
+
 function sendToTomb(id,fromHand=true){
   if(fromHand){
-    const i=testHand.indexOf(id);if(i>=0)testHand.splice(i,1);
+    const i=testHand.indexOf(id);
+    if(i>=0)testHand.splice(i,1);
   }
-  testTomb.push(id);renderTest();
+  testTomb.push(id);
+  renderTest();
 }
-function testCardHTML(id,clickable=false){
-  if(!id)return "";
-  const c=cards.find(x=>String(x.id)===String(id));
-  if(!c){
-    return `<div class="test-card rarity-common ${clickable?"clickable":""}" data-id="${escapeHtml(id)}">
-      <span>?</span><b>${escapeHtml(id)}</b><small>CARD</small>
-    </div>`;
-  }
-  return `<div class="test-card ${rarityClass(c.rarity)} ${clickable?"clickable":""}" data-id="${c.id}">
-    ${c.image ? `<img class="test-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span>${c.symbol}</span><b>${escapeHtml(c.name)}</b><small>${c.rarity}</small>`}
-  </div>`;
+
+function addBoardCard(id,x=.45,y=.45){
+  testBoard.freeCards.push({
+    uid:"B"+Date.now()+Math.random().toString(36).slice(2,7),
+    id:String(id),
+    x:Math.max(.02,Math.min(.92,x)),
+    y:Math.max(.02,Math.min(.70,y))
+  });
 }
+
 function renderTest(){
   refreshTestDeckSelect();
+  const nameEl=document.querySelector("#testDeckName");
+  const handEl=document.querySelector("#testHand");
+  const boardEl=document.querySelector("#testBoardCards");
   if(!testDeck){
-    const nameEl=document.querySelector("#testDeckName");
     if(nameEl)nameEl.textContent="-";
-    const handEl=document.querySelector("#testHand");
-    if(handEl)handEl.innerHTML=`<div class="hand-empty">ยังไม่มี Deck สำหรับทดลองจั่ว</div>`;
+    if(handEl)handEl.innerHTML=`<div class="hand-empty">ยังไม่มี Deck สำหรับทดลองเล่น</div>`;
+    if(boardEl)boardEl.innerHTML="";
     return;
   }
-
   const setText=(selector,value)=>{
-    const el=document.querySelector(selector);
-    if(el)el.textContent=value;
+    const el=document.querySelector(selector); if(el)el.textContent=value;
   };
-
   setText("#testDeckName",testDeck.name);
   setText("#testCardsLeft",testStack.length);
   setText("#testHandCount",testHand.length);
   setText("#testTurn",testTurn);
+  setText("#testBoardCount",testBoard.freeCards.length);
   setText("#pileCount",testStack.length);
   setText("#tombCount",testTomb.length);
 
-  /* Draw Test is intentionally card-only: no playmat elements are required. */
-  const handEl=document.querySelector("#testHand");
-  if(!handEl)return;
-
-  if(testHand.length===0){
-    handEl.innerHTML=`<div class="hand-empty">กด DRAW 5 เพื่อเริ่มทดลองจั่ว</div>`;
-  }else{
-    handEl.innerHTML=testHand.map((id,index)=>testCardHTML(id,true,index)).join("");
+  if(handEl){
+    handEl.innerHTML=testHand.length
+      ? testHand.map((id,index)=>testCardHTML(id,true,index,"hand")).join("")
+      : `<div class="hand-empty">กด DRAW 5 เพื่อเริ่ม · ลากการ์ดจากมือลงสนามได้</div>`;
+    handEl.querySelectorAll(".test-card").forEach(el=>{
+      el.draggable=true;
+      el.ondragstart=e=>{
+        e.dataTransfer.setData("text/plain",JSON.stringify({source:"hand",index:Number(el.dataset.index)}));
+      };
+      el.onclick=()=>showDrawnCard(el.dataset.id);
+      el.ondblclick=()=>sendToTomb(el.dataset.id,true);
+    });
   }
 
-  handEl.dataset.count=String(testHand.length);
-
-  handEl.querySelectorAll(".clickable").forEach(el=>{
-    el.onclick=()=>showDrawnCard(el.dataset.id);
-  });
+  if(boardEl){
+    boardEl.innerHTML=testBoard.freeCards.map((item,index)=>testCardHTML(item.id,true,index,"board")).join("");
+    boardEl.querySelectorAll(".test-card").forEach(el=>{
+      const idx=Number(el.dataset.index);
+      const item=testBoard.freeCards[idx];
+      if(!item)return;
+      el.style.left=(item.x*100)+"%";
+      el.style.top=(item.y*100)+"%";
+      el.draggable=true;
+      el.ondragstart=e=>{
+        e.dataTransfer.setData("text/plain",JSON.stringify({source:"board",index:idx}));
+      };
+      el.onclick=()=>showDrawnCard(el.dataset.id);
+      el.ondblclick=()=>{
+        testHand.push(item.id);
+        testBoard.freeCards.splice(idx,1);
+        renderTest();
+      };
+    });
+  }
 }
 
-function showDrawnCard(id){
+function testCardHTML(id,clickable=false,index=0,source="hand"){
+  if(!id)return "";
   const c=cards.find(x=>String(x.id)===String(id));
-  if(!c)return;
-
-  const old=document.querySelector("#drawCardDetail");
-  if(old)old.remove();
-
-  const detail=document.createElement("div");
-  detail.id="drawCardDetail";
-  detail.className="draw-card-detail";
-  detail.innerHTML=`
-    <div class="draw-card-detail-inner">
-      <button class="draw-card-close">×</button>
-      <div class="draw-preview-card ${rarityClass(c.rarity)}">
-        ${c.image ? `<img class="draw-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span>${c.symbol}</span><b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.rarity)}</small>`}
-      </div>
-      <div class="draw-detail-text">
-        <div class="eyebrow">${escapeHtml(c.type)}</div>
-        <h3>${escapeHtml(c.name)}</h3>
-        <p>${escapeHtml(c.ability||c.subtitle||"")}</p>
-      </div>
+  const cls=`test-card ${c?rarityClass(c.rarity):"rarity-common"} ${clickable?"clickable":""}`;
+  if(!c){
+    return `<div class="${cls}" data-id="${escapeHtml(id)}" data-index="${index}" data-source="${source}">
+      <span>?</span><b>${escapeHtml(id)}</b><small>CARD</small>
     </div>`;
-  document.body.appendChild(detail);
-  detail.querySelector(".draw-card-close").onclick=()=>detail.remove();
-  detail.onclick=e=>{if(e.target===detail)detail.remove()};
+  }
+  return `<div class="${cls}" data-id="${escapeHtml(c.id)}" data-index="${index}" data-source="${source}">
+    ${c.image ? `<img class="test-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span>${escapeHtml(c.symbol||"")}</span><b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.rarity)}</small>`}
+  </div>`;
 }
 
 function initDrawTest(){
@@ -1040,9 +1035,9 @@ function formatAbility(text) {
   if (!text) return "";
 
   const icons = {
-    counter: "public/images/icon/counter.png",
-  E: "public/images/icon/E.png",
-  draw: "public/images/icon/draw.png"
+    counter: "/images/icon/counter.png",
+  E: "/images/icon/E.png",
+  draw: "/images/icon/draw.png"
   };
 
   let html = escapeHtml(text);
@@ -1062,6 +1057,54 @@ document.querySelector("#drawOneBtn").onclick=()=>drawCards(1);
 document.querySelector("#resetTestBtn").onclick=resetTest;
 document.querySelector("#testDeckPile").onclick=()=>drawCards(1);
 document.querySelector("#drawPileBtn").onclick=()=>drawCards(1);
+
+const playBoard=document.querySelector("#playBoard");
+const testHandEl=document.querySelector("#testHand");
+
+function boardDropHandler(e){
+  e.preventDefault();
+  if(!playBoard)return;
+  const raw=e.dataTransfer.getData("text/plain");
+  if(!raw)return;
+  let data; try{data=JSON.parse(raw)}catch(_){return;}
+  const rect=playBoard.getBoundingClientRect();
+  const x=(e.clientX-rect.left)/rect.width;
+  const y=(e.clientY-rect.top)/rect.height;
+  if(data.source==="hand"){
+    const id=testHand[data.index];
+    if(!id)return;
+    testHand.splice(data.index,1);
+    addBoardCard(id,x-.07,y-.13);
+  }else if(data.source==="board"){
+    const item=testBoard.freeCards[data.index];
+    if(!item)return;
+    item.x=Math.max(.02,Math.min(.90,x-.07));
+    item.y=Math.max(.02,Math.min(.68,y-.12));
+  }
+  renderTest();
+}
+playBoard?.addEventListener("dragover",e=>e.preventDefault());
+playBoard?.addEventListener("drop",boardDropHandler);
+
+testHandEl?.addEventListener("dragover",e=>e.preventDefault());
+testHandEl?.addEventListener("drop",e=>{
+  e.preventDefault();
+  const raw=e.dataTransfer.getData("text/plain");
+  if(!raw)return;
+  let data;try{data=JSON.parse(raw)}catch(_){return;}
+  if(data.source!=="board")return;
+  const item=testBoard.freeCards[data.index];
+  if(!item)return;
+  testHand.push(item.id);
+  testBoard.freeCards.splice(data.index,1);
+  renderTest();
+});
+
+document.querySelector("#testTombPile")?.addEventListener("click",()=>{
+  if(!testBoard.freeCards.length)return;
+  testTomb.push(testBoard.freeCards.pop().id);
+  renderTest();
+});
 
 initDrawTest();
 
