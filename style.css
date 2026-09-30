@@ -1160,6 +1160,7 @@ select option:hover{
 .brand #siteLogo{display:block;width:300px;max-width:100%;height:auto;max-height:100px;object-fit:contain}
 .brand.logo-fallback::before{content:"SOULVAULT";display:block;font:700 20px Cinzel;letter-spacing:1.8px;color:#eee9df}
 .brand.logo-fallback::after{content:"CARD GAME";display:block;font:8px Inter;letter-spacing:2px;color:#8e897f;margin-top:3px}
+.brand #Logo home{display:block;width:100px;max-width:100%;height:auto;max-height:100px;object-fit:contain}
 
 /* ===== REAL DECK COVERS ===== */
 .deck-cover{position:relative}
