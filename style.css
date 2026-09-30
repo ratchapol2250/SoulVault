@@ -1715,3 +1715,17 @@ select option:hover{
 .test-card .soul-core-place-btn:hover{background:#211a0e;color:#fff0b0;border-color:#d7b45e;}
 .test-card .soul-core-place-btn:disabled{opacity:.35;cursor:not-allowed;}
 .board-tomb-btn{bottom:4px!important;right:4px!important;}
+/* Soul Core action button sits outside the card so it is never clipped by card overflow. */
+.test-soul-core-cards .soul-core-place-btn{
+  position:absolute!important;
+  left:50%!important;
+  top:calc(50% + 42px)!important;
+  bottom:auto!important;
+  transform:translateX(-50%)!important;
+  z-index:50!important;
+  display:block!important;
+  min-width:58px!important;
+  padding:6px 9px!important;
+  white-space:nowrap!important;
+}
+.test-soul-core-cards .soul-core-place-btn:disabled{opacity:.4!important;pointer-events:none!important}

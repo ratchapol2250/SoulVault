@@ -1319,7 +1319,7 @@ function renderTest(){
         ev.preventDefault(); ev.stopPropagation();
         addSoulCoreToZone();
       });
-      card.appendChild(placeBtn);
+      soulEl.appendChild(placeBtn);
     }
     const count=document.createElement("span");
     count.className="soul-core-pile-count";
