@@ -1214,3 +1214,16 @@ select option:hover{
   height:auto;
   object-fit:contain;
 }
+.home-logo2{
+  width:100%;
+  display:flex;
+   justify-content:center;
+   align-items:center;
+  margin-bottom:30px;
+}
+
+.home-logo2 img{
+  width:300px;
+  height:auto;
+  object-fit:contain;
+}
