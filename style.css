@@ -1204,11 +1204,13 @@ select option:hover{
 .home-logo{
   width:100%;
   display:flex;
+   justify-content:center;
+   align-items:center;
   margin-bottom:30px;
 }
 
 .home-logo img{
-  width:200px;
+  width:300px;
   height:auto;
   object-fit:contain;
 }
