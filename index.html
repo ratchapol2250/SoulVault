@@ -12,11 +12,11 @@
   <img id="siteLogo" src="public/images/logo/Logo.png" alt="SOULVAULT CARD GAME" onerror="this.style.display='none';this.parentElement.classList.add('logo-fallback')">
 </div>
     <nav>
-      <button class="nav" data-section="roster">◈ <span>รายการการ์ด</span></button>
-      <button class="nav" data-section="collection">▣ <span>คอลเลกชั่น</span></button>
-      <button class="nav" data-section="deck">◇ <span>สร้างเด็ค</span></button>
-      <button class="nav" data-section="drawtest">♢ <span>ทดลองจั่ว</span></button>
-      <button class="nav" data-section="supply">▤ <span>อุปกรณ์เสริม</span></button>
+      <button class="nav" data-section="roster">◈ <span>List Card</span></button>
+      <button class="nav" data-section="collection">▣ <span>Collaction</span></button>
+      <button class="nav" data-section="deck">◇ <span>Deck building</span></button>
+      <button class="nav" data-section="drawtest">♢ <span>Play Test</span></button>
+      <button class="nav" data-section="supply">▤ <span>Supply</span></button>
     </nav>
     <div class="sidebar-bottom">
       <div class="version">SOULVAULT v1.0</div>
@@ -89,9 +89,9 @@
     <section id="collection" class="section">
       <div class="deck-header collection-header">
         <div>
-          <div class="eyebrow">MY COLLECTION</div>
-          <h2>COLLECTION</h2>
-          <p>เพิ่มการ์ดจากหน้า รายการการ์ด เข้ามาเก็บไว้ในคอลเลกชันของคุณ</p>
+          <div class="eyebrow">My Collection</div>
+          <h2>คอลเลคชั่น</h2>
+          <p>การ์ดที่เพิ่มจากหน้า List Card จะเข้ามาเก็บไว้ใน Collection ของคุณ</p>
         </div>
         <div class="collection-progress">
           <span id="wantedCount">0</span> / <span id="collectionTotal">0</span>
@@ -127,18 +127,18 @@
           <option value="Common">COMMON</option>
         </select>
         <select id="collectionViewFilter">
-          <option value="wanted">การ์ดในคอลเลกชัน</option>
+          <option value="wanted">การ์ดใน Collection</option>
         </select>
       </div>
 
       <div id="collectionGrid" class="collection-grid"></div>
-      <div id="collectionEmpty" class="empty hidden">ยังไม่มีการ์ดในคอลเลกชัน<br><small>ไปที่ "รายการการ์ด" แล้วกด เพิ่มเข้าคอลเลกชัน</small></div>
+      <div id="collectionEmpty" class="empty hidden">ยังไม่มีการ์ดใน Collection<br><small>ไปที่ "List Card" แล้วกด เพิ่มเข้า Collection</small></div>
     </section>
 
     <section id="deck" class="section">
       <div class="deck-header">
         <div>
-          <div class="eyebrow">DECK CONSTRUCTION</div>
+          <div class="eyebrow">Deck building</div>
           <h2>สร้างเด็ค</h2>
           <p>สร้างเด็ค เลือก Leader / Zone / การ์ด และกำหนดหน้าปกได้ตามต้องการ</p>
         </div>
