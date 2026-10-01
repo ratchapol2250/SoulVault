@@ -1813,8 +1813,7 @@ select option:hover{
 .card-art.rarity-art-rare::after,
 .card-art.rarity-secret-rare::after,
 .card-art.rarity-epic::after,
-.card-art.rarity-rare::after,
-{
+.card-art.rarity-rare::after{
   display:block;
 }
 
