@@ -1741,6 +1741,43 @@ select option:hover{
     inset 0 0 8px rgba(255,50,50,.08);
   font-weight:700;
 }
+/* ===== CARD HOLOGRAPHIC SHINE ===== */
+
+.card-art{
+  position:relative;
+  overflow:hidden;
+}
+
+.card-art.rarity-sceret-rare:after{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-80%;
+  width:45%;
+  height:200%;
+ background:linear-gradient(
+  105deg,
+  transparent 0%,
+  rgba(255,0,0,.08) 35%,
+  rgba(255,220,0,.22) 42%,
+  rgba(0,255,150,.20) 48%,
+  rgba(0,180,255,.25) 54%,
+  rgba(180,80,255,.20) 60%,
+  transparent 70%
+);
+  transform:skewX(-20deg);
+  pointer-events:none;
+  animation:cardShine 3.5s ease-in-out infinite;
+}
+
+@keyframes cardShine{
+  0%{
+    left:-80%;
+  }
+  55%,100%{
+    left:140%;
+  }
+}
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
 .special-flip-btn{position:absolute;right:5px;top:5px;z-index:8;width:28px;height:28px;border:1px solid rgba(220,190,120,.65);background:rgba(8,8,8,.82);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
 .special-flip-btn:hover{background:#211a0e;color:#fff0b0}
