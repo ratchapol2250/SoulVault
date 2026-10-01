@@ -1990,3 +1990,21 @@ select option:hover{
   background:none!important;
   mix-blend-mode:normal!important;
 }
+
+/* ===== ZONE BACK: ABSOLUTELY NO HOLOGRAPHIC SHINE ===== */
+.zone-back-no-shine::before,
+.zone-back-no-shine::after,
+.zone-back-no-shine img,
+.zone-page-back-active::before,
+.zone-page-back-active::after{
+  animation:none!important;
+}
+.zone-back-no-shine::after,
+.zone-page-back-active::after{
+  content:none!important;
+  display:none!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  background:none!important;
+  mix-blend-mode:normal!important;
+}

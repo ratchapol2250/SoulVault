@@ -1478,7 +1478,9 @@ function bindZonePageFlips(root=document){
     if(!c || String(c.type).toLowerCase()!=="zone")return;
     el.dataset.zoneBound="1";
     const front=el.innerHTML;
+    const frontClass=el.className;
     el.dataset.zoneFront=front;
+    el.dataset.zoneFrontClass=frontClass;
     const btn=document.createElement("button");
     btn.type="button";
     btn.className="zone-page-flip-btn";
@@ -1490,13 +1492,16 @@ function bindZonePageFlips(root=document){
       el.dataset.zoneFlipped=back?"1":"0";
       if(back){
         el.innerHTML=`<div class="zone-page-back"><b>ABILITY — BACK</b><p>${formatAbility(c.abilityBack ?? "—")}</p></div>`;
+        // Remove rarity classes while the back is shown so rarity-based
+        // holographic ::after effects cannot appear on the Zone back.
+        el.className=el.dataset.zoneFrontClass+" zone-page-back-active zone-back-no-shine";
         btn.title="กลับไปด้านหน้า";
       }else{
         el.innerHTML=el.dataset.zoneFront;
+        el.className=el.dataset.zoneFrontClass;
         btn.title="ดูด้านหลังของ Zone";
       }
       el.appendChild(btn);
-      el.classList.toggle("zone-page-back-active",back);
       if(el.id==="detailImage") syncZoneDetailAbility(c,back?"back":"front");
     });
     el.appendChild(btn);
