@@ -1902,7 +1902,15 @@ select option:hover{
 .mini-art::after{
   display:none;
 }
-
+.card-art.rarity-common::after,
+.collection-card-art.rarity-common::after,
+.special-art.rarity-common::after,
+.picker-art.rarity-common::after,
+.test-card.rarity-common::after,
+.draw-preview-card.rarity-common::after,
+.cover-option.rarity-common::after,
+.detail-image.rarity-common::after,
+.mini-art.rarity-common::after,
 /* ระดับที่ให้มีแสง */
 .card-art.rarity-legendary::after,
 .collection-card-art.rarity-legendary::after,
@@ -2144,37 +2152,7 @@ select option:hover{
     transparent 70%
   );
 }
-/* ===== COMMON RARITY SHINE ===== */
 
-.card-art.rarity-common::after{
-  content:"";
-  position:absolute;
-  inset:-80%;
-  z-index:2;
-  pointer-events:none;
-
-  background:linear-gradient(
-    120deg,
-    transparent 30%,
-    rgba(255,255,255,.03) 42%,
-    rgba(255,255,255,.28) 50%,
-    rgba(255,255,255,.04) 58%,
-    transparent 70%
-  );
-
-  transform:translateX(-70%) rotate(12deg);
-  animation:commonCardShine 3.5s ease-in-out infinite;
-}
-
-@keyframes commonCardShine{
-  0%,25%{
-    transform:translateX(-70%) rotate(12deg);
-  }
-
-  65%,100%{
-    transform:translateX(70%) rotate(12deg);
-  }
-}
 /* ===== ZONE TWO-SIDED ON ALL PAGES ===== */
 .zone-page-flippable{position:relative!important;overflow:hidden!important;}
 .zone-page-flip-btn{position:absolute;right:5px;top:5px;z-index:40;width:28px;height:28px;border:1px solid rgba(220,190,120,.75);background:rgba(8,8,8,.88);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
