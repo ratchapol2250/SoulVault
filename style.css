@@ -1729,8 +1729,17 @@ select option:hover{
   100%{background-position:300% 50%}
 }
 .tag.rarity-art-rare{
-  color:#ff4a4a;
-  border-color:#b52b2b;
+   color:#ff4d4d;
+  border-color:#c93636;
+  background:linear-gradient(
+    135deg,
+    rgba(255,60,60,.22),
+    rgba(120,0,0,.08)
+  );
+  box-shadow:
+    0 0 8px rgba(255,50,50,.18),
+    inset 0 0 8px rgba(255,50,50,.08);
+  font-weight:700;
 }
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
 .special-flip-btn{position:absolute;right:5px;top:5px;z-index:8;width:28px;height:28px;border:1px solid rgba(220,190,120,.65);background:rgba(8,8,8,.82);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
