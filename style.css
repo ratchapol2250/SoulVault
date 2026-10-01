@@ -1170,6 +1170,11 @@ select option:hover{
   height: 22px;
   vertical-align: middle;
 }
+.ability-icon-dot {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
 .siteLogo{
    width: 50px;
   height: 50px;
