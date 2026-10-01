@@ -1984,7 +1984,7 @@ select option:hover{
   z-index:1;
 }
 
-.card-art.rarity-common::before{
+.card-art img.rarity-common::before{
   content:"";
   position:absolute;
   inset:-80%;
@@ -2013,7 +2013,7 @@ select option:hover{
   }
 }
 /* Common */
-.card-art.rarity-common::before{
+.card-art img.rarity-common::before{
   background:linear-gradient(
     120deg,
     transparent 30%,
