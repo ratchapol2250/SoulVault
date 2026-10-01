@@ -1793,7 +1793,7 @@ select option:hover{
   pointer-events:none;
   mix-blend-mode:screen;
 
-  animation:rainbowShine 3s ease-in-out infinite;
+  animation:rainbowShine 2.5s ease-in-out infinite;
 }
 
 @keyframes rainbowShine{
@@ -1867,7 +1867,7 @@ select option:hover{
   z-index:10;
   mix-blend-mode:screen;
 
-  animation:universalCardShine 3.5s ease-in-out infinite;
+  animation:universalCardShine 2.5s ease-in-out infinite;
 }
 
 @keyframes universalCardShine{
