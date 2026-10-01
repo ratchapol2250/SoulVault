@@ -2008,3 +2008,10 @@ select option:hover{
   background:none!important;
   mix-blend-mode:normal!important;
 }
+
+/* Click card in Deck Builder picker to view details */
+.picker-card-clickable{cursor:pointer;transition:.16s}
+.picker-card-clickable:hover{background:#17130d;border-top-color:#5b4725}
+.picker-card-clickable:hover .picker-name b{color:var(--gold2)}
+.picker-card-clickable .picker-art{transition:.16s}
+.picker-card-clickable:hover .picker-art{border-color:#765b2a;box-shadow:0 0 12px rgba(217,173,82,.12)}

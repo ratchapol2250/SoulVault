@@ -838,14 +838,21 @@ function renderPicker(){
     let limit=c.type==="Leader"||c.type==="Zone"||c.type==="Untimeat"?1:c.type==="Soul Core"?7:c.type==="POCKET"?10:3;
     if(c.type==="Soul Core" && (currentDeck.soulCores||[]).length>=7) limit=qty;
     if(c.type==="POCKET" && getPocketCount()>=10) limit=qty;
-    return `<div class="picker-row">
+    return `<div class="picker-row picker-card-clickable" data-picker-card-id="${escapeHtml(c.id)}" title="กดเพื่อดูรายละเอียดการ์ด">
       <div class="picker-art ${rarityClass(c.rarity)} ${String(c.type).toLowerCase()==="zone"?"zone-page-flippable":""}" data-zone-id="${String(c.type).toLowerCase()==="zone"?escapeHtml(c.id):""}">${cardImageHTML(c,"picker-real-image")}${c.image?"":c.symbol}</div>
-      <div class="picker-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
+      <div class="picker-name"><b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.type)} · ${escapeHtml(c.rarity)}</small></div>
       <div class="picker-qty">${qty}/${limit}</div>
       <button ${qty>=limit?"disabled":""} onclick="addToDeck('${c.id}')">＋</button>
     </div>`;
   }).join("");
   bindZonePageFlips(document.querySelector("#pickerList")||document);
+  document.querySelectorAll("#pickerList .picker-card-clickable").forEach(row=>{
+    row.onclick=e=>{
+      if(e.target.closest("button"))return;
+      const card=cards.find(x=>String(x.id)===String(row.dataset.pickerCardId));
+      if(card)openCard(card);
+    };
+  });
 }
 
 function getDeckCoverCards(deck=currentDeck){
