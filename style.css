@@ -1748,14 +1748,19 @@ select option:hover{
   overflow:hidden;
 }
 
-.card-art.rarity-sceret-rare:after{
+.card-art{
+  position:relative;
+  overflow:hidden;
+}
+
+.card-art::after{
   content:"";
   position:absolute;
   top:-50%;
   left:-80%;
   width:45%;
   height:200%;
- background:linear-gradient(
+  background:linear-gradient(
   105deg,
   transparent 0%,
   rgba(255,0,0,.08) 35%,
