@@ -1902,15 +1902,7 @@ select option:hover{
 .mini-art::after{
   display:none;
 }
-.card-art.rarity-common::after,
-.collection-card-art.rarity-common::after,
-.special-art.rarity-common::after,
-.picker-art.rarity-common::after,
-.test-card.rarity-common::after,
-.draw-preview-card.rarity-common::after,
-.cover-option.rarity-common::after,
-.detail-image.rarity-common::after,
-.mini-art.rarity-common::after,
+
 /* ระดับที่ให้มีแสง */
 .card-art.rarity-legendary::after,
 .collection-card-art.rarity-legendary::after,
