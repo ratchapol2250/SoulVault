@@ -1976,9 +1976,9 @@ select option:hover{
 }
 
 
-@keyframes deckCoverShine{
-  0%,25%{transform:translateX(-70%) rotate(12deg)}
-  65%,100%{transform:translateX(70%) rotate(12deg)}
+@keyframes rainbowShine{
+  0%{left:-100%}
+  55%,100%{left:150%}
 }
 .deck-cover.rarity-art-rare::before{
   background:linear-gradient(
