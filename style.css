@@ -1770,7 +1770,6 @@ select option:hover{
 }
 
 .card-art::after{
-  .card-art::after,
 .collection-card-art::after,
 .special-art::after,
 .picker-art::after,
