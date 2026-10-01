@@ -1794,8 +1794,9 @@ select option:hover{
 
 .card-art.rarity-legendary::after,
 .card-art.rarity-secret-rare::after,
-.card-art.rarity-rainbow-rare::after,
-.card-art.rarity-art-rare::after{
+.card-art.rarity-art-rare::after,
+.card-art.rarity-rare::after{,
+.card-art.rarity-epic::after{  
   display:block;
 }
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
