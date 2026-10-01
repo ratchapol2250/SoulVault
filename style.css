@@ -1827,6 +1827,7 @@ select option:hover{
 .test-card.rarity-legendary::after,
 .draw-preview-card.rarity-legendary::after,
 .cover-option.rarity-legendary::after,
+.detail-image.rarity-legendary::after,
 
 .card-art.rarity-art-rare::after,
 .collection-card-art.rarity-art-rare::after,
@@ -1835,6 +1836,7 @@ select option:hover{
 .test-card.rarity-art-rare::after,
 .draw-preview-card.rarity-art-rare::after,
 .cover-option.rarity-art-rare::after,
+.detail-image.rarity-art-rare::after,
 
 .card-art.rarity-secret-rare::after,
 .collection-card-art.rarity-secret-rare::after,
@@ -1843,6 +1845,7 @@ select option:hover{
 .test-card.rarity-secret-rare::after,
 .draw-preview-card.rarity-secret-rare::after,
 .cover-option.rarity-secret-rare::after,
+.detail-image.rarity-secret-rare::after,
 
 .card-art.rarity-epic::after,
 .collection-card-art.rarity-epic::after,
@@ -1851,6 +1854,7 @@ select option:hover{
 .test-card.rarity-epic::after,
 .draw-preview-card.rarity-epic::after,
 .cover-option.rarity-epic::after,
+.detail-image.rarity-epic::after,
 
 .card-art.rarity-rare::after,
 .collection-card-art.rarity-rare::after,
@@ -1858,7 +1862,8 @@ select option:hover{
 .picker-art.rarity-rare::after,
 .test-card.rarity-rare::after,
 .draw-preview-card.rarity-rare::after,
-.cover-option.rarity-rare::after{
+.cover-option.rarity-rare::after,
+.detail-image.rarity-rare::after{
     display:block;
 }
 /* ===== UNIVERSAL CARD SHINE ===== */
@@ -1882,7 +1887,8 @@ select option:hover{
 .picker-art img,
 .test-card img,
 .draw-preview-card img,
-.cover-option img{
+.cover-option img,
+.detail-image img{
   position:relative;
   z-index:1;
 }
