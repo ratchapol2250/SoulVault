@@ -114,7 +114,7 @@ function cardHTML(c,small=true){
    <button class="deck-add-btn" data-deck-card-id="${c.id}">＋ เพิ่มเข้าเด็ค</button>
    </div></article>`;
 }
-function openCard(c){
+function openCard(c,preferredSide=null){
  if(!c)return;
  document.querySelector("#detailType").textContent=c.type.toUpperCase();
  document.querySelector("#detailRarity").textContent=`(${c.rarity.toUpperCase()})`;
@@ -145,7 +145,11 @@ function openCard(c){
    const dualTitles=abilityDual?.querySelectorAll("h3")||[];
    if(dualTitles[0])dualTitles[0].textContent="ABILITY — FRONT";
    if(dualTitles[1])dualTitles[1].textContent="ABILITY — BACK";
+   abilityLeft?.closest(".leader-ability-box")?.classList.toggle("preferred-side",preferredSide==="front");
+   abilityRight?.closest(".leader-ability-box")?.classList.toggle("preferred-side",preferredSide==="back");
  }else{
+   abilityLeft?.closest(".leader-ability-box")?.classList.remove("preferred-side");
+   abilityRight?.closest(".leader-ability-box")?.classList.remove("preferred-side");
    if(abilityDual)abilityDual.classList.add("hidden");
    if(abilitySingle)abilitySingle.classList.remove("hidden");
    if(abilitySingle)abilitySingle.innerHTML=formatAbility(c.ability);
@@ -1216,9 +1220,9 @@ function addBoardCard(id,x=.45,y=.45){
   });
 }
 
-function openTestCardDetail(id){
+function openTestCardDetail(id,side=null){
   const c=cards.find(x=>String(x.id)===String(id));
-  if(c) openCard(c);
+  if(c) openCard(c,side);
 }
 
 function renderTest(){
@@ -1289,11 +1293,12 @@ function renderTest(){
         back.innerHTML=`<span>${escapeHtml(zoneCard?.name||"ZONE")}</span><small>ABILITY — BACK</small><p>${formatAbility(zoneCard?.abilityBack ?? "—")}</p>`;
         card.appendChild(back);
       }
-      card.onclick=()=>openTestCardDetail(card.dataset.id);
+      card.dataset.zoneSide=testZoneFlipped ? "back" : "front";
+      card.onclick=()=>openTestCardDetail(card.dataset.id, testZoneFlipped ? "back" : "front");
       const btn=document.createElement("button");
       btn.type="button";
       btn.className="special-flip-btn";
-      btn.title=testZoneFlipped ? "พลิกกลับด้านหน้า" : "พลิกเป็นด้านหลัง";
+      btn.title=testZoneFlipped ? "ดูสกิลด้านหน้า" : "ดูสกิลด้านหลัง";
       btn.textContent="↔";
       btn.addEventListener("click",ev=>{
         ev.preventDefault(); ev.stopPropagation();

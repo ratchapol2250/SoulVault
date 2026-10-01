@@ -1945,3 +1945,10 @@ select option:hover{
   white-space:nowrap!important;
 }
 .test-soul-core-cards .soul-core-place-btn:disabled{opacity:.4!important;pointer-events:none!important}
+
+
+/* ===== ZONE TWO-SIDED ABILITY VIEW ===== */
+.leader-ability-box.preferred-side{
+  border-color:rgba(218,177,82,.95)!important;
+  box-shadow:0 0 0 1px rgba(218,177,82,.35),0 0 22px rgba(218,177,82,.18)!important;
+}
