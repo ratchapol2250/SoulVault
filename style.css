@@ -1963,27 +1963,7 @@ select option:hover{
 .mini-art.rarity-rare::after{
     display:block;
 }
-.card-art.rarity-common::after,
-.collection-card-art.rarity-common::after,
-.special-art.rarity-common::after,
-.picker-art.rarity-common::after,
-.test-card.rarity-common::after,
-.draw-preview-card.rarity-common::after,
-.cover-option.rarity-common::after,
-.detail-image.rarity-common::after,
-.mini-art.rarity-common::after{
-  background:linear-gradient(
-    105deg,
-    transparent 0%,
-    rgba(255,255,255,0) 35%,
-    rgba(255,255,255,.20) 48%,
-    rgba(255,255,255,.35) 50%,
-    rgba(255,255,255,.20) 52%,
-    rgba(255,255,255,0) 65%,
-    transparent 100%
-  ) !important;
-  mix-blend-mode:screen;
-}
+
 /* ===== UNIVERSAL CARD SHINE ===== */
 
 .card-art,
