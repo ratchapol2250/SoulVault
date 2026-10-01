@@ -1965,3 +1965,9 @@ select option:hover{
 @media(max-width:900px){
   .zone-page-flip-btn{width:25px;height:25px;font-size:13px;line-height:23px;}
 }
+
+
+/* ===== ZONE DETAIL FIX ===== */
+.modal{z-index:1000!important;}
+.modal-card{z-index:1001!important;}
+#detailAbilityDual .leader-ability-box.hidden{display:none!important;}

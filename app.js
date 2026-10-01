@@ -115,6 +115,27 @@ function cardHTML(c,small=true){
    <button class="deck-add-btn" data-deck-card-id="${c.id}">＋ เพิ่มเข้าเด็ค</button>
    </div></article>`;
 }
+function syncZoneDetailAbility(c,side="front"){
+ const abilitySingle=document.querySelector("#detailAbility");
+ const abilityDual=document.querySelector("#detailAbilityDual");
+ if(!abilityDual)return;
+ const boxes=abilityDual.querySelectorAll(".leader-ability-box");
+ const isBack=side==="back";
+ boxes.forEach((box,i)=>{
+   if(String(c?.type||"").trim().toLowerCase()==="zone") box.classList.toggle("hidden", isBack ? i!==1 : i!==0);
+   else box.classList.remove("hidden");
+ });
+ const titles=abilityDual.querySelectorAll("h3");
+ if(String(c?.type||"").trim().toLowerCase()==="zone"){
+   if(titles[0])titles[0].textContent="ABILITY — FRONT";
+   if(titles[1])titles[1].textContent="ABILITY — BACK";
+   const active=boxes[isBack?1:0];
+   if(active){
+     const textEl=active.querySelector("p");
+     if(textEl)textEl.innerHTML=formatAbility(isBack ? (c.abilityBack ?? "—") : (c.abilityFront ?? c.ability ?? "—"));
+   }
+ }
+}
 function openCard(c){
  if(!c)return;
  document.querySelector("#detailType").textContent=c.type.toUpperCase();
@@ -138,6 +159,7 @@ function openCard(c){
    const titles=abilityDual?.querySelectorAll("h3")||[];
    if(titles[0])titles[0].textContent=isZone?"ABILITY — FRONT":"ABILITY — LEFT";
    if(titles[1])titles[1].textContent=isZone?"ABILITY — BACK":"ABILITY — RIGHT";
+   if(isZone)syncZoneDetailAbility(c,"front");
  }else{
    if(abilityDual)abilityDual.classList.add("hidden");
    if(abilitySingle)abilitySingle.classList.remove("hidden");
@@ -158,6 +180,8 @@ function openCard(c){
  const detailImage=document.querySelector("#detailImage");
  detailImage.className=`detail-image ${rarityClass(c.rarity)} ${isZone?"zone-page-flippable":""}`;
  detailImage.dataset.zoneId=isZone?c.id:"";
+ detailImage.dataset.zoneBound="";
+ detailImage.dataset.zoneFlipped="0";
  detailImage.innerHTML=c.image ? `<img class="detail-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span class="detail-placeholder"></span>`;
  bindZonePageFlips(detailImage);
  document.querySelector("#modal").classList.remove("hidden");
@@ -1469,6 +1493,7 @@ function bindZonePageFlips(root=document){
       }
       el.appendChild(btn);
       el.classList.toggle("zone-page-back-active",back);
+      if(el.id==="detailImage") syncZoneDetailAbility(c,back?"back":"front");
     });
     el.appendChild(btn);
   });
