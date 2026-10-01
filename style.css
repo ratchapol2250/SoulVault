@@ -1388,14 +1388,7 @@ select option:hover{
 
 /* ===== BALANCED HERO RING ===== */
 .hero:after{
-  width:190px;
-  height:190px;
-  right:-55px;
-  top:50%;
-  transform:translateY(-50%);
-  border:1px solid #4d3b1d;
-  box-shadow:0 0 0 18px #211a0e,0 0 0 19px #3a2c18;
-  opacity:.9;
+  display:none;
 }
 @media(max-width:720px){
   .hero:after{
