@@ -877,7 +877,6 @@ function updateCover(){
     cover.dataset.zoneId=c.type==="Zone"?c.id:"";
     if(c.image){
   cover.innerHTML=`<img class="deck-cover-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">`;
-}
     }else{
       cover.innerHTML=`<span id="coverSymbol">${escapeHtml(c.symbol||"SA")}</span>`;
     }
