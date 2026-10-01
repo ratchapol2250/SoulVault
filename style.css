@@ -1985,18 +1985,6 @@ select option:hover{
 }
 
 
-/* Common */
-.card-art img.rarity-common::before{
-  background:linear-gradient(
-    120deg,
-    transparent 30%,
-    rgba(255,255,255,.04) 42%,
-    rgba(255,255,255,.25) 50%,
-    rgba(255,255,255,.05) 58%,
-    transparent 70%
-  );
-}
-
 
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
 .special-flip-btn{position:absolute;right:5px;top:5px;z-index:8;width:28px;height:28px;border:1px solid rgba(220,190,120,.65);background:rgba(8,8,8,.82);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
@@ -2048,8 +2036,7 @@ select option:hover{
   overflow:hidden;
 }
 
-.deck-cover::before,
-.card-art::before{
+.deck-cover::before{
   content:"";
   position:absolute;
   top:-60%;
@@ -2147,8 +2134,7 @@ select option:hover{
 }
 
 /* Common */
-.deck-cover.rarity-common::before,
-.card-art.rarity-common::before{
+.deck-cover.rarity-common::before{
   background:linear-gradient(
     120deg,
     transparent 30%,
@@ -2157,6 +2143,37 @@ select option:hover{
     rgba(255,255,255,.05) 58%,
     transparent 70%
   );
+}
+/* ===== COMMON RARITY SHINE ===== */
+
+.card-art.rarity-common::after{
+  content:"";
+  position:absolute;
+  inset:-80%;
+  z-index:2;
+  pointer-events:none;
+
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,.03) 42%,
+    rgba(255,255,255,.28) 50%,
+    rgba(255,255,255,.04) 58%,
+    transparent 70%
+  );
+
+  transform:translateX(-70%) rotate(12deg);
+  animation:commonCardShine 3.5s ease-in-out infinite;
+}
+
+@keyframes commonCardShine{
+  0%,25%{
+    transform:translateX(-70%) rotate(12deg);
+  }
+
+  65%,100%{
+    transform:translateX(70%) rotate(12deg);
+  }
 }
 /* ===== ZONE TWO-SIDED ON ALL PAGES ===== */
 .zone-page-flippable{position:relative!important;overflow:hidden!important;}
