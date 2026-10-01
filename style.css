@@ -2049,7 +2049,7 @@ select option:hover{
 }
 
 .deck-cover::before,
-.card-art::before,{
+.card-art::before{
   content:"";
   position:absolute;
   top:-60%;
