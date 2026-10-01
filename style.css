@@ -1707,7 +1707,7 @@ select option:hover{
   color:#ffd45c;
   border-color:#a87818;
 }
-.tag.rarity-Secret Rare{
+.tag.rarity-Secret-Rare{
   color:#fff;
   border-color:#fff;
   background:linear-gradient(
@@ -1728,7 +1728,7 @@ select option:hover{
   0%{background-position:0% 50%}
   100%{background-position:300% 50%}
 }
-.tag.rarity-Art Rare{
+.tag.rarity-Art-Rare{
   color:#ff4a4a;
   border-color:#b52b2b;
   background:rgba(180,30,30,.12);
