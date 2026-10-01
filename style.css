@@ -2048,7 +2048,8 @@ select option:hover{
   overflow:hidden;
 }
 
-.deck-cover::before{
+.deck-cover::before,
+.card-art::before,{
   content:"";
   position:absolute;
   top:-60%;
@@ -2146,7 +2147,8 @@ select option:hover{
 }
 
 /* Common */
-.deck-cover.rarity-common::before{
+.deck-cover.rarity-common::before,
+.card-art.rarity-common::before{
   background:linear-gradient(
     120deg,
     transparent 30%,
