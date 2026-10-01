@@ -1196,6 +1196,82 @@ select option:hover{
 .cover-symbol-overlay{position:absolute!important;z-index:4;bottom:8px;left:8px;font:700 18px Cinzel!important;color:#fff!important;text-shadow:0 2px 8px #000!important}
 .library-cover{position:relative;overflow:hidden}
 .library-cover-real-image{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+/* ===== SAVED DECK COVER RARITY SHINE ===== */
+
+.library-cover::before{
+  content:"";
+  position:absolute;
+  inset:-80%;
+  z-index:5;
+  pointer-events:none;
+  background:linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,255,255,.08) 45%,
+    rgba(255,255,255,.55) 50%,
+    rgba(255,255,255,.08) 55%,
+    transparent 65%
+  );
+  transform:translateX(-60%) rotate(12deg);
+  animation:libraryCoverShine 3s ease-in-out infinite;
+}
+
+@keyframes libraryCoverShine{
+  0%,25%{
+    transform:translateX(-70%) rotate(12deg);
+  }
+  65%,100%{
+    transform:translateX(70%) rotate(12deg);
+  }
+}
+
+/* LEGENDARY — ทอง */
+.library-cover.rarity-legendary::before{
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,190,40,.08) 42%,
+    rgba(255,245,180,.8) 50%,
+    rgba(255,170,20,.2) 58%,
+    transparent 70%
+  );
+}
+
+/* EPIC — ม่วง */
+.library-cover.rarity-epic::before{
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(170,80,255,.08) 42%,
+    rgba(245,190,255,.8) 50%,
+    rgba(120,60,255,.2) 58%,
+    transparent 70%
+  );
+}
+
+/* RARE — น้ำเงิน */
+.library-cover.rarity-rare::before{
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(50,150,255,.08) 42%,
+    rgba(190,235,255,.8) 50%,
+    rgba(40,120,255,.2) 58%,
+    transparent 70%
+  );
+}
+
+/* COMMON — แสงอ่อน */
+.library-cover.rarity-common::before{
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,.03) 42%,
+    rgba(255,255,255,.22) 50%,
+    rgba(255,255,255,.04) 58%,
+    transparent 70%
+  );
+}
 .cover-option-image{width:100%;height:125px;object-fit:cover;display:block;margin-bottom:7px}
 .cover-option:has(.cover-option-image){justify-content:flex-start;padding:6px;overflow:hidden}
 .cover-option:has(.cover-option-image) b{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
