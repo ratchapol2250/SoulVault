@@ -1597,22 +1597,3 @@ document.querySelector("#testTombPile")?.addEventListener("click",()=>{
 });
 
 initDrawTest();
-
-
-
-
-/* ===== SOUL SPIRIT BUTTON PRESS EFFECT ===== */
-(function initSoulButtonEffect(){
-  const selector='button,.nav,.gold-btn,.danger-btn,.qty button,.picker-row button,.supply-tab,.special-flip-btn,.cover-btn';
-  let timer;
-  function trigger(e){
-    const el=e.target.closest?.(selector);
-    if(!el || !document.body.contains(el) || el.disabled) return;
-    el.classList.remove('soul-button-hit');
-    void el.offsetWidth;
-    el.classList.add('soul-button-hit');
-    clearTimeout(el._soulButtonTimer);
-    el._soulButtonTimer=setTimeout(()=>el.classList.remove('soul-button-hit'),850);
-  }
-  document.addEventListener('pointerdown',trigger,true);
-})();
