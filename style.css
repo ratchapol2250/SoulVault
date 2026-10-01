@@ -1872,47 +1872,7 @@ select option:hover{
   z-index:1;
 }
 
-/* แสงสะท้อน */
-.card-art::after,
-.collection-card-art::after,
-.special-art::after,
-.picker-art::after,
-.test-card::after,
-.draw-preview-card::after,
-.cover-option::after{
-  content:"";
-  position:absolute;
-  top:-60%;
-  left:-100%;
-  width:45%;
-  height:220%;
 
-  background:linear-gradient(
-    105deg,
-    transparent 0%,
-    rgba(255,255,255,.03) 35%,
-    rgba(255,255,255,.45) 50%,
-    rgba(255,255,255,.03) 65%,
-    transparent 100%
-  );
-
-  transform:skewX(-20deg);
-  pointer-events:none;
-  z-index:10;
-  mix-blend-mode:screen;
-
-  animation:universalCardShine 2.5s ease-in-out infinite;
-}
-
-@keyframes universalCardShine{
-  0%{
-    left:-100%;
-  }
-
-  55%,100%{
-    left:150%;
-  }
-}
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
 .special-flip-btn{position:absolute;right:5px;top:5px;z-index:8;width:28px;height:28px;border:1px solid rgba(220,190,120,.65);background:rgba(8,8,8,.82);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
 .special-flip-btn:hover{background:#211a0e;color:#fff0b0}
