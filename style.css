@@ -1807,11 +1807,45 @@ select option:hover{
 
 /* ระดับที่ให้มีแสง */
 .card-art.rarity-legendary::after,
+.collection-card-art.rarity-legendary::after,
+.special-art.rarity-legendary::after,
+.picker-art.rarity-legendary::after,
+.test-card.rarity-legendary::after,
+.draw-preview-card.rarity-legendary::after,
+.cover-option.rarity-legendary::after,
+
 .card-art.rarity-art-rare::after,
+.collection-card-art.rarity-art-rare::after,
+.special-art.rarity-art-rare::after,
+.picker-art.rarity-art-rare::after,
+.test-card.rarity-art-rare::after,
+.draw-preview-card.rarity-art-rare::after,
+.cover-option.rarity-art-rare::after,
+
 .card-art.rarity-secret-rare::after,
+.collection-card-art.rarity-secret-rare::after,
+.special-art.rarity-secret-rare::after,
+.picker-art.rarity-secret-rare::after,
+.test-card.rarity-secret-rare::after,
+.draw-preview-card.rarity-secret-rare::after,
+.cover-option.rarity-secret-rare::after,
+
 .card-art.rarity-epic::after,
-.card-art.rarity-rare::after{
-  display:block;
+.collection-card-art.rarity-epic::after,
+.special-art.rarity-epic::after,
+.picker-art.rarity-epic::after,
+.test-card.rarity-epic::after,
+.draw-preview-card.rarity-epic::after,
+.cover-option.rarity-epic::after,
+
+.card-art.rarity-rare::after,
+.collection-card-art.rarity-rare::after,
+.special-art.rarity-rare::after,
+.picker-art.rarity-rare::after,
+.test-card.rarity-rare::after,
+.draw-preview-card.rarity-rare::after,
+.cover-option.rarity-rare::after{
+    display:block;
 }
 /* ===== UNIVERSAL CARD SHINE ===== */
 
