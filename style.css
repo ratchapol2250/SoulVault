@@ -1984,7 +1984,7 @@ select option:hover{
   z-index:1;
 }
 
-.card-art img::before{
+.card-art::before{
   content:"";
  position:absolute;
   top:-60%;
