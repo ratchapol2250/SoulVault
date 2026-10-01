@@ -1757,53 +1757,7 @@ select option:hover{
   position:relative;
   z-index:1;
 }
-
-.card-art::after{
-  content:"";
-  position:absolute;
-  top:-50%;
-  left:-80%;
-  width:45%;
-  height:200%;
-  background:linear-gradient(
-    105deg,
-    transparent 0%,
-    rgba(255,255,255,.03) 35%,
-    rgba(255,255,255,.45) 50%,
-    rgba(255,255,255,.03) 65%,
-    transparent 100%
-  );
-  transform:skewX(-20deg);
-  pointer-events:none;
-  animation:cardShine 3.5s ease-in-out infinite;
-
-  /* เพิ่ม 2 บรรทัดนี้ */
-  z-index:10;
-  mix-blend-mode:screen;
-}
-@keyframes cardShine{
-  0%{
-    left:-80%;
-  }
-  55%,100%{
-    left:140%;
-  }
-}
-.card-art.rarity-art-rare::after{
-  animation:cardShine 2.5s ease-in-out infinite;
-}
-.card-art::after{
-  display:none;
-}
-
-.card-art.rarity-legendary::after,
-.card-art.rarity-secret-rare::after,
-.card-art.rarity-art-rare::after,
-.card-art.rarity-rare::after{,
-.card-art.rarity-epic::after{  
-  display:block;
-}
-  /* ===== CARD FOIL SHINE ===== */
+/* ===== CARD FOIL SHINE ===== */
 
 .card-art{
   position:relative;
@@ -1849,6 +1803,19 @@ select option:hover{
     left:140%;
   }
 }
+/* ปิดแสงทุกระดับก่อน */
+.card-art::after{
+  display:none;
+}
+
+/* ระดับที่ให้มีแสง */
+.card-art.rarity-legendary::after,
+.card-art.rarity-art-rare::after,
+.card-art.rarity-secret-rare::after,
+.card-art.rarity-rainbow-rare::after{
+  display:block;
+}
+
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
 .special-flip-btn{position:absolute;right:5px;top:5px;z-index:8;width:28px;height:28px;border:1px solid rgba(220,190,120,.65);background:rgba(8,8,8,.82);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
 .special-flip-btn:hover{background:#211a0e;color:#fff0b0}
