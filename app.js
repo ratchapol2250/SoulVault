@@ -34,7 +34,7 @@ const cards=[
 {id:"HD-SC01",image:"/public/images/cards/Soul Core.jpg",set:"HD",name:"Soul Core",subtitle:"-",type:"Soul Core",rarity:"Common",element:"-",cost:"-",ability:"-",image:"/public/images/cards/Soul Core.jpg"},
 ];
 
-const rarityClass=r=>`rarity-${r.toLowerCase()}`;
+const rarityClass=r=>`rarity-${String(r).toLowerCase().replace(/\s+/g,"-")}`;
 function cardImageHTML(c, className="card-real-image"){
   return c.image ? `<img class="${className}" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}" loading="lazy">` : "";
 }
