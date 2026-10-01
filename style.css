@@ -1788,18 +1788,14 @@ select option:hover{
 .card-art.rarity-art-rare::after{
   animation:cardShine 2.5s ease-in-out infinite;
 }
-/* ปิดเอฟเฟกต์พื้นฐาน */
 .card-art::after{
   display:none;
 }
 
-/* Secret Rare */
-.card-art.rarity-secret-rare::after{
-  display:block;
-}
-
-/* Rainbow Rare */
-.card-art.rarity-rainbow-rare::after{
+.card-art.rarity-legendary::after,
+.card-art.rarity-secret-rare::after,
+.card-art.rarity-rainbow-rare::after,
+.card-art.rarity-art-rare::after{
   display:block;
 }
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
