@@ -1971,3 +1971,11 @@ select option:hover{
 .modal{z-index:1000!important;}
 .modal-card{z-index:1001!important;}
 #detailAbilityDual .leader-ability-box.hidden{display:none!important;}
+
+
+/* ===== ZONE DETAIL ABILITY: REMOVE FRONT/BACK BOX FRAMES ===== */
+.zone-detail-abilities .leader-ability-box{
+  border:none!important;
+  background:transparent!important;
+  padding:0!important;
+}

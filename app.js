@@ -153,7 +153,10 @@ function openCard(c){
  const abilityRight=document.querySelector("#detailAbilityRight");
  if(isLeader || isZone){
    if(abilitySingle)abilitySingle.classList.add("hidden");
-   if(abilityDual)abilityDual.classList.remove("hidden");
+   if(abilityDual){
+     abilityDual.classList.remove("hidden");
+     abilityDual.classList.toggle("zone-detail-abilities", isZone);
+   }
    if(abilityLeft)abilityLeft.innerHTML=formatAbility(isZone ? (c.abilityFront ?? c.ability ?? "—") : (c.abilityLeft ?? c.ability1 ?? c.ability ?? "—"));
    if(abilityRight)abilityRight.innerHTML=formatAbility(isZone ? (c.abilityBack ?? "—") : (c.abilityRight ?? c.ability2 ?? "—"));
    const titles=abilityDual?.querySelectorAll("h3")||[];
@@ -161,7 +164,10 @@ function openCard(c){
    if(titles[1])titles[1].textContent=isZone?"ABILITY — BACK":"ABILITY — RIGHT";
    if(isZone)syncZoneDetailAbility(c,"front");
  }else{
-   if(abilityDual)abilityDual.classList.add("hidden");
+   if(abilityDual){
+     abilityDual.classList.add("hidden");
+     abilityDual.classList.remove("zone-detail-abilities");
+   }
    if(abilitySingle)abilitySingle.classList.remove("hidden");
    if(abilitySingle)abilitySingle.innerHTML=formatAbility(c.ability);
  }
