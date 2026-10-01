@@ -1946,10 +1946,65 @@ select option:hover{
 }
 .test-soul-core-cards .soul-core-place-btn:disabled{opacity:.4!important;pointer-events:none!important}
 
-/* Click card details from the right-side deck picker */
-.deck-picker-card-clickable{cursor:pointer;}
-.deck-picker-card-clickable:hover{background:rgba(205,168,83,.06);}
-.deck-picker-card-clickable .picker-art,
-.deck-picker-card-clickable .picker-name,
-.deck-picker-card-clickable .picker-qty{cursor:pointer;}
-.deck-picker-card-clickable button{cursor:pointer;}
+/* ===== ZONE TWO-SIDED ON ALL PAGES ===== */
+.zone-page-flippable{position:relative!important;overflow:hidden!important;}
+.zone-page-flip-btn{position:absolute;right:5px;top:5px;z-index:40;width:28px;height:28px;border:1px solid rgba(220,190,120,.75);background:rgba(8,8,8,.88);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
+.zone-page-flip-btn:hover{background:#211a0e;color:#fff0b0;}
+.zone-page-back-active{background:radial-gradient(circle at 50% 35%,#6a5228,#21190d 42%,#080808 78%)!important;border:1px solid #9a7736!important;}
+.zone-page-back{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px 10px;background:radial-gradient(circle at 50% 40%,#3b2b14 0,#15110b 42%,#060606 80%);overflow:hidden;text-align:center;}
+.zone-page-back:before{content:"";position:absolute;width:68%;height:68%;border:1px solid rgba(205,168,83,.55);transform:rotate(45deg);box-shadow:0 0 0 14px rgba(205,168,83,.06),0 0 28px rgba(205,168,83,.16);}
+.zone-page-back b,.zone-page-back p{position:relative;z-index:2;text-align:center;}
+.zone-page-back b{color:#d8b55f;font:700 10px Cinzel,serif;letter-spacing:1.5px;}
+.zone-page-back p{max-width:88%;margin:0;color:#d8d0c1;font:500 9px/1.55 Inter,Arial,sans-serif;}
+.detail-image .zone-page-flip-btn{width:32px;height:32px;line-height:30px;}
+.library-cover.zone-page-flippable .zone-page-back b{font-size:7px;}
+.library-cover.zone-page-flippable .zone-page-back p{font-size:6px;line-height:1.35;}
+.mini-art.zone-page-flippable .zone-page-flip-btn,
+.picker-art.zone-page-flippable .zone-page-flip-btn{width:22px;height:22px;font-size:12px;line-height:20px;right:3px;top:3px;}
+.special-art.zone-page-flippable .zone-page-flip-btn{width:24px;height:24px;font-size:13px;line-height:22px;}
+@media(max-width:900px){
+  .zone-page-flip-btn{width:25px;height:25px;font-size:13px;line-height:23px;}
+}
+
+
+/* ===== ZONE DETAIL FIX ===== */
+.modal{z-index:1000!important;}
+.modal-card{z-index:1001!important;}
+#detailAbilityDual .leader-ability-box.hidden{display:none!important;}
+
+
+/* ===== ZONE DETAIL ABILITY: REMOVE FRONT/BACK BOX FRAMES ===== */
+.zone-detail-abilities .leader-ability-box{
+  border:none!important;
+  background:transparent!important;
+  padding:0!important;
+}
+
+/* ===== ZONE BACK SIDE: NO FOIL / RAINBOW SHINE ===== */
+.detail-image.zone-page-back-active::after,
+.zone-page-back-active::after,
+.zone-card-back::after,
+.zone-back-face::after{
+  display:none!important;
+  animation:none!important;
+  background:none!important;
+  mix-blend-mode:normal!important;
+}
+
+/* ===== ZONE BACK: ABSOLUTELY NO HOLOGRAPHIC SHINE ===== */
+.zone-back-no-shine::before,
+.zone-back-no-shine::after,
+.zone-back-no-shine img,
+.zone-page-back-active::before,
+.zone-page-back-active::after{
+  animation:none!important;
+}
+.zone-back-no-shine::after,
+.zone-page-back-active::after{
+  content:none!important;
+  display:none!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  background:none!important;
+  mix-blend-mode:normal!important;
+}
