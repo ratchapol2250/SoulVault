@@ -1883,6 +1883,18 @@ select option:hover{
   position:relative;
   z-index:1;
 }
+/* ===== DETAIL CARD SHINE ===== */
+
+.detail-image{
+  position:relative;
+  overflow:hidden;
+}
+
+/* ให้รูปอยู่ใต้แสง */
+.detail-image img{
+  position:relative;
+  z-index:1;
+}
 .detail-image::after{
   display:none;
 }
