@@ -117,7 +117,7 @@ function cardHTML(c,small=true){
 function openCard(c){
  if(!c)return;
  document.querySelector("#detailType").textContent=c.type.toUpperCase();
- document.querySelector("#detailRarity").textContent=c.rarity.toUpperCase();
+ document.querySelector("#detailRarity").textContent=`(${c.rarity.toUpperCase()})`;
  document.querySelector("#detailName").textContent=c.name;
  document.querySelector("#detailSubtitle").textContent=c.subtitle;
  const cardType=String(c.type||"").trim().toLowerCase();
