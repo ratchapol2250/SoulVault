@@ -118,22 +118,13 @@ function cardHTML(c,small=true){
 function syncZoneDetailAbility(c,side="front"){
  const abilitySingle=document.querySelector("#detailAbility");
  const abilityDual=document.querySelector("#detailAbilityDual");
- if(!abilityDual)return;
- const boxes=abilityDual.querySelectorAll(".leader-ability-box");
- const isBack=side==="back";
- boxes.forEach((box,i)=>{
-   if(String(c?.type||"").trim().toLowerCase()==="zone") box.classList.toggle("hidden", isBack ? i!==1 : i!==0);
-   else box.classList.remove("hidden");
- });
- const titles=abilityDual.querySelectorAll("h3");
- if(String(c?.type||"").trim().toLowerCase()==="zone"){
-   if(titles[0])titles[0].textContent="ABILITY — FRONT";
-   if(titles[1])titles[1].textContent="ABILITY — BACK";
-   const active=boxes[isBack?1:0];
-   if(active){
-     const textEl=active.querySelector("p");
-     if(textEl)textEl.innerHTML=formatAbility(isBack ? (c.abilityBack ?? "—") : (c.abilityFront ?? c.ability ?? "—"));
-   }
+ const isZone=String(c?.type||"").trim().toLowerCase()==="zone";
+ if(!isZone)return;
+ const text=isZone && side==="back" ? (c.abilityBack ?? "—") : (c.abilityFront ?? c.ability ?? "—");
+ if(abilityDual)abilityDual.classList.add("hidden");
+ if(abilitySingle){
+   abilitySingle.classList.remove("hidden");
+   abilitySingle.innerHTML=formatAbility(text);
  }
 }
 function openCard(c){
@@ -151,18 +142,25 @@ function openCard(c){
  const abilityDual=document.querySelector("#detailAbilityDual");
  const abilityLeft=document.querySelector("#detailAbilityLeft");
  const abilityRight=document.querySelector("#detailAbilityRight");
- if(isLeader || isZone){
+ if(isZone){
+   // Zone uses the same single ABILITY presentation as other cards.
+   // Only the currently visible side's ability is shown.
+   if(abilityDual)abilityDual.classList.add("hidden");
+   if(abilitySingle){
+     abilitySingle.classList.remove("hidden");
+     abilitySingle.innerHTML=formatAbility(c.abilityFront ?? c.ability ?? "—");
+   }
+ }else if(isLeader){
    if(abilitySingle)abilitySingle.classList.add("hidden");
    if(abilityDual){
      abilityDual.classList.remove("hidden");
-     abilityDual.classList.toggle("zone-detail-abilities", isZone);
+     abilityDual.classList.remove("zone-detail-abilities");
    }
-   if(abilityLeft)abilityLeft.innerHTML=formatAbility(isZone ? (c.abilityFront ?? c.ability ?? "—") : (c.abilityLeft ?? c.ability1 ?? c.ability ?? "—"));
-   if(abilityRight)abilityRight.innerHTML=formatAbility(isZone ? (c.abilityBack ?? "—") : (c.abilityRight ?? c.ability2 ?? "—"));
+   if(abilityLeft)abilityLeft.innerHTML=formatAbility(c.abilityLeft ?? c.ability1 ?? c.ability ?? "—");
+   if(abilityRight)abilityRight.innerHTML=formatAbility(c.abilityRight ?? c.ability2 ?? "—");
    const titles=abilityDual?.querySelectorAll("h3")||[];
-   if(titles[0])titles[0].textContent=isZone?"ABILITY — FRONT":"ABILITY — LEFT";
-   if(titles[1])titles[1].textContent=isZone?"ABILITY — BACK":"ABILITY — RIGHT";
-   if(isZone)syncZoneDetailAbility(c,"front");
+   if(titles[0])titles[0].textContent="ABILITY — LEFT";
+   if(titles[1])titles[1].textContent="ABILITY — RIGHT";
  }else{
    if(abilityDual){
      abilityDual.classList.add("hidden");
