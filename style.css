@@ -1761,18 +1761,20 @@ select option:hover{
   width:45%;
   height:200%;
   background:linear-gradient(
-  105deg,
-  transparent 0%,
-  rgba(255,0,0,.08) 35%,
-  rgba(255,220,0,.22) 42%,
-  rgba(0,255,150,.20) 48%,
-  rgba(0,180,255,.25) 54%,
-  rgba(180,80,255,.20) 60%,
-  transparent 70%
-);
+    105deg,
+    transparent 0%,
+    rgba(255,255,255,.03) 35%,
+    rgba(255,255,255,.45) 50%,
+    rgba(255,255,255,.03) 65%,
+    transparent 100%
+  );
   transform:skewX(-20deg);
   pointer-events:none;
   animation:cardShine 3.5s ease-in-out infinite;
+
+  /* สำคัญ */
+  z-index:10;
+  mix-blend-mode:screen;
 }
 
 @keyframes cardShine{
