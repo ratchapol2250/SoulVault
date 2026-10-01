@@ -1599,3 +1599,35 @@ document.querySelector("#testTombPile")?.addEventListener("click",()=>{
 initDrawTest();
 
 
+
+/* =========================================================
+   BUTTON CLICK FX — moving blue energy beam
+   ========================================================= */
+(function initButtonClickFX(){
+  let lastButton = null;
+
+  document.addEventListener("click", e => {
+    const button = e.target.closest("button:not(:disabled)");
+    if(!button) return;
+
+    button.classList.remove("button-clicked");
+    void button.offsetWidth;
+    button.classList.add("button-clicked");
+    clearTimeout(button.__clickFxTimer);
+    button.__clickFxTimer = setTimeout(() => button.classList.remove("button-clicked"), 600);
+
+    const rect = button.getBoundingClientRect();
+    const fx = document.createElement("span");
+    fx.className = "button-click-fx";
+    fx.style.setProperty("--fx-width", `${Math.max(120, Math.min(220, rect.width + 90))}px`);
+
+    const y = rect.top + rect.height * .52;
+    const x = Math.min(window.innerWidth - 18, Math.max(8, rect.left + rect.width * .18));
+    fx.style.left = `${x}px`;
+    fx.style.top = `${y}px`;
+    document.body.appendChild(fx);
+
+    fx.addEventListener("animationend", () => fx.remove(), {once:true});
+    lastButton = button;
+  }, true);
+})();

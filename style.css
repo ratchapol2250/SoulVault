@@ -2015,3 +2015,94 @@ select option:hover{
 .picker-card-clickable:hover .picker-name b{color:var(--gold2)}
 .picker-card-clickable .picker-art{transition:.16s}
 .picker-card-clickable:hover .picker-art{border-color:#765b2a;box-shadow:0 0 12px rgba(217,173,82,.12)}
+
+/* =========================================================
+   BUTTON CLICK FX — blue moving energy like the reference UI
+   ========================================================= */
+button:not(:disabled), .nav {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+button:not(:disabled)::after, .nav::after {
+  content: "";
+  position: absolute;
+  left: -45%;
+  top: 0;
+  width: 34%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(82,170,255,.72), rgba(255,255,255,.9), rgba(48,122,255,.55), transparent);
+  filter: blur(5px);
+  opacity: 0;
+  transform: skewX(-18deg);
+  pointer-events: none;
+  z-index: 5;
+}
+
+button.button-clicked:not(:disabled)::after, .nav.button-clicked::after {
+  animation: buttonLightSweep .52s cubic-bezier(.2,.7,.2,1) forwards;
+}
+
+button.button-clicked:not(:disabled), .nav.button-clicked {
+  animation: buttonClickMove .38s cubic-bezier(.2,.8,.2,1);
+}
+
+.button-click-fx {
+  position: fixed;
+  height: 2px;
+  width: max(110px, min(220px, var(--fx-width)));
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate3d(-10%,0,0) scaleX(.35);
+  transform-origin: left center;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(61,140,255,.2) 10%, #58b9ff 45%, #fff 52%, #277fff 67%, transparent);
+  box-shadow: 0 0 5px #3e9dff, 0 0 16px rgba(44,128,255,.9), 0 0 34px rgba(30,91,255,.65);
+  filter: blur(.2px);
+  animation: clickBeamMove .56s cubic-bezier(.18,.7,.18,1) forwards;
+}
+
+.button-click-fx::before {
+  content: "";
+  position: absolute;
+  left: 7%;
+  top: 50%;
+  width: 48%;
+  height: 18px;
+  transform: translateY(-50%);
+  background: radial-gradient(ellipse, rgba(47,128,255,.72), rgba(42,105,255,.2) 48%, transparent 75%);
+  filter: blur(6px);
+}
+
+.button-click-fx::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 32px;
+  height: 32px;
+  transform: translate(30%,-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.95) 0 3%, rgba(70,164,255,.9) 10%, rgba(40,106,255,.32) 35%, transparent 72%);
+  filter: blur(2px);
+}
+
+@keyframes buttonLightSweep {
+  0% { left:-45%; opacity:0; }
+  12% { opacity:1; }
+  100% { left:125%; opacity:0; }
+}
+
+@keyframes buttonClickMove {
+  0% { transform: translate3d(0,0,0) scale(1); }
+  28% { transform: translate3d(0,1px,0) scale(.985); }
+  58% { transform: translate3d(2px,-1px,0) scale(1.008); }
+  100% { transform: translate3d(0,0,0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button.button-clicked:not(:disabled), .nav.button-clicked { animation:none; }
+  button.button-clicked:not(:disabled)::after, .nav.button-clicked::after { animation:none; opacity:0; }
+  .button-click-fx { display:none; }
+}
