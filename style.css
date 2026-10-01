@@ -1984,6 +1984,45 @@ select option:hover{
   z-index:1;
 }
 
+.card-art img::before{
+  content:"";
+ position:absolute;
+  top:-60%;
+  left:-100%;
+  width:45%;
+  height:220%;
+  background:linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,255,255,.08) 45%,
+    rgba(255,255,255,.55) 50%,
+    rgba(255,255,255,.08) 55%,
+    transparent 65%
+  );
+  transform:translateX(-60%) rotate(12deg);
+  animation:libraryCoverShine 3s ease-in-out infinite;
+}
+
+@keyframes libraryCoverShine{
+  0%,25%{
+    transform:translateX(-70%) rotate(12deg);
+  }
+  65%,100%{
+    transform:translateX(70%) rotate(12deg);
+  }
+}
+/* Common */
+.card-art img.rarity-common::before{
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,.04) 42%,
+    rgba(255,255,255,.25) 50%,
+    rgba(255,255,255,.05) 58%,
+    transparent 70%
+  );
+}
+
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
 .special-flip-btn{position:absolute;right:5px;top:5px;z-index:8;width:28px;height:28px;border:1px solid rgba(220,190,120,.65);background:rgba(8,8,8,.82);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
 .special-flip-btn:hover{background:#211a0e;color:#fff0b0}
