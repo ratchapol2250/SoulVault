@@ -1772,38 +1772,33 @@ select option:hover{
 .card-art::after{
  content:"";
   position:absolute;
-  inset:-30%;
+  top:-60%;
+  left:-100%;
+  width:45%;
+  height:220%;
 
-  background:
-    radial-gradient(
-      ellipse at 30% 40%,
-      rgba(255,0,120,.28),
-      transparent 35%
-    ),
-    radial-gradient(
-      ellipse at 70% 30%,
-      rgba(0,220,255,.25),
-      transparent 35%
-    ),
-    radial-gradient(
-      ellipse at 50% 80%,
-      rgba(150,0,255,.25),
-      transparent 40%
-    );
+  background:linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255,0,0,.15) 30%,
+    rgba(255,180,0,.25) 40%,
+    rgba(0,255,100,.25) 50%,
+    rgba(0,180,255,.3) 60%,
+    rgba(180,0,255,.25) 70%,
+    transparent 100%
+  );
 
-  background-size:150% 150%;
-
+  transform:skewX(-20deg);
   z-index:10;
   pointer-events:none;
   mix-blend-mode:screen;
 
-  animation:oilRainbow 6s ease-in-out infinite;
+  animation:rainbowShine 3s ease-in-out infinite;
 }
 
-@keyframes oilRainbow{
-  0%{transform:translate(-5%,0) rotate(0deg)}
-  50%{transform:translate(5%,2%) rotate(3deg)}
-  100%{transform:translate(-5%,0) rotate(0deg)}
+@keyframes rainbowShine{
+  0%{left:-100%}
+  55%,100%{left:150%}
 }
 /* ปิดแสงทุกระดับก่อน */
 .card-art::after{
