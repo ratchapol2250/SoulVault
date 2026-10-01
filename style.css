@@ -1945,7 +1945,83 @@ select option:hover{
   white-space:nowrap!important;
 }
 .test-soul-core-cards .soul-core-place-btn:disabled{opacity:.4!important;pointer-events:none!important}
+/* ===== DECK COVER RARITY SHINE ===== */
 
+.deck-cover{
+  position:relative;
+  overflow:hidden;
+}
+
+.deck-cover::before{
+  content:"";
+  position:absolute;
+  inset:-60%;
+  background:linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,255,255,.08) 45%,
+    rgba(255,255,255,.45) 50%,
+    rgba(255,255,255,.08) 55%,
+    transparent 65%
+  );
+  transform:translateX(-45%) rotate(12deg);
+  animation:deckCoverShine 3s ease-in-out infinite;
+  pointer-events:none;
+  z-index:5;
+}
+
+@keyframes deckCoverShine{
+  0%,25%{transform:translateX(-70%) rotate(12deg)}
+  65%,100%{transform:translateX(70%) rotate(12deg)}
+}
+
+/* Legendary */
+.deck-cover.rarity-legendary::before{
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,210,90,.08) 42%,
+    rgba(255,245,180,.75) 50%,
+    rgba(255,180,30,.18) 58%,
+    transparent 70%
+  );
+}
+
+/* Epic */
+.deck-cover.rarity-epic::before{
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(170,80,255,.08) 42%,
+    rgba(245,190,255,.7) 50%,
+    rgba(120,60,255,.2) 58%,
+    transparent 70%
+  );
+}
+
+/* Rare */
+.deck-cover.rarity-rare::before{
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(50,150,255,.08) 42%,
+    rgba(180,230,255,.7) 50%,
+    rgba(40,120,255,.2) 58%,
+    transparent 70%
+  );
+}
+
+/* Common */
+.deck-cover.rarity-common::before{
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,.04) 42%,
+    rgba(255,255,255,.25) 50%,
+    rgba(255,255,255,.05) 58%,
+    transparent 70%
+  );
+}
 /* ===== ZONE TWO-SIDED ON ALL PAGES ===== */
 .zone-page-flippable{position:relative!important;overflow:hidden!important;}
 .zone-page-flip-btn{position:absolute;right:5px;top:5px;z-index:40;width:28px;height:28px;border:1px solid rgba(220,190,120,.75);background:rgba(8,8,8,.88);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
