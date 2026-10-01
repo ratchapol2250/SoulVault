@@ -1753,6 +1753,11 @@ select option:hover{
   overflow:hidden;
 }
 
+.card-art .card-real-image{
+  position:relative;
+  z-index:1;
+}
+
 .card-art::after{
   content:"";
   position:absolute;
@@ -1772,11 +1777,10 @@ select option:hover{
   pointer-events:none;
   animation:cardShine 3.5s ease-in-out infinite;
 
-  /* สำคัญ */
+  /* เพิ่ม 2 บรรทัดนี้ */
   z-index:10;
   mix-blend-mode:screen;
 }
-
 @keyframes cardShine{
   0%{
     left:-80%;
