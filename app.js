@@ -105,7 +105,7 @@ function cardHTML(c,small=true){
    : "";
  return `<article class="card ${small?'small-card':''}" data-id="${c.id}">
    <div class="card-art ${rarityClass(c.rarity)}">${cardImageHTML(c)}${c.image?"":`<div class="card-symbol">${c.symbol}</div>`}<span class="rarity-orb">${c.rarity[0]}</span></div>
-   <div class="card-info"><div class="tag-row"><span class="tag">${c.type}</span><span class="tag rarity rarity-${String(c.rarity).toLowerCase()}">${c.rarity}</span><span class="tag set-tag">${c.set||"BT01"}</span></div>
+   <div class="card-info"><div class="tag-row"><span class="tag">${c.type}</span><span class="tag rarity rarity-${String(c.rarity).toLowerCase().replace(/\s+/g,"-")}">${c.rarity}</span><span class="tag set-tag">${c.set||"BT01"}</span></div>
    <h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.subtitle)}</p>
    ${variantPicker}
    <button class="collection-add-btn ${inCollection?"added":""}" data-collection-id="${c.id}">
