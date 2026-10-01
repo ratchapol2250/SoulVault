@@ -9,7 +9,7 @@ const cards=[
 {id:"SA-008",set:"BT02",name:"Forbidden Relic",subtitle:"Artifact of the Lost",type:"Item",rarity:"Common",element:"Relic",cost:"2",ability:"ค้นหาการ์ด Relic จาก Deck แล้วนำขึ้นมือ 1 ใบ",symbol:"R"},
 {id:"SA-017",name:"Untimeat",subtitle:"The Unbroken Oath",type:"Untimeat",rarity:"Legendary",element:"Void",cost:"0",ability:"Untimeat — การ์ดประจำเด็คที่ต้องมี 1 ใบ",symbol:"U",set:"BT03"},
 {id:"SA-009",set:"BT02",name:"Eclipse King",subtitle:"Leader of the Black Sun",type:"Leader",rarity:"Legendary",element:"Eclipse",cost:"8",ability:"Leader — กำหนดกฎพิเศษของ Deck และเพิ่มพลังให้การ์ด Eclipse",symbol:"K"},
-{id:"SA-010",set:"BT02",name:"Land of Eternal Love",subtitle:"Forbidden Zone",type:"Zone",rarity:"Epic",element:"Mystic",cost:"0",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityFront:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityBack:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",symbol:"Z"},
+{id:"SA-010",set:"BT02",name:"Land of Eternal Love",subtitle:"Forbidden Zone",type:"Zone",rarity:"Epic",element:"Mystic",cost:"0",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityFront:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityBack:"เมื่อเปิดใช้งานด้านหลัง: การ์ด Skill และ Character ที่ตรงเงื่อนไขจะได้รับผลของ Zone ตามข้อความด้านหลัง",symbol:"Z"},
 {id:"SA-011",set:"BT02",name:"Neon Succubus",subtitle:"Temptation Protocol",type:"Character",rarity:"Epic",element:"Neon",cost:"5",ability:"เมื่อการ์ดนี้ทำงาน ให้เลือกการ์ดฝ่ายตรงข้าม 1 ใบและลดประสิทธิภาพของมัน",symbol:"N"},
 {id:"SA-012",set:"BT03",name:"Relic Core",subtitle:"Ancient Power",type:"Item",rarity:"Rare",element:"Relic",cost:"2",ability:"ติดตั้งให้ Character 1 ใบเพื่อเพิ่มผลของความสามารถ",symbol:"C"},
 {id:"SA-013",set:"BT03",name:"Soul Core Alpha",subtitle:"Origin of the Soul",type:"Soul Core",rarity:"Legendary",element:"Soul",cost:"0",ability:"Soul Core — แกนพลังประจำ Deck ใช้สำหรับกำหนดพลังเริ่มต้นของผู้เล่น",symbol:"SC"},
@@ -91,6 +91,7 @@ function render(){
    });
  }
  bindRosterCards();
+ bindZonePageFlips(grid);
 }
 function cardHTML(c,small=true){
  const inCollection=isWanted(c.id);
@@ -104,7 +105,7 @@ function cardHTML(c,small=true){
       </label>`
    : "";
  return `<article class="card ${small?'small-card':''}" data-id="${c.id}">
-   <div class="card-art ${rarityClass(c.rarity)}">${cardImageHTML(c)}${c.image?"":`<div class="card-symbol">${c.symbol}</div>`}<span class="rarity-orb">${c.rarity[0]}</span></div>
+   <div class="card-art ${rarityClass(c.rarity)} ${String(c.type).toLowerCase()==="zone"?"zone-page-flippable":""}" data-zone-id="${String(c.type).toLowerCase()==="zone"?escapeHtml(c.id):""}">${cardImageHTML(c)}${c.image?"":`<div class="card-symbol">${c.symbol}</div>`}<span class="rarity-orb">${c.rarity[0]}</span></div>
    <div class="card-info"><div class="tag-row"><span class="tag">${c.type}</span><span class="tag rarity rarity-${String(c.rarity).toLowerCase().replace(/\s+/g,"-")}">${c.rarity}</span><span class="tag set-tag">${c.set||"BT01"}</span></div>
    <h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.subtitle)}</p>
    ${variantPicker}
@@ -114,7 +115,7 @@ function cardHTML(c,small=true){
    <button class="deck-add-btn" data-deck-card-id="${c.id}">＋ เพิ่มเข้าเด็ค</button>
    </div></article>`;
 }
-function openCard(c,preferredSide=null){
+function openCard(c){
  if(!c)return;
  document.querySelector("#detailType").textContent=c.type.toUpperCase();
  document.querySelector("#detailRarity").textContent=`(${c.rarity.toUpperCase()})`;
@@ -129,33 +130,18 @@ function openCard(c,preferredSide=null){
  const abilityDual=document.querySelector("#detailAbilityDual");
  const abilityLeft=document.querySelector("#detailAbilityLeft");
  const abilityRight=document.querySelector("#detailAbilityRight");
- if(isLeader){
+ if(isLeader || isZone){
    if(abilitySingle)abilitySingle.classList.add("hidden");
    if(abilityDual)abilityDual.classList.remove("hidden");
-   if(abilityLeft)abilityLeft.innerHTML=formatAbility(c.abilityLeft ?? c.ability1 ?? c.ability ?? "—");
-   if(abilityRight)abilityRight.innerHTML=formatAbility(c.abilityRight ?? c.ability2 ?? "—");
-   const dualTitles=abilityDual?.querySelectorAll("h3")||[];
-   if(dualTitles[0])dualTitles[0].textContent="ABILITY — LEFT";
-   if(dualTitles[1])dualTitles[1].textContent="ABILITY — RIGHT";
- }else if(isZone){
-   if(abilitySingle)abilitySingle.classList.add("hidden");
-   if(abilityDual)abilityDual.classList.remove("hidden");
-   if(abilityLeft)abilityLeft.innerHTML=formatAbility(c.abilityFront ?? c.ability ?? "—");
-   if(abilityRight)abilityRight.innerHTML=formatAbility(c.abilityBack ?? "—");
-   const dualTitles=abilityDual?.querySelectorAll("h3")||[];
-   if(dualTitles[0])dualTitles[0].textContent="ABILITY — FRONT";
-   if(dualTitles[1])dualTitles[1].textContent="ABILITY — BACK";
-   abilityLeft?.closest(".leader-ability-box")?.classList.toggle("preferred-side",preferredSide==="front");
-   abilityRight?.closest(".leader-ability-box")?.classList.toggle("preferred-side",preferredSide==="back");
+   if(abilityLeft)abilityLeft.innerHTML=formatAbility(isZone ? (c.abilityFront ?? c.ability ?? "—") : (c.abilityLeft ?? c.ability1 ?? c.ability ?? "—"));
+   if(abilityRight)abilityRight.innerHTML=formatAbility(isZone ? (c.abilityBack ?? "—") : (c.abilityRight ?? c.ability2 ?? "—"));
+   const titles=abilityDual?.querySelectorAll("h3")||[];
+   if(titles[0])titles[0].textContent=isZone?"ABILITY — FRONT":"ABILITY — LEFT";
+   if(titles[1])titles[1].textContent=isZone?"ABILITY — BACK":"ABILITY — RIGHT";
  }else{
-   abilityLeft?.closest(".leader-ability-box")?.classList.remove("preferred-side");
-   abilityRight?.closest(".leader-ability-box")?.classList.remove("preferred-side");
    if(abilityDual)abilityDual.classList.add("hidden");
    if(abilitySingle)abilitySingle.classList.remove("hidden");
    if(abilitySingle)abilitySingle.innerHTML=formatAbility(c.ability);
-   const dualTitles=abilityDual?.querySelectorAll("h3")||[];
-   if(dualTitles[0])dualTitles[0].textContent="ABILITY — LEFT";
-   if(dualTitles[1])dualTitles[1].textContent="ABILITY — RIGHT";
  }
  document.querySelector("#detailId").textContent=c.id;
  document.querySelector("#detailElement").textContent=c.element;
@@ -169,8 +155,10 @@ function openCard(c,preferredSide=null){
  if(powerBox)powerBox.classList.toggle("hidden",noPowerSteal);
  if(stealBox)stealBox.classList.toggle("hidden",noPowerSteal);
  if(costBox)costBox.classList.toggle("hidden",noCost);
- document.querySelector("#detailImage").className=`detail-image ${rarityClass(c.rarity)}`;
- document.querySelector("#detailImage").innerHTML=c.image ? `<img class="detail-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span class="detail-placeholder"></span>`;
+ const detailImage=document.querySelector("#detailImage");
+ detailImage.className=`detail-image ${rarityClass(c.rarity)} ${isZone?"zone-page-flippable":""}`;
+ detailImage.dataset.zoneId=isZone?c.id:"";
+ detailImage.innerHTML=c.image ? `<img class="detail-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span class="detail-placeholder"></span>`;
  document.querySelector("#modal").classList.remove("hidden");
 }
 function closeModal(){document.querySelector("#modal").classList.add("hidden")}
@@ -266,7 +254,7 @@ function toggleWanted(id){
 function collectionCardHTML(c){
   const wanted=isWanted(c.id);
   return `<article class="collection-card ${wanted?"wanted":""}" data-id="${c.id}">
-    <div class="collection-card-art ${rarityClass(c.rarity)}">
+    <div class="collection-card-art ${rarityClass(c.rarity)} ${String(c.type).toLowerCase()==="zone"?"zone-page-flippable":""}" data-zone-id="${String(c.type).toLowerCase()==="zone"?escapeHtml(c.id):""}">
       ${cardImageHTML(c,"collection-real-image")}${c.image?"":`<div class="card-symbol">${c.symbol}</div>`}
       <span class="rarity-orb">${c.rarity[0]}</span>
       <span class="collection-set">${c.set||"BT01"}</span>
@@ -316,6 +304,7 @@ function renderCollection(){
       toggleWanted(btn.dataset.wanted);
     };
   });
+  bindZonePageFlips(grid);
   grid.querySelectorAll(".collection-card").forEach(el=>{
     el.onclick=e=>{
       if(e.target.closest(".wanted-btn"))return;
@@ -601,7 +590,7 @@ function renderDeckLibrary(){
       ? `<img class="library-cover-real-image" src="${escapeHtml(cover.image)}" alt="${escapeHtml(cover.name)}">`
       : `<span>${escapeHtml(cover?.symbol||"SA")}</span>`;
     return `<div class="deck-library-card${active}" data-deck="${d.id}">
-      <div class="library-cover ${coverClass}">${coverHTML}</div>
+      <div class="library-cover ${coverClass} ${cover?.type==="Zone"?"zone-page-flippable":""}" data-zone-id="${cover?.type==="Zone"?escapeHtml(cover.id):""}">${coverHTML}</div>
       <div class="library-info">
         <h4>${escapeHtml(d.name||"New Deck")}</h4>
         <div><span>${getMainDeckCount(d)} MAIN DECK</span><span>${d.leader?"LEADER ✓":"NO LEADER"}</span><span>${d.zone?"ZONE ✓":"NO ZONE"}</span></div>
@@ -610,6 +599,7 @@ function renderDeckLibrary(){
     </div>`;
   }).join("");
 
+  bindZonePageFlips(box);
   box.querySelectorAll(".deck-library-card").forEach(el=>{
     el.onclick=(e)=>{
       if(e.target.closest(".library-delete"))return;
@@ -774,7 +764,7 @@ function renderDeck(){
   document.querySelector("#deckList").innerHTML=entries.length?entries.map(([id,n])=>{
     const c=cards.find(x=>x.id===id);
     return `<div class="deck-row deck-card-clickable" data-card-id="${escapeHtml(c.id)}" title="กดเพื่อดูรายละเอียดการ์ด">
-      <div class="mini-art ${rarityClass(c.rarity)}">${cardImageHTML(c,"mini-real-image")}${c.image?"":c.symbol}</div>
+      <div class="mini-art ${rarityClass(c.rarity)} ${c.type==="Zone"?"zone-page-flippable":""}" data-zone-id="${c.type==="Zone"?escapeHtml(c.id):""}">${cardImageHTML(c,"mini-real-image")}${c.image?"":c.symbol}</div>
       <div class="row-name"><b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.type)} · ${escapeHtml(c.rarity)}</small></div>
       <div class="qty">${
         c.type==="Untimeat"
@@ -800,7 +790,7 @@ importDeckFromCurrentURL();
 
 function specialHTML(c,label){
   return `<div class="special-card deck-card-clickable" data-card-id="${escapeHtml(c.id)}" title="กดเพื่อดูรายละเอียดการ์ด">
-    <div class="special-art ${rarityClass(c.rarity)}">${cardImageHTML(c,"special-real-image")}${c.image?"":c.symbol}</div>
+    <div class="special-art ${rarityClass(c.rarity)} ${String(c.type).toLowerCase()==="zone"?"zone-page-flippable":""}" data-zone-id="${String(c.type).toLowerCase()==="zone"?escapeHtml(c.id):""}">${cardImageHTML(c,"special-real-image")}${c.image?"":c.symbol}</div>
     <div><b>${escapeHtml(c.name)}</b><small>${escapeHtml(label)} · ${escapeHtml(c.rarity)}</small></div>
     <button class="remove-card">×</button>
   </div>`;
@@ -820,12 +810,13 @@ function renderPicker(){
     if(c.type==="Soul Core" && (currentDeck.soulCores||[]).length>=7) limit=qty;
     if(c.type==="POCKET" && getPocketCount()>=10) limit=qty;
     return `<div class="picker-row">
-      <div class="picker-art ${rarityClass(c.rarity)}">${cardImageHTML(c,"picker-real-image")}${c.image?"":c.symbol}</div>
+      <div class="picker-art ${rarityClass(c.rarity)} ${String(c.type).toLowerCase()==="zone"?"zone-page-flippable":""}" data-zone-id="${String(c.type).toLowerCase()==="zone"?escapeHtml(c.id):""}">${cardImageHTML(c,"picker-real-image")}${c.image?"":c.symbol}</div>
       <div class="picker-name"><b>${c.name}</b><small>${c.type} · ${c.rarity}</small></div>
       <div class="picker-qty">${qty}/${limit}</div>
       <button ${qty>=limit?"disabled":""} onclick="addToDeck('${c.id}')">＋</button>
     </div>`;
   }).join("");
+  bindZonePageFlips(document.querySelector("#pickerList")||document);
 }
 
 function getDeckCoverCards(deck=currentDeck){
@@ -846,7 +837,8 @@ function updateCover(){
   const cover=document.querySelector("#deckCover");
   const symbol=document.querySelector("#coverSymbol");
   if(c){
-    cover.className=`deck-cover ${rarityClass(c.rarity)}`;
+    cover.className=`deck-cover ${rarityClass(c.rarity)} ${c.type==="Zone"?"zone-page-flippable":""}`;
+    cover.dataset.zoneId=c.type==="Zone"?c.id:"";
     if(c.image){
       cover.innerHTML=`<img class="deck-cover-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}"><span id="coverSymbol" class="cover-symbol-overlay">${escapeHtml(c.symbol||"")}</span>`;
     }else{
@@ -854,21 +846,24 @@ function updateCover(){
     }
   }else{
     cover.className="deck-cover rarity-common";
+    cover.dataset.zoneId="";
     cover.innerHTML=`<span id="coverSymbol">SA</span>`;
   }
+  bindZonePageFlips(cover.parentElement||document);
 }
 
 function openCoverPicker(){
   const list=getDeckCoverCards(currentDeck);
   const grid=document.querySelector("#coverGrid");
   grid.innerHTML=list.length ? list.map(c=>
-    `<button class="cover-option ${rarityClass(c.rarity)}" onclick="chooseCover('${c.id}')">
+    `<button class="cover-option ${rarityClass(c.rarity)} ${c.type==="Zone"?"zone-page-flippable":""}" data-zone-id="${c.type==="Zone"?escapeHtml(c.id):""}" onclick="chooseCover('${c.id}')">
       ${c.image
         ? `<img class="cover-option-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">`
         : `<span>${escapeHtml(c.symbol||"SA")}</span>`}
       <b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.type)} · ${escapeHtml(c.rarity)}</small>
     </button>`
   ).join("") : `<div class="cover-empty">ยังไม่มีการ์ดในเด็คสำหรับใช้เป็นหน้าปก</div>`;
+  bindZonePageFlips(grid);
   document.querySelector("#coverModal").classList.remove("hidden");
 }
 
@@ -1220,9 +1215,9 @@ function addBoardCard(id,x=.45,y=.45){
   });
 }
 
-function openTestCardDetail(id,side=null){
+function openTestCardDetail(id){
   const c=cards.find(x=>String(x.id)===String(id));
-  if(c) openCard(c,side);
+  if(c) openCard(c);
 }
 
 function renderTest(){
@@ -1287,18 +1282,16 @@ function renderTest(){
         const img=card.querySelector("img");
         if(img) img.remove();
         card.querySelectorAll("span,b,small").forEach(el=>el.remove());
-        const zoneCard=cards.find(x=>String(x.id)===String(card.dataset.id));
         const back=document.createElement("div");
         back.className="zone-back-face";
-        back.innerHTML=`<span>${escapeHtml(zoneCard?.name||"ZONE")}</span><small>ABILITY — BACK</small><p>${formatAbility(zoneCard?.abilityBack ?? "—")}</p>`;
+        back.innerHTML=`<span>ZONE</span><small>SOULVAULT</small>`;
         card.appendChild(back);
       }
-      card.dataset.zoneSide=testZoneFlipped ? "back" : "front";
-      card.onclick=()=>openTestCardDetail(card.dataset.id, testZoneFlipped ? "back" : "front");
+      card.onclick=()=>openTestCardDetail(card.dataset.id);
       const btn=document.createElement("button");
       btn.type="button";
       btn.className="special-flip-btn";
-      btn.title=testZoneFlipped ? "ดูสกิลด้านหน้า" : "ดูสกิลด้านหลัง";
+      btn.title=testZoneFlipped ? "พลิกกลับด้านหน้า" : "พลิกเป็นด้านหลัง";
       btn.textContent="↔";
       btn.addEventListener("click",ev=>{
         ev.preventDefault(); ev.stopPropagation();
@@ -1323,6 +1316,8 @@ function renderTest(){
       card.appendChild(badge);
     }
   }
+  bindZonePageFlips(document);
+
   if(soulEl){
     const remaining=(testDeck.soulCores||[]).filter((_,i)=>i>=testSoulCoreUnderZone.length);
     const topId=remaining[0];
@@ -1441,6 +1436,38 @@ function testCardHTML(id,clickable=false,index=0,source="hand"){
   return `<div class="${cls}" data-id="${escapeHtml(c.id)}" data-index="${index}" data-source="${source}">
     ${c.image ? `<img class="test-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span>${escapeHtml(c.symbol||"")}</span><b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.rarity)}</small>`}
   </div>`;
+}
+
+function bindZonePageFlips(root=document){
+  root.querySelectorAll?.(".zone-page-flippable").forEach(el=>{
+    if(el.dataset.zoneBound==="1")return;
+    const id=el.dataset.zoneId;
+    const c=cards.find(x=>String(x.id)===String(id));
+    if(!c || String(c.type).toLowerCase()!=="zone")return;
+    el.dataset.zoneBound="1";
+    const front=el.innerHTML;
+    el.dataset.zoneFront=front;
+    const btn=document.createElement("button");
+    btn.type="button";
+    btn.className="zone-page-flip-btn";
+    btn.title="ดูด้านหลังของ Zone";
+    btn.textContent="↔";
+    btn.addEventListener("click",ev=>{
+      ev.preventDefault(); ev.stopPropagation();
+      const back=el.dataset.zoneFlipped!=="1";
+      el.dataset.zoneFlipped=back?"1":"0";
+      if(back){
+        el.innerHTML=`<div class="zone-page-back"><b>ABILITY — BACK</b><p>${formatAbility(c.abilityBack ?? "—")}</p></div>`;
+        btn.title="กลับไปด้านหน้า";
+      }else{
+        el.innerHTML=el.dataset.zoneFront;
+        btn.title="ดูด้านหลังของ Zone";
+      }
+      el.appendChild(btn);
+      el.classList.toggle("zone-page-back-active",back);
+    });
+    el.appendChild(btn);
+  });
 }
 
 function initDrawTest(){
