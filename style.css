@@ -1776,7 +1776,8 @@ select option:hover{
 .test-card::after,
 .draw-preview-card::after,
 .cover-option::after,
-.detail-image::after{
+.detail-image::after,
+.mini-art::after,{
  content:"";
   position:absolute;
   top:-60%;
@@ -1815,7 +1816,8 @@ select option:hover{
 .test-card::after,
 .draw-preview-card::after,
 .cover-option::after,
-.detail-image::after{
+.detail-image::after,
+.mini-art::after,{
   display:none;
 }
 
@@ -1828,6 +1830,7 @@ select option:hover{
 .draw-preview-card.rarity-legendary::after,
 .cover-option.rarity-legendary::after,
 .detail-image.rarity-legendary::after,
+.mini-art.rarity-legendary::after,
 
 .card-art.rarity-art-rare::after,
 .collection-card-art.rarity-art-rare::after,
@@ -1837,6 +1840,7 @@ select option:hover{
 .draw-preview-card.rarity-art-rare::after,
 .cover-option.rarity-art-rare::after,
 .detail-image.rarity-art-rare::after,
+.mini-art.rarity-art-rare::after,
 
 .card-art.rarity-secret-rare::after,
 .collection-card-art.rarity-secret-rare::after,
@@ -1846,6 +1850,7 @@ select option:hover{
 .draw-preview-card.rarity-secret-rare::after,
 .cover-option.rarity-secret-rare::after,
 .detail-image.rarity-secret-rare::after,
+.mini-art.rarity-secret-rare::after,
 
 .card-art.rarity-epic::after,
 .collection-card-art.rarity-epic::after,
@@ -1855,6 +1860,7 @@ select option:hover{
 .draw-preview-card.rarity-epic::after,
 .cover-option.rarity-epic::after,
 .detail-image.rarity-epic::after,
+.mini-art.rarity-epic::after,
 
 .card-art.rarity-rare::after,
 .collection-card-art.rarity-rare::after,
@@ -1863,7 +1869,8 @@ select option:hover{
 .test-card.rarity-rare::after,
 .draw-preview-card.rarity-rare::after,
 .cover-option.rarity-rare::after,
-.detail-image.rarity-rare::after{
+.detail-image.rarity-rare::after,
+.mini-art.rarity-rare::after{
     display:block;
 }
 /* ===== UNIVERSAL CARD SHINE ===== */
@@ -1875,7 +1882,8 @@ select option:hover{
 .test-card,
 .draw-preview-card,
 .cover-option,
-.detail-image{
+.detail-image,
+.mini-art{
   position:relative;
   overflow:hidden;
 }
@@ -1888,7 +1896,8 @@ select option:hover{
 .test-card img,
 .draw-preview-card img,
 .cover-option img,
-.detail-image img{
+.detail-image img,
+.mini-art{
   position:relative;
   z-index:1;
 }
