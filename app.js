@@ -255,7 +255,7 @@ function collectionCardHTML(c){
     <div class="collection-card-info">
       <div class="tag-row">
         <span class="tag">${c.type}</span>
-        <span class="tag rarity">${c.rarity}</span>
+        <span class="tag rarity rarity-${String(c.rarity).toLowerCase()}">${c.rarity}</span>
       </div>
       <h3>${escapeHtml(c.name)}</h3>
       <p>${escapeHtml(c.subtitle||"")}</p>
