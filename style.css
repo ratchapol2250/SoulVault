@@ -1201,9 +1201,10 @@ select option:hover{
 .library-cover::before{
   content:"";
   position:absolute;
-  inset:-80%;
-  z-index:5;
-  pointer-events:none;
+  top:-60%;
+  left:-100%;
+  width:45%;
+  height:220%;
   background:linear-gradient(
     105deg,
     transparent 0%,
@@ -2036,7 +2037,10 @@ select option:hover{
 .deck-cover::before{
   content:"";
   position:absolute;
-  inset:-60%;
+  top:-60%;
+  left:-100%;
+  width:45%;
+  height:220%;
   background:linear-gradient(
     105deg,
     transparent 0%,
