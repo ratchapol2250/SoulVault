@@ -1600,34 +1600,40 @@ initDrawTest();
 
 
 
-/* =========================================================
-   BUTTON CLICK FX — moving blue energy beam
-   ========================================================= */
-(function initButtonClickFX(){
-  let lastButton = null;
 
-  document.addEventListener("click", e => {
-    const button = e.target.closest("button:not(:disabled)");
-    if(!button) return;
-
-    button.classList.remove("button-clicked");
-    void button.offsetWidth;
-    button.classList.add("button-clicked");
-    clearTimeout(button.__clickFxTimer);
-    button.__clickFxTimer = setTimeout(() => button.classList.remove("button-clicked"), 600);
-
-    const rect = button.getBoundingClientRect();
-    const fx = document.createElement("span");
-    fx.className = "button-click-fx";
-    fx.style.setProperty("--fx-width", `${Math.max(120, Math.min(220, rect.width + 90))}px`);
-
-    const y = rect.top + rect.height * .52;
-    const x = Math.min(window.innerWidth - 18, Math.max(8, rect.left + rect.width * .18));
-    fx.style.left = `${x}px`;
-    fx.style.top = `${y}px`;
-    document.body.appendChild(fx);
-
-    fx.addEventListener("animationend", () => fx.remove(), {once:true});
-    lastButton = button;
-  }, true);
+/* ===== SOUL SPIRIT CLICK EFFECT v2 ===== */
+(function initSoulSpiritClick(){
+  const selector='button,.nav,.gold-btn,.danger-btn,.qty button,.picker-row button,.supply-tab,.special-flip-btn,.cover-btn';
+  function spiritBurst(e){
+    const el=e.target.closest?.(selector);
+    if(!el || !document.body.contains(el) || el.disabled) return;
+    const x=e.clientX, y=e.clientY;
+    const layer=document.createElement('div');
+    layer.className='soul-fx-layer';
+    layer.style.left=x+'px'; layer.style.top=y+'px';
+    const core=document.createElement('i'); core.className='soul-fx-core'; layer.appendChild(core);
+    const ring=document.createElement('i'); ring.className='soul-fx-ring'; layer.appendChild(ring);
+    for(let i=0;i<7;i++){
+      const w=document.createElement('i'); w.className='soul-fx-wisp';
+      const a=(Math.PI*2*i/7)+(Math.random()-.5)*.45;
+      const d=28+Math.random()*38;
+      w.style.setProperty('--x',(Math.cos(a)*d)+'px');
+      w.style.setProperty('--y',(34+Math.random()*42)+'px');
+      w.style.setProperty('--r',((Math.random()-.5)*60)+'deg');
+      w.style.height=(20+Math.random()*24)+'px';
+      w.style.animationDelay=(Math.random()*90)+'ms';
+      layer.appendChild(w);
+    }
+    for(let i=0;i<10;i++){
+      const p=document.createElement('i'); p.className='soul-fx-particle';
+      const a=Math.random()*Math.PI*2, d=18+Math.random()*58;
+      p.style.setProperty('--x',(Math.cos(a)*d)+'px');
+      p.style.setProperty('--y',(28+Math.random()*55)+'px');
+      p.style.animationDelay=(Math.random()*120)+'ms';
+      layer.appendChild(p);
+    }
+    document.body.appendChild(layer);
+    setTimeout(()=>layer.remove(),1150);
+  }
+  document.addEventListener('pointerdown',spiritBurst,true);
 })();

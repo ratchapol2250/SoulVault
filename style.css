@@ -2017,18 +2017,17 @@ select option:hover{
 .picker-card-clickable:hover .picker-art{border-color:#765b2a;box-shadow:0 0 12px rgba(217,173,82,.12)}
 
 
-/* ===== SOUL CLICK EFFECT =====
-   เอฟเฟกต์วิญญาณเมื่อกดปุ่ม: หมอก/พลังวิญญาณสีฟ้าเรืองแสง
-*/
-.soul-click-host{position:relative!important;isolation:isolate;overflow:visible!important}
-.soul-click-ring{position:absolute;left:50%;top:50%;width:18px;height:18px;border:1px solid rgba(180,235,255,.95);border-radius:50%;pointer-events:none;z-index:999;transform:translate(-50%,-50%) scale(.35);box-shadow:0 0 8px rgba(83,190,255,.9),0 0 22px rgba(55,145,255,.55),inset 0 0 10px rgba(210,250,255,.45);animation:soulRingBurst .72s cubic-bezier(.16,.72,.25,1) forwards}
-.soul-click-ring::after{content:"";position:absolute;inset:-8px;border:1px solid rgba(116,215,255,.28);border-radius:50%;filter:blur(1px)}
-.soul-click-wisp{position:absolute;left:50%;top:50%;width:5px;height:18px;border-radius:70% 30% 65% 35%;pointer-events:none;z-index:1000;background:linear-gradient(to top,rgba(50,145,255,0),rgba(141,225,255,.9) 48%,rgba(230,251,255,.98));box-shadow:0 0 6px rgba(130,220,255,.95),0 0 16px rgba(57,147,255,.72);filter:blur(.25px);transform-origin:50% 100%;animation:soulWispFloat .8s cubic-bezier(.18,.7,.2,1) forwards}
-.soul-click-wisp::before,.soul-click-wisp::after{content:"";position:absolute;bottom:3px;width:3px;height:12px;border-radius:80% 20% 70% 30%;background:rgba(181,239,255,.8);filter:blur(1px)}
-.soul-click-wisp::before{left:-5px;transform:rotate(-22deg)}
-.soul-click-wisp::after{right:-5px;transform:rotate(25deg)}
-.soul-click-dot{position:absolute;left:50%;top:50%;width:4px;height:4px;border-radius:50%;pointer-events:none;z-index:1001;background:#dff9ff;box-shadow:0 0 7px #bdefff,0 0 16px #48bfff;animation:soulDotFloat .7s ease-out forwards}
-@keyframes soulRingBurst{0%{opacity:.95;transform:translate(-50%,-50%) scale(.35)}45%{opacity:.8}100%{opacity:0;transform:translate(-50%,-50%) scale(4.2)}}
-@keyframes soulWispFloat{0%{opacity:0;transform:translate(-50%,-15%) rotate(var(--soul-rot,0deg)) scale(.35)}18%{opacity:1}65%{opacity:.75}100%{opacity:0;transform:translate(calc(-50% + var(--soul-x,0px)),calc(-50% - var(--soul-y,42px))) rotate(var(--soul-rot,0deg)) scale(1.15)}}
-@keyframes soulDotFloat{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}20%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--soul-x,0px)),calc(-50% - var(--soul-y,36px))) scale(.15)}}
-@media (prefers-reduced-motion:reduce){.soul-click-ring,.soul-click-wisp,.soul-click-dot{animation:none!important;opacity:0!important}}
+/* ===== SOUL SPIRIT CLICK EFFECT v2 ===== */
+.soul-fx-layer{position:fixed;left:0;top:0;width:0;height:0;z-index:2147483647;pointer-events:none;overflow:visible}
+.soul-fx-ring{position:absolute;left:0;top:0;width:34px;height:34px;border:2px solid rgba(170,235,255,.95);border-radius:50%;transform:translate(-50%,-50%) scale(.2);box-shadow:0 0 8px #8de9ff,0 0 24px rgba(74,160,255,.75),inset 0 0 12px rgba(210,250,255,.5);animation:soulFxRing .75s cubic-bezier(.15,.7,.2,1) forwards}
+.soul-fx-ring:after{content:"";position:absolute;inset:-7px;border:1px solid rgba(190,225,255,.55);border-radius:50%;filter:blur(2px)}
+.soul-fx-wisp{position:absolute;left:0;top:0;width:9px;height:30px;border-radius:70% 30% 55% 45%;background:linear-gradient(to top,rgba(80,145,255,0),rgba(114,205,255,.8) 35%,rgba(231,252,255,1));box-shadow:0 0 8px rgba(120,220,255,.95),0 0 20px rgba(74,133,255,.75);filter:blur(.25px);transform-origin:50% 100%;animation:soulFxWisp .95s cubic-bezier(.2,.65,.15,1) forwards}
+.soul-fx-wisp:before,.soul-fx-wisp:after{content:"";position:absolute;bottom:2px;width:5px;height:17px;border-radius:80% 20% 70% 30%;background:rgba(190,242,255,.85);box-shadow:0 0 8px #8de9ff;filter:blur(.8px)}
+.soul-fx-wisp:before{left:-7px;transform:rotate(-25deg)}.soul-fx-wisp:after{right:-7px;transform:rotate(27deg)}
+.soul-fx-particle{position:absolute;left:0;top:0;width:5px;height:5px;border-radius:50%;background:#e8fcff;box-shadow:0 0 7px #c9f7ff,0 0 18px #50c7ff;animation:soulFxParticle .75s ease-out forwards}
+.soul-fx-core{position:absolute;left:0;top:0;width:12px;height:12px;border-radius:50%;background:#f2ffff;box-shadow:0 0 10px #fff,0 0 25px #72d9ff,0 0 45px rgba(70,130,255,.85);transform:translate(-50%,-50%);animation:soulFxCore .55s ease-out forwards}
+@keyframes soulFxRing{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}15%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(3.8)}}
+@keyframes soulFxCore{0%{opacity:1;transform:translate(-50%,-50%) scale(.4)}45%{opacity:1;transform:translate(-50%,-50%) scale(1.5)}100%{opacity:0;transform:translate(-50%,-50%) scale(.2)}}
+@keyframes soulFxWisp{0%{opacity:0;transform:translate(-50%,-35%) rotate(var(--r)) scale(.3)}15%{opacity:1}55%{opacity:.9}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% - var(--y))) rotate(var(--r)) scale(1.15)}}
+@keyframes soulFxParticle{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}15%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% - var(--y))) scale(.05)}}
+@media(prefers-reduced-motion:reduce){.soul-fx-layer *{animation:none!important;opacity:0!important}}
