@@ -1803,6 +1803,52 @@ select option:hover{
 .card-art.rarity-epic::after{  
   display:block;
 }
+  /* ===== CARD FOIL SHINE ===== */
+
+.card-art{
+  position:relative;
+  overflow:hidden;
+}
+
+.card-art img{
+  position:relative;
+  z-index:1;
+}
+
+.card-art::after{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-80%;
+  width:45%;
+  height:200%;
+
+  background:linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255,255,255,.03) 35%,
+    rgba(255,255,255,.45) 50%,
+    rgba(255,255,255,.03) 65%,
+    transparent 100%
+  );
+
+  transform:skewX(-20deg);
+  pointer-events:none;
+  z-index:10;
+  mix-blend-mode:screen;
+
+  animation:cardShine 3.5s ease-in-out infinite;
+}
+
+@keyframes cardShine{
+  0%{
+    left:-80%;
+  }
+
+  55%,100%{
+    left:140%;
+  }
+}
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
 .special-flip-btn{position:absolute;right:5px;top:5px;z-index:8;width:28px;height:28px;border:1px solid rgba(220,190,120,.65);background:rgba(8,8,8,.82);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
 .special-flip-btn:hover{background:#211a0e;color:#fff0b0}
