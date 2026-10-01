@@ -1775,7 +1775,8 @@ select option:hover{
 .picker-art::after,
 .test-card::after,
 .draw-preview-card::after,
-.cover-option::after{
+.cover-option::after,
+.detail-image::after{
  content:"";
   position:absolute;
   top:-60%;
@@ -1813,7 +1814,8 @@ select option:hover{
 .picker-art::after,
 .test-card::after,
 .draw-preview-card::after,
-.cover-option::after{
+.cover-option::after,
+.detail-image::after{
   display:none;
 }
 
@@ -1867,7 +1869,8 @@ select option:hover{
 .picker-art,
 .test-card,
 .draw-preview-card,
-.cover-option{
+.cover-option,
+.detail-image{
   position:relative;
   overflow:hidden;
 }
@@ -1882,54 +1885,6 @@ select option:hover{
 .cover-option img{
   position:relative;
   z-index:1;
-}
-/* ===== DETAIL CARD SHINE ===== */
-
-.detail-image{
-  position:relative;
-  overflow:hidden;
-}
-
-/* ให้รูปอยู่ใต้แสง */
-.detail-image img{
-  position:relative;
-  z-index:1;
-}
-
-/* แสงสะท้อน */
-.detail-image::after{
-  content:"";
-  position:absolute;
-  top:-60%;
-  left:-100%;
-  width:45%;
-  height:220%;
-
-  background:linear-gradient(
-    105deg,
-    transparent 0%,
-    rgba(255,255,255,.03) 35%,
-    rgba(255,255,255,.55) 50%,
-    rgba(255,255,255,.03) 65%,
-    transparent 100%
-  );
-
-  transform:skewX(-20deg);
-  pointer-events:none;
-  z-index:10;
-  mix-blend-mode:screen;
-
-  animation:detailCardShine 3.5s ease-in-out infinite;
-}
-
-@keyframes detailCardShine{
-  0%{
-    left:-100%;
-  }
-
-  55%,100%{
-    left:150%;
-  }
 }
 
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
