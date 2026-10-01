@@ -1432,7 +1432,8 @@ function formatAbility(text) {
   const icons = {
     counter: "public/images/icon/counter.png",
   E: "public/images/icon/E.png",
-  Pocket: "public/images/icon/Pocket.png",  
+  Pocket: "public/images/icon/Pocket.png",
+  dot: "public/images/icon/dot.png",
   };
 
   let html = escapeHtml(text);
