@@ -1817,7 +1817,7 @@ select option:hover{
 .draw-preview-card::after,
 .cover-option::after,
 .detail-image::after,
-.mini-art::after,{
+.mini-art::after{
   display:none;
 }
 
