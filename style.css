@@ -1980,24 +1980,13 @@ select option:hover{
   padding:0!important;
 }
 
-/* ===== ZONE BACK: NO RAINBOW / FOIL SHINE ===== */
+/* ===== ZONE BACK SIDE: NO FOIL / RAINBOW SHINE ===== */
+.detail-image.zone-page-back-active::after,
 .zone-page-back-active::after,
-.zone-page-back-active .card-art::after,
-.zone-page-back-active .collection-card-art::after,
-.zone-page-back-active .special-art::after,
-.zone-page-back-active .picker-art::after,
-.zone-page-back-active .test-card::after,
-.zone-page-back-active .draw-preview-card::after,
-.zone-page-back-active .cover-option::after,
-.zone-page-back-active .detail-image::after,
-.zone-page-back-active .mini-art::after,
-.zone-page-back::after,
-.zone-card-back::after{
+.zone-card-back::after,
+.zone-back-face::after{
   display:none!important;
   animation:none!important;
   background:none!important;
-  box-shadow:none!important;
+  mix-blend-mode:normal!important;
 }
-
-.zone-page-back-active .detail-real-image,
-.zone-card-back img{filter:none!important;}
