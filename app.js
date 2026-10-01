@@ -9,7 +9,7 @@ const cards=[
 {id:"SA-008",set:"BT02",name:"Forbidden Relic",subtitle:"Artifact of the Lost",type:"Item",rarity:"Common",element:"Relic",cost:"2",ability:"ค้นหาการ์ด Relic จาก Deck แล้วนำขึ้นมือ 1 ใบ",symbol:"R"},
 {id:"SA-017",name:"Untimeat",subtitle:"The Unbroken Oath",type:"Untimeat",rarity:"Legendary",element:"Void",cost:"0",ability:"Untimeat — การ์ดประจำเด็คที่ต้องมี 1 ใบ",symbol:"U",set:"BT03"},
 {id:"SA-009",set:"BT02",name:"Eclipse King",subtitle:"Leader of the Black Sun",type:"Leader",rarity:"Legendary",element:"Eclipse",cost:"8",ability:"Leader — กำหนดกฎพิเศษของ Deck และเพิ่มพลังให้การ์ด Eclipse",symbol:"K"},
-{id:"SA-010",set:"BT02",name:"Land of Eternal Love",subtitle:"Forbidden Zone",type:"Zone",rarity:"Epic",element:"Mystic",cost:"0",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",symbol:"Z"},
+{id:"SA-010",set:"BT02",name:"Land of Eternal Love",subtitle:"Forbidden Zone",type:"Zone",rarity:"Epic",element:"Mystic",cost:"0",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityFront:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityBack:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",symbol:"Z"},
 {id:"SA-011",set:"BT02",name:"Neon Succubus",subtitle:"Temptation Protocol",type:"Character",rarity:"Epic",element:"Neon",cost:"5",ability:"เมื่อการ์ดนี้ทำงาน ให้เลือกการ์ดฝ่ายตรงข้าม 1 ใบและลดประสิทธิภาพของมัน",symbol:"N"},
 {id:"SA-012",set:"BT03",name:"Relic Core",subtitle:"Ancient Power",type:"Item",rarity:"Rare",element:"Relic",cost:"2",ability:"ติดตั้งให้ Character 1 ใบเพื่อเพิ่มผลของความสามารถ",symbol:"C"},
 {id:"SA-013",set:"BT03",name:"Soul Core Alpha",subtitle:"Origin of the Soul",type:"Soul Core",rarity:"Legendary",element:"Soul",cost:"0",ability:"Soul Core — แกนพลังประจำ Deck ใช้สำหรับกำหนดพลังเริ่มต้นของผู้เล่น",symbol:"SC"},
@@ -124,6 +124,7 @@ function openCard(c){
  const noPowerSteal=["action","pocket","gear","soul core","untimeat","utiment","zone"].includes(cardType);
  const noCost=["pocket","soul core"].includes(cardType);
  const isLeader=cardType==="leader";
+ const isZone=cardType==="zone";
  const abilitySingle=document.querySelector("#detailAbility");
  const abilityDual=document.querySelector("#detailAbilityDual");
  const abilityLeft=document.querySelector("#detailAbilityLeft");
@@ -133,10 +134,24 @@ function openCard(c){
    if(abilityDual)abilityDual.classList.remove("hidden");
    if(abilityLeft)abilityLeft.innerHTML=formatAbility(c.abilityLeft ?? c.ability1 ?? c.ability ?? "—");
    if(abilityRight)abilityRight.innerHTML=formatAbility(c.abilityRight ?? c.ability2 ?? "—");
+   const dualTitles=abilityDual?.querySelectorAll("h3")||[];
+   if(dualTitles[0])dualTitles[0].textContent="ABILITY — LEFT";
+   if(dualTitles[1])dualTitles[1].textContent="ABILITY — RIGHT";
+ }else if(isZone){
+   if(abilitySingle)abilitySingle.classList.add("hidden");
+   if(abilityDual)abilityDual.classList.remove("hidden");
+   if(abilityLeft)abilityLeft.innerHTML=formatAbility(c.abilityFront ?? c.ability ?? "—");
+   if(abilityRight)abilityRight.innerHTML=formatAbility(c.abilityBack ?? "—");
+   const dualTitles=abilityDual?.querySelectorAll("h3")||[];
+   if(dualTitles[0])dualTitles[0].textContent="ABILITY — FRONT";
+   if(dualTitles[1])dualTitles[1].textContent="ABILITY — BACK";
  }else{
    if(abilityDual)abilityDual.classList.add("hidden");
    if(abilitySingle)abilitySingle.classList.remove("hidden");
    if(abilitySingle)abilitySingle.innerHTML=formatAbility(c.ability);
+   const dualTitles=abilityDual?.querySelectorAll("h3")||[];
+   if(dualTitles[0])dualTitles[0].textContent="ABILITY — LEFT";
+   if(dualTitles[1])dualTitles[1].textContent="ABILITY — RIGHT";
  }
  document.querySelector("#detailId").textContent=c.id;
  document.querySelector("#detailElement").textContent=c.element;
@@ -1268,9 +1283,10 @@ function renderTest(){
         const img=card.querySelector("img");
         if(img) img.remove();
         card.querySelectorAll("span,b,small").forEach(el=>el.remove());
+        const zoneCard=cards.find(x=>String(x.id)===String(card.dataset.id));
         const back=document.createElement("div");
         back.className="zone-back-face";
-        back.innerHTML=`<span>ZONE</span><small>SOULVAULT</small>`;
+        back.innerHTML=`<span>${escapeHtml(zoneCard?.name||"ZONE")}</span><small>ABILITY — BACK</small><p>${formatAbility(zoneCard?.abilityBack ?? "—")}</p>`;
         card.appendChild(back);
       }
       card.onclick=()=>openTestCardDetail(card.dataset.id);

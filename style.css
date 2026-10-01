@@ -1906,10 +1906,10 @@ select option:hover{
 .special-flip-btn{position:absolute;right:5px;top:5px;z-index:8;width:28px;height:28px;border:1px solid rgba(220,190,120,.65);background:rgba(8,8,8,.82);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
 .special-flip-btn:hover{background:#211a0e;color:#fff0b0}
 .zone-card-back{background:radial-gradient(circle at 50% 35%,#6a5228,#21190d 42%,#080808 78%)!important;border:1px solid #9a7736!important;}
-.zone-back-face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:radial-gradient(circle at 50% 40%,#3b2b14 0,#15110b 42%,#060606 80%);overflow:hidden;}
+.zone-back-face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 12px;background:radial-gradient(circle at 50% 40%,#3b2b14 0,#15110b 42%,#060606 80%);overflow:hidden;text-align:center;}
 .zone-back-face:before{content:"";position:absolute;width:68%;height:68%;border:1px solid rgba(205,168,83,.55);transform:rotate(45deg);box-shadow:0 0 0 14px rgba(205,168,83,.06),0 0 28px rgba(205,168,83,.16);}
 .zone-back-face span,.zone-back-face small{position:relative;z-index:1;color:#d8b55f;font-family:Cinzel;text-align:center;letter-spacing:2px;}
-.zone-back-face span{font-size:20px;font-weight:700}.zone-back-face small{font-size:7px;color:#8e7750;}
+.zone-back-face span{font-size:20px;font-weight:700}.zone-back-face small{font-size:7px;color:#8e7750;}.zone-back-face p{position:relative;z-index:2;max-width:82%;margin:6px 0 0;color:#d8d0c1;font:500 9px/1.55 Inter,Arial,sans-serif;}
 
 /* ===== PLAY TEST CARD ACTION BUTTONS ===== */
 .test-card .test-tomb-btn,
