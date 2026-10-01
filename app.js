@@ -1601,39 +1601,18 @@ initDrawTest();
 
 
 
-/* ===== SOUL SPIRIT CLICK EFFECT v2 ===== */
-(function initSoulSpiritClick(){
+/* ===== SOUL SPIRIT BUTTON PRESS EFFECT ===== */
+(function initSoulButtonEffect(){
   const selector='button,.nav,.gold-btn,.danger-btn,.qty button,.picker-row button,.supply-tab,.special-flip-btn,.cover-btn';
-  function spiritBurst(e){
+  let timer;
+  function trigger(e){
     const el=e.target.closest?.(selector);
     if(!el || !document.body.contains(el) || el.disabled) return;
-    const x=e.clientX, y=e.clientY;
-    const layer=document.createElement('div');
-    layer.className='soul-fx-layer';
-    layer.style.left=x+'px'; layer.style.top=y+'px';
-    const core=document.createElement('i'); core.className='soul-fx-core'; layer.appendChild(core);
-    const ring=document.createElement('i'); ring.className='soul-fx-ring'; layer.appendChild(ring);
-    for(let i=0;i<7;i++){
-      const w=document.createElement('i'); w.className='soul-fx-wisp';
-      const a=(Math.PI*2*i/7)+(Math.random()-.5)*.45;
-      const d=28+Math.random()*38;
-      w.style.setProperty('--x',(Math.cos(a)*d)+'px');
-      w.style.setProperty('--y',(34+Math.random()*42)+'px');
-      w.style.setProperty('--r',((Math.random()-.5)*60)+'deg');
-      w.style.height=(20+Math.random()*24)+'px';
-      w.style.animationDelay=(Math.random()*90)+'ms';
-      layer.appendChild(w);
-    }
-    for(let i=0;i<10;i++){
-      const p=document.createElement('i'); p.className='soul-fx-particle';
-      const a=Math.random()*Math.PI*2, d=18+Math.random()*58;
-      p.style.setProperty('--x',(Math.cos(a)*d)+'px');
-      p.style.setProperty('--y',(28+Math.random()*55)+'px');
-      p.style.animationDelay=(Math.random()*120)+'ms';
-      layer.appendChild(p);
-    }
-    document.body.appendChild(layer);
-    setTimeout(()=>layer.remove(),1150);
+    el.classList.remove('soul-button-hit');
+    void el.offsetWidth;
+    el.classList.add('soul-button-hit');
+    clearTimeout(el._soulButtonTimer);
+    el._soulButtonTimer=setTimeout(()=>el.classList.remove('soul-button-hit'),850);
   }
-  document.addEventListener('pointerdown',spiritBurst,true);
+  document.addEventListener('pointerdown',trigger,true);
 })();
