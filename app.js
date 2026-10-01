@@ -159,6 +159,7 @@ function openCard(c){
  detailImage.className=`detail-image ${rarityClass(c.rarity)} ${isZone?"zone-page-flippable":""}`;
  detailImage.dataset.zoneId=isZone?c.id:"";
  detailImage.innerHTML=c.image ? `<img class="detail-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<span class="detail-placeholder"></span>`;
+ bindZonePageFlips(detailImage);
  document.querySelector("#modal").classList.remove("hidden");
 }
 function closeModal(){document.querySelector("#modal").classList.add("hidden")}
@@ -1439,7 +1440,10 @@ function testCardHTML(id,clickable=false,index=0,source="hand"){
 }
 
 function bindZonePageFlips(root=document){
-  root.querySelectorAll?.(".zone-page-flippable").forEach(el=>{
+  const nodes=[];
+  if(root?.matches?.(".zone-page-flippable"))nodes.push(root);
+  root?.querySelectorAll?.(".zone-page-flippable").forEach(el=>nodes.push(el));
+  nodes.forEach(el=>{
     if(el.dataset.zoneBound==="1")return;
     const id=el.dataset.zoneId;
     const c=cards.find(x=>String(x.id)===String(id));
