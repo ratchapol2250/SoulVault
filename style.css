@@ -1731,7 +1731,6 @@ select option:hover{
 .tag.rarity-art-rare{
   color:#ff4a4a;
   border-color:#b52b2b;
-  background:rgba(180,30,30,.12);
 }
 /* ===== ZONE FLIP: front/back instead of rotation ===== */
 .special-flip-btn{position:absolute;right:5px;top:5px;z-index:8;width:28px;height:28px;border:1px solid rgba(220,190,120,.65);background:rgba(8,8,8,.82);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
