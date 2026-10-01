@@ -1770,33 +1770,33 @@ select option:hover{
 }
 
 .card-art::after{
-  content:"";
+   content:"";
   position:absolute;
-  inset:0;
+  inset:-20%;
 
   background:
-    linear-gradient(
+    repeating-linear-gradient(
       120deg,
-      rgba(255,0,100,.18),
-      rgba(255,220,0,.18),
-      rgba(0,255,180,.18),
-      rgba(0,150,255,.18),
-      rgba(170,0,255,.18)
+      transparent 0px,
+      transparent 18px,
+      rgba(255,0,0,.12) 20px,
+      rgba(255,220,0,.12) 25px,
+      rgba(0,255,150,.12) 30px,
+      rgba(0,150,255,.12) 35px,
+      rgba(180,0,255,.12) 40px,
+      transparent 45px
     );
-
-  background-size:300% 300%;
 
   z-index:10;
   pointer-events:none;
   mix-blend-mode:screen;
 
-  animation:holoRainbow 5s ease infinite;
+  animation:prismMove 4s linear infinite;
 }
 
-@keyframes holoRainbow{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+@keyframes prismMove{
+  from{transform:translateX(-60px)}
+  to{transform:translateX(60px)}
 }
 /* ปิดแสงทุกระดับก่อน */
 .card-art::after{
