@@ -1974,16 +1974,35 @@ select option:hover{
   0%,25%{transform:translateX(-70%) rotate(12deg)}
   65%,100%{transform:translateX(70%) rotate(12deg)}
 }
-
+.deck-cover.rarity-art-rare::before{
+  background:linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,255,255,.08) 45%,
+    rgba(255,255,255,.45) 50%,
+    rgba(255,255,255,.08) 55%,
+    transparent 65%
+  );
+}
+.deck-cover.rarity-sceret-rare::before{
+  background:linear-gradient(
+    120deg,
+    transparent 35%,
+    rgba(255,255,255,.08) 45%,
+    rgba(255,255,255,.45) 50%,
+    rgba(255,255,255,.08) 55%,
+    transparent 65%
+  );
+}
 /* Legendary */
 .deck-cover.rarity-legendary::before{
   background:linear-gradient(
     120deg,
-    transparent 30%,
-    rgba(255,210,90,.08) 42%,
-    rgba(255,245,180,.75) 50%,
-    rgba(255,180,30,.18) 58%,
-    transparent 70%
+    transparent 35%,
+    rgba(255,255,255,.08) 45%,
+    rgba(255,255,255,.45) 50%,
+    rgba(255,255,255,.08) 55%,
+    transparent 65%
   );
 }
 
@@ -1991,11 +2010,11 @@ select option:hover{
 .deck-cover.rarity-epic::before{
   background:linear-gradient(
     120deg,
-    transparent 30%,
-    rgba(170,80,255,.08) 42%,
-    rgba(245,190,255,.7) 50%,
-    rgba(120,60,255,.2) 58%,
-    transparent 70%
+    transparent 35%,
+    rgba(255,255,255,.08) 45%,
+    rgba(255,255,255,.45) 50%,
+    rgba(255,255,255,.08) 55%,
+    transparent 65%
   );
 }
 
@@ -2003,11 +2022,11 @@ select option:hover{
 .deck-cover.rarity-rare::before{
   background:linear-gradient(
     120deg,
-    transparent 30%,
-    rgba(50,150,255,.08) 42%,
-    rgba(180,230,255,.7) 50%,
-    rgba(40,120,255,.2) 58%,
-    transparent 70%
+    transparent 35%,
+    rgba(255,255,255,.08) 45%,
+    rgba(255,255,255,.45) 50%,
+    rgba(255,255,255,.08) 55%,
+    transparent 65%
   );
 }
 
