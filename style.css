@@ -2012,7 +2012,7 @@ select option:hover{
   }
 }
 /* Common */
-.card-art img.rarity-common::before{
+.card-art.rarity-common::before{
   background:linear-gradient(
     120deg,
     transparent 30%,
