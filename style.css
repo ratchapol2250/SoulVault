@@ -106,7 +106,7 @@
 
 .c1{left:33.691%;top:11.474%;width:10.645%;height:19.430%}
 .c2{left:55.762%;top:11.809%;width:10.645%;height:19.513%}
-.leader-slot{left:44.824%;top:17.504%;width:10.156%;height:19.430%;transform:none}
+.master-slot{left:44.824%;top:17.504%;width:10.156%;height:19.430%;transform:none}
 .c3{left:22.900%;top:31.993%;width:10.693%;height:19.430%}
 .c4{left:66.699%;top:31.490%;width:10.645%;height:19.598%}
 .zone-slot{left:44.824%;top:37.604%;width:10.156%;height:19.262%;transform:none}
@@ -195,7 +195,7 @@
 .rarity-epic{background:radial-gradient(circle at 50% 30%,#693a91,#241334 38%,#090909 75%)!important}
 .rarity-rare{background:radial-gradient(circle at 50% 30%,#235f91,#11243a 38%,#090909 75%)!important}
 .rarity-common{background:radial-gradient(circle at 50% 30%,#626262,#292929 38%,#090909 75%)!important}
-@media(max-width:900px){.playmat{min-height:690px}.mat-card,.soul1,.soul2,.char-slot,.leader-slot,.zone-slot{width:72px;height:100px}.test-card{font-size:7px}.c1{left:18%}.c2{left:33%}.c3{left:56%}.c4{left:71%}.deck-pile,.tomb-pile{right:12px;width:70px;height:100px}.energy-slot{left:12px;width:70px}.pocket-area{bottom:145px}.hand-area{bottom:12px}}
+@media(max-width:900px){.playmat{min-height:690px}.mat-card,.soul1,.soul2,.char-slot,.master-slot,.zone-slot{width:72px;height:100px}.test-card{font-size:7px}.c1{left:18%}.c2{left:33%}.c3{left:56%}.c4{left:71%}.deck-pile,.tomb-pile{right:12px;width:70px;height:100px}.energy-slot{left:12px;width:70px}.pocket-area{bottom:145px}.hand-area{bottom:12px}}
 @media(max-width:650px){.draw-header{display:block}.draw-controls{margin-top:12px}.playmat{min-width:720px}.playtest-wrap{overflow:auto}.playmat{transform-origin:top left}.section#drawtest{overflow-x:auto}.playtest-info{min-width:720px}.playtest-help{min-width:720px}}
 
 .save-rule{font-size:8px;color:#8b6b39;align-self:center;margin-left:5px;white-space:nowrap}
@@ -339,7 +339,7 @@
 .playmat .c2,
 .playmat .c3,
 .playmat .c4,
-.playmat .leader-slot,
+.playmat .master-slot,
 .playmat .zone-slot{
   overflow:hidden!important;
 }
@@ -1448,12 +1448,12 @@ select option:hover{
 }
 
 
-/* ===== LEADER: TWO ABILITIES ===== */
-.leader-abilities{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:0;}
-.leader-ability-box{border:1px solid #28231a;background:#0d0d0d;padding:14px;min-width:0;}
-.leader-ability-box h3{margin:0 0 10px;font-size:9px;letter-spacing:1.8px;color:var(--gold);}
-.leader-ability-box p{margin:0;min-height:70px;white-space:pre-line;line-height:1.8;}
-@media(max-width:600px){.leader-abilities{grid-template-columns:1fr;}}
+/* ===== MASTER: TWO ABILITIES ===== */
+.master-abilities{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:0;}
+.master-ability-box{border:1px solid #28231a;background:#0d0d0d;padding:14px;min-width:0;}
+.master-ability-box h3{margin:0 0 10px;font-size:9px;letter-spacing:1.8px;color:var(--gold);}
+.master-ability-box p{margin:0;min-height:70px;white-space:pre-line;line-height:1.8;}
+@media(max-width:600px){.master-abilities{grid-template-columns:1fr;}}
 
 
 /* ===== MASCOT HERO: CENTRAL LOGO REMOVED ===== */
@@ -1500,19 +1500,19 @@ select option:hover{
   box-shadow:0 8px 22px #000!important;
   cursor:pointer!important;
 }
-/* Leader: centered on the battlefield. */
-.test-leader-card{
+/* Master: centered on the battlefield. */
+.test-master-card{
   left:50%!important;
   top:47%!important;
   transform:translate(-50%,-50%)!important;
 }
-/* Zone: directly below Leader. */
+/* Zone: directly below Master. */
 .test-zone-card{
   left:50%!important;
   top:73%!important;
   transform:translate(-50%,-50%)!important;
 }
-/* Soul Core: horizontal row centered above Leader. */
+/* Soul Core: horizontal row centered above Master. */
 .test-soul-core-cards{
   position:absolute!important;
   z-index:4!important;
@@ -2361,7 +2361,7 @@ select option:hover{
     font-size:24px;
   }
 
-  /* ตัวเลข MAIN / LEADER / ZONE */
+  /* ตัวเลข MAIN / MASTER / ZONE */
   .deck-summary{
     display:grid;
     grid-template-columns:repeat(2, minmax(0,1fr));
@@ -2755,11 +2755,11 @@ select option:hover{
 /* ===== ZONE DETAIL FIX ===== */
 .modal{z-index:1000!important;}
 .modal-card{z-index:1001!important;}
-#detailAbilityDual .leader-ability-box.hidden{display:none!important;}
+#detailAbilityDual .master-ability-box.hidden{display:none!important;}
 
 
 /* ===== ZONE DETAIL ABILITY: REMOVE FRONT/BACK BOX FRAMES ===== */
-.zone-detail-abilities .leader-ability-box{
+.zone-detail-abilities .master-ability-box{
   border:none!important;
   background:transparent!important;
   padding:0!important;

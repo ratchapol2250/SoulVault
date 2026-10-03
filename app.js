@@ -8,7 +8,7 @@ const cards=[
 {id:"SA-007",set:"BT02",name:"Core Shield",subtitle:"Relic Barrier",type:"Skill",rarity:"Common",element:"Relic",cost:"1",ability:"ป้องกันความเสียหายที่กำลังจะเกิดขึ้น 1 ครั้ง",symbol:"C"},
 {id:"SA-008",set:"BT02",name:"Forbidden Relic",subtitle:"Artifact of the Lost",type:"Item",rarity:"Common",element:"Relic",cost:"2",ability:"ค้นหาการ์ด Relic จาก Deck แล้วนำขึ้นมือ 1 ใบ",symbol:"R"},
 {id:"SA-017",name:"Untimeat",subtitle:"The Unbroken Oath",type:"Untimeat",rarity:"Legendary",element:"Void",cost:"0",ability:"Untimeat — การ์ดประจำเด็คที่ต้องมี 1 ใบ",symbol:"U",set:"BT03"},
-{id:"SA-009",set:"BT02",name:"Eclipse King",subtitle:"Leader of the Black Sun",type:"Leader",rarity:"Legendary",element:"Eclipse",cost:"8",ability:"Leader — กำหนดกฎพิเศษของ Deck และเพิ่มพลังให้การ์ด Eclipse",symbol:"K"},
+{id:"SA-009",set:"BT02",name:"Eclipse King",subtitle:"Master of the Black Sun",type:"Master",rarity:"Legendary",element:"Eclipse",cost:"8",ability:"Master — กำหนดกฎพิเศษของ Deck และเพิ่มพลังให้การ์ด Eclipse",symbol:"K"},
 {id:"SA-010",set:"BT02",name:"Land of Eternal Love",subtitle:"Forbidden Zone",type:"Zone",rarity:"Epic",element:"Mystic",cost:"0",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityFront:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityBack:"เมื่อเปิดใช้งานด้านหลัง: การ์ด Skill และ Character ที่ตรงเงื่อนไขจะได้รับผลของ Zone ตามข้อความด้านหลัง",symbol:"Z"},
 {id:"SA-011",set:"BT02",name:"Neon Succubus",subtitle:"Temptation Protocol",type:"Character",rarity:"Epic",element:"Neon",cost:"5",ability:"เมื่อการ์ดนี้ทำงาน ให้เลือกการ์ดฝ่ายตรงข้าม 1 ใบและลดประสิทธิภาพของมัน",symbol:"N"},
 {id:"SA-012",set:"BT03",name:"Relic Core",subtitle:"Ancient Power",type:"Item",rarity:"Rare",element:"Relic",cost:"2",ability:"ติดตั้งให้ Character 1 ใบเพื่อเพิ่มผลของความสามารถ",symbol:"C"},
@@ -29,7 +29,7 @@ const cards=[
 {id:"HD-007",image:"/public/images/cards/Death Error.jpg",set:"HD",name:"Death Error",subtitle:"System Failure",type:"Action",rarity:"Common",element:"Void",cost:"4",ability:"การ์ดสกิลจากชุด HD",symbol:"E",image:"/public/images/cards/Death Error.jpg"},
 {id:"HD-011",image:"/public/images/cards/สัมผัสต้องห้าม.jpg",set:"HD",name:"สัมผัสต้องห้าม",subtitle:"Forbidden Touch",type:"Action",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ดสกิลจากชุด HD",symbol:"T",image:"/public/images/cards/สัมผัสต้องห้าม.jpg"},
 {id:"HD-006",image:"/public/images/cards/Cerberus Blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ด Gear จากชุด HD",symbol:"C",image:"/public/images/cards/Cerberus Blade.jpg"},
-{id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",artist:"IMO",set:"HD",name:"pocket",subtitle:"-",type:"POCKET",rarity:"Common",element:"-",cost:"-",ability:"{counter} ใช้ความสามารถนี้ได้จากบนมือคุณเท่านั้น จ่าย 1 {Pocket} จากนั้นเลือก Leader หรือ Criminal ที่กำลังต่อสู้อยู่ได้ 1 ใบ การ์ดใบนั้นได้รับพลัง +200 จนจบการต่อสู้นั้น",image:"/public/images/cards/Pocket3.jpg"},
+{id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",artist:"IMO",set:"HD",name:"pocket",subtitle:"-",type:"POCKET",rarity:"Common",element:"-",cost:"-",ability:"{counter} ใช้ความสามารถนี้ได้จากบนมือคุณเท่านั้น จ่าย 1 {Pocket} จากนั้นเลือก Master หรือ Criminal ที่กำลังต่อสู้อยู่ได้ 1 ใบ การ์ดใบนั้นได้รับพลัง +200 จนจบการต่อสู้นั้น",image:"/public/images/cards/Pocket3.jpg"},
 {id:"HD-012",image:"/public/images/cards/Soul Guard.jpg",set:"HD",name:"Soul Guard",subtitle:"ข้าจะใช้วิญญาณของข้า เป็นเกราะเพื่อเจ้า",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"2",ability:"ใช้ได้ต่อเมื่อคู่แข่งสั่งโจมตี \n\n {counter} จ่าย 1  {E} ทำให้การโจมตีนั้นไร้ผล",symbol:"C",image:"/public/images/cards/Soul Guard.jpg"},
 {id:"HD-SC01",image:"/public/images/cards/Soul Core.jpg",set:"HD",name:"Soul Core",subtitle:"-",type:"Soul Core",rarity:"Common",element:"-",cost:"-",ability:"-",image:"/public/images/cards/Soul Core.jpg"},
 ];
@@ -136,7 +136,7 @@ function openCard(c){
  const cardType=String(c.type||"").trim().toLowerCase();
  const noPowerSteal=["action","pocket","gear","soul core","untimeat","utiment","zone"].includes(cardType);
  const noCost=["pocket","soul core"].includes(cardType);
- const isLeader=cardType==="Master";
+ const isMaster=cardType==="master";
  const isZone=cardType==="zone";
  const abilitySingle=document.querySelector("#detailAbility");
  const abilityDual=document.querySelector("#detailAbilityDual");
@@ -150,7 +150,7 @@ function openCard(c){
      abilitySingle.classList.remove("hidden");
      abilitySingle.innerHTML=formatAbility(c.abilityFront ?? c.ability ?? "—");
    }
- }else if(isLeader){
+ }else if(isMaster){
    if(abilitySingle)abilitySingle.classList.add("hidden");
    if(abilityDual){
      abilityDual.classList.remove("hidden");
@@ -496,8 +496,8 @@ function addCardFromRosterToDeck(cardId,deckId,requestedQty=1){
 
   if(card.type==="Master"){
     if(qty!==1){alert("Master ใส่ได้ 1 ใบเท่านั้น");return;}
-    if(deck.leader && deck.leader!==card.id){alert("Deck นี้มี Master อยู่แล้ว 1 ใบ");return;}
-    deck.leader=card.id;
+    if(deck.master && deck.master!==card.id){alert("Deck นี้มี Master อยู่แล้ว 1 ใบ");return;}
+    deck.master=card.id;
   }else if(card.type==="Zone"){
     if(qty!==1){alert("Zone ใส่ได้ 1 ใบเท่านั้น");return;}
     if(deck.zone && deck.zone!==card.id){alert("Deck นี้มี Zone อยู่แล้ว 1 ใบ");return;}
@@ -567,7 +567,7 @@ function makeDeck(){
     id:"D"+Date.now()+Math.random().toString(36).slice(2,6),
     name:"New Deck",
     cover:null,
-    leader:null,
+    master:null,
     zone:null,
     main:{}
   };
@@ -619,7 +619,7 @@ function initDeck(){
 function renderDeckLibrary(){
   const box=document.querySelector("#deckCards");
   box.innerHTML=decks.map(d=>{
-    const count=Object.values(d.main||{}).reduce((a,b)=>a+b,0)+(d.leader?1:0)+(d.zone?1:0)+((d.soulCores||[]).length);
+    const count=Object.values(d.main||{}).reduce((a,b)=>a+b,0)+(d.master?1:0)+(d.zone?1:0)+((d.soulCores||[]).length);
     const cover=cards.find(c=>c.id===d.cover);
     const coverClass=cover?rarityClass(cover.rarity):"rarity-common";
     const active=d.id===currentDeckId?" active":"";
@@ -630,7 +630,7 @@ function renderDeckLibrary(){
       <div class="library-cover ${coverClass} ${cover?.type==="Zone"?"zone-page-flippable":""}" data-zone-id="${cover?.type==="Zone"?escapeHtml(cover.id):""}">${coverHTML}</div>
       <div class="library-info">
         <h4>${escapeHtml(d.name||"New Deck")}</h4>
-        <div><span>${getMainDeckCount(d)} MAIN DECK</span><span>${d.leader?"LEADER ✓":"NO LEADER"}</span><span>${d.zone?"ZONE ✓":"NO ZONE"}</span></div>
+        <div><span>${getMainDeckCount(d)} MAIN DECK</span><span>${d.master?"MASTER ✓":"NO MASTER"}</span><span>${d.zone?"ZONE ✓":"NO ZONE"}</span></div>
       </div>
       <button class="library-delete" data-delete="${d.id}" title="Delete Deck">×</button>
     </div>`;
@@ -676,7 +676,7 @@ function getMainDeckCount(deck=currentDeck){
 
 function getCount(){
   return getMainDeckCount(currentDeck)
-    +(currentDeck.leader?1:0)
+    +(currentDeck.master?1:0)
     +(currentDeck.zone?1:0)
     +((currentDeck.soulCores||[]).length);
 }
@@ -685,10 +685,10 @@ function addToDeck(id){
   const c=cards.find(x=>x.id===id);
   if(!c||!currentDeck)return;
 
-  if(c.type==="Leader"){
-    if(currentDeck.leader===c.id)return;
-    if(currentDeck.leader)return alert("Leader ได้สูงสุด 1 ใบ");
-    currentDeck.leader=c.id;
+  if(c.type==="Master"){
+    if(currentDeck.master===c.id)return;
+    if(currentDeck.master)return alert("Master ได้สูงสุด 1 ใบ");
+    currentDeck.master=c.id;
   }else if(c.type==="Zone"){
     if(currentDeck.zone===c.id)return;
     if(currentDeck.zone)return alert("Zone ได้สูงสุด 1 ใบ");
@@ -722,7 +722,7 @@ function addToDeck(id){
 
 function removeFromDeck(id,type){
   if(!currentDeck)return;
-  if(type==="Leader")currentDeck.leader=null;
+  if(type==="Master")currentDeck.master=null;
   else if(type==="Zone")currentDeck.zone=null;
   else if(type==="Untimeat"){
     if(currentDeck.untimeat && currentDeck.main?.[currentDeck.untimeat]){
@@ -745,7 +745,7 @@ function removeFromDeck(id,type){
 function renderDeck(){
   if(!currentDeck)return;
   document.querySelector("#deckCount").textContent=getMainDeckCount(currentDeck);
-  document.querySelector("#leaderCount").textContent=(currentDeck.leader?1:0)+"/1";
+  document.querySelector("#masterCount").textContent=(currentDeck.master?1:0)+"/1";
   document.querySelector("#zoneCount").textContent=(currentDeck.zone?1:0)+"/1";
   document.querySelector("#untimeatCount").textContent=(currentDeck.untimeat?1:0)+"/1";
   const soulCoreCount=(currentDeck.soulCores||[]).length;
@@ -763,23 +763,23 @@ function renderDeck(){
 
   currentDeck.soulCores=currentDeck.soulCores||[];
   const soulCores=currentDeck.soulCores.map(id=>cards.find(c=>c.id===id)).filter(Boolean);
-  const leader=cards.find(c=>c.id===currentDeck.leader);
+  const master=cards.find(c=>c.id===currentDeck.master);
   const zone=cards.find(c=>c.id===currentDeck.zone);
 
-  document.querySelector("#leaderSlot").innerHTML=leader?specialHTML(leader,"Leader"):`<div class="empty-slot">＋ ADD LEADER</div>`;
+  document.querySelector("#masterSlot").innerHTML=master?specialHTML(master,"Master"):`<div class="empty-slot">＋ ADD MASTER</div>`;
   document.querySelector("#zoneSlot").innerHTML=zone?specialHTML(zone,"Zone"):`<div class="empty-slot">＋ ADD ZONE</div>`;
   const untimeat=currentDeck.untimeat?cards.find(c=>c.id===currentDeck.untimeat):null;
   document.querySelector("#untimeatSlot").innerHTML=untimeat?specialHTML(untimeat,"Untimeat"):`<div class="empty-slot">＋ ADD UNTIMEAT</div>`;
 
-  if(leader)document.querySelector("#leaderSlot .remove-card").onclick=()=>removeFromDeck(leader.id,"Leader");
+  if(master)document.querySelector("#masterSlot .remove-card").onclick=()=>removeFromDeck(master.id,"Master");
 
-  const soulWrap=document.querySelector("#leaderSlot").parentElement;
+  const soulWrap=document.querySelector("#masterSlot").parentElement;
   let soulSection=document.querySelector("#soulCoreBuilderSlot");
   if(!soulSection){
     soulSection=document.createElement("div");
     soulSection.id="soulCoreBuilderSlot";
     soulSection.className="special-slot soul-builder-slot";
-    document.querySelector("#leaderSlot").before(soulSection);
+    document.querySelector("#masterSlot").before(soulSection);
 	function renderDeckStats(){
   if(!currentDeck)return;
 
@@ -849,7 +849,7 @@ function renderDeck(){
   if(zone)document.querySelector("#zoneSlot .remove-card").onclick=()=>removeFromDeck(zone.id,"Zone");
   if(untimeat)document.querySelector("#untimeatSlot .remove-card").onclick=()=>removeFromDeck(untimeat.id,"Untimeat");
 
-  document.querySelectorAll("#leaderSlot .special-card,#zoneSlot .special-card,#untimeatSlot .special-card,#soulCoreBuilderSlot .special-card").forEach(el=>{
+  document.querySelectorAll("#masterSlot .special-card,#zoneSlot .special-card,#untimeatSlot .special-card,#soulCoreBuilderSlot .special-card").forEach(el=>{
     el.onclick=e=>{
       if(e.target.closest(".remove-card"))return;
       const c=cards.find(x=>String(x.id)===String(el.dataset.cardId));
@@ -958,8 +958,8 @@ function renderPicker(){
   const list=cards.filter(c=>(t==="All"||c.type===t)&&(s==="All"||c.set===s)&&(r==="All"||c.rarity===r)&&[c.name,c.subtitle,c.rarity,c.type,c.set].join(" ").toLowerCase().includes(q));
 
   document.querySelector("#pickerList").innerHTML=list.map(c=>{
-    let qty=c.type==="Leader"?(currentDeck.leader===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):c.type==="Untimeat"?(currentDeck.untimeat===c.id?1:0):c.type==="Soul Core"?((currentDeck.soulCores||[]).filter(x=>x===c.id).length):(currentDeck.main[c.id]||0);
-    let limit=c.type==="Leader"||c.type==="Zone"||c.type==="Untimeat"?1:c.type==="Soul Core"?7:c.type==="POCKET"?10:3;
+    let qty=c.type==="Master"?(currentDeck.master===c.id?1:0):c.type==="Zone"?(currentDeck.zone===c.id?1:0):c.type==="Untimeat"?(currentDeck.untimeat===c.id?1:0):c.type==="Soul Core"?((currentDeck.soulCores||[]).filter(x=>x===c.id).length):(currentDeck.main[c.id]||0);
+    let limit=c.type==="Master"||c.type==="Zone"||c.type==="Untimeat"?1:c.type==="Soul Core"?7:c.type==="POCKET"?10:3;
     if(c.type==="Soul Core" && (currentDeck.soulCores||[]).length>=7) limit=qty;
     if(c.type==="POCKET" && getPocketCount()>=10) limit=qty;
     return `<div class="picker-row picker-card-clickable" data-picker-card-id="${escapeHtml(c.id)}" title="กดเพื่อดูรายละเอียดการ์ด">
@@ -982,7 +982,7 @@ function renderPicker(){
 function getDeckCoverCards(deck=currentDeck){
   if(!deck) return [];
   const ids=[];
-  if(deck.leader) ids.push(deck.leader);
+  if(deck.master) ids.push(deck.master);
   if(deck.zone) ids.push(deck.zone);
   if(deck.untimeat) ids.push(deck.untimeat);
   (deck.soulCores||[]).forEach(id=>ids.push(id));
@@ -1060,8 +1060,8 @@ function validateDeckBeforeSave(){
     alert(`ไม่สามารถบันทึก Deck ได้ POCKET ต้องมีทั้งหมด 10 ใบ ตอนนี้มี ${pocketCount} ใบ`);
     return false;
   }
-  if(!currentDeck.leader){
-    alert("ไม่สามารถบันทึก Deck ได้ ต้องมี Leader 1 ใบ");
+  if(!currentDeck.master){
+    alert("ไม่สามารถบันทึก Deck ได้ ต้องมี Master 1 ใบ");
     return false;
   }
   if(!currentDeck.zone){
@@ -1083,7 +1083,7 @@ function normalizeImportedDeck(raw){
   if(!raw || typeof raw!=="object") throw new Error("รูปแบบ Deck ไม่ถูกต้อง");
   const knownIds=new Set(cards.map(c=>String(c.id)));
   const allIds=[];
-  if(raw.leader)allIds.push(String(raw.leader));
+  if(raw.master)allIds.push(String(raw.master));
   if(raw.zone)allIds.push(String(raw.zone));
   if(raw.untimeat)allIds.push(String(raw.untimeat));
   (Array.isArray(raw.soulCores)?raw.soulCores:[]).forEach(id=>allIds.push(String(id)));
@@ -1101,7 +1101,7 @@ function normalizeImportedDeck(raw){
     id:"D"+Date.now()+Math.random().toString(36).slice(2,7),
     name:String(raw.name||"Imported Deck").slice(0,80),
     cover:raw.cover&&knownIds.has(String(raw.cover))?String(raw.cover):null,
-    leader:raw.leader?String(raw.leader):null,
+    master:raw.master?String(raw.master):null,
     zone:raw.zone?String(raw.zone):null,
     untimeat:raw.untimeat?String(raw.untimeat):null,
     main,
@@ -1116,7 +1116,7 @@ function encodeDeckForLink(deck){
     v:1,
     name:deck.name||"Shared Deck",
     cover:deck.cover||null,
-    leader:deck.leader||null,
+    master:deck.master||null,
     zone:deck.zone||null,
     untimeat:deck.untimeat||null,
     main:deck.main||{},
@@ -1199,9 +1199,9 @@ function importDeckFromCurrentURL(){
     const raw=decodeDeckFromLink(window.location.href);
     const imported=normalizeImportedDeck(raw);
     const exists=decks.some(d=>JSON.stringify({
-      name:d.name,cover:d.cover,leader:d.leader,zone:d.zone,untimeat:d.untimeat,main:d.main,soulCores:d.soulCores
+      name:d.name,cover:d.cover,master:d.master,zone:d.zone,untimeat:d.untimeat,main:d.main,soulCores:d.soulCores
     })===JSON.stringify({
-      name:imported.name,cover:imported.cover,leader:imported.leader,zone:imported.zone,untimeat:imported.untimeat,main:imported.main,soulCores:imported.soulCores
+      name:imported.name,cover:imported.cover,master:imported.master,zone:imported.zone,untimeat:imported.untimeat,main:imported.main,soulCores:imported.soulCores
     }));
     if(exists){
       const ok=confirm(`พบ Deck "${imported.name}" ที่มีอยู่แล้ว ต้องการนำเข้าอีกครั้งหรือไม่?`);
@@ -1299,7 +1299,7 @@ let testTomb=[];
 let testTurn=0;
 let testBoard={freeCards:[]};
 let testSoulCoreUnderZone=[];
-let testSpecialRotation={leader:0};
+let testSpecialRotation={master:0};
 let testZoneFlipped=true;
 
 function refreshTestDeckSelect(){
@@ -1321,7 +1321,7 @@ function buildTestDeck(){
   const id=sel?.value||localStorage.getItem("stealAreaActiveDeckId");
   testDeck=decks.find(d=>d.id===id)||decks[0]||null;
   if(!testDeck){
-    testStack=[];testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0};testZoneFlipped=true;
+    testStack=[];testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={master:0};testZoneFlipped=true;
     renderTest(); return;
   }
   localStorage.setItem("stealAreaActiveDeckId",testDeck.id);
@@ -1336,7 +1336,7 @@ function buildTestDeck(){
   }
   testStack=testStack.slice(0,50);
   testStack.sort(()=>Math.random()-.5);
-  testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={leader:0};testZoneFlipped=true;
+  testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={master:0};testZoneFlipped=true;
   renderTest();
 }
 
@@ -1390,12 +1390,12 @@ function renderTest(){
   const nameEl=document.querySelector("#testDeckName");
   const handEl=document.querySelector("#testHand");
   const boardEl=document.querySelector("#testBoardCards");
-  const leaderEl=document.querySelector("#testLeaderCard");
+  const masterEl=document.querySelector("#testMasterCard");
   const zoneEl=document.querySelector("#testZoneCard");
   const soulEl=document.querySelector("#testSoulCoreCards");
   const soulUnderEl=document.querySelector("#testSoulCoreUnderZone");
   if(!testDeck){
-    if(leaderEl)leaderEl.innerHTML="";
+    if(masterEl)masterEl.innerHTML="";
     if(zoneEl)zoneEl.innerHTML="";
     if(soulEl)soulEl.innerHTML="";
     if(soulUnderEl)soulUnderEl.innerHTML="";
@@ -1415,22 +1415,22 @@ function renderTest(){
   setText("#pileCount",testStack.length);
   setText("#tombCount",testTomb.length);
 
-  // Initial battlefield layout: Leader center, Zone below, Soul Core as a single clickable pile above.
-  if(leaderEl){
-    leaderEl.innerHTML=testDeck.leader ? testCardHTML(testDeck.leader,true,0,"leader") : "";
-    const card=leaderEl.querySelector(".test-card");
+  // Initial battlefield layout: Master center, Zone below, Soul Core as a single clickable pile above.
+  if(masterEl){
+    masterEl.innerHTML=testDeck.master ? testCardHTML(testDeck.master,true,0,"master") : "";
+    const card=masterEl.querySelector(".test-card");
     if(card){
-      card.style.transform=`rotate(${Number(testSpecialRotation.leader||0)}deg)`;
+      card.style.transform=`rotate(${Number(testSpecialRotation.master||0)}deg)`;
       card.draggable=false;
       card.onclick=()=>openTestCardDetail(card.dataset.id);
       const btn=document.createElement("button");
       btn.type="button";
       btn.className="special-rotate-btn";
-      btn.title=Number(testSpecialRotation.leader||0)===90 ? "หมุนกลับแนวตั้ง" : "วางแนวนอน";
+      btn.title=Number(testSpecialRotation.master||0)===90 ? "หมุนกลับแนวตั้ง" : "วางแนวนอน";
       btn.textContent="↻";
       btn.addEventListener("click",ev=>{
         ev.preventDefault(); ev.stopPropagation();
-        testSpecialRotation.leader=Number(testSpecialRotation.leader||0)===90?0:90;
+        testSpecialRotation.master=Number(testSpecialRotation.master||0)===90?0:90;
         renderTest();
       });
       card.appendChild(btn);

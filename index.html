@@ -49,7 +49,7 @@
         <div class="search-wrap"><span>⌕</span><input id="search" placeholder="Search cards, characters, abilities..."></div>
         <select id="typeFilter">
           <option value="All">ALL TYPES</option>
-          <option value="Leader">MASTER</option>
+          <option value="Master">MASTER</option>
           <option value="Zone">ZONE</option>
           <option value="Untimeat">UNTIMEAT</option>
           <option value="Character">CHARACTER</option>
@@ -105,7 +105,7 @@
         </select>
         <select id="collectionTypeFilter">
          <option value="All">ALL TYPES</option>
-          <option value="Leader">MASTER</option>
+          <option value="Master">MASTER</option>
           <option value="Zone">ZONE</option>
           <option value="Untimeat">UNTIMEAT</option>
           <option value="Character">CHARACTER</option>
@@ -116,8 +116,6 @@
         </select>
         <select id="collectionRarityFilter">
           <option value="All">ALL RARITY</option>
-          <option value="Secret Rare">Secret Rare</option>
-          <option value="Art Rare">Art Rare</option>
           <option value="Legendary">LEGENDARY</option>
           <option value="Epic">EPIC</option>
           <option value="Rare">RARE</option>
@@ -140,7 +138,7 @@
         <div>
           <div class="eyebrow">Deck building</div>
           <h2>สร้างเด็ค</h2>
-          <p>สร้างเด็ค เลือก Leader / Zone / การ์ด และกำหนดหน้าปกได้ตามต้องการ</p>
+          <p>สร้างเด็ค เลือก Master / Zone / การ์ด และกำหนดหน้าปกได้ตามต้องการ</p>
         </div>
         <button class="gold-btn" id="newDeckBtn">＋ NEW DECK</button>
       </div>
@@ -173,7 +171,7 @@
             <input id="deckName" class="deck-name" placeholder="ชื่อ Deck">
             <div class="deck-summary">
               <span>MAIN DECK <b id="deckCount"></b></span>
-              <span>LEADER <b id="leaderCount">0/1</b></span>
+              <span>MASTER <b id="masterCount">0/1</b></span>
               <span>ZONE <b id="zoneCount">0/1</b></span><span>UNTIMEAT <b id="untimeatCount">0/1</b></span>
               <span>SOUL CORE <b id="soulCoreCount">0/7</b></span>
               <span>POCKET <b id="pocketCount">0/10</b></span>
@@ -183,7 +181,7 @@
               <button class="gold-btn" id="shareDeckBtn">🔗 SHARE DECK</button>
               <button class="gold-btn" id="importDeckBtn">📥 IMPORT DECK</button>
               <button class="danger-btn" id="deleteDeckBtn">DELETE</button>
-              <div class="save-rule">MAIN DECK ไม่เกิน 50 ใบ (ไม่จำเป็นต้องครบ 50) · POCKET 10 · UNTIMEAT 1 · LEADER 1 · ZONE 1 · SOUL CORE 7</div>
+              <div class="save-rule">MAIN DECK ไม่เกิน 50 ใบ (ไม่จำเป็นต้องครบ 50) · POCKET 10 · UNTIMEAT 1 · MASTER 1 · ZONE 1 · SOUL CORE 7</div>
             </div>
           </div>
         </div>
@@ -221,8 +219,8 @@
 
         <div class="deck-layout">
           <div>
-            <div class="deck-section-title"><span>LEADER</span><small>MAX 1</small></div>
-            <div id="leaderSlot" class="special-slot"></div>
+            <div class="deck-section-title"><span>MASTER</span><small>MAX 1</small></div>
+            <div id="masterSlot" class="special-slot"></div>
 
             <div class="deck-section-title"><span>ZONE</span><small>MAX 1</small></div>
             <div id="zoneSlot" class="special-slot"></div>
@@ -238,7 +236,7 @@
             <input id="deckSearch" placeholder="ค้นหาการ์ด...">
             <select id="deckTypeFilter">
               <option value="All">ALL TYPES</option>
-          <option value="Leader">MASTER</option>
+          <option value="Master">MASTER</option>
           <option value="Zone">ZONE</option>
           <option value="Untimeat">UNTIMEAT</option>
           <option value="Character">CHARACTER</option>
@@ -256,8 +254,6 @@
             </select>
             <select id="deckRarityFilter">
           <option value="All">ALL RARITY</option>
-          <option value="Secret Rare">Secret Rare</option>
-          <option value="Art Rare">Art Rare</option>
           <option value="Legendary">LEGENDARY</option>
           <option value="Epic">EPIC</option>
           <option value="Rare">RARE</option>
@@ -329,7 +325,7 @@
             </div>
           </div>
           <div id="testBoardCards" class="test-board-cards"></div>
-          <div id="testLeaderCard" class="test-special-card test-leader-card"></div>
+          <div id="testMasterCard" class="test-special-card test-master-card"></div>
           <div id="testZoneCard" class="test-special-card test-zone-card"></div>
           <div id="testSoulCoreUnderZone" class="test-soul-core-under-zone"></div>
           <div id="testSoulCoreCards" class="test-soul-core-cards"></div>
@@ -402,12 +398,12 @@
           <h3>ABILITY</h3>
           <p id="detailAbility"></p>
         </div>
-        <div id="detailAbilityDual" class="leader-abilities hidden">
-          <div class="leader-ability-box">
+        <div id="detailAbilityDual" class="master-abilities hidden">
+          <div class="master-ability-box">
             <h3>ABILITY — LEFT</h3>
             <p id="detailAbilityLeft"></p>
           </div>
-          <div class="leader-ability-box">
+          <div class="master-ability-box">
             <h3>ABILITY — RIGHT</h3>
             <p id="detailAbilityRight"></p>
           </div>
