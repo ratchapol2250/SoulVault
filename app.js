@@ -136,7 +136,7 @@ function openCard(c){
  const cardType=String(c.type||"").trim().toLowerCase();
  const noPowerSteal=["action","pocket","gear","soul core","untimeat","utiment","zone"].includes(cardType);
  const noCost=["pocket","soul core"].includes(cardType);
- const isLeader=cardType==="leader";
+ const isLeader=cardType==="Master";
  const isZone=cardType==="zone";
  const abilitySingle=document.querySelector("#detailAbility");
  const abilityDual=document.querySelector("#detailAbilityDual");
@@ -389,7 +389,7 @@ function openAddToDeckModal(cardId){
   modal.id="addToDeckModal";
   modal.className="deck-add-overlay";
 
-  const limit=card.type==="Leader"||card.type==="Zone"||card.type==="Untimeat" ? 1 :
+  const limit=card.type==="Master"||card.type==="Zone"||card.type==="Untimeat" ? 1 :
               card.type==="Soul Core" ? 7 :
               card.type==="POCKET" ? 10 : 3;
 
@@ -494,9 +494,9 @@ function addCardFromRosterToDeck(cardId,deckId,requestedQty=1){
   deck.main=deck.main||{};
   deck.soulCores=deck.soulCores||[];
 
-  if(card.type==="Leader"){
-    if(qty!==1){alert("Leader ใส่ได้ 1 ใบเท่านั้น");return;}
-    if(deck.leader && deck.leader!==card.id){alert("Deck นี้มี Leader อยู่แล้ว 1 ใบ");return;}
+  if(card.type==="Master"){
+    if(qty!==1){alert("Master ใส่ได้ 1 ใบเท่านั้น");return;}
+    if(deck.leader && deck.leader!==card.id){alert("Deck นี้มี Master อยู่แล้ว 1 ใบ");return;}
     deck.leader=card.id;
   }else if(card.type==="Zone"){
     if(qty!==1){alert("Zone ใส่ได้ 1 ใบเท่านั้น");return;}
