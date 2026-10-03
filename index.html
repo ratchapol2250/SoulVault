@@ -74,6 +74,7 @@
           <option value="Rare">RARE</option>
           <option value="Common">COMMON</option>
         </select>
+		<button class="clear-filter-btn" id="clearRosterFilters">✕ เคลียร์ตัวกรอง</button>
       </div>
 
       <div id="grid" class="grid"></div>
@@ -123,6 +124,9 @@
         <select id="collectionViewFilter">
           <option value="wanted">การ์ดใน Collection</option>
         </select>
+		<button class="clear-filter-btn" id="clearCollectionFilters">
+  ✕ เคลียร์ตัวกรอง
+</button>
       </div>
 
       <div id="collectionGrid" class="collection-grid"></div>
@@ -181,6 +185,37 @@
             </div>
           </div>
         </div>
+		<div class="deck-stat-box">
+  <small>CHARACTER</small>
+  <b id="statCharacter">0</b>
+</div>
+
+<div class="deck-stat-box">
+  <small>ACTION</small>
+  <b id="statAction">0</b>
+</div>
+
+ <div class="deck-stat-box">
+      <small>GEAR</small>
+      <b id="statGear">0</b>
+    </div>
+
+    <div class="deck-stat-box">
+      <small>POCKET</small>
+      <b id="statPocket">0</b>
+    </div>
+
+    <div class="deck-stat-box">
+      <small>UNTIMEAT</small>
+      <b id="statUntimeat">0</b>
+    </div>
+
+    <div class="deck-stat-box">
+      <small>AVG COST</small>
+      <b id="statAvgCost">—</b>
+    </div>
+  </div>
+</div>
 
         <div class="deck-layout">
           <div>
@@ -206,7 +241,6 @@
           <option value="Untimeat">UNTIMEAT</option>
           <option value="Character">CHARACTER</option>
           <option value="Action">ACTION</option>
-          <option value="Skill">SKILL</option>
           <option value="Gear">GEAR</option>
           <option value="POCKET">POCKET</option>
           <option value="Soul Core">SOUL CORE</option>
@@ -225,6 +259,9 @@
           <option value="Rare">RARE</option>
           <option value="Common">COMMON</option>
         </select>
+		<button class="clear-filter-btn" id="clearDeckFilters">
+  ✕ เคลียร์ตัวกรอง
+</button>
             <div id="pickerList"></div>
           </aside>
         </div>

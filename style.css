@@ -2145,7 +2145,592 @@ select option:hover{
     transparent 70%
   );
 }
+/* ===== LOGO SHINE ===== */
+.brand{
+  position:relative;
+  overflow:hidden;
+}
 
+.brand::after{
+  content:"";
+  position:absolute;
+  top:-80%;
+  left:-120%;
+  width:35%;
+  height:260%;
+  background:linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255,255,255,0) 40%,
+    rgba(255,255,255,.75) 50%,
+    rgba(255,255,255,0) 60%,
+    transparent 100%
+  );
+  transform:skewX(-20deg);
+  pointer-events:none;
+  animation:logoShine 3.5s ease-in-out infinite;
+  z-index:5;
+}
+
+@keyframes logoShine{
+  0%{
+    left:-120%;
+  }
+  55%,100%{
+    left:150%;
+  }
+}
+/* ===== SOUL ENERGY NAV EFFECT ===== */
+
+.nav{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  transition:
+    color .25s ease,
+    background .25s ease,
+    box-shadow .25s ease;
+}
+
+/* แสงด้านในปุ่ม */
+.nav::before{
+  content:"";
+  position:absolute;
+  left:-35%;
+  top:50%;
+  width:75%;
+  height:2px;
+  transform:translateY(-50%);
+   background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(180,120,220,.12),
+    #d6a85a,
+    #b98bd4,
+    rgba(160,100,200,.18),
+    transparent
+  );
+  filter:blur(2px);
+}
+
+/* ลำแสงพุ่งออกด้านขวา */
+.nav::after{
+  content:"";
+  position:absolute;
+  left:35%;
+  top:50%;
+  width:100%;
+  height:3px;
+  transform:translateY(-50%) skewX(-25deg);
+  transform-origin:left center;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(190,140,220,.15),
+    rgba(210,175,100,.75),
+    rgba(170,115,210,.5),
+    transparent
+  );
+  filter:blur(3px);
+}
+
+/* ตอนกดปุ่ม */
+.nav:active::before,
+.nav.active::before{
+  animation:soulNavCore .7s ease-out;
+}
+
+.nav:active::after,
+.nav.active::after{
+  animation:soulNavBeam .7s ease-out;
+}
+
+.nav:active,
+.nav.active{
+  background:
+    linear-gradient(
+      90deg,
+      rgba(40,70,150,.28),
+      rgba(30,40,100,.12),
+      transparent
+    ),
+    #18140d;
+
+  color:#ffffff;
+
+  box-shadow:
+  0 0 7px rgba(190,140,220,.35),
+  0 0 16px rgba(170,110,210,.2);
+}
+
+/* แสงหลักวิ่ง */
+@keyframes soulNavCore{
+  0%{
+    left:-40%;
+    opacity:0;
+  }
+
+  15%{
+    opacity:1;
+  }
+
+  55%{
+    opacity:1;
+  }
+
+  100%{
+    left:110%;
+    opacity:0;
+  }
+}
+
+/* ลำแสงยาวพุ่งไปทางขวา */
+@keyframes soulNavBeam{
+  0%{
+    left:20%;
+    width:20%;
+    opacity:0;
+  }
+
+  20%{
+    opacity:1;
+  }
+
+  60%{
+    width:110%;
+    opacity:.8;
+  }
+
+  100%{
+    left:105%;
+    width:100%;
+    opacity:0;
+  }
+}
+/* ===== MOBILE DECK BUILDING FIX ===== */
+@media (max-width: 720px){
+
+  /* ส่วนหัว Deck */
+  .deck-header{
+    display:block;
+  }
+
+  .deck-header .gold-btn{
+    margin-top:15px;
+    width:100%;
+  }
+
+  /* กล่องสร้าง Deck */
+  .deck-workspace{
+    width:100%;
+    max-width:100%;
+    padding:14px;
+    overflow:hidden;
+  }
+
+  /* รูปหน้าปก + ข้อมูล Deck */
+  .deck-top{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    width:100%;
+  }
+
+  .deck-cover-wrap{
+    width:120px;
+    margin:0 auto;
+  }
+
+  .deck-cover{
+    width:120px;
+    height:155px;
+  }
+
+  .deck-cover span{
+    font-size:48px;
+  }
+
+  /* ชื่อ Deck */
+  .deck-meta{
+    width:100%;
+    min-width:0;
+  }
+
+  .deck-name{
+    width:100%;
+    font-size:24px;
+  }
+
+  /* ตัวเลข MAIN / LEADER / ZONE */
+  .deck-summary{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:10px;
+    width:100%;
+  }
+
+  .deck-summary span{
+    min-width:0;
+  }
+
+  /* ปุ่ม SAVE / SHARE / IMPORT / DELETE */
+  .deck-actions{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
+    width:100%;
+  }
+
+  .deck-actions .gold-btn,
+  .deck-actions .danger-btn{
+    width:100%;
+    min-width:0;
+  }
+
+  .save-rule{
+    line-height:1.6;
+    word-break:break-word;
+  }
+
+  /* ส่วนเลือกการ์ด */
+  .deck-layout{
+    display:block;
+    width:100%;
+  }
+
+  .card-picker{
+    width:100%;
+    max-width:100%;
+    margin-top:20px;
+    position:static;
+  }
+
+}
+/* ===== FIX DECK MOBILE OVERFLOW ===== */
+@media (max-width: 720px){
+
+  html,
+  body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden !important;
+  }
+
+  main{
+    width:100%;
+    max-width:100%;
+    min-width:0 !important;
+    box-sizing:border-box;
+  }
+
+  .deck-header,
+  .deck-workspace,
+  .deck-top,
+  .deck-meta,
+  .deck-summary,
+  .deck-actions,
+  .deck-layout,
+  .card-picker,
+  .deck-list,
+  .deck-section{
+    width:100%;
+    max-width:100%;
+    min-width:0 !important;
+    box-sizing:border-box;
+  }
+
+  .deck-workspace{
+    padding:14px !important;
+    overflow:hidden !important;
+  }
+
+  .deck-top{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:16px !important;
+  }
+
+  .deck-cover-wrap{
+    width:120px !important;
+    max-width:120px !important;
+    margin:0 auto !important;
+  }
+
+  .deck-cover{
+    width:120px !important;
+    height:155px !important;
+  }
+
+  .deck-meta{
+    display:block !important;
+    overflow:hidden;
+  }
+
+  .deck-name{
+    width:100% !important;
+    max-width:100% !important;
+    box-sizing:border-box;
+    font-size:24px !important;
+  }
+
+  .deck-summary{
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:10px !important;
+  }
+
+  .deck-actions{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+  }
+
+  .deck-actions button{
+    width:100% !important;
+    max-width:100% !important;
+    box-sizing:border-box;
+  }
+
+  .save-rule{
+    max-width:100%;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+  }
+
+  .deck-layout{
+    display:block !important;
+  }
+
+  .card-picker{
+    overflow:hidden;
+  }
+
+  img{
+    max-width:100%;
+  }
+}
+/* ===== DECK MOBILE LAYOUT ===== */
+@media (max-width:720px){
+
+  .deck-workspace{
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    padding:14px !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+  }
+
+  .deck-top{
+    width:100% !important;
+    min-width:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:14px !important;
+  }
+
+  .deck-cover-wrap{
+    width:120px !important;
+    margin:0 auto !important;
+  }
+
+  .deck-cover{
+    width:120px !important;
+    height:155px !important;
+  }
+
+  .deck-meta{
+    width:100% !important;
+    min-width:0 !important;
+  }
+
+  .deck-name{
+    font-size:24px !important;
+    width:100% !important;
+    overflow-wrap:anywhere !important;
+  }
+
+  .deck-summary{
+    width:100% !important;
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:10px !important;
+  }
+
+  .deck-actions{
+    width:100% !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+  }
+
+  .deck-actions button{
+    width:100% !important;
+    min-width:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .deck-layout{
+    width:100% !important;
+    min-width:0 !important;
+    display:block !important;
+  }
+
+  .card-picker{
+    width:100% !important;
+    min-width:0 !important;
+    overflow:hidden !important;
+  }
+
+  .deck-section{
+    width:100% !important;
+    min-width:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .deck-list{
+    width:100% !important;
+    min-width:0 !important;
+  }
+
+  .deck-list > *{
+    max-width:100% !important;
+    box-sizing:border-box !important;
+  }
+
+  img{
+    max-width:100%;
+  }
+}
+/* ===== FIX DECK BUTTONS MOBILE ===== */
+@media (max-width:720px){
+
+  .deck-actions{
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    flex-wrap:nowrap !important;
+    gap:8px !important;
+    box-sizing:border-box !important;
+  }
+
+  .deck-actions .gold-btn,
+  .deck-actions .danger-btn{
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    flex:none !important;
+    box-sizing:border-box !important;
+    margin:0 !important;
+  }
+
+}
+.clear-filter-btn{
+  height:38px;
+  padding:0 14px;
+  border:1px solid #49391f;
+  background:#15110b;
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.clear-filter-btn:hover{
+  background:#2a200f;
+  border-color:var(--gold);
+}
+
+@media(max-width:720px){
+  .clear-filter-btn{
+    width:100%;
+  }
+}
+.clear-filter-btn{
+  height:38px;
+  padding:0 14px;
+  border:1px solid #49391f;
+  background:#15110b;
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.clear-filter-btn:hover{
+  background:#2a200f;
+  border-color:var(--gold);
+}
+
+@media(max-width:720px){
+  .clear-filter-btn{
+    width:100%;
+  }
+}
+/* ===== DECK STATISTICS ===== */
+
+.deck-statistics{
+  margin:20px 0;
+  padding:16px;
+  border:1px solid #3a2b18;
+  background:#0d0b08;
+  box-sizing:border-box;
+}
+
+.deck-stat-title{
+  color:var(--gold2);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:2px;
+  margin-bottom:14px;
+}
+
+.deck-stat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.deck-stat-box{
+  min-width:0;
+  padding:12px;
+  border:1px solid #302516;
+  background:#15110b;
+  text-align:center;
+  box-sizing:border-box;
+}
+
+.deck-stat-box small{
+  display:block;
+  color:#8d806c;
+  font-size:9px;
+  letter-spacing:1px;
+  margin-bottom:6px;
+}
+
+.deck-stat-box b{
+  display:block;
+  color:#e5c76b;
+  font-size:16px;
+}
+
+@media(max-width:720px){
+  .deck-statistics{
+    width:100%;
+    max-width:100%;
+  }
+
+  .deck-stat-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
 /* ===== ZONE TWO-SIDED ON ALL PAGES ===== */
 .zone-page-flippable{position:relative!important;overflow:hidden!important;}
 .zone-page-flip-btn{position:absolute;right:5px;top:5px;z-index:40;width:28px;height:28px;border:1px solid rgba(220,190,120,.75);background:rgba(8,8,8,.88);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}

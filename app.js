@@ -206,7 +206,10 @@ function resetRosterFilters(){
 document.querySelector("#close").onclick=closeModal;
 document.querySelector("#modal").onclick=e=>{if(e.target.id==="modal")closeModal()};
 document.querySelector("#menuBtn").onclick=()=>document.querySelector(".sidebar").classList.toggle("open");
-
+document.querySelector("#clearRosterFilters")?.addEventListener("click",()=>{
+  resetRosterFilters();
+  render();
+});
 /* ---------------- SUPPLY ---------------- */
 const defaultSupplies=[
 {id:"PM1",type:"PLAYMAT",name:"Steal Area — Black Gold",image:"",desc:"Playmat ธีมหลักของ STEAL AREA",price:"590"},
@@ -355,6 +358,10 @@ function resetCollectionFilters(){
 }
 [["#collectionSearch","input"],["#collectionSetFilter","change"],["#collectionTypeFilter","change"],["#collectionRarityFilter","change"],["#collectionViewFilter","change"]].forEach(([sel,evt])=>{
   document.querySelector(sel)?.addEventListener(evt,renderCollection);
+});
+document.querySelector("#clearCollectionFilters")?.addEventListener("click",()=>{
+  resetCollectionFilters();
+  renderCollection();
 });
 renderCollection();
 
@@ -606,6 +613,7 @@ function initDeck(){
   document.querySelector("#deckName").value=currentDeck.name;
   renderDeckLibrary();
   renderDeck();
+  renderDeckStats();
 }
 
 function renderDeckLibrary(){
@@ -731,6 +739,7 @@ function removeFromDeck(id,type){
   persistDecks();
   renderDeck();
   renderDeckLibrary();
+  
 }
 
 function renderDeck(){
@@ -771,7 +780,66 @@ function renderDeck(){
     soulSection.id="soulCoreBuilderSlot";
     soulSection.className="special-slot soul-builder-slot";
     document.querySelector("#leaderSlot").before(soulSection);
+	function renderDeckStats(){
+  if(!currentDeck)return;
+
+  const main=currentDeck.main||{};
+
+  let mainCount=0;
+  let costTotal=0;
+  let costCount=0;
+
+  const counts={
+    Character:0,
+    Action:0,
+    Item:0,
+    Skill:0,
+    Gear:0,
+    POCKET:0,
+    Untimeat:0
+  };
+
+  Object.entries(main).forEach(([id,qty])=>{
+    const c=cards.find(x=>String(x.id)===String(id));
+    if(!c)return;
+
+    const n=Number(qty)||0;
+
+    mainCount+=n;
+
+    if(counts[c.type]!==undefined){
+      counts[c.type]+=n;
+    }
+
+    const cost=Number(c.cost);
+
+    if(Number.isFinite(cost)){
+      costTotal+=cost*n;
+      costCount+=n;
+    }
+  });
+
+  const avgCost=costCount
+    ? (costTotal/costCount).toFixed(1)
+    : "—";
+
+  const set=(id,value)=>{
+    const el=document.querySelector("#"+id);
+    if(el)el.textContent=value;
+  };
+
+  set("statMainDeck",`${mainCount} / 50`);
+  set("statCharacter",counts.Character);
+  set("statAction",counts.Action);
+  set("statItem",counts.Item);
+  set("statSkill",counts.Skill);
+  set("statGear",counts.Gear);
+  set("statPocket",counts.POCKET);
+  set("statUntimeat",counts.Untimeat);
+  set("statAvgCost",avgCost);
+}
   }
+  
   soulSection.innerHTML=`<div class="soul-builder-title"><span>SOUL CORE</span><small>${soulCores.length}/7 · ใบเดิมสูงสุด 3</small></div>`+
     (soulCores.length?soulCores.map((c,i)=>specialHTML(c,"Soul Core")).join(""):`<div class="empty-slot">＋ ADD SOUL CORE · ต้องมี 7 ใบก่อน SAVE</div>`);
   soulCores.forEach((c,i)=>{
@@ -824,7 +892,63 @@ function specialHTML(c,label){
     <button class="remove-card">×</button>
   </div>`;
 }
+function renderDeckStats(){
+  if(!currentDeck)return;
 
+  const main=currentDeck.main||{};
+
+  let mainCount=0;
+  let costTotal=0;
+  let costCount=0;
+
+  const counts={
+    Character:0,
+    Action:0,
+    Item:0,
+    Skill:0,
+    Gear:0,
+    POCKET:0,
+    Untimeat:0
+  };
+
+  Object.entries(main).forEach(([id,qty])=>{
+    const c=cards.find(x=>String(x.id)===String(id));
+    if(!c)return;
+
+    const n=Number(qty)||0;
+
+    mainCount+=n;
+
+    if(counts[c.type]!==undefined){
+      counts[c.type]+=n;
+    }
+
+    const cost=Number(c.cost);
+
+    if(Number.isFinite(cost)){
+      costTotal+=cost*n;
+      costCount+=n;
+    }
+  });
+
+  const avgCost=costCount
+    ? (costTotal/costCount).toFixed(1)
+    : "—";
+
+  const set=(id,value)=>{
+    const el=document.querySelector("#"+id);
+    if(el)el.textContent=value;
+  };
+
+  set("statMainDeck",`${mainCount} / 50`);
+  set("statCharacter",counts.Character);
+  set("statAction",counts.Action);
+  set("statItem",counts.Item);
+  set("statGear",counts.Gear);
+  set("statPocket",counts.POCKET);
+  set("statUntimeat",counts.Untimeat);
+  set("statAvgCost",avgCost);
+}
 function renderPicker(){
   if(!currentDeck)return;
   const q=(document.querySelector("#deckSearch").value||"").toLowerCase();
@@ -1147,11 +1271,16 @@ document.querySelector("#deckSearch")?.addEventListener("input",renderPicker);
 document.querySelector("#deckTypeFilter")?.addEventListener("change",renderPicker);
 document.querySelector("#deckSetFilter")?.addEventListener("change",renderPicker);
 document.querySelector("#deckRarityFilter")?.addEventListener("change",renderPicker);
+document.querySelector("#clearDeckFilters")?.addEventListener("click",()=>{
+  resetDeckFilters();
+  renderPicker();
+});
 document.querySelector("#deckName").oninput=e=>{
   if(currentDeck){
     currentDeck.name=e.target.value;
     persistDecks();
     renderDeckLibrary();
+	renderDeckStats();
   }
 };
 
