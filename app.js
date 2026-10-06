@@ -19,18 +19,19 @@ const cards=[
 
 {id:"HD-001",image:"/public/images/cards/Aegiron The Starforged.jpg",set:"HD",name:"Aegiron The Starforged",subtitle:"ข้าจะไม่หยุด…จนกว่าความมืดจะพังทลาย",type:"Character",rarity:"Common",element:"นักรบเกราะเหล็ก",cost:"5",ability:"-",artist:"Krianza the Decline",power:"700",steal:"1",symbol:"A",image:"/public/images/cards/Aegiron The Starforged.jpg"},
 {id:"HD-002",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg",set:"HD",name:"เกลสาวโหด ณ 3 แยก",subtitle:"ยิ่งดิ้นรน ก็ยิ่งจมลึกลงไป",type:"Character",rarity:"Common",element:"Crimson",cost:"4",ability:"{dot}เมื่อการ์ดใบนี้เข้าสู่สนาม คู่แข่งสมารถจ่าย 1 {Pocket} ถ้าไม่จ่าย ทำการ Kill Criminal ที่มีคอส 3 หรือต่ำกว่า 1 ใบของคู่แข่ง",power:"500",steal:"1",artist:"ตีนแมว",symbol:"G",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg"},
-{id:"HD-005",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg",set:"HD",name:"เพอร่า ยามค่ำคืน",subtitle:"หลับตาลงเถิด…แล้วปล่อยให้ฝันร้ายเริ่มต้น",artist:"Hika mori",type:"Character",rarity:"Common",element:"Crimson",cost:"3",steal:"1",power:"500",ability:"{dot}เมื่อเข้าสู่สนาม จั่วการ์ด 1 ใบ ",symbol:"P",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg"},
+{id:"HD-003",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg",set:"HD",name:"จอมโจร100หน้า LUPIN",subtitle:"Lupin, 100 Faces",type:"Character",rarity:"Common",element:"Criminal",cost:"4",ability:"การ์ดตัวละครจากชุด HD",symbol:"L",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg"},
+{id:"HD-004",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg",set:"HD",name:"ไนธีเรีย ผู้เฝ้าประตูนรก",subtitle:"Guardian of Hell's Gate",type:"Character",rarity:"Secret Rare",element:"Void",cost:"3",ability:"การ์ดตัวละครจากชุด HD",symbol:"N",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg"},
+{id:"HD-005",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg",set:"HD",name:"เพอร่า ยามค่ำคืน",subtitle:"หลับตาลงเถิด…แล้วปล่อยให้ฝันร้ายเริ่มต้น",artist:"Hika mori",type:"Character",rarity:"Common",element:"Crimson",cost:"3",steal:"1",power:"500",ability:"{Dot}เมื่อเข้าสู่สนาม จั่วการ์ด 1 ใบ ",symbol:"P",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg"},
+{id:"HD-006",image:"/public/images/cards/Cerberus Blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ด Gear จากชุด HD",symbol:"C",image:"/public/images/cards/Cerberus Blade.jpg"},
+{id:"HD-007",image:"/public/images/cards/Death Error.jpg",set:"HD",name:"Death Error",subtitle:"System Failure",type:"Action",rarity:"Common",element:"Void",cost:"4",ability:"การ์ดสกิลจากชุด HD",symbol:"E",image:"/public/images/cards/Death Error.jpg"},
+{id:"HD-008",image:"/public/images/cards/Heaven's Embrace.jpg",set:"HD",name:"Heaven's Embrace",subtitle:"Heaven's Embrace",type:"Action",rarity:"Common",element:"Holy",cost:"2",ability:"การ์ดสกิลจากชุด HD",symbol:"H",image:"/public/images/cards/Heaven's Embrace.jpg"},
 {id:"HD-009",image:"/public/images/cards/You Die!.jpg",set:"HD",name:"You Die!",subtitle:"Criminal Protocol",type:"Action",rarity:"Secret Rare",element:"Void",cost:"3",ability:"การ์ดสกิลจากชุด HD",symbol:"Y",image:"/public/images/cards/You Die!.jpg"},
 {id:"HD-010",image:"/public/images/cards/คำเชิญชวนแห่งภูติ.jpg",set:"HD",name:"คำเชิญชวนแห่งภูติ",subtitle:"Fairy's Invitation",type:"Action",rarity:"Common",element:"Mystic",cost:"2",ability:"การ์ดแอ็กชันจากชุด HD",symbol:"F",image:"/public/images/cards/คำเชิญชวนแห่งภูติ.jpg"},
-
-{id:"HD-004",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg",set:"HD",name:"ไนธีเรีย ผู้เฝ้าประตูนรก",subtitle:"Guardian of Hell's Gate",type:"Character",rarity:"Secret Rare",element:"Void",cost:"3",ability:"การ์ดตัวละครจากชุด HD",symbol:"N",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg"},
-{id:"HD-008",image:"/public/images/cards/Heaven's Embrace.jpg",set:"HD",name:"Heaven's Embrace",subtitle:"Heaven's Embrace",type:"Action",rarity:"Common",element:"Holy",cost:"2",ability:"การ์ดสกิลจากชุด HD",symbol:"H",image:"/public/images/cards/Heaven's Embrace.jpg"},
-{id:"HD-003",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg",set:"HD",name:"จอมโจร100หน้า LUPIN",subtitle:"Lupin, 100 Faces",type:"Character",rarity:"Common",element:"Criminal",cost:"4",ability:"การ์ดตัวละครจากชุด HD",symbol:"L",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg"},
-{id:"HD-007",image:"/public/images/cards/Death Error.jpg",set:"HD",name:"Death Error",subtitle:"System Failure",type:"Action",rarity:"Common",element:"Void",cost:"4",ability:"การ์ดสกิลจากชุด HD",symbol:"E",image:"/public/images/cards/Death Error.jpg"},
 {id:"HD-011",image:"/public/images/cards/สัมผัสต้องห้าม.jpg",set:"HD",name:"สัมผัสต้องห้าม",subtitle:"Forbidden Touch",type:"Action",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ดสกิลจากชุด HD",symbol:"T",image:"/public/images/cards/สัมผัสต้องห้าม.jpg"},
-{id:"HD-006",image:"/public/images/cards/Cerberus Blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"Criminal",cost:"3",ability:"การ์ด Gear จากชุด HD",symbol:"C",image:"/public/images/cards/Cerberus Blade.jpg"},
-{id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",artist:"IMO",set:"HD",name:"pocket",subtitle:"-",type:"POCKET",rarity:"Common",element:"-",cost:"-",ability:"{counter} ใช้ความสามารถนี้ได้จากบนมือคุณเท่านั้น จ่าย 1 {Pocket} จากนั้นเลือก Master หรือ Criminal ที่กำลังต่อสู้อยู่ได้ 1 ใบ การ์ดใบนั้นได้รับพลัง +200 จนจบการต่อสู้นั้น",image:"/public/images/cards/Pocket3.jpg"},
-{id:"HD-012",image:"/public/images/cards/Soul Guard.jpg",set:"HD",name:"Soul Guard",subtitle:"ข้าจะใช้วิญญาณของข้า เป็นเกราะเพื่อเจ้า",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"2",ability:"ใช้ได้ต่อเมื่อคู่แข่งสั่งโจมตี \n\n {counter} จ่าย 1  {E} ทำให้การโจมตีนั้นไร้ผล",symbol:"C",image:"/public/images/cards/Soul Guard.jpg"},
+{id:"HD-012",image:"/public/images/cards/Soul Guard.jpg",set:"HD",name:"Soul Guard",subtitle:"ข้าจะใช้วิญญาณของข้า เป็นเกราะเพื่อเจ้า",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"2",ability:"ใช้ได้ต่อเมื่อคู่แข่งสั่งโจมตี \n\n {Counter} จ่าย 1  {E} ทำให้การโจมตีนั้นไร้ผล",symbol:"C",image:"/public/images/cards/Soul Guard.jpg"},
+{id:"HD-Z-02",image:"/public/images/cards/หอนาฬิกาเที่ยงคืน.jpg",set:"HD",name:"หอนาฬิกาเที่ยงคืน",subtitle:"-",type:"Zone",rarity:"Common",element:"ใจกลางเมือง",cost:"-",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityFront:"เมื่อ Zone นี้ทำงาน เมื่อคุณโจมตีหรือขโมยในเทิร์นนี้คู่แข่งไม่สามารถ ใช้งานการ์ด Action ที่มีความสามารถ {Counter}ได้ และ Character คุณได้รับพลัง +100 จนจบเทิร์น",abilityBack:"{OpenZone}\nเมื่อคุณใช้ความสามารถของ Master ครบ 3 ครั้ง สามารถจ่าย 3{Pocket}เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backหอนาฬิกา.jpg",symbol:"Z",artist:"wavecolorstudio",image:"/public/images/cards/หอนาฬิกาเที่ยงคืน.jpg"},
+{id:"HD-Z-03",image:"/public/images/cards/เรือโจรสลัด.jpg",set:"HD",name:"เรือโจรสลัด",subtitle:"-",type:"Zone",rarity:"Common",element:"เรือ",cost:"-",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityFront:"เมื่อ Zone นี้ทำงาน  เลือก Character บนมือ 1 ใบ ที่มีคอสไม่เกิน 2 นำลงบนสนาม\n{Forever}ในเทิร์นคุณการ์ด Character ทุกใบในสนามได้รับพลัง +100",abilityBack:"{OpenZone}\nเมื่อคุณมี Soul Core ใต้การ์ด Zone ครบ 2 ใบคุณสามารถจ่าย 2 {Pocket}เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backเรือโจรสลัด.jpg",symbol:"Z",artist:"-",image:"/public/images/cards/เรือโจรสลัด.jpg"},
+{id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",artist:"IMO",set:"HD",name:"pocket",subtitle:"-",type:"POCKET",rarity:"Common",element:"-",cost:"-",ability:"{Counter} ใช้ความสามารถนี้ได้จากบนมือคุณเท่านั้น จ่าย 1 {Pocket} จากนั้นเลือก Master หรือ Criminal ที่กำลังต่อสู้อยู่ได้ 1 ใบการ์ดใบนั้นได้รับพลัง +200 จนจบการต่อสู้นั้น",artist:"IMO",image:"/public/images/cards/Pocket3.jpg"},
 {id:"HD-SC01",image:"/public/images/cards/Soul Core.jpg",set:"HD",name:"Soul Core",subtitle:"-",type:"Soul Core",rarity:"Common",element:"-",cost:"-",ability:"-",image:"/public/images/cards/Soul Core.jpg"},
 ];
 
@@ -943,7 +944,6 @@ function renderDeckStats(){
   set("statMainDeck",`${mainCount} / 50`);
   set("statCharacter",counts.Character);
   set("statAction",counts.Action);
-  set("statItem",counts.Item);
   set("statGear",counts.Gear);
   set("statPocket",counts.POCKET);
   set("statUntimeat",counts.Untimeat);
@@ -1627,9 +1627,14 @@ function bindZonePageFlips(root=document){
       const back=el.dataset.zoneFlipped!=="1";
       el.dataset.zoneFlipped=back?"1":"0";
       if(back){
-        el.innerHTML=`<div class="zone-page-back"><b>ABILITY — BACK</b><p>${formatAbility(c.abilityBack ?? "—")}</p></div>`;
-        // Remove rarity classes while the back is shown so rarity-based
-        // holographic ::after effects cannot appear on the Zone back.
+        el.innerHTML=`
+  <div class="zone-page-back">
+    ${c.imageBack
+      ? `<img class="zone-back-image" src="${escapeHtml(c.imageBack)}" alt="${escapeHtml(c.name)} Back">`
+      : `<b>ABILITY — BACK</b>
+         <p>${formatAbility(c.abilityBack ?? "—")}</p>`
+    }
+  </div>`;
         el.className=el.dataset.zoneFrontClass+" zone-page-back-active zone-back-no-shine";
         btn.title="กลับไปด้านหน้า";
       }else{
@@ -1653,10 +1658,12 @@ function formatAbility(text) {
   if (!text) return "";
 
   const icons = {
-    counter: "public/images/icon/counter.png",
+    Counter: "public/images/icon/Counter.jpg",
   E: "public/images/icon/E.png",
   Pocket: "public/images/icon/Pocket.png",
-  dot: "public/images/icon/dot.png",
+  Dot: "public/images/icon/Dot.jpg",
+  OpenZone: "public/images/icon/OpenZone.jpg",
+  Forever: "public/images/icon/Forever.jpg",
   };
 
   let html = escapeHtml(text);
