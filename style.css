@@ -3163,6 +3163,160 @@ select option:hover{
   background:none!important;
   mix-blend-mode:normal!important;
 }
+/* ===== PLAY TEST ZONE BACK IMAGE ===== */
+.playmat .zone-card-back .zone-back-image{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  display:block!important;
+  z-index:2!important;
+}
+
+.playmat .zone-card-back{
+  background:#080808!important;
+  overflow:hidden!important;
+}
+
+.playmat .zone-card-back::after,
+.playmat .zone-card-back::before{
+  display:none!important;
+  content:none!important;
+}
+.zone-page-back{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  padding:0 !important;
+  margin:0 !important;
+  overflow:hidden !important;
+  background:#080808 !important;
+}
+
+.zone-back-image{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  display:block !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  z-index:5 !important;
+}
+/* =========================================
+   CARD DETAIL GRID - FINAL
+   ========================================= */
+
+.modal-card .detail-grid{
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+
+  display:grid;
+  gap:8px;
+  margin-top:30px;
+
+  /* 6 ช่อง */
+  grid-template-columns:
+    minmax(0, .9fr)
+    minmax(0, 1.3fr)
+    minmax(0, .7fr)
+    minmax(0, .7fr)
+    minmax(0, 1.3fr)
+    minmax(0, .7fr);
+}
+
+/* ทุกช่องห้ามดัน Grid ออก */
+.modal-card .detail-grid > div{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:100%;
+  box-sizing:border-box;
+  padding:10px;
+  overflow:hidden;
+}
+
+/* Label */
+.modal-card .detail-grid small{
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* ค่า */
+.modal-card .detail-grid b{
+  display:block;
+  min-width:0;
+  max-width:100%;
+
+  font-size:11px;
+  line-height:1.35;
+
+  white-space:normal !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  overflow-wrap:break-word;
+}
+/* =========================================
+   CARD DETAIL PREVIOUS / NEXT
+   ========================================= */
+
+.detail-navigation{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:18px;
+}
+
+.detail-navigation button{
+  flex:1;
+  height:38px;
+
+  background:#0d0d0d;
+  border:1px solid #3b3324;
+  color:#d6b86a;
+
+  font-family:inherit;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:1px;
+
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.detail-navigation button:hover{
+  background:#18140d;
+  border-color:#b99543;
+  color:#f0d889;
+}
+
+.detail-navigation button:active{
+  transform:scale(.98);
+}
+/* Power / Steal ไม่ให้ตัวเลขแตกเป็นแนวตั้ง */
+.modal-card .detail-grid #detailPowerBox b,
+.modal-card .detail-grid #detailStealBox b,
+.modal-card .detail-grid #detailCostBox b{
+  text-align:center;
+}
+
+/* =========================================
+   GEAR / CARD ที่ไม่มี POWER + STEAL
+   ========================================= */
+
+.modal-card .detail-grid:has(#detailPowerBox.hidden){
+  grid-template-columns:
+    minmax(0, .9fr)
+    minmax(0, 1.2fr)
+    minmax(0, 1.8fr)
+    minmax(0, .8fr);
+}
 
 /* Click card in Deck Builder picker to view details */
 .picker-card-clickable{cursor:pointer;transition:.16s}
@@ -3178,7 +3332,7 @@ select option:hover{
 #detailAbilityLeft,
 #detailAbilityRight,
 .master-ability-box p{
-  line-height:1.35 !important;
+  line-height:2 !important;
   white-space:pre-line !important;
   min-height:0 !important;
 }
@@ -3210,9 +3364,10 @@ select option:hover{
 .ability-icon-Enter,
 .ability-icon-ES,
 .ability-icon-ZoneOpen1,
-.ability-icon-ZoneOpen2{
+.ability-icon-ZoneOpen2,
+.ability-icon-ZoneOpen3{
   width:auto !important;
-  height:22px !important;
+  height:20px !important;
   max-width:160px !important;
 }
 .ability-icon-Peek{
@@ -3238,17 +3393,36 @@ select option:hover{
   height:12px !important;
   margin:0 1px !important;
 }
-
+.ability-icon-ES{
+  width:auto !important;
+  height:19px !important;
+}
 /* Zone icons are normal inline icons now; they must not reserve a 150px
    absolute-positioned area. */
-.ability-icon-ZoneOpen1,
+ .ability-icon-ZoneOpen1{
+  position:relative !important;
+  top:0 !important;
+  left:1 !important;
+  z-index:1 !important;
+  width:auto !important;
+  height:22px !important;
+}
 .ability-icon-ZoneOpen2{
   position:relative !important;
-  top:-2 !important;
+  top:0 !important;
   left:0 !important;
   z-index:1 !important;
+  
 }
 
+.ability-icon-ZoneOpen3{
+  position:relative !important;
+  top:0 !important;
+  left:0 !important;
+  z-index:1 !important;
+  width:auto !important;
+  height:22px !important;
+}
 /* Remove inherited image spacing in all ability text containers. */
 #detailAbility img,
 #detailAbilityLeft img,
@@ -3257,3 +3431,14 @@ select option:hover{
   margin-top:0 !important;
   margin-bottom:0 !important;
 }
+
+/* GOLDEN WAVE BUTTON CLICK EFFECT */
+button{position:relative;overflow:hidden;isolation:isolate}
+button>.gold-wave-effect{position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;pointer-events:none;z-index:999;transform:translate(-50%,-50%) scale(.1);border:1.5px solid rgba(255,222,125,.95);background:radial-gradient(circle,rgba(255,232,150,.58),rgba(255,205,75,.28) 25%,rgba(255,181,40,.12) 48%,transparent 70%);box-shadow:0 0 8px rgba(255,214,92,.95),0 0 18px rgba(255,190,45,.72),0 0 35px rgba(255,176,30,.38);animation:goldButtonWave .78s cubic-bezier(.15,.7,.2,1) forwards}
+button>.gold-wave-effect:before,button>.gold-wave-effect:after{content:"";position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%)}
+button>.gold-wave-effect:before{width:42%;height:12%;background:rgba(255,224,120,.95);filter:blur(2px);box-shadow:0 0 10px rgba(255,220,105,.95),0 0 24px rgba(255,184,40,.65);animation:goldWaveStreak .78s ease-out forwards}
+button>.gold-wave-effect:after{width:100%;height:28%;background:linear-gradient(90deg,transparent,rgba(255,225,130,.9),rgba(255,183,35,.42),transparent);filter:blur(3px);animation:goldWaveSweep .78s ease-out forwards}
+@keyframes goldButtonWave{0%{transform:translate(-50%,-50%) scale(.1);opacity:1}45%{opacity:.9}100%{transform:translate(-50%,-50%) scale(13);opacity:0}}
+@keyframes goldWaveStreak{0%{width:20%;opacity:1}100%{width:240%;opacity:0}}
+@keyframes goldWaveSweep{0%{width:35%;opacity:.9}100%{width:280%;opacity:0}}
+button:active{filter:brightness(1.16)}

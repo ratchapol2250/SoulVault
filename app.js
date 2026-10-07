@@ -16,29 +16,29 @@ const cards=[
 {id:"SA-015",set:"BT03",name:"Pocket Relic",subtitle:"Stored Artifact",type:"POCKET",rarity:"Art Rare",element:"Relic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ในพื้นที่ Pocket และเรียกใช้ในจังหวะที่กำหนด",symbol:"P"},
 {id:"SA-016",set:"BT03",name:"Pocket Trick",subtitle:"Hidden Move",type:"POCKET",rarity:"Secret Rare",element:"Mystic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ใน Pocket เพื่อเตรียมใช้เป็นการกระทำพิเศษ",symbol:"P"},
 
-{id:"HD-001",image:"/public/images/cards/Aegiron The Starforged.jpg",set:"HD",name:"Aegiron The Starforged",subtitle:"ข้าจะไม่หยุด…จนกว่าความมืดจะพังทลาย",type:"Character",rarity:"Common",element:"นักรบเกราะเหล็ก",cost:"5",ability:"-",artist:"Krianza the Decline",power:"700",steal:"1",symbol:"A",image:"/public/images/cards/Aegiron The Starforged.jpg"},
-{id:"HD-002",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg",set:"HD",name:"เกลสาวโหด ณ 3 แยก",subtitle:"ยิ่งดิ้นรน ก็ยิ่งจมลึกลงไป",type:"Character",rarity:"Common",element:"Crimson",cost:"4",ability:"{dot}เมื่อการ์ดใบนี้เข้าสู่สนาม คู่แข่งสมารถจ่าย 1 {Pocket} ถ้าไม่จ่าย ทำการ Kill Criminal ที่มีคอส 3 หรือต่ำกว่า 1 ใบของคู่แข่ง",power:"500",steal:"1",artist:"ตีนแมว",symbol:"G",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg"},
-{id:"HD-003",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg",set:"HD",name:"จอมโจรร้อยหน้า ลูแพร์",subtitle:"ข้าจะแฝงตัวไปกับสิ่งที่เจ้ารักและเอามันไปจากเจ้า",type:"Character",rarity:"Common",element:"จอมโจร",cost:"3",ability:"{Activat}{perTurn}ใช้ความสามารถนี้ได้ถ้าคุณเคยใช้งานความสามารถของ Masterไปแล้วในเทิร์นนี้ เลือก Character1 ใบได้รับพลัง+100 จนจบเทิร์น และ คุณจั่ว 1 ใบ \n(เป็นความสามารถสั่งใช้งานและใช้ได้เพียง 1 ครั้งใน 1 เทิร์น)",symbol:"L",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg"},
-{id:"HD-004",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg",set:"HD",name:"ไนธีเรีย ผู้เฝ้าประตูนรก",subtitle:"จงอย่ากลัวความตาย เพราะมันกำลังรอเจ้าอยู่",type:"Character",rarity:"Common",element:"ยมฑูต",cost:"2",ability:"{Block}\n{Dot} เมื่อการ์ดใบนี้ออกจากสนาม {Peek}3 ใบ ล่างสุดจากกองเลือก Character 1 ใบจากที่เปิดดู นำขึ้นมือที่เหลือนำกลับเข้ากองแล้วสลับ\n(สามารถเปลี่ยนสภาพการ์ดนี้จาก Ok เป็น Don’t ได้ เพื่อเปลี่ยนเป้าหมายการโจมตีมาที่การ์ดใบนี้แทน)",symbol:"N",power:"300",steal:"1",artist:"Haruki",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg"},
-{id:"HD-005",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg",set:"HD",name:"เพอร่า ยามค่ำคืน",subtitle:"หลับตาลงเถิด…แล้วปล่อยให้ฝันร้ายเริ่มต้น",artist:"Hika mori",type:"Character",rarity:"Common",element:"ผู้หญิง",cost:"2",steal:"1",power:"400",ability:"{Enter}เมื่อเข้าสู่สนาม จั่วการ์ด 1 ใบ ",symbol:"P",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg"},
+{id:"HD-001",set:"HD",name:"Aegiron The Starforged",subtitle:"ข้าจะไม่หยุด…จนกว่าความมืดจะพังทลาย",type:"Character",rarity:"Common",element:"นักรบเกราะเหล็ก",cost:"5",ability:"-",artist:"Krianza the Decline",power:"700",steal:"1",symbol:"A",image:"/public/images/cards/Aegiron The Starforged.jpg"},
+{id:"HD-002",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg",set:"HD",name:"เกลสาวโหด ณ 3 แยก",subtitle:"ยิ่งดิ้นรน ก็ยิ่งจมลึกลงไป",type:"Character",rarity:"Common",element:"Crimson",cost:"4",ability:"{Dot}เมื่อการ์ดใบนี้เข้าสู่สนาม คู่แข่งสมารถจ่าย 1 {Pocket} ถ้าไม่จ่าย ทำการ Kill Criminal ที่มีคอส 3 หรือต่ำกว่า 1 ใบของคู่แข่ง",power:"500",steal:"1",artist:"ตีนแมว",symbol:"G",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg"},
+{id:"HD-003",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg",set:"HD",name:"จอมโจรร้อยหน้า ลูแพร์",subtitle:"ข้าจะแฝงตัวไปกับสิ่งที่เจ้ารักและเอามันไปจากเจ้า",type:"Character",rarity:"Common",element:"จอมโจร",cost:"3",ability:"{Activat}{PerTurn} ใช้ความสามารถนี้ได้ถ้าคุณเคยใช้งานความสามารถของ Masterไปแล้วในเทิร์นนี้ เลือก Character 1 ใบได้รับพลัง+100 จนจบเทิร์น และ คุณจั่ว 1 ใบ \n(เป็นความสามารถสั่งใช้งานและใช้ได้เพียง 1 ครั้งใน 1 เทิร์น)",symbol:"L",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg"},
+{id:"HD-004",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg",set:"HD",name:"ไนธีเรีย ผู้เฝ้าประตูนรก",subtitle:"จงอย่ากลัวความตาย เพราะมันกำลังรอเจ้าอยู่",type:"Character",rarity:"Common",element:"ยมฑูต",cost:"2",ability:"{Block}\n{Dot} เมื่อการ์ดใบนี้ออกจากสนาม {Peek} 3 ใบ ล่างสุดจากกองเลือก Character 1 ใบจากที่เปิดดู นำขึ้นมือที่เหลือนำกลับเข้ากองแล้วสลับ\n(สามารถเปลี่ยนสภาพการ์ดนี้จาก Ok เป็น Don’t ได้ เพื่อเปลี่ยนเป้าหมายการโจมตีมาที่การ์ดใบนี้แทน)",symbol:"N",power:"300",steal:"1",artist:"Haruki",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg"},
+{id:"HD-005",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg",set:"HD",name:"เพอร่า ยามค่ำคืน",subtitle:"หลับตาลงเถิด…แล้วปล่อยให้ฝันร้ายเริ่มต้น",artist:"Hika mori",type:"Character",rarity:"Common",element:"ผู้หญิง",cost:"2",steal:"1",power:"400",ability:"{Enter} เมื่อเข้าสู่สนาม จั่วการ์ด 1 ใบ ",symbol:"P",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg"},
 {id:"HD-006",image:"/public/images/cards/Cerberus Blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"ดาบ",cost:"2",ability:"การ์ดใบนี้สามารถสวมใส่ได้แค่ Character เท่านั้น\n{Dot} เมื่อ Character  ที่สวมใส่การ์ดใบนี้โจมตีหรือขโมย การ์ดนั้นได้รับพลัง +200 จนจบเทิร์น",artist:"อาราย อีกว้าา",symbol:"C",image:"/public/images/cards/Cerberus Blade.jpg"},
-{id:"HD-007",image:"/public/images/cards/Death Error.jpg",set:"HD",name:"Death Error",subtitle:"ความตายไม่ควรเกิดขึ้น… แต่เจ้า คือข้อผิดพลาดของมัน",type:"Action",rarity:"Common",element:"ข้อผิดพลาด",cost:"4",artist:"ปวดขี้ ทำอย่างไรดี",ability:"ใช้การ์ดใบนี้ก็ต่อเมื่อ Master คู่แข่งทำการโจมตี\n{Counter} เลือก Character คู่แข่ง 1 ใบ kill ย้ายการโจมตีไปที่การ์ดใบนั้น",symbol:"E",image:"/public/images/cards/Death Error.jpg"},
+{id:"HD-007",image:"/public/images/cards/Death Error.jpg",set:"HD",name:"Death Error",subtitle:"ความตายไม่ควรเกิดขึ้น… แต่เจ้า คือข้อผิดพลาดของมัน",type:"Action",rarity:"Common",element:"ข้อผิดพลาด",cost:"4",artist:"ปวดขี้ ทำอย่างไรดี",ability:"ใช้การ์ดใบนี้ก็ต่อเมื่อ Master คู่แข่งทำการโจมตี\n{Counter} เลือก Character คู่แข่ง 1 ใบ ย้ายการโจมตีไปที่การ์ดใบนั้น",symbol:"E",image:"/public/images/cards/Death Error.jpg"},
 {id:"HD-008",image:"/public/images/cards/Heaven's Embrace.jpg",set:"HD",name:"Heaven's Embrace",subtitle:"เมื่อดวงดาวเปล่งประกาย ปาฏิหาริย์จะบังเกิด",type:"Action",rarity:"Common",element:"พร",cost:"1",artist:"Karen'n",ability:"{Dot} นำการ์ด Character 1 ใบจาก Tomb ขึ้นมือจากนั้น นำการ์ด        {Pocket} 1 ใบบนสนามลง Tomb",symbol:"H",image:"/public/images/cards/Heaven's Embrace.jpg"},
-{id:"HD-009",image:"/public/images/cards/You Die!.jpg",set:"HD",name:"You Die!",subtitle:"ตายกี่รอบก็ได้ ดีใช่มั้ยละ",type:"Action",rarity:"Common",element:"เงา",cost:"2",ability:"ใช้การ์ดใบนี้ก็ต่อเมื่อCharacter ของเราโดน kill\n{Counter} เลือก Character คู่แข่ง 1 ใบ kill การ์ดใบนั้น คุณจั่วการ์ด 1 ใบ",artist:"harukix",symbol:"Y",image:"/public/images/cards/You Die!.jpg"},
+{id:"HD-009",image:"/public/images/cards/You Die!.jpg",set:"HD",name:"You Die!",subtitle:"ตายกี่รอบก็ได้ ดีใช่มั้ยละ",type:"Action",rarity:"Common",element:"เงา",cost:"2",ability:"ใช้การ์ดใบนี้ก็ต่อเมื่อ Character ของเราโดน kill\n{Counter} เลือก Character คู่แข่ง 1 ใบ kill การ์ดใบนั้น คุณจั่วการ์ด 1 ใบ",artist:"harukix",symbol:"Y",image:"/public/images/cards/You Die!.jpg"},
 {id:"HD-010",image:"/public/images/cards/คำเชิญชวนแห่งภูติ.jpg",set:"HD",name:"คำเชิญชวนแห่งภูติ",subtitle:"อย่ากลัวเลย… แค่หลับตา แล้วตามเสียงเรียกของข้ามา",type:"Action",rarity:"Common",element:"ภูติ",cost:"1",artist:"Punch",ability:"{Peek} 5 ใบ เลือก Character  หรือ Gear ไม่เกิน 1 ใบ นำขึ้นมือ และ นำที่เหลือกลับเข้ากองการ์ดแล้วสลับ",symbol:"F",image:"/public/images/cards/คำเชิญชวนแห่งภูติ.jpg"},
-{id:"HD-011",image:"/public/images/cards/It’s Show Time!!.jpg",set:"HD",name:"It’s Show Time!!",subtitle:"ได้เวลาปิดม่านแล้ว",type:"Untimeat",rarity:"Common",element:"ปิดฉาก",cost:"5",artist:"Adamas",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone หอนาฬิกาเที่ยงคืนเคยทำงานแล้ว และ คุณขโมย Soul Core มาแล้ว 2 ชิ้น  ฝั่งตรงข้ามมีCharacter 1 ใบหรือมากกว่า\nจ่าย{E}2\nเลือก Character บนสนามเรา 1 ใบ เมื่อจบการต่อสู้ของการ์ดที่เลือก สามารถนำการ์ดใบนั้นลง Tomb ได้ ถ้าทำ นำ Character  ใน Tomb ของคู่แข่ง 2 ใบเข้ามาในสนามคุณได้",symbol:"T",image:"/public/images/cards/It’s Show Time!!.jpg"},
-{id:"HD-012",image:"/public/images/cards/Soul Guard.jpg",set:"HD",name:"Soul Guard",subtitle:"ข้าจะใช้วิญญาณของข้า เป็นเกราะเพื่อเจ้า",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"1",ability:"ใช้ได้ต่อเมื่อคู่แข่งสั่งโจมตี \n\n {Counter} จ่าย 1  {E} ทำให้การโจมตีนั้นไร้ผล",artist:"IMO",symbol:"C",image:"/public/images/cards/Soul Guard.jpg"},
+{id:"HD-011",image:"/public/images/cards/It’s Show Time!!.jpg",set:"HD",name:"It’s Show Time!!",subtitle:"ได้เวลาปิดม่านแล้ว",type:"Untimeat",rarity:"Common",element:"ปิดฉาก",cost:"5",artist:"Adamas",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone หอนาฬิกาเที่ยงคืนเคยทำงานแล้ว และ คุณขโมย Soul Core มาแล้ว 2 ชิ้น  ฝั่งตรงข้ามมี Character 1 ใบหรือมากกว่า\nจ่าย {E} 2\nเลือก Character บนสนามเรา 1 ใบ เมื่อจบการต่อสู้ของการ์ดที่เลือก สามารถนำการ์ดใบนั้นลง Tomb ได้ ถ้าทำ นำ Character  ใน Tomb ของคู่แข่ง 2 ใบเข้ามาในสนามคุณได้",symbol:"T",image:"/public/images/cards/It’s Show Time!!.jpg"},
+{id:"HD-012",image:"/public/images/cards/Soul Guard.jpg",set:"HD",name:"Soul Guard",subtitle:"ข้าจะใช้วิญญาณของข้า เป็นเกราะเพื่อเจ้า",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"1",ability:"ใช้ได้ต่อเมื่อคู่แข่งสั่งโจมตี \n {Counter} จ่าย 1  {E} ทำให้การโจมตีนั้นไร้ผล",artist:"IMO",symbol:"C",image:"/public/images/cards/Soul Guard.jpg"},
 {id:"HD-013",image:"/public/images/cards/Fortune Orb.jpg",set:"HD",name:"Fortune Orb",subtitle:"ข้าจะใช้วิญญาณของข้า เป็นเกราะเพื่อเจ้า",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"1",ability:"{Dot} จั่วการ์ดจากกองการ์ด 2 ใบ ",artist:"kanyarat  luengtrakulrung",symbol:"C",image:"/public/images/cards/Fortune Orb.jpg"},
-{id:"HD-014",set:"HD",name:"Arsen, Lupaire",subtitle:"จอมโจรคือ ศิลปินผู้รังสรรค์การขโมยสิ่งที่ต้องการอย่างวิจิตรงดงาม!",type:"Master",rarity:"Legendary",element:"จอมโจร,คน ",cost:"M",abilityLeft:"{Activat}{PerTurn} ทิ้งการ์ดจากบนมือ 1  ใบ {Peek}Deck คู่แข่ง และสามารถใช้ skill หรือ Gear ที่มีคอส 2 หรือต่ำกว่าได้โดยไม่ต้องจ่ายค่าคอสและไม่สนเงื่อนไข ",abilityRight:"{ZoneOpen1}\nหลังใช้ความสามารถของการ์ดใบนี้สามารถจั่วการ์ดได้ 1 ใบ",symbol:"K",steal:"1",power:"500",image:"/public/images/cards/Arsene LUPIN.jpg"},
-{id:"HD-015",set:"HD",name:"Pirate's Destination!",subtitle:"ในจุดที่คนอื่นเห็นจุดจบ โจรสลัดกลับเห็นจุดเริ่มต้น",type:"Untimeat",rarity:"Legendary",element:"สถานที่",cost:"5",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone เรือโจรสลัดเคยทำงานแล้ว และคุณขโมย Soul Core มาแล้ว 2 ชิ้นคุณมี Character 1 ใบหรือมากกว่า\nจ่าย {E}2\nเลือก Character จากใน Tomb 1 ใบ นำเข้ามาในสนามได้และการ์ดใบน้ันได้รับ“เมื่อการ์ดใบนี้โจมตีหรือโมย จะสามารถเลือกได้ 2 เป้าหมายพร้อมกัน และคู่แข่วจะต้องป้องกันแยกกันเท่านั้น”จนจบเทิร์น",artist:"Chotiwat Nilthanee",symbol:"K",image:"/public/images/cards/Pirate's Destination!.jpg"},
-{id:"HD-016",set:"HD",name:"Wounded Heart",subtitle:"ทำอะไรไว้ก็ต้องรับผิดชอบสิ่งที่ทำด้วยละ",type:"Untimeat",rarity:"Legendary",element:"จิตใจ",cost:"5",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone วิมานแห่งรักเคยทำงานแล้ว และ คุณขโมยSoul Core มาแล้ว 2 ชิ้น  คุณไม่มี Character อยู่บนสนาม\nจ่าย {E}2\nทำการ Character ทุกใบในสนามคู่แข่งมาอยู่ใต้ Zone วิมานแห่งรักและนำ Character 1 ใบ จากบนมือ ที่มีคอสไม่เกิน 2 ลงมาบนสนามได้",artist:"Teerawee",symbol:"K",image:"/public/images/cards/Wounded Heart.jpg"},
-{id:"HD-017",set:"HD",name:"Skull, Pirate Captain",subtitle:"ทะเลไม่เคยปราณีและข้าก็เช่นกัน",type:"Master",rarity:"Legendary",element:"โจรสลัด,กัปตัน",cost:"M",abilityLeft:"{Activat}{PerTurn} จ่าย 1{Pocket}สามารถนำ  Character คอสไม่เกิน 2 ลงมาบนสนามได้ 1 ใบ",abilityRight:"{ZoneOpen2}\nความสามารถของการ์ดใบนี้จะเปลี่ยนเป็น “คอสไม่เกิน 3 ลงมาบนสนามได้ 1 ใบ” แทน",symbol:"K",steal:"1",power:"500",image:"/public/images/cards/Captain Pirates.jpg"},
-{id:"HD-018",set:"HD",name:"Thip Lady of the Night",subtitle:"เข้ามาใกล้อีกนิดสิ...ฉันไม่กัดหรอก(ถ้าคุณไม่ขอ)",type:"Master",rarity:"Legendary",element:"ผู้หญิง",cost:"M",abilityLeft:"เมื่อเริ่มเกม{ES}1ใบ\n{Activat}{PerTurn}จ่าย1{E}นำการ์ด1{Pocket}ใบจาก Deckหรือ Tomb เข้ามาในสนามได้",abilityRight:"{ZoneOpen2}\nจั่วการ์ด 1 ใบ คู่แข่งสามารถจ่าย 1 {Pocket}ถ้าไม่จ่ายจะต้องทิ้งมือ 1 ใบ",symbol:"K",steal:"1",power:"500",image:"/public/images/cards/prostitute.jpg"},
-{id:"HD-Z-01",set:"HD",name:"วิมานแห่งรัก",subtitle:"-",type:"Zone",rarity:"Common",element:"ในใจ",cost:"Z",abilityFront:"เมื่อ Zone นี้ทำงาน  เลือก Character บนสนามของอีกฝั่ง1 ใบ นำมาไว้ใต้การ์ดใบนี้(การ์ดที่อยู่ใต้การ์ดใบนี้จะถือว่าไม่อยู่ในเกมและไม่อยู่ในUnderworld)\n{PerTurn}เมื่อคู่แข่งจ่าย{Pocket}ในเทิร์นคุณ คุณจั่วการ์ด 1 ใบ",abilityBack:"{OpenZone}\nเมื่อคุณมี{Pocket}ในสนามครบ 6 ใบคุณ สามารถจ่าย 2{Pocket}เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backวิมานแห่งรัก.jpg",symbol:"Z",artist:"wavecolorstudio",image:"/public/images/cards/วิมานแห่งรัก.jpg"},
-{id:"HD-Z-02",set:"HD",name:"หอนาฬิกาเที่ยงคืน",subtitle:"-",type:"Zone",rarity:"Common",element:"ใจกลางเมือง",cost:"Z",abilityFront:"เมื่อ Zone นี้ทำงาน เมื่อคุณโจมตีหรือขโมยในเทิร์นนี้คู่แข่งไม่สามารถ ใช้งานการ์ด Action ที่มีความสามารถ {Counter}ได้ และ Character คุณได้รับพลัง +100 จนจบเทิร์น",abilityBack:"{OpenZone}\nเมื่อคุณใช้ความสามารถของ Master ครบ 3 ครั้ง สามารถจ่าย 3{Pocket}เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backหอนาฬิกา.jpg",symbol:"Z",artist:"wavecolorstudio",image:"/public/images/cards/หอนาฬิกาเที่ยงคืน.jpg"},
-{id:"HD-Z-03",set:"HD",name:"เรือโจรสลัด",subtitle:"-",type:"Zone",rarity:"Common",element:"เรือ",cost:"Z",abilityFront:"เมื่อ Zone นี้ทำงาน  เลือก Character บนมือ 1 ใบ ที่มีคอสไม่เกิน 2 นำลงบนสนาม\n{Forever}ในเทิร์นคุณการ์ด Character ทุกใบในสนามได้รับพลัง +100",abilityBack:"{OpenZone}\nเมื่อคุณมี Soul Core ใต้การ์ด Zone ครบ 2 ใบคุณสามารถจ่าย 2 {Pocket}เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backเรือโจรสลัด.jpg",symbol:"Z",artist:"-",image:"/public/images/cards/เรือโจรสลัด.jpg"},
+{id:"HD-014",set:"HD",name:"Arsen, Lupaire",subtitle:"จอมโจรคือ ศิลปินผู้รังสรรค์การขโมยสิ่งที่ต้องการอย่างวิจิตรงดงาม!",type:"Master",rarity:"Legendary",element:"จอมโจร,คน ",cost:"M",abilityLeft:"{Activat}{PerTurn} ทิ้งการ์ดจากบนมือ 1  ใบ {Peek} Deck คู่แข่ง และสามารถใช้ skill หรือ Gear ที่มีคอส 2 หรือต่ำกว่าได้โดยไม่ต้องจ่ายค่าคอสและไม่สนเงื่อนไข ",abilityRight:"{ZoneOpen1}\nหลังใช้ความสามารถของการ์ดใบนี้สามารถจั่วการ์ดได้ 1 ใบ",symbol:"K",steal:"1",power:"500",image:"/public/images/cards/Arsene LUPIN.jpg"},
+{id:"HD-015",set:"HD",name:"Pirate's Destination!",subtitle:"ในจุดที่คนอื่นเห็นจุดจบ โจรสลัดกลับเห็นจุดเริ่มต้น",type:"Untimeat",rarity:"Legendary",element:"สถานที่",cost:"5",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone เรือโจรสลัดเคยทำงานแล้ว และคุณขโมย Soul Core มาแล้ว 2 ชิ้นคุณมี Character 1 ใบหรือมากกว่า\nจ่าย {E} 2\nเลือก Character จากใน Tomb 1 ใบ นำเข้ามาในสนามได้และการ์ดใบน้ันได้รับ“เมื่อการ์ดใบนี้โจมตีหรือโมย จะสามารถเลือกได้ 2 เป้าหมายพร้อมกัน และคู่แข่วจะต้องป้องกันแยกกันเท่านั้น”จนจบเทิร์น",artist:"Chotiwat Nilthanee",symbol:"K",image:"/public/images/cards/Pirate's Destination!.jpg"},
+{id:"HD-016",set:"HD",name:"Wounded Heart",subtitle:"ทำอะไรไว้ก็ต้องรับผิดชอบสิ่งที่ทำด้วยละ",type:"Untimeat",rarity:"Legendary",element:"จิตใจ",cost:"5",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone วิมานแห่งรักเคยทำงานแล้ว และ คุณขโมย Soul Core มาแล้ว 2 ชิ้น  คุณไม่มี Character อยู่บนสนาม\nจ่าย {E} 2\nทำการนำ Character ทุกใบในสนามคู่แข่งมาอยู่ใต้ Zone วิมานแห่งรักและนำ Character 1 ใบ จากบนมือ ที่มีคอสไม่เกิน 2 ลงมาบนสนามได้",artist:"Teerawee",symbol:"K",image:"/public/images/cards/Wounded Heart.jpg"},
+{id:"HD-017",set:"HD",name:"Skull, Pirate Captain",subtitle:"ทะเลไม่เคยปราณีและข้าก็เช่นกัน",type:"Master",rarity:"Legendary",element:"โจรสลัด,กัปตัน",cost:"M",abilityLeft:"{Activat}{PerTurn} จ่าย 1 {Pocket} สามารถนำ  Character คอสไม่เกิน 2 ลงมาบนสนามได้ 1 ใบ",abilityRight:"{ZoneOpen2}\nความสามารถของการ์ดใบนี้จะเปลี่ยนเป็น “คอสไม่เกิน 3 ลงมาบนสนามได้ 1 ใบ” แทน",symbol:"K",steal:"1",power:"500",image:"/public/images/cards/Captain Pirates.jpg"},
+{id:"HD-018",set:"HD",name:"Thip Lady of the Night",subtitle:"เข้ามาใกล้อีกนิดสิ...ฉันไม่กัดหรอก(ถ้าคุณไม่ขอ)",type:"Master",rarity:"Legendary",element:"ผู้หญิง",cost:"M",abilityLeft:"เมื่อเริ่มเกม {ES} 1 ใบ\n{Activat}{PerTurn} จ่าย 1 {E} นำการ์ด {Pocket} 1 ใบจาก Deck หรือ Tomb เข้ามาในสนามได้",abilityRight:"{ZoneOpen3}\nจั่วการ์ด 1 ใบ คู่แข่งสามารถจ่าย 1 {Pocket} ถ้าไม่จ่ายจะต้องทิ้งมือ 1 ใบ",symbol:"K",steal:"1",power:"500",image:"/public/images/cards/prostitute.jpg"},
+{id:"HD-Z-01",set:"HD",name:"วิมานแห่งรัก",subtitle:"-",type:"Zone",rarity:"Common",element:"ในใจ",cost:"Z",abilityFront:"เมื่อ Zone นี้ทำงาน  เลือก Character บนสนามของคู่แข่ง 1 ใบ นำมาไว้ใต้การ์ดใบนี้(การ์ดที่อยู่ใต้การ์ดใบนี้จะถือว่าไม่อยู่ในเกมและไม่อยู่ในUnderworld)\n{PerTurn} เมื่อคู่แข่งจ่าย {Pocket} ในเทิร์นคุณ คุณจั่วการ์ด 1 ใบ",abilityBack:"{OpenZone}\nเมื่อคุณมี {Pocket} ในสนามครบ 6 ใบคุณ สามารถจ่าย 2 {Pocket} เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backวิมานแห่งรัก.jpg",symbol:"Z",artist:"wavecolorstudio",image:"/public/images/cards/วิมานแห่งรัก.jpg"},
+{id:"HD-Z-02",set:"HD",name:"หอนาฬิกาเที่ยงคืน",subtitle:"-",type:"Zone",rarity:"Common",element:"ใจกลางเมือง",cost:"Z",abilityFront:"เมื่อ Zone นี้ทำงาน เมื่อคุณโจมตีหรือขโมยในเทิร์นนี้คู่แข่งไม่สามารถ ใช้งานการ์ด Action ที่มีความสามารถ {Counter} ได้ และ Character ของคุณทุกใบได้รับพลัง +100 จนจบเทิร์น",abilityBack:"{OpenZone}\nเมื่อคุณใช้ความสามารถของ Master ครบ 3 ครั้ง สามารถจ่าย 3 {Pocket} เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backหอนาฬิกา.jpg",symbol:"Z",artist:"wavecolorstudio",image:"/public/images/cards/หอนาฬิกาเที่ยงคืน.jpg"},
+{id:"HD-Z-03",set:"HD",name:"เรือโจรสลัด",subtitle:"-",type:"Zone",rarity:"Common",element:"เรือ",cost:"Z",abilityFront:"เมื่อ Zone นี้ทำงาน  เลือก Character บนมือ 1 ใบ ที่มีคอสไม่เกิน 2 นำลงบนสนาม\n{Forever} ในเทิร์นคุณการ์ด Character ทุกใบในสนามได้รับพลัง +100",abilityBack:"{OpenZone}\nเมื่อคุณมี Soul Core ใต้การ์ด Zone ครบ 2 ใบคุณสามารถจ่าย 2 {Pocket} เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backเรือโจรสลัด.jpg",symbol:"Z",artist:"-",image:"/public/images/cards/เรือโจรสลัด.jpg"},
 {id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",artist:"IMO",set:"HD",name:"pocket",subtitle:"-",type:"POCKET",rarity:"Common",element:"-",cost:"-",ability:"{Counter} ใช้ความสามารถนี้ได้จากบนมือคุณเท่านั้น จ่าย 1 {Pocket} จากนั้นเลือก Master หรือ Criminal ที่กำลังต่อสู้อยู่ได้ 1 ใบการ์ดใบนั้นได้รับพลัง +200 จนจบการต่อสู้นั้น",artist:"IMO",image:"/public/images/cards/Pocket3.jpg"},
-{id:"HD-SC01",image:"/public/images/cards/Soul Core.jpg",set:"HD",name:"Soul Core 1",subtitle:"-",type:"Soul Core",rarity:"Common",element:"-",cost:"-",artist:"Pupa",ability:"เมื่อคุณได้รับการ์ดใบนี้ คู่แข่งได้{ES}1 ใบ",image:"/public/images/cards/Soul Core.jpg"},
+{id:"HD-SC01",image:"/public/images/cards/Soul Core.jpg",set:"HD",name:"Soul Core 1",subtitle:"-",type:"Soul Core",rarity:"Common",element:"-",cost:"-",artist:"Pupa",ability:"เมื่อคุณได้รับการ์ดใบนี้ คู่แข่งได้ {ES} 1 ใบ",image:"/public/images/cards/Soul Core.jpg"},
 ];
 
 const rarityClass=r=>`rarity-${String(r).toLowerCase().replace(/\s+/g,"-")}`;
@@ -134,7 +134,35 @@ function syncZoneDetailAbility(c,side="front"){
    abilitySingle.innerHTML=formatAbility(text);
  }
 }
+/* ---------------- CARD DETAIL NAVIGATION ---------------- */
+
+let currentDetailIndex = -1;
+
+function showPreviousCard(){
+  if(!cards.length)return;
+
+  if(currentDetailIndex <= 0){
+    currentDetailIndex = cards.length - 1;
+  }else{
+    currentDetailIndex--;
+  }
+
+  openCard(cards[currentDetailIndex]);
+}
+
+function showNextCard(){
+  if(!cards.length)return;
+
+  if(currentDetailIndex >= cards.length - 1){
+    currentDetailIndex = 0;
+  }else{
+    currentDetailIndex++;
+  }
+
+  openCard(cards[currentDetailIndex]);
+}
 function openCard(c){
+	currentDetailIndex = cards.findIndex(x => String(x.id) === String(c.id));
  if(!c)return;
  document.querySelector("#detailType").textContent=c.type.toUpperCase();
  document.querySelector("#detailRarity").textContent=`(${c.rarity.toUpperCase()})`;
@@ -211,6 +239,15 @@ function resetRosterFilters(){
   el.addEventListener(el.tagName==="INPUT"?"input":"change",render);
 });
 document.querySelector("#close").onclick=closeModal;
+document.querySelector("#detailPrevBtn")?.addEventListener(
+  "click",
+  showPreviousCard
+);
+
+document.querySelector("#detailNextBtn")?.addEventListener(
+  "click",
+  showNextCard
+);
 document.querySelector("#modal").onclick=e=>{if(e.target.id==="modal")closeModal()};
 document.querySelector("#menuBtn").onclick=()=>document.querySelector(".sidebar").classList.toggle("open");
 document.querySelector("#clearRosterFilters")?.addEventListener("click",()=>{
@@ -1547,15 +1584,22 @@ function renderTest(){
       card.style.transform="none";
       card.draggable=false;
       if(testZoneFlipped){
-        card.classList.add("zone-card-back");
-        const img=card.querySelector("img");
-        if(img) img.remove();
-        card.querySelectorAll("span,b,small").forEach(el=>el.remove());
-        const back=document.createElement("div");
-        back.className="zone-back-face";
-        back.innerHTML=`<span>ZONE</span><small>SOULVAULT</small>`;
-        card.appendChild(back);
-      }
+  card.classList.add("zone-card-back");
+
+  const img=card.querySelector("img");
+
+  if(img && testDeck?.zone){
+    const zoneData=cards.find(
+      x=>String(x.id)===String(testDeck.zone)
+    );
+
+    if(zoneData?.imageBack){
+      img.src=zoneData.imageBack;
+      img.alt=`${zoneData.name} Back`;
+      img.className="test-real-image zone-back-image";
+    }
+  }
+}
       card.onclick=()=>openTestCardDetail(card.dataset.id);
       const btn=document.createElement("button");
       btn.type="button";
@@ -1745,17 +1789,27 @@ function bindZonePageFlips(root=document){
       const back=el.dataset.zoneFlipped!=="1";
       el.dataset.zoneFlipped=back?"1":"0";
       if(back){
-        el.innerHTML=`
-  <div class="zone-page-back">
-    ${c.imageBack
-      ? `<img class="zone-back-image" src="${escapeHtml(c.imageBack)}" alt="${escapeHtml(c.name)} Back">`
-      : `<b>ABILITY — BACK</b>
-         <p>${formatAbility(c.abilityBack ?? "—")}</p>`
-    }
-  </div>`;
-        el.className=el.dataset.zoneFrontClass+" zone-page-back-active zone-back-no-shine";
-        btn.title="กลับไปด้านหน้า";
-      }else{
+  el.innerHTML = `
+    <div class="zone-page-back">
+      ${
+        c.imageBack
+          ? `<img
+               class="zone-back-image"
+               src="${escapeHtml(c.imageBack)}"
+               alt="${escapeHtml(c.name)} Back"
+             >`
+          : `<b>ABILITY — BACK</b>
+             <p>${formatAbility(c.abilityBack ?? "—")}</p>`
+      }
+    </div>
+  `;
+
+  el.className =
+    el.dataset.zoneFrontClass +
+    " zone-page-back-active zone-back-no-shine";
+
+  btn.title="กลับไปด้านหน้า";
+}else{
         el.innerHTML=el.dataset.zoneFront;
         el.className=el.dataset.zoneFrontClass;
         btn.title="ดูด้านหลังของ Zone";
@@ -1790,6 +1844,7 @@ function formatAbility(text) {
   ZoneOpen1:"public/images/icon/ZoneOpenหอนาฬิกาเที่ยงคืน.png",
   ES:"public/images/icon/Energy Soul.png",
   ZoneOpen2:"public/images/icon/ZoneOpenเรือโจรสลัด.png",
+  ZoneOpen3:"public/images/icon/ZoneOpenวิมานแห่งรัก.png",
   };
 
   let html = escapeHtml(text);
@@ -2037,3 +2092,16 @@ function setLanguage(lang){
 }
 
 
+
+/* UNIVERSAL GOLDEN WAVE BUTTON CLICK */
+document.addEventListener("click",event=>{
+  const button=event.target.closest("button");
+  if(!button||button.disabled)return;
+  const rect=button.getBoundingClientRect();
+  const wave=document.createElement("span");
+  wave.className="gold-wave-effect";
+  wave.style.left=`${Math.max(0,Math.min(rect.width,event.clientX-rect.left))}px`;
+  wave.style.top=`${Math.max(0,Math.min(rect.height,event.clientY-rect.top))}px`;
+  button.appendChild(wave);
+  wave.addEventListener("animationend",()=>wave.remove(),{once:true});
+});
