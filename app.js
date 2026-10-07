@@ -264,12 +264,27 @@ const defaultSupplies=[
 {id:"SL3",type:"SLEEVE",name:"Void Core",image:"",desc:"Card Sleeve โทนม่วงดำ",price:"280"}];
 let supplies=JSON.parse(localStorage.getItem("stealAreaSupplies")||"null")||defaultSupplies;
 let supplyFilter="ALL";
+
+function normalizeSupplyType(type){
+  const t=String(type||"").trim().toUpperCase();
+
+  if(t==="PLAYMAT" || type==="เพลย์แมต"){
+    return "PLAYMAT";
+  }
+
+  if(t==="SLEEVE" || type==="ซองการ์ด"){
+    return "SLEEVE";
+  }
+
+  return t;
+}
 function persistSupplies(){localStorage.setItem("stealAreaSupplies",JSON.stringify(supplies))}
 function supplyImage(s){
  if(s.image)return `<img src="${escapeHtml(s.image)}" alt="${escapeHtml(s.name)}" loading="lazy">`;
  return `<div class="supply-art ${s.type.toLowerCase()}-art"><span>${s.type==="PLAYMAT"?"PM":"SL"}</span></div>`;
 }
 function renderSupplies(){
+
  const grid=document.querySelector("#supplyGrid"); if(!grid)return;
  const q=(document.querySelector("#supplySearch")?.value||"").trim().toLowerCase();
  const list=supplies.filter(s=>(supplyFilter==="ALL"||s.type===supplyFilter)&&(!q||`${s.name} ${s.type} ${s.desc}`.toLowerCase().includes(q)));
@@ -2092,16 +2107,3 @@ function setLanguage(lang){
 }
 
 
-
-/* UNIVERSAL GOLDEN WAVE BUTTON CLICK */
-document.addEventListener("click",event=>{
-  const button=event.target.closest("button");
-  if(!button||button.disabled)return;
-  const rect=button.getBoundingClientRect();
-  const wave=document.createElement("span");
-  wave.className="gold-wave-effect";
-  wave.style.left=`${Math.max(0,Math.min(rect.width,event.clientX-rect.left))}px`;
-  wave.style.top=`${Math.max(0,Math.min(rect.height,event.clientY-rect.top))}px`;
-  button.appendChild(wave);
-  wave.addEventListener("animationend",()=>wave.remove(),{once:true});
-});

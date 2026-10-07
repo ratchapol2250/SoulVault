@@ -35,52 +35,66 @@
     </header>
 
     <section id="roster" class="section active-section">
-      <div class="hero">
-        <div>
-          <div class="home-logo2">
-  <img
-    src="public/images/logo/Logo2.PNG"
-    alt="SOULVAULT"
-  ><span>วิญญาณที่ตามหา จะอยู่ที่นี่มั้ยนะ</span>
-</div>
-         
-      
 
-      <div class="toolbar">
-        <div class="search-wrap"><span>⌕</span><input id="search" placeholder="Search cards, characters, abilities..."></div>
-        <select id="typeFilter">
-          <option value="All">ALL TYPES</option>
-          <option value="Master">MASTER</option>
-          <option value="Zone">ZONE</option>
-          <option value="Untimeat">UNTIMEAT</option>
-          <option value="Character">CHARACTER</option>
-          <option value="Action">ACTION</option>
-          <option value="Gear">GEAR</option>
-          <option value="POCKET">POCKET</option>
-          <option value="Soul Core">SOUL CORE</option>
-</select>
-        <select id="setFilter">
-          <option value="All">ALL SET</option>
-          <option value="HD">HD</option>
-          <option value="BT01">BT01</option>
-          <option value="BT02">BT02</option>
-          <option value="BT03">BT03</option>
-        </select>
-        <select id="rarityFilter">
-          <option value="All">ALL RARITY</option>
-          <option value="Secret Rare">Secret Rare</option>
-          <option value="Art Rare">Art Rare</option>
-          <option value="Legendary">LEGENDARY</option>
-          <option value="Epic">EPIC</option>
-          <option value="Rare">RARE</option>
-          <option value="Common">COMMON</option>
-        </select>
-		<button class="clear-filter-btn" id="clearRosterFilters">✕ เคลียร์ตัวกรอง</button>
-      </div>
+  <div class="hero">
 
-      <div id="grid" class="grid"></div>
-      <div id="empty" class="empty hidden">ไม่พบการ์ดที่ตรงกับการค้นหา</div>
-    </section>
+    <div class="home-logo2">
+      <img
+        src="public/images/logo/Logo2.PNG"
+        alt="SOULVAULT"
+      >
+      <span>วิญญาณที่ตามหา จะอยู่ที่นี่มั้ยนะ</span>
+    </div>
+
+  </div>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span>⌕</span>
+      <input id="search" placeholder="Search cards, characters, abilities...">
+    </div>
+
+    <select id="typeFilter">
+      <option value="All">ALL TYPES</option>
+      <option value="Master">MASTER</option>
+      <option value="Zone">ZONE</option>
+      <option value="Untimeat">UNTIMEAT</option>
+      <option value="Character">CHARACTER</option>
+      <option value="Action">ACTION</option>
+      <option value="Gear">GEAR</option>
+      <option value="POCKET">POCKET</option>
+      <option value="Soul Core">SOUL CORE</option>
+    </select>
+
+    <select id="setFilter">
+      <option value="All">ALL SET</option>
+      <option value="HD">HD</option>
+      <option value="BT01">BT01</option>
+      <option value="BT02">BT02</option>
+      <option value="BT03">BT03</option>
+    </select>
+
+    <select id="rarityFilter">
+      <option value="All">ALL RARITY</option>
+      <option value="Secret Rare">Secret Rare</option>
+      <option value="Art Rare">Art Rare</option>
+      <option value="Legendary">LEGENDARY</option>
+      <option value="Epic">EPIC</option>
+      <option value="Rare">RARE</option>
+      <option value="Common">COMMON</option>
+    </select>
+
+    <button class="clear-filter-btn" id="clearRosterFilters">
+      ✕ เคลียร์ตัวกรอง
+    </button>
+  </div>
+
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty hidden">
+    ไม่พบการ์ดที่ตรงกับการค้นหา
+  </div>
+
+</section>
 
     <section id="collection" class="section">
       <div class="deck-header collection-header">
@@ -386,9 +400,9 @@
       </div>
       <div class="supply-toolbar">
         <div class="supply-tabs">
-          <button class="supply-tab active" data-supply-filter="ทั้งหมด">ทั้งหมด</button>
-          <button class="supply-tab" data-supply-filter="เพลย์แมต">เพลย์แมต</button>
-          <button class="supply-tab" data-supply-filter="ซองการ์ด">ซองการ์ด</button>
+          <button class="supply-tab active" data-supply-filter="ALL">ทั้งหมด</button>
+<button class="supply-tab" data-supply-filter="PLAYMAT">เพลย์แมต</button>
+<button class="supply-tab" data-supply-filter="SLEEVE">ซองการ์ด</button>
         </div>
         <input id="supplySearch" class="supply-search" type="text" placeholder="ค้นหาเพลย์แมต / ซองการ์ด...">
       </div>
