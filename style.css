@@ -3207,13 +3207,16 @@ select option:hover{
 .ability-icon-PerTurn,
 .ability-icon-Block,
 .ability-icon-Enter,
-.ability-icon-Peek,
 .ability-icon-ES,
 .ability-icon-ZoneOpen1,
 .ability-icon-ZoneOpen2{
   width:auto !important;
   height:20px !important;
   max-width:160px !important;
+}
+.ability-icon-Peek{
+  width:auto !important;
+  height:18px !important;
 }
 
 .ability-icon-E{
