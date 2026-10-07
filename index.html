@@ -12,11 +12,12 @@
   <img id="siteLogo" src="public/images/logo/Logo.png" alt="SOULVAULT CARD GAME" onerror="this.style.display='none';this.parentElement.classList.add('logo-fallback')">
 </div>
     <nav>
-      <button class="nav" data-section="roster">◈ <span>List Card</span></button>
-      <button class="nav" data-section="collection">▣ <span>Collaction</span></button>
-      <button class="nav" data-section="deck">◇ <span>Deck building</span></button>
-      <button class="nav" data-section="drawtest">♢ <span>Play Test</span></button>
-      <button class="nav" data-section="supply">▤ <span>Supply</span></button>
+	
+      <button class="nav" data-section="roster"><span>List Card</span></button>
+      <button class="nav" data-section="collection"><span>Collaction</span></button>
+      <button class="nav" data-section="deck"><span>Deck building</span></button>
+      <button class="nav" data-section="drawtest"><span>Play Test</span></button>
+      <button class="nav" data-section="supply"><span>Supply</span></button>
     </nav>
     <div class="sidebar-bottom">
       <div class="version">SOULVAULT v1.0</div>
@@ -293,7 +294,18 @@
         </div>
       </div>
     </section>
+<div id="deckPickerModal" class="modal hidden">
+  <div class="cover-picker-modal deck-picker-modal">
 
+    <button class="close" onclick="closeDeckPicker()">×</button>
+
+    <h2>เลือกการ์ดจาก DECK</h2>
+    <p>เลือกการ์ดที่ต้องการนำออกมาไว้ใน HAND</p>
+
+    <div id="deckPickerGrid" class="deck-picker-grid"></div>
+
+  </div>
+</div>
     <section id="drawtest" class="section">
       <div class="draw-header">
         <div>
@@ -308,7 +320,21 @@
           <button class="danger-btn" id="resetTestBtn">RESET</button>
         </div>
       </div>
+<div id="tombViewerModal" class="modal hidden">
 
+  <div class="cover-picker-modal tomb-viewer-modal">
+
+    <button class="close" onclick="closeTombViewer()">×</button>
+
+    <h2>สุสาน</h2>
+
+    <p>การ์ดทั้งหมดที่อยู่ใน TOMB</p>
+
+    <div id="tombViewerGrid" class="tomb-viewer-grid"></div>
+
+  </div>
+
+</div>
       <div class="playtest-info">
         <span>DECK: <b id="testDeckName">-</b></span>
         <span>CARDS LEFT: <b id="testCardsLeft">0</b></span>
@@ -385,6 +411,7 @@
           <button class="gold-btn supply-save" id="saveอุปกรณ์เสริมBtn">บันทึกอุปกรณ์เสริม</button>
         </div>
       </div>
+	  
     </section>
 
 </main>

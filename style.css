@@ -1199,6 +1199,72 @@ select option:hover{
   vertical-align: middle;
   margin: 0 3px;
 }
+.ability-icon-Activat{
+  width: 46px;
+  height: 50px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin: 0 3px;
+}
+.ability-icon-PerTurn {
+  width: 44px;
+  height: 45px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin: 0 3px;
+}
+.ability-icon-Block {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin: 0 3px;
+}
+.ability-icon-Enter {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin: 0 3px;
+}
+.ability-icon-Peek {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin: 0 3px;
+}
+
+#detailAbilityRight {
+  position: relative;
+  padding-top: 20px;
+}
+
+.ability-icon-ZoneOpen1 {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  position: absolute;
+  top: -50px;
+  left: 0;
+  z-index: 1;
+}
+.ability-icon-ES {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin: 0 3px;
+}
+.ability-icon-ZoneOpen2 {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  position: absolute;
+  top: -50px;
+  left: 0;
+  z-index: 1;
+}
 /* ===== REAL LOGO ===== */
 .brand{min-height:72px}
 .brand #siteLogo{display:block;width:300px;max-width:100%;height:auto;max-height:100px;object-fit:contain}
@@ -1257,7 +1323,9 @@ select option:hover{
     transparent 70%
   );
 }
-
+.leader-ability-box p{
+  position: relative;
+}
 /* EPIC — ม่วง */
 .library-cover.rarity-epic::before{
   background:linear-gradient(
@@ -2755,6 +2823,284 @@ select option:hover{
   display:block;
   z-index:1;
 }
+.detail-grid{
+  display:grid;
+  grid-template-columns: auto max-content 1fr 1fr max-content auto;
+  gap:8px;
+  margin-top:30px;
+}
+
+.detail-grid div{
+  border:1px solid #28231a;
+  padding:10px;
+  min-width:0;
+  box-sizing:border-box;
+}
+
+.detail-grid div:nth-child(2),
+.detail-grid div:nth-child(5){
+  white-space:nowrap;
+  width:max-content;
+}
+.deck-picker-modal{
+  width:min(900px,92vw);
+  max-height:85vh;
+  overflow:auto;
+}
+
+.deck-picker-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(100px,1fr));
+  gap:14px;
+  margin-top:20px;
+}
+
+.deck-picker-card{
+  position:relative;
+  aspect-ratio:6.3 / 8.8;
+  border:1px solid #4b3a20;
+  background:#0d0b08;
+  cursor:pointer;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.deck-picker-card:hover{
+  transform:translateY(-5px);
+  border-color:#d6b45a;
+  box-shadow:0 0 18px rgba(180,130,255,.35);
+}
+
+.deck-picker-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.deck-picker-count{
+  position:absolute;
+  right:5px;
+  bottom:5px;
+  padding:3px 7px;
+  border:1px solid #9b7b2f;
+  background:#090806;
+  color:#e8c866;
+  font-size:10px;
+  font-weight:bold;
+}
+
+@media(max-width:600px){
+  .deck-picker-grid{
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+
+  .deck-picker-modal{
+    width:94vw;
+  }
+}
+.deck-card-choice{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.75);
+}
+
+.deck-card-choice-box{
+  position:relative;
+  width:min(420px,90vw);
+  padding:30px;
+  border:1px solid #6b5425;
+  background:#100e0b;
+  box-shadow:0 0 40px rgba(0,0,0,.8);
+  text-align:center;
+}
+
+.deck-card-choice-box h3{
+  margin:0 0 8px;
+  color:#e5c66a;
+  font-size:18px;
+}
+
+.deck-card-choice-box p{
+  margin:0 0 25px;
+  color:#aaa;
+  font-size:12px;
+}
+
+.deck-choice-actions{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+}
+
+.deck-choice-actions button{
+  min-width:140px;
+}
+
+.deck-card-choice .deck-choice-close{
+  position:absolute;
+  top:8px;
+  right:10px;
+  border:0;
+  background:none;
+  color:#aaa;
+  font-size:24px;
+  cursor:pointer;
+}
+.tomb-viewer-modal{
+  width:min(900px,92vw);
+  max-height:85vh;
+  overflow:auto;
+}
+
+.tomb-viewer-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+  gap:14px;
+  margin-top:20px;
+}
+
+.tomb-viewer-card{
+  position:relative;
+  aspect-ratio:6.3 / 8.8;
+  border:1px solid #49391f;
+  background:#0d0b08;
+  cursor:pointer;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.tomb-viewer-card:hover{
+  transform:translateY(-5px);
+  border-color:#d6b45a;
+  box-shadow:0 0 18px rgba(180,130,255,.35);
+}
+
+.tomb-viewer-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.tomb-card-index{
+  position:absolute;
+  right:5px;
+  bottom:5px;
+  min-width:20px;
+  padding:3px 5px;
+  text-align:center;
+  background:#080706;
+  border:1px solid #80652d;
+  color:#e5c66a;
+  font-size:9px;
+}
+
+.tomb-empty{
+  grid-column:1/-1;
+  padding:60px 20px;
+  text-align:center;
+  color:#777;
+  letter-spacing:2px;
+}
+
+@media(max-width:600px){
+  .tomb-viewer-grid{
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+
+  .tomb-viewer-modal{
+    width:94vw;
+  }
+}
+.zone-soulcore-badge{
+  display:block;
+  width:max-content;
+  margin:8px auto 0;
+  padding:4px 10px;
+  border:1px solid #80652d;
+  border-radius:12px;
+  background:#0b0906;
+  color:#e5c66a;
+  font-size:10px;
+  font-weight:bold;
+  cursor:pointer;
+  z-index:20;
+}
+
+.zone-soulcore-badge:hover{
+  border-color:#d6b45a;
+  box-shadow:0 0 10px rgba(214,180,90,.3);
+}
+
+.zone-soulcore-info{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  margin-top:5px;
+  padding:5px 12px;
+  border:1px solid #49391f;
+  background:#0d0b08;
+  color:#aaa;
+  font-size:9px;
+}
+
+.zone-soulcore-info b{
+  color:#e5c66a;
+  font-size:9px;
+}
+
+.zone-soulcore-info span{
+  color:#fff;
+}
+/* ===== GOLD LIGHT WAVE UNDER MASCOT ===== */
+
+.home-logo2{
+  position:relative;
+}
+
+.home-logo2::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:25px;
+  width:180px;
+  height:35px;
+  transform:translateX(-50%);
+
+  background:radial-gradient(
+    ellipse,
+    rgba(255,210,80,.75) 0%,
+    rgba(255,180,40,.35) 35%,
+    rgba(255,180,40,.12) 55%,
+    transparent 75%
+  );
+
+  filter:blur(5px);
+  opacity:.8;
+  animation:goldLightWave 2.5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes goldLightWave{
+  0%,100%{
+    transform:translateX(-50%) scaleX(.75);
+    opacity:.35;
+  }
+
+  50%{
+    transform:translateX(-50%) scaleX(1.25);
+    opacity:1;
+  }
+}
+
 /* ===== ZONE TWO-SIDED ON ALL PAGES ===== */
 .zone-page-flippable{position:relative!important;overflow:hidden!important;}
 .zone-page-flip-btn{position:absolute;right:5px;top:5px;z-index:40;width:28px;height:28px;border:1px solid rgba(220,190,120,.75);background:rgba(8,8,8,.88);color:#e0bd68;border-radius:50%;font-size:15px;line-height:26px;cursor:pointer;box-shadow:0 3px 10px #000;}
