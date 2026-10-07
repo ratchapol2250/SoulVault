@@ -1148,91 +1148,47 @@ select option:hover{
   background:#1b1710!important;
   color:#f2d48a!important;
 }
-/* เว้นบรรทัดในข้อความ Ability */
-#detailAbility {
+/* ===== ABILITY ICONS: KEEP ORIGINAL SIZE, REMOVE EXCESS SPACE ===== */
+#detailAbility,
+#detailAbilityLeft,
+#detailAbilityRight {
   white-space: pre-line !important;
-  line-height: 1.8;
+  line-height: 1.45 !important;
 }
-.ability-icon-Counter {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin: 0 3px;
+
+.ability-icon {
+  display: inline-block !important;
+  object-fit: contain !important;
+  vertical-align: middle !important;
+  margin: 0 1px !important;
+  padding: 0 !important;
+  line-height: 1 !important;
 }
-.ability-icon-E {
-  width: 30px;
-  height: 30px;
-  vertical-align: middle;
-}
-.ability-icon-Pocket {
-  width: 26px;
-  height: 26px;
-  vertical-align: middle;
-  position: relative;
-  top: -2px; /* ขยับขึ้น */
-  margin: 0 4px;
-}
-.ability-icon-Dot {
-  width: 12px;
-  height: 12px;
-  vertical-align: middle;
-}
-.siteLogo{
-   width: 50px;
-  height: 50px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin: 0 3px;
-}
-.ability-icon-OpenZone {
-  width: 70px;
-  height: 50px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin: 0 3px;
-}
-.ability-icon-Forever {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin: 0 3px;
-}
-.ability-icon-Activat{
-  width: 46px;
-  height: 50px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin: 0 3px;
-}
-.ability-icon-PerTurn {
-  width: 44px;
-  height: 45px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin: 0 3px;
-}
-.ability-icon-Block {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin: 0 3px;
-}
-.ability-icon-Enter {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin: 0 3px;
-}
-.ability-icon-Peek {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin: 0 3px;
+
+/* Original icon dimensions are intentionally preserved.
+   Only the surrounding inline spacing is tightened. */
+.ability-icon-Counter { width:50px; height:50px; }
+.ability-icon-E { width:30px; height:30px; }
+.ability-icon-Pocket { width:26px; height:26px; position:relative; top:-1px; }
+.ability-icon-Dot { width:12px; height:12px; }
+.ability-icon-OpenZone { width:70px; height:50px; }
+.ability-icon-Forever { width:50px; height:50px; }
+.ability-icon-Activat { width:46px; height:50px; }
+.ability-icon-PerTurn { width:44px; height:45px; }
+.ability-icon-Block,
+.ability-icon-Enter,
+.ability-icon-Peek { width:40px; height:40px; }
+.ability-icon-ES { width:80px; height:80px; }
+
+/* Zone icons stay inline so they cannot create an invisible 150px-high line. */
+.ability-icon-ZoneOpen1,
+.ability-icon-ZoneOpen2 {
+  position: static !important;
+  width:150px;
+  height:150px;
+  margin:0 1px !important;
+  vertical-align:middle !important;
+  z-index:auto;
 }
 
 #detailAbilityRight {
@@ -1240,31 +1196,6 @@ select option:hover{
   padding-top: 20px;
 }
 
-.ability-icon-ZoneOpen1 {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
-  position: absolute;
-  top: -50px;
-  left: 0;
-  z-index: 1;
-}
-.ability-icon-ES {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  vertical-align: middle;
-  margin: 0 3px;
-}
-.ability-icon-ZoneOpen2 {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
-  position: absolute;
-  top: -50px;
-  left: 0;
-  z-index: 1;
-}
 /* ===== REAL LOGO ===== */
 .brand{min-height:72px}
 .brand #siteLogo{display:block;width:300px;max-width:100%;height:auto;max-height:100px;object-fit:contain}
@@ -1535,7 +1466,7 @@ select option:hover{
 .master-abilities{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:0;}
 .master-ability-box{border:1px solid #28231a;background:#0d0d0d;padding:14px;min-width:0;}
 .master-ability-box h3{margin:0 0 10px;font-size:9px;letter-spacing:1.8px;color:var(--gold);}
-.master-ability-box p{margin:0;min-height:70px;white-space:pre-line;line-height:1.8;}
+.master-ability-box p{margin:0;min-height:0;white-space:pre-line;line-height:1.45;}
 @media(max-width:600px){.master-abilities{grid-template-columns:1fr;}}
 
 
@@ -3170,95 +3101,3 @@ select option:hover{
 .picker-card-clickable:hover .picker-name b{color:var(--gold2)}
 .picker-card-clickable .picker-art{transition:.16s}
 .picker-card-clickable:hover .picker-art{border-color:#765b2a;box-shadow:0 0 12px rgba(217,173,82,.12)}
-
-/* ===== ABILITY ICON SPACING FIX =====
-   Keep every ability icon close to the surrounding text.
-   Uses em-based sizing so icons scale with the ability font.
-*/
-#detailAbility,
-#detailAbilityLeft,
-#detailAbilityRight,
-.zone-page-back p,
-.master-ability-box p{
-  line-height:1.35 !important;
-  white-space:pre-line !important;
-  font-size:13px !important;
-}
-
-#detailAbility .ability-icon,
-#detailAbilityLeft .ability-icon,
-#detailAbilityRight .ability-icon,
-.zone-page-back .ability-icon,
-.master-ability-box .ability-icon{
-  display:inline-block !important;
-  box-sizing:border-box !important;
-  width:1.35em !important;
-  height:1.35em !important;
-  max-width:1.35em !important;
-  max-height:1.35em !important;
-  min-width:0 !important;
-  min-height:0 !important;
-  margin:0 !important;
-  padding:0 !important;
-  object-fit:contain !important;
-  vertical-align:-0.28em !important;
-  position:static !important;
-  top:auto !important;
-  left:auto !important;
-  right:auto !important;
-  bottom:auto !important;
-}
-
-/* Tiny bullet icon */
-#detailAbility .ability-icon-Dot,
-#detailAbilityLeft .ability-icon-Dot,
-#detailAbilityRight .ability-icon-Dot,
-.zone-page-back .ability-icon-Dot,
-.master-ability-box .ability-icon-Dot{
-  width:.75em !important;
-  height:.75em !important;
-  max-width:.75em !important;
-  max-height:.75em !important;
-  vertical-align:-.08em !important;
-}
-
-/* Keep larger symbolic icons compact without creating a tall line box */
-#detailAbility .ability-icon-ZoneOpen1,
-#detailAbility .ability-icon-ZoneOpen2,
-#detailAbilityLeft .ability-icon-ZoneOpen1,
-#detailAbilityLeft .ability-icon-ZoneOpen2,
-#detailAbilityRight .ability-icon-ZoneOpen1,
-#detailAbilityRight .ability-icon-ZoneOpen2,
-.zone-page-back .ability-icon-ZoneOpen1,
-.zone-page-back .ability-icon-ZoneOpen2{
-  width:1.8em !important;
-  height:1.8em !important;
-  max-width:1.8em !important;
-  max-height:1.8em !important;
-  display:inline-block !important;
-  position:static !important;
-  margin:0 !important;
-  vertical-align:-.42em !important;
-}
-
-/* Prevent inline images from inheriting global image spacing */
-#detailAbility img,
-#detailAbilityLeft img,
-#detailAbilityRight img,
-.zone-page-back img,
-.master-ability-box img{
-  margin-left:0 !important;
-  margin-right:0 !important;
-}
-
-/* Ability headings should not add a large gap before the text */
-.master-ability-box h3{
-  margin-bottom:6px !important;
-}
-
-/* Do not let empty/min-height rules create artificial vertical space */
-.master-ability-box p{
-  min-height:0 !important;
-}
-
-/* ===== END ABILITY ICON SPACING FIX ===== */
