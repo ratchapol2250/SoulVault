@@ -3170,3 +3170,85 @@ select option:hover{
 .picker-card-clickable:hover .picker-name b{color:var(--gold2)}
 .picker-card-clickable .picker-art{transition:.16s}
 .picker-card-clickable:hover .picker-art{border-color:#765b2a;box-shadow:0 0 12px rgba(217,173,82,.12)}
+
+/* ===== FINAL ABILITY ICON SPACING FIX ===== */
+/* Keep the original icon artwork visible, but stop oversized CSS boxes from
+   creating extra vertical space between lines. */
+#detailAbility,
+#detailAbilityLeft,
+#detailAbilityRight,
+.master-ability-box p{
+  line-height:1.35 !important;
+  white-space:pre-line !important;
+  min-height:0 !important;
+}
+
+#detailAbilityRight{
+  padding-top:0 !important;
+}
+
+.ability-icon{
+  display:inline-block !important;
+  object-fit:contain !important;
+  vertical-align:middle !important;
+  position:relative !important;
+  margin:0 1px !important;
+  padding:0 !important;
+  line-height:1 !important;
+  box-sizing:content-box !important;
+}
+
+/* Wide label-style icons: preserve their natural aspect ratio instead of
+   forcing them into tall 40–80px boxes. */
+.ability-icon-Counter,
+.ability-icon-OpenZone,
+.ability-icon-Forever,
+.ability-icon-Activat,
+.ability-icon-PerTurn,
+.ability-icon-Block,
+.ability-icon-Enter,
+.ability-icon-Peek,
+.ability-icon-ES,
+.ability-icon-ZoneOpen1,
+.ability-icon-ZoneOpen2{
+  width:auto !important;
+  height:28px !important;
+  max-width:160px !important;
+}
+
+.ability-icon-E{
+  width:auto !important;
+  height:27px !important;
+}
+
+.ability-icon-Pocket{
+  width:auto !important;
+  height:25px !important;
+  top:0 !important;
+  margin:0 1px !important;
+}
+
+.ability-icon-Dot{
+  width:12px !important;
+  height:12px !important;
+  margin:0 1px !important;
+}
+
+/* Zone icons are normal inline icons now; they must not reserve a 150px
+   absolute-positioned area. */
+.ability-icon-ZoneOpen1,
+.ability-icon-ZoneOpen2{
+  position:relative !important;
+  top:0 !important;
+  left:0 !important;
+  z-index:1 !important;
+}
+
+/* Remove inherited image spacing in all ability text containers. */
+#detailAbility img,
+#detailAbilityLeft img,
+#detailAbilityRight img,
+.master-ability-box p img{
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+}
