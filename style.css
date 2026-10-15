@@ -4048,3 +4048,129 @@ select option:hover{
 .sim-footnote{font-size:10px;color:#756d5d;margin:13px 0 0}
 @media(max-width:900px){.two-player-grid{grid-template-columns:1fr}.two-player-topbar{align-items:flex-start;flex-direction:column}.sim-player-head{flex-wrap:wrap}.sim-deck-select{max-width:100%}}
 
+
+
+/* ===== SOULVAULT: supplied square playmat reference =====
+   Uses the user's exact playmat artwork as the background.
+   Existing card/deck logic is preserved; this block only adjusts layout. */
+.manual-playmat{
+  width:100%;
+  aspect-ratio:1 / 1;
+  min-height:0;
+  height:auto;
+  overflow:hidden;
+  border:0;
+  background-color:#03060b;
+  background-image:url("./public/images/soulvault-playmat-reference.jpg");
+  background-size:100% 100%;
+  background-position:center;
+  background-repeat:no-repeat;
+  isolation:isolate;
+}
+.manual-playmat:before{display:none!important}
+.manual-playmat .playmat-hint{display:none!important}
+.manual-playmat .board-piles{
+  position:absolute;
+  inset:0;
+  display:block;
+  right:auto;top:auto;
+  z-index:6;
+  pointer-events:none;
+}
+.manual-playmat .board-pile{
+  position:absolute;
+  width:10.8%;
+  height:12.4%;
+  min-width:0;
+  padding:0;
+  border:0!important;
+  border-radius:0;
+  box-shadow:none!important;
+  background:transparent!important;
+  color:transparent;
+  pointer-events:auto;
+}
+.manual-playmat .board-pile span{
+  display:none!important;
+}
+.manual-playmat .board-pile b{
+  position:absolute;
+  left:0;right:0;bottom:3%;
+  margin:0;
+  color:#f5e5bb;
+  font:700 clamp(9px,1.05vw,14px) Inter,sans-serif;
+  text-shadow:0 1px 4px #000,0 0 5px #000;
+  text-align:center;
+}
+.manual-playmat #testDeckPile{
+  left:82.8%;
+  top:66.4%;
+}
+.manual-playmat #testTombPile{
+  left:82.8%;
+  top:80.1%;
+}
+.manual-playmat .test-board-cards{position:absolute;inset:0;z-index:4}
+.manual-playmat .test-board-cards .test-card{
+  width:7.4%!important;
+  height:auto!important;
+  aspect-ratio:6.3 / 8.8;
+  min-width:0!important;min-height:0!important;
+  max-width:none!important;max-height:none!important;
+}
+.manual-playmat .test-special-card{
+  position:absolute!important;
+  width:10.3%!important;
+  height:14.5%!important;
+  min-width:0!important;min-height:0!important;
+  max-width:none!important;max-height:none!important;
+  z-index:5!important;
+  overflow:visible!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.manual-playmat .test-special-card .test-card{
+  width:100%!important;height:100%!important;
+  min-width:0!important;min-height:0!important;
+  max-width:none!important;max-height:none!important;
+}
+.manual-playmat .test-master-card{
+  left:44.8%!important;top:65.2%!important;
+  transform:none!important;
+}
+.manual-playmat .test-zone-card{
+  left:44.8%!important;top:80.0%!important;
+  transform:none!important;
+}
+.manual-playmat .test-soul-core-cards{
+  left:50%!important;top:48.3%!important;
+  transform:translate(-50%,-50%)!important;
+  width:25%!important;max-width:25%!important;
+  gap:2%!important;
+}
+.manual-playmat .test-soul-core-cards .test-card{
+  width:47%!important;height:auto!important;
+  aspect-ratio:1.42 / 1;
+  min-width:0!important;min-height:0!important;
+  max-width:none!important;max-height:none!important;
+}
+.manual-playmat .test-soul-core-under-zone{
+  left:50%!important;top:84%!important;
+  transform:translateX(-50%)!important;
+  width:11%!important;min-height:0!important;
+}
+.manual-playmat .test-soul-core-under-zone .test-card{
+  width:68%!important;height:auto!important;
+  aspect-ratio:6.3 / 8.8;
+  min-width:0!important;min-height:0!important;
+  max-width:none!important;max-height:none!important;
+}
+@media(max-width:700px){
+  .manual-playtest{padding:6px}
+  .manual-playmat{min-width:0!important;width:100%;aspect-ratio:1 / 1;min-height:0!important}
+  .manual-playmat .test-board-cards .test-card{width:8%!important}
+  .manual-playmat .test-special-card{width:11%!important;height:auto!important;aspect-ratio:6.3 / 8.8}
+  .manual-playmat .test-soul-core-cards{width:27%!important;max-width:27%!important}
+  .manual-playmat .board-pile b{font-size:9px}
+}
