@@ -29,8 +29,6 @@ const DEFAULT_SUPABASE_KEY = 'sb_publishable_9Z-S9cjQIFL6GM1q7Kks_w_fL60ER4a';
 const DEFAULT_SUPABASE_URL = 'https://utwdblubsqrpgpkxislj.supabase.co';
 const DEFAULT_SUPABASE_KEY = 'sb_publishable_9Z-S9cjQIFL6GM1q7Kks_w_fL60ER4a';
 
-const DEFAULT_SUPABASE_URL = 'https://utwdblubsqrpgpkxislj.supabase.co';
-const DEFAULT_SUPABASE_KEY = 'sb_publishable_9Z-S9cjQIFL6GM1q7Kks_w_fL60ER4a';
 
 cfgUrl.value =
   localStorage.getItem('svRealtimeUrl') || DEFAULT_SUPABASE_URL;
