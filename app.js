@@ -1499,7 +1499,7 @@ function addBoardCard(id,x=.45,y=.45){
     uid:"B"+Date.now()+Math.random().toString(36).slice(2,7),
     id:String(id),
     x:Math.max(.02,Math.min(.92,x)),
-    y:Math.max(.02,Math.min(.86,y)),
+    y:Math.max(.02,Math.min(.70,y)),
     rotation:0
   });
 }
@@ -2000,7 +2000,7 @@ const testHandEl=document.querySelector("#testHand");
       if(index>=0){const id=testHand.splice(index,1)[0];addBoardCard(id,x-.07,y-.13);}
     }else{
       const item=testBoard.freeCards.find(item=>String(item.id)===selected.id);
-      if(item){item.x=Math.max(.02,Math.min(.90,x-.07));item.y=Math.max(.02,Math.min(.86,y-.12));}
+      if(item){item.x=Math.max(.02,Math.min(.90,x-.07));item.y=Math.max(.02,Math.min(.68,y-.12));}
     }
     clearSelection();
     e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
@@ -2026,7 +2026,7 @@ function boardDropHandler(e){
     const item=testBoard.freeCards[data.index];
     if(!item)return;
     item.x=Math.max(.02,Math.min(.90,x-.07));
-    item.y=Math.max(.02,Math.min(.86,y-.12));
+    item.y=Math.max(.02,Math.min(.68,y-.12));
   }
   renderTest();
 }

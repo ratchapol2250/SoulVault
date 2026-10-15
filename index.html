@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOULVAULT CARD GAME — การ์ดทั้งหมด</title>
-  <link rel="stylesheet" href="style.css?v=20261015-slots">
+  <link rel="stylesheet" href="style.css?v=20261014-touchdrag">
 </head>
 <body>
 <aside class="sidebar">
@@ -332,10 +332,6 @@
           <button class="danger-btn" id="resetTestBtn">RESET</button>
         </div>
       </div>
-      <div class="playtest-mode-switch">
-        <button class="gold-btn" id="openTwoPlayerBtn" type="button">⚔ ทดลองเล่น 2 คน</button>
-        <span>จำลองการจั่ว ลงสนาม และส่งการ์ดไป TOMB แยกกันทั้งสองฝ่าย</span>
-      </div>
 <div id="tombViewerModal" class="modal hidden">
 
   <div class="cover-picker-modal tomb-viewer-modal">
@@ -389,62 +385,6 @@
       <div class="playtest-actions">
         <button class="gold-btn" id="drawPileBtn">DRAW 1 CARD</button>
         <span>คลิกการ์ดในสนามเพื่อดูรายละเอียด · ลากการ์ดบนสนามเพื่อย้ายตำแหน่ง</span>
-      </div>
-
-      <div id="twoPlayerSimulator" class="two-player-simulator" hidden>
-        <div class="sim-online-panel">
-          <div class="sim-online-heading">
-            <div><div class="eyebrow">ONLINE ROOM</div><h3>เล่นออนไลน์กับเพื่อน</h3><p>สร้างห้องแล้วส่งรหัสให้เพื่อน หรือกรอกรหัสเพื่อเข้าห้อง</p></div>
-            <span id="simOnlineStatus" class="sim-online-status" role="status">ยังไม่ได้เชื่อมต่อ</span>
-          </div>
-         <div class="sim-online-config" style="display:none !important;">
-            <label>Supabase Project URL<input id="simSupabaseUrl" type="url" placeholder="https://your-project.supabase.co" autocomplete="url"></label>
-            <label>Publishable key<input id="simSupabaseKey" type="password" placeholder="sb_publishable_..." autocomplete="off"></label>
-          </div>
-          <div class="sim-online-actions">
-            <button class="gold-btn" id="simCreateRoomBtn" type="button">สร้างห้องออนไลน์</button>
-            <input id="simRoomCode" class="sim-room-code" type="text" maxlength="8" placeholder="รหัสห้อง" aria-label="รหัสห้อง">
-            <button class="gold-btn" id="simJoinRoomBtn" type="button">เข้าร่วมห้อง</button>
-            <button class="sim-secondary-btn" id="simCopyInviteBtn" type="button" disabled>คัดลอกลิงก์ชวน</button>
-            <button class="danger-btn" id="simLeaveRoomBtn" type="button" disabled>ออกจากห้อง</button>
-          </div>
-          <p class="sim-online-note">ตั้งค่า URL และ Publishable key ครั้งแรกในเบราว์เซอร์นี้เท่านั้น ห้ามนำ Secret key หรือ service_role key มาใส่ที่นี่</p>
-        </div>
-        <div class="two-player-topbar">
-          <div><div class="eyebrow">VERSUS PLAY TEST</div><h3>ทดลองเล่นสองฝ่าย</h3><p>แต่ละฝ่ายมี DECK, HAND, FIELD และ TOMB ของตัวเอง</p></div>
-          <div class="two-player-global-actions"><span id="simTurnLabel" class="sim-turn-label">ตาของผู้เล่น 1</span><button class="gold-btn" id="simEndTurnBtn" type="button">จบเทิร์น →</button><button class="danger-btn" id="closeTwoPlayerBtn" type="button">กลับโหมดเดิม</button></div>
-        </div>
-        <div class="two-player-grid">
-          <article class="sim-player" data-sim-player="0">
-            <div class="sim-player-head"><div><span class="sim-player-tag">PLAYER 1</span><h3>ผู้เล่น 1</h3></div><select class="sim-deck-select" data-sim-deck="0" aria-label="เลือกเด็คผู้เล่น 1"></select></div>
-            <div class="sim-player-stats"><span>DECK <b data-sim-stat="deck">0</b></span><span>HAND <b data-sim-stat="hand">0</b></span><span>FIELD <b data-sim-stat="field">0</b></span><span>TOMB <b data-sim-stat="tomb">0</b></span></div>
-            <div class="sim-specials"><div><small>MASTER</small><div data-sim-special="master" class="sim-special-card"></div></div><div><small>ZONE</small><div data-sim-special="zone" class="sim-special-card"></div></div></div>
-            <div class="sim-player-controls"><button class="gold-btn" data-sim-action="draw5" data-player="0" type="button">DRAW 5</button><button class="gold-btn" data-sim-action="draw1" data-player="0" type="button">DRAW 1</button><button class="danger-btn" data-sim-action="reset" data-player="0" type="button">RESET</button></div>
-            <div class="sim-board-slots">
-              <div class="sim-slot-block"><div class="sim-zone-title">C <small>วางได้เฉพาะ Character</small></div><div class="sim-field sim-card-slot" data-sim-area="character" data-player="0"><span class="sim-empty">CHARACTER</span></div></div>
-              <div class="sim-slot-block"><div class="sim-zone-title">POCKET <small>วางได้เฉพาะ Pocket</small></div><div class="sim-field sim-card-slot" data-sim-area="pocket" data-player="0"><span class="sim-empty">POCKET</span></div></div>
-              <div class="sim-slot-block sim-soulcore-block"><div class="sim-zone-title">SOUL CORE <small>วางแนวนอน</small></div><div class="sim-field sim-soulcore-slot" data-sim-area="soulcore" data-player="0"><span class="sim-empty">SOUL CORE</span></div></div>
-              <div class="sim-slot-block"><div class="sim-zone-title">OTHER FIELD <small>Action / Gear / Untimeat</small></div><div class="sim-field" data-sim-area="field" data-player="0"><span class="sim-empty">ยังไม่มีการ์ดบนสนาม</span></div></div>
-            </div>
-            <div class="sim-zone-title">HAND <small>กดปุ่มลงสนาม หรือส่งไป TOMB</small></div><div class="sim-hand" data-sim-area="hand" data-player="0"><span class="sim-empty">ยังไม่มีการ์ดในมือ</span></div>
-            <button class="sim-tomb-toggle" data-sim-action="showtomb" data-player="0" type="button">เปิด TOMB (<b data-sim-stat="tombButton">0</b>)</button><div class="sim-tomb-list" data-sim-area="tomb" data-player="0" hidden></div>
-          </article>
-          <article class="sim-player" data-sim-player="1">
-            <div class="sim-player-head"><div><span class="sim-player-tag">PLAYER 2</span><h3>ผู้เล่น 2</h3></div><select class="sim-deck-select" data-sim-deck="1" aria-label="เลือกเด็คผู้เล่น 2"></select></div>
-            <div class="sim-player-stats"><span>DECK <b data-sim-stat="deck">0</b></span><span>HAND <b data-sim-stat="hand">0</b></span><span>FIELD <b data-sim-stat="field">0</b></span><span>TOMB <b data-sim-stat="tomb">0</b></span></div>
-            <div class="sim-specials"><div><small>MASTER</small><div data-sim-special="master" class="sim-special-card"></div></div><div><small>ZONE</small><div data-sim-special="zone" class="sim-special-card"></div></div></div>
-            <div class="sim-player-controls"><button class="gold-btn" data-sim-action="draw5" data-player="1" type="button">DRAW 5</button><button class="gold-btn" data-sim-action="draw1" data-player="1" type="button">DRAW 1</button><button class="danger-btn" data-sim-action="reset" data-player="1" type="button">RESET</button></div>
-            <div class="sim-board-slots">
-              <div class="sim-slot-block"><div class="sim-zone-title">C <small>วางได้เฉพาะ Character</small></div><div class="sim-field sim-card-slot" data-sim-area="character" data-player="1"><span class="sim-empty">CHARACTER</span></div></div>
-              <div class="sim-slot-block"><div class="sim-zone-title">POCKET <small>วางได้เฉพาะ Pocket</small></div><div class="sim-field sim-card-slot" data-sim-area="pocket" data-player="1"><span class="sim-empty">POCKET</span></div></div>
-              <div class="sim-slot-block sim-soulcore-block"><div class="sim-zone-title">SOUL CORE <small>วางแนวนอน</small></div><div class="sim-field sim-soulcore-slot" data-sim-area="soulcore" data-player="1"><span class="sim-empty">SOUL CORE</span></div></div>
-              <div class="sim-slot-block"><div class="sim-zone-title">OTHER FIELD <small>Action / Gear / Untimeat</small></div><div class="sim-field" data-sim-area="field" data-player="1"><span class="sim-empty">ยังไม่มีการ์ดบนสนาม</span></div></div>
-            </div>
-            <div class="sim-zone-title">HAND <small>กดปุ่มลงสนาม หรือส่งไป TOMB</small></div><div class="sim-hand" data-sim-area="hand" data-player="1"><span class="sim-empty">ยังไม่มีการ์ดในมือ</span></div>
-            <button class="sim-tomb-toggle" data-sim-action="showtomb" data-player="1" type="button">เปิด TOMB (<b data-sim-stat="tombButton">0</b>)</button><div class="sim-tomb-list" data-sim-area="tomb" data-player="1" hidden></div>
-          </article>
-        </div>
-        <p class="sim-footnote">หมายเหตุ: โหมดนี้เป็นพื้นที่ทดสอบด้วยตนเอง ยังไม่คำนวณความสามารถ การต่อสู้ หรือเงื่อนไขชนะอัตโนมัติ</p>
       </div>
     </section>
 
@@ -771,8 +711,6 @@ End Phase = ใช้ความสามารถเมื่อจบเท�
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=20261015-slots"></script>
-  <script src="online-simulator.js?v=20261015-slots"></script>
+  <script src="app.js?v=20261014-touchdrag"></script>
 </body>
 </html>
