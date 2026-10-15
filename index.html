@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOULVAULT CARD GAME — การ์ดทั้งหมด</title>
-  <link rel="stylesheet" href="style.css?v=20261001-soul2">
+  <link rel="stylesheet" href="style.css?v=20261014-touchdrag">
 </head>
 <body>
 <aside class="sidebar">
@@ -18,6 +18,7 @@
       <button class="nav" data-section="deck"><span>Deck building</span></button>
       <button class="nav" data-section="drawtest"><span>Play Test</span></button>
       <button class="nav" data-section="supply"><span>Supply</span></button>
+      <button class="nav" data-section="howtoplay"><span>How to Play</span></button>
     </nav>
     <div class="sidebar-bottom">
       <div class="version">SOULVAULT v1.0</div>
@@ -29,7 +30,7 @@
       <button class="mobile-menu" id="menuBtn">☰</button>
       <div>
         <div class="eyebrow">Official</div>
-        <h1>List Card</h1>
+        <h1>Welcome Na Kub</h1>
       </div>
       <div class="stats"></span>การ์ด <span id="totalCount">08</span>ใบ</div>
     </header>
@@ -43,7 +44,7 @@
         src="public/images/logo/Logo2.PNG"
         alt="SOULVAULT"
       >
-      <span>วิญญาณที่ตามหา จะอยู่ที่นี่มั้ยนะ</span>
+      <span>ยินดีต้อนรับทุกคนเข้าสู่คลังเก็บวิญญาณพวกเธอคิดว่า วิญญาณที่ตามหา จะอยู่ที่นี่มั้ย ขอให้สนุกนะ</span>
     </div>
 
   </div>
@@ -68,10 +69,9 @@
 
     <select id="setFilter">
       <option value="All">ALL SET</option>
+	  <option value="Promo">Promo</option>
       <option value="HD">HD</option>
-      <option value="BT01">BT01</option>
-      <option value="BT02">BT02</option>
-      <option value="BT03">BT03</option>
+      
     </select>
 
     <select id="rarityFilter">
@@ -113,10 +113,9 @@
         <div class="search-wrap"><span>⌕</span><input id="collectionSearch" placeholder="ค้นหาการ์ดที่อยากได้..."></div>
         <select id="collectionSetFilter">
           <option value="All">ALL SET</option>
+		  <option value="Promo">Promo</option>
           <option value="HD">HD</option>
-          <option value="BT01">BT01</option>
-          <option value="BT02">BT02</option>
-          <option value="BT03">BT03</option>
+          
         </select>
         <select id="collectionTypeFilter">
          <option value="All">ALL TYPES</option>
@@ -198,7 +197,7 @@
               <button class="gold-btn" id="shareDeckBtn">🔗 SHARE DECK</button>
               <button class="gold-btn" id="importDeckBtn">📥 IMPORT DECK</button>
               <button class="danger-btn" id="deleteDeckBtn">DELETE</button>
-              <div class="save-rule">MAIN DECK ไม่เกิน 50 ใบ (ไม่จำเป็นต้องครบ 50) · POCKET 10 · UNTIMEAT 1 · MASTER 1 · ZONE 1 · SOUL CORE 7</div>
+              <div class="save-rule">MAIN DECK ไม่เกิน 60 ใบ (ไม่จำเป็นต้องครบ 60) · POCKET 10 · UNTIMEAT 1 · MASTER 1 · ZONE 1 · SOUL CORE 7</div>
             </div>
           </div>
         </div>
@@ -264,10 +263,9 @@
 </select>
             <select id="deckSetFilter">
               <option value="All">ALL SET</option>
+			  <option value="Promo">Promo</option>
               <option value="HD">HD</option>
-              <option value="BT01">BT01</option>
-              <option value="BT02">BT02</option>
-              <option value="BT03">BT03</option>
+             
             </select>
             <select id="deckRarityFilter">
           <option value="All">ALL RARITY</option>
@@ -334,6 +332,10 @@
           <button class="danger-btn" id="resetTestBtn">RESET</button>
         </div>
       </div>
+      <div class="playtest-mode-switch">
+        <button class="gold-btn" id="openTwoPlayerBtn" type="button">⚔ ทดลองเล่น 2 คน</button>
+        <span>จำลองการจั่ว ลงสนาม และส่งการ์ดไป TOMB แยกกันทั้งสองฝ่าย</span>
+      </div>
 <div id="tombViewerModal" class="modal hidden">
 
   <div class="cover-picker-modal tomb-viewer-modal">
@@ -388,6 +390,52 @@
         <button class="gold-btn" id="drawPileBtn">DRAW 1 CARD</button>
         <span>คลิกการ์ดในสนามเพื่อดูรายละเอียด · ลากการ์ดบนสนามเพื่อย้ายตำแหน่ง</span>
       </div>
+
+      <div id="twoPlayerSimulator" class="two-player-simulator" hidden>
+        <div class="sim-online-panel">
+          <div class="sim-online-heading">
+            <div><div class="eyebrow">ONLINE ROOM</div><h3>เล่นออนไลน์กับเพื่อน</h3><p>สร้างห้องแล้วส่งรหัสให้เพื่อน หรือกรอกรหัสเพื่อเข้าห้อง</p></div>
+            <span id="simOnlineStatus" class="sim-online-status" role="status">ยังไม่ได้เชื่อมต่อ</span>
+          </div>
+          <div class="sim-online-config">
+            <label>Supabase Project URL<input id="simSupabaseUrl" type="url" placeholder="https://your-project.supabase.co" autocomplete="url"></label>
+            <label>Publishable key<input id="simSupabaseKey" type="password" placeholder="sb_publishable_..." autocomplete="off"></label>
+          </div>
+          <div class="sim-online-actions">
+            <button class="gold-btn" id="simCreateRoomBtn" type="button">สร้างห้องออนไลน์</button>
+            <input id="simRoomCode" class="sim-room-code" type="text" maxlength="8" placeholder="รหัสห้อง" aria-label="รหัสห้อง">
+            <button class="gold-btn" id="simJoinRoomBtn" type="button">เข้าร่วมห้อง</button>
+            <button class="sim-secondary-btn" id="simCopyInviteBtn" type="button" disabled>คัดลอกลิงก์ชวน</button>
+            <button class="danger-btn" id="simLeaveRoomBtn" type="button" disabled>ออกจากห้อง</button>
+          </div>
+          <p class="sim-online-note">ตั้งค่า URL และ Publishable key ครั้งแรกในเบราว์เซอร์นี้เท่านั้น ห้ามนำ Secret key หรือ service_role key มาใส่ที่นี่</p>
+        </div>
+        <div class="two-player-topbar">
+          <div><div class="eyebrow">VERSUS PLAY TEST</div><h3>ทดลองเล่นสองฝ่าย</h3><p>แต่ละฝ่ายมี DECK, HAND, FIELD และ TOMB ของตัวเอง</p></div>
+          <div class="two-player-global-actions"><span id="simTurnLabel" class="sim-turn-label">ตาของผู้เล่น 1</span><button class="gold-btn" id="simEndTurnBtn" type="button">จบเทิร์น →</button><button class="danger-btn" id="closeTwoPlayerBtn" type="button">กลับโหมดเดิม</button></div>
+        </div>
+        <div class="two-player-grid">
+          <article class="sim-player" data-sim-player="0">
+            <div class="sim-player-head"><div><span class="sim-player-tag">PLAYER 1</span><h3>ผู้เล่น 1</h3></div><select class="sim-deck-select" data-sim-deck="0" aria-label="เลือกเด็คผู้เล่น 1"></select></div>
+            <div class="sim-player-stats"><span>DECK <b data-sim-stat="deck">0</b></span><span>HAND <b data-sim-stat="hand">0</b></span><span>FIELD <b data-sim-stat="field">0</b></span><span>TOMB <b data-sim-stat="tomb">0</b></span></div>
+            <div class="sim-specials"><div><small>MASTER</small><div data-sim-special="master" class="sim-special-card"></div></div><div><small>ZONE</small><div data-sim-special="zone" class="sim-special-card"></div></div></div>
+            <div class="sim-player-controls"><button class="gold-btn" data-sim-action="draw5" data-player="0" type="button">DRAW 5</button><button class="gold-btn" data-sim-action="draw1" data-player="0" type="button">DRAW 1</button><button class="danger-btn" data-sim-action="reset" data-player="0" type="button">RESET</button></div>
+            <div class="sim-zone-title">FIELD <small>กดการ์ดเพื่อดูรายละเอียด · ส่ง TOMB ได้</small></div><div class="sim-field" data-sim-area="field" data-player="0"><span class="sim-empty">ยังไม่มีการ์ดบนสนาม</span></div>
+            <div class="sim-zone-title">HAND <small>กดปุ่มลงสนาม หรือส่งไป TOMB</small></div><div class="sim-hand" data-sim-area="hand" data-player="0"><span class="sim-empty">ยังไม่มีการ์ดในมือ</span></div>
+            <button class="sim-tomb-toggle" data-sim-action="showtomb" data-player="0" type="button">เปิด TOMB (<b data-sim-stat="tombButton">0</b>)</button><div class="sim-tomb-list" data-sim-area="tomb" data-player="0" hidden></div>
+          </article>
+          <article class="sim-player" data-sim-player="1">
+            <div class="sim-player-head"><div><span class="sim-player-tag">PLAYER 2</span><h3>ผู้เล่น 2</h3></div><select class="sim-deck-select" data-sim-deck="1" aria-label="เลือกเด็คผู้เล่น 2"></select></div>
+            <div class="sim-player-stats"><span>DECK <b data-sim-stat="deck">0</b></span><span>HAND <b data-sim-stat="hand">0</b></span><span>FIELD <b data-sim-stat="field">0</b></span><span>TOMB <b data-sim-stat="tomb">0</b></span></div>
+            <div class="sim-specials"><div><small>MASTER</small><div data-sim-special="master" class="sim-special-card"></div></div><div><small>ZONE</small><div data-sim-special="zone" class="sim-special-card"></div></div></div>
+            <div class="sim-player-controls"><button class="gold-btn" data-sim-action="draw5" data-player="1" type="button">DRAW 5</button><button class="gold-btn" data-sim-action="draw1" data-player="1" type="button">DRAW 1</button><button class="danger-btn" data-sim-action="reset" data-player="1" type="button">RESET</button></div>
+            <div class="sim-zone-title">FIELD <small>กดการ์ดเพื่อดูรายละเอียด · ส่ง TOMB ได้</small></div><div class="sim-field" data-sim-area="field" data-player="1"><span class="sim-empty">ยังไม่มีการ์ดบนสนาม</span></div>
+            <div class="sim-zone-title">HAND <small>กดปุ่มลงสนาม หรือส่งไป TOMB</small></div><div class="sim-hand" data-sim-area="hand" data-player="1"><span class="sim-empty">ยังไม่มีการ์ดในมือ</span></div>
+            <button class="sim-tomb-toggle" data-sim-action="showtomb" data-player="1" type="button">เปิด TOMB (<b data-sim-stat="tombButton">0</b>)</button><div class="sim-tomb-list" data-sim-area="tomb" data-player="1" hidden></div>
+          </article>
+        </div>
+        <p class="sim-footnote">หมายเหตุ: โหมดนี้เป็นพื้นที่ทดสอบด้วยตนเอง ยังไม่คำนวณความสามารถ การต่อสู้ หรือเงื่อนไขชนะอัตโนมัติ</p>
+      </div>
     </section>
 
     <section id="supply" class="section">
@@ -425,7 +473,247 @@
           <button class="gold-btn supply-save" id="saveอุปกรณ์เสริมBtn">บันทึกอุปกรณ์เสริม</button>
         </div>
       </div>
-	  
+	  <div id="supplyDetailModal" class="supply-detail-modal hidden">
+
+  <div class="supply-detail-box">
+
+    <button
+      class="supply-detail-close"
+      id="supplyDetailClose"
+    >×</button>
+
+    <div
+      id="supplyDetailImage"
+      class="supply-detail-image"
+    ></div>
+
+    <div class="supply-detail-content">
+
+      <div
+        id="supplyDetailType"
+        class="supply-detail-type"
+      >PLAYMAT</div>
+
+      <h2 id="supplyDetailName">
+        Supply Name
+      </h2>
+
+      <div class="supply-detail-line"></div>
+
+      <h3>DESCRIPTION</h3>
+
+      <p id="supplyDetailDesc">
+        รายละเอียด
+      </p>
+
+      <div class="supply-detail-price-box">
+        <span>PRICE</span>
+        <strong id="supplyDetailPrice">
+          590 ฿
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+    </section>
+
+
+    <section id="howtoplay" class="section howtoplay-section">
+      <div class="howtoplay-hero">
+        <div class="howtoplay-kicker">SOULVAULT CARD GAME</div>
+        <h2>HOW TO PLAY</h2>
+        <p>รู้การจัดเด็คและองค์ประกอบของเกม SOULVAULT</p>
+        <div class="howtoplay-ruleline"></div>
+        <span class="howtoplay-note">คู่มือเริ่มต้น</span>
+      </div>
+
+      <div class="howtoplay-navcards">
+        <a href="#ht-start">01 <span>พื้นฐาน</span></a>
+        <a href="#ht-deck">02 <span>การจัดเด็ค</span></a>
+        <a href="#ht-types">03 <span>ประเภทการ์ด</span></a>
+        <a href="#ht-keywords">04 <span>คำศัพท์บนการ์ด</span></a>
+      </div>
+
+      <article class="howtoplay-panel" id="ht-start">
+        <div class="howtoplay-section-label">01 / HOW TO PLAY</div>
+        <h3>พื้นฐาน</h3>
+        <p>เฟสเบื้องต้น<br>
+เริ่มเทิร์น - Pocket Phase - Main Phase - End Phase <br>
+Pocket Phase = จั่วการ์ด 1 ใบ ทำการหา Pocket รวมกัน 2 ใบจาก เด็ค , Tomp , Energy ,การ์ดบนมือหากนำจากบนมือให้ทำการจั่วการ์ด1ใบ,หากนำจากในเด็คให้สลับกองการ์ด,หากนำจาก Energy,ให้ทำการนำการ์ดใบบนสุดไปวางคว่ำหน้าที่เป็น Energy แทน สามารถเลือกได้ว่าจะจั่วการ์ดหรือหาPocketก่อน<br>
+Main Phase = สามารถลง Character ใช้งาน Acrion ติดตั้ง Gear เปิดใช้งาน Zone ได้ ใช้ความสามารถที่ไม่มี Counter <br>
+สามารถสั่งโจมตี, สามารถขโมย Soul Core ,สามารถใช้งาน untiment ได้,สสามารถั่งใช้งานความสามารถได้ <br>
+End Phase = ใช้ความสามารถเมื่อจบเทิร์นและเปลี่ยนให้ฝั่งตรงข้ามเล่นต่อ<br>
+<br>
+<br>
+วิธีการเล่นพื้นฐาน<br>
+1 ) เริ่มเกม การ์ดบนมือ 5 ใบ หากบนมือมีการ์ด Pocket 4 หรือ 5 ใบ ให้แสดงการ์ดบนมือทั้งหมดให้คู่แข่งเห็นและนำการ์ดบนมือทั้งหมดสลับกลับกองการ์ด จากนั้นจั่วใหม่ 5 ใบ จากนั้น นำการ์ด Soul Core ไปวางที่ SC Area และนำการ์ด Master กับ Zone ไปวางที่โซน M และ Z <br>
+2 ) Pocket Phase คนเริ่มแรกจะไม่ได้จั่วการ์ด แล้วให้หาการ์ด Pocket จากที่ไหนก็ได้ ไม่ว่าจะเป็น กองการ์ด, Tomp, บนมือ, Energy แล้วเอามาวางที่ Pocket Area ถ้าเอาจากมือให้จั่วการ์ดตามจำนวน และ ถ้าเอาจาก Energy ให้นำใบบนสุดจากกองไปคว่ำหน้าไว้ตรง Energy Area ตามจำนวน ขั้นตอนนี้จะจั่วก่อนหรือจะหา Pocket ก่อนก็ได้<br>
+3 ) Main Phase ช่วงนี้จะทำได้ทุกอย่างเลย ลงการ์ดจากมือ ใช้ความสามารถของการ์ด ประกาศโจมตีหรือขโมย เปิดใช้งาน Zone วิธีการลงการ์ด character จะต้องเปลี่ยนสภาพของการ์ด Pocket ให้เป็นสภาพ Don't ตามจำนวนค่าคอสมุมซ้ายบนเลย Action และ Gear ก็วิธีเดียวกัน วิธีการโจมตีและขโมย ให้เปลี่ยนสภาพของการ์ดที่จะโจมตีหรือขโมย เป็น Don't เพื่อทำการโจมตีใครที่มีพลังมากกว่าจะเป็นคนชนะ หากมีพลังเท่ากัน คนที่โจมตีจะเป็นฝ่ายชนะ<br>
+4 ) ช่วง End Phase จะสามารถใช้งานความสามารถที่บอกว่าเมื่อจบเทิร์นได้จากนั้นให้คู่แข่งเล่นต่อได้เลย <br>
+<br>
+<br>
+เงื่อนไขการจบเกม มีทั้งหมด 4 แบบ <br>
+1 ) Soul Core ฝ่ายใดหมดก่อนจะถือว่าแพ้<br>
+2 ) มีฝ่ายใดขโมย Soul Core ได้ 7 ใบก่อนจะถือว่าชนะ<br>
+3 ) เมื่อกองการ์ดของฝ่ายใดหมด จะถือว่าแพ้<br>
+4 ) สามารถชนะด้วยเงื่อนไขพิเศษของการ์ดได้<br>
+<br>
+<br>
+กฏเกมพื้นฐาน<br>
+1 ) คนเริ่มคนแรกจะไม่ได้จั่วการ์ด ตอน Pocket Phase (ถ้านำ Pocket จากมือไปวางยังได้จั่วเหมือนเดิมนะ)<br>
+2 ) การ์ด Action จะใช้ได้ก็ต่อเมื่ออยู่ใน Main phase เทิร์นตัวเอง ยกเว้นใบนั้นจะมี counter ถึงจะใช้ในเทิร์นอีกฝ่ายได้ <br>
+3 ) ความสามารถของการ์ดถ้าไม่ได้บอกว่าใช้ในเทิร์นอีกฝ่ายได้หรือมี counter จะไม่สามารถใช้ในเทิร์นคู่แข่งได้ ต้องใช้งานใน Main Phase เท่านั้น<br>
+4 ) ความสามารถ Forever จะทำงานตลอดต่อเมื่อเงื่อนไขครบ <br>
+5 ) เมื่อใช้ Ultimant แล้ว จะไม่สามารถใช้การ์ดอื่นได้อีกและไม่สามารถโจมตีได้อีก ยกเว้นจะมีความสามารถของท่าไม้ตายทำให้ตีได้ <br>
+6 ) จะเปิดการ์ด Zone ได้ต่อเมื่อใน Main Phase เทิร์นตัวเองเท่านั้น<br>
+7 ) เมื่อ character ลงบนสนาม จะสามารถโจมตีหรือขโมยได้ทันทียกเว้นจะมีความสามารถทำให้โจมตีไม่ได้ <br>
+8 ) การ์ด Gear จะสามารถสวมใส่ให้ได้เฉพาะการ์ดตามเงื่อนไขเท่านั้น<br>
+9 ) การ์ด Master จะสามารถจะสามารถเปิดZoneได้เฉพาะชื่อ Zone บนการ์ดเท่านั้น<br>
+10 ) Character ถ้าช่องเต็ม4ช่องไม่สามารถลงเพิ่มหรือทับได้นอกจากจะมีความสามารถที่ทำให้เกิดขึ้นได้<br>
+11 ) การ์ดใน Underworld ถือเป็นการ์ดที่อยู่ด้านนอกเกม ไม่สามารถนำออกมาได้ นอกจากจะมีความสามารถเจาะจง<br>
+12 ) character 1ใบ สามารถ สวมใส่ Gear ได้ 1 ใบเท่านั้น ยกเว้นจะมีความสามารถเพิ่มเติม<br>
+13 ) การจ่ายหรือขโมยการ์ด Enenegy Soul จะต้องเปิดการ์ดใบแรกสุดจากด้านบนเสมอ<br>
+14 ) ฝ่ายโจมตีถ้าพลังเท่ากับหรือน้อยกว่าฝ่ายรับ ฝ่ายตีจะไม่ตายจากการต่อสู้ <br>
+15 ) ถ้ามีการทอยลูกเต๋า ต้องทอยลูกเต๋าที่มีจำนวนหน้าตามที่การ์ดบอกเท่านั้น เช่น D6 D12 D20 <br>
+16 ) ถ้ามีการทอยเหรียญ จะต้องเป็นเหรียญที่มีหัวก้อยเท่านั้น <br>
+17 ) คนที่ชนะการทอยลูกเต๋าหรือชนะอะไรก็ตามๆที่ตกลง จะมีสิทธิ์เลือกเล่นก่อนหลังได้<br>
+18 ) หากเมื่อโจมตีแล้วพลังเท่ากันฝ่ายโจมตีหรือขโมยจะเป็นฝ่ายชนะเสมอ<br>
+19 ) เมื่อเปิด Zone จะไม่ถือว่าเป็นการกระทำไม่สามารถใช้งาน Counter ได้ต่อเมื่อใน<br>
+20 ) Soul Core จะต้องเรียงลำดับตามเลขของการ์ดเท่านั้น<br>
+</p>
+        <div class="howtoplay-callout"><b>หมายเหตุ</b><span>วิธีเริ่มเกม ลำดับการเล่นในเทิร์น วิธีโจมตี และเงื่อนไขการจบเกม อาจจะมีเพิ่มเติมในภายหลัง</span></div>
+      </article>
+
+      <article class="howtoplay-panel" id="ht-deck">
+        <div class="howtoplay-section-label">02 / DECK CONSTRUCTION</div>
+        <h3>กติกาการจัดเด็ค</h3>
+        <p>สามารถใส่การ์ดในเด็คที่มีชื่อซ้ำกันได้ไม่เกินแบบละ 3 ใบ นอกจากจะมีความสามารถพิเศษ</p>
+        <div class="howtoplay-deckgrid">
+          <div><strong>MASTER</strong><b>1 ใบ</b><small>ต้องมี 1 ใบ</small></div>
+          <div><strong>ZONE</strong><b>1 ใบ</b><small>ต้องมี 1 ใบ</small></div>
+          <div><strong>SOUL CORE</strong><b>7 ใบ</b><small>ต้องครบ 7 ใบ</small></div>
+          <div><strong>POCKET</strong><b>10 ใบ</b><small>ต้องครบ 10 ใบ</small></div>
+          <div><strong>UNTIMEAT</strong><b>1 ใบ</b><small>อยู่ใน Main Deck</small></div>
+          <div><strong>MAIN DECK</strong><b>ไม่เกิน 60 ใบ</b><small>นับรวม Pocket และ Untimeat</small></div>
+        </div>
+        <div class="howtoplay-callout"><b>จำนวนซ้ำ</b><span>จำกัดการ์ดทั่วไปไม่เกิน 3 ใบต่อชื่อ และ Pocket ไม่เกิน 10 ใบรวมชื่อได้ และ Soul Core ใช้ช่องแยก 7 ใบ</span></div>
+      </article>
+
+      <article class="howtoplay-panel" id="ht-types">
+        <div class="howtoplay-section-label">03 / CARD TYPES</div>
+        <h3>รู้จักประเภทการ์ด</h3>
+        <div class="howtoplay-type-list">
+          <div><span class="howtoplay-type-icon">M</span><div><b>Master</b><p>การ์ด Master ประจำเด็ค แยกจากตัวเด็ค เป็นการ์ดผู้นำที่รับผิดชอบเก็บและปกป้อง Soul Core มีความสามารถ 2 ฝั่ง ฝั่งซ้ายเป็นความสามารถที่เป็นความสามารถที่ใช้ได้ตั้งแต่เริ่มเกม ความสามารถฝั่งขวาคือความสามารถที่ต้องรอให้ Zone ทำงานก่อนถึงจะสามารถใช้งานได้</p></div></div>
+          <div><span class="howtoplay-type-icon">Z</span><div><b>Zone</b><p>แยกจากตัวเด็ค เป็นการ์ดพื้นที่ที่มีด้านหน้าและด้านหลัง โดยด้านหลังจะเป็นเงื่อนไขในการเปิดใช้งาน Zone ส่วนด้านหน้าจะเป็นความสามารถของ Zone</p></div></div>
+          <div><span class="howtoplay-type-icon">SC</span><div><b>Soul Core</b><p>เป็นการ์ดที่แยกออกจากตัวเด็คจำนวน 7 ใบ เมื่อถูกขโมยหรือทำลายจนครบ 7 ใบก็แพ้ หรือถ้าขโมยจนครบ 7 ใบก็ชนะ</p></div></div>
+          <div><span class="howtoplay-type-icon">P</span><div><b>Pocket</b><p>เป็นการ์ดที่รวมอยู่ในเด็ค ทำหน้าที่เป็นค่าคอสเหมือนเป็นสิ่งที่เรียกใช้วิญญาณได้ ด้วยจำนวนที่กำหนด และ ยังสามารถใช้งานความสามารถ Counter ของ Pocket ได้ด้วย ต้องมีจำนวน 10 ใบในเด็ค</p></div></div>
+          <div><span class="howtoplay-type-icon">U</span><div><b>Untimeat</b><p>เป็นการ์ดที่รวมอยู่ในเด็ค การ์ดใบนี้จะมีอยู่ในเด็คได้เพียง 1 ใบ เท่านั้น เป็นการ์ดท่าไม้ตาย เมื่อใช้งานแล้วจะลง Tomp นอกจากจะมีความสามารถพิเศษ หลังจากใช้งานแล้วจะไม่สามารถใช้งานการ์ดอื่นได้ และไม่สามารถโจมตีหรือขโมยได้ </p></div></div>
+          <div><span class="howtoplay-type-icon">C</span><div><b>Character</b><p>เป็นการ์ดที่รวมอยู่ในเด็ค เป็นการ์ดตัวละคร เหมือนเป็นพวกพองที่ฝากจิตวิญญาณไว้กับ Master โดยมี ค่าคอส ในการลงสนาม และความสามารถจากการ์ดจริง</p></div></div>
+          <div><span class="howtoplay-type-icon">A</span><div><b>Action</b><p>การ์ด Action ที่มีเงื่อนไขและผลแตกต่างกันตามข้อความบนการ์ด</p></div></div>
+          <div><span class="howtoplay-type-icon">G</span><div><b>Gear</b><p>การ์ดอุปกรณ์ โปรดตรวจสอบข้อกำหนดการสวมใส่ที่ระบุไว้บนการ์ด</p></div></div>
+        </div>
+      </article>
+
+      <article class="howtoplay-panel" id="ht-keywords">
+        <div class="howtoplay-keyword-grid">
+  <div>
+    <img class="keyword-counter"
+	src="public/images/icon/Counter.png" alt="Counter">
+    <b>Counter</b>
+    <span>ความสามารถหลังสัญลักษณ์นี้จะใช้งานตอนใดก็ได้ที่มีการกระทำเกิดขึ้น</span>
+  </div>
+
+  <div>
+    <img class="keyword-Peek"
+	src="public/images/icon/Peek.png" alt="Peek">
+    <b>Peek</b>
+    <span>เปิดดูการ์ดตามจำนวนที่อยู่หลังสัญลักษณ์นี้ ถ้าไม่มีบอกว่าเปิดที่ไหนจะเปิดดูใบบนสุดจากกองเจ้าของเสมอ (ดูคนเดียว) </span>
+  </div>
+
+  <div>
+    <img class="keyword-perTurn"
+	src="public/images/icon/1_Turn.png" alt="1/Turn">
+    <b>1/Turn</b>
+    <span>ความสามารถที่มีสัญลักษณ์นี้ จะใช้ได้เพียงแค่ เทิร์นละ 1 ครั้ง </span>
+  </div>
+
+  <div>
+    <img class="keyword-OpenZone"
+	src="public/images/icon/OpenZone.png" alt="OpenZone">
+    <b>OpenZone</b>
+    <span>เป็นเงื่อนไขการเปิด Zone </span>
+  </div>
+
+  <div>
+    <img class="keyword-Pocket" 
+	src="public/images/icon/Pocket.png" alt="Pocket">
+    <b>Pocket</b>
+    <span>ใช้ระบุว่าต้องทำการจ่าย หรือได้รับ Pocket ตามที่ระบุในความสามารถการ์ด </span>
+  </div>
+
+  <div>
+  <img class="keyword-EnergySoul"
+       src="public/images/icon/Energy Soul.png"
+       alt="Energy Soul">
+  <b>Energy Soul</b>
+  <span>เป็นการนำการ์ดใบบนสุดจากกองการ์ดไปคว่ำหน้าที่Energy Area ตามจำนวนที่ระบุ (สามารถดูได้คนเดียว) </span>
+</div>
+
+<div>
+  <img class="keyword-forever"
+       src="public/images/icon/Forever.png"
+       alt="Forever">
+  <b>Forever</b>
+  <span>ความสามารถหลังการ์ดนี้จะทำงานตลอดเวลาเมื่อเงื่อนไขครบถ้วน</span>
+</div>
+
+<div>
+  <img class="keyword-Activat"
+       src="public/images/icon/Activat.png"
+       alt="Activat">
+  <b>Activat</b>
+  <span>เป็นความสามารถที่ต้องทำการสั่งใช้งานถึงจะแสดงผล</span>
+</div>
+
+<div>
+  <img class="keyword-Block"
+       src="public/images/icon/Block.png"
+       alt="Block">
+  <b>Block</b>
+  <span>การ์ดที่มีความสามารถนี้ สามารถเปลี่ยนจากสภาพ Ok เป็น สภาพ Don't ได้ หากทำจะเปลี่ยนการโจมตีหรือขโมยมาที่การ์ดใบนี้แทน</span>
+</div>
+
+<div>
+  <img class="keyword-Enter"
+       src="public/images/icon/Enter.png"
+       alt="Enter">
+  <b>Enter</b>
+  <span>เมื่อการ์ดใบนี้เข้าสู่สนามความสามารถหลังสัญลักษณ์นี้จะแสดงผล</span>
+</div>
+
+<div>
+  <img class="keyword-Energy"
+       src="public/images/icon/E.png"
+       alt="Energy">
+  <b>Energy</b>
+  <span>เป็นสัญลักษณ์ที่ เอาไว้จ่าย Energy ตามจำนวนที่ระบุ จาก Energy Area (ต้องทำการจ่ายนับจากใบบนสุดเท่านั้น) </span>
+</div>
+
+<div>
+  <img class="keyword-ZoneOpen"
+       src="public/images/icon/ZoneOpen.png"
+       alt="ZoneOpen">
+  <b>ZoneOpen-...</b>
+  <span>ความสามารถหลังสัญลักษณ์นี้จะทำงานเมื่อการ์ด Zone เคยทำงานไปแล้วในเกมนี้เท่านั้น</span>
+</div>
+
+
+</div>
+        <div class="howtoplay-footer-note">เป็นคำศัพท์สำคัญบนการ์ด เพื่อให้ง่ายต่อการเล่น พร้อมคำอธิบาย</div>
+      </article>
     </section>
 
 </main>
@@ -473,6 +761,8 @@
       </div>
     </div>
   </div>
-  <script src="app.js?v=20261001-soul2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js?v=20261015-online"></script>
+  <script src="online-simulator.js?v=20261015-online"></script>
 </body>
 </html>

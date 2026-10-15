@@ -3317,7 +3317,320 @@ select option:hover{
     minmax(0, 1.8fr)
     minmax(0, .8fr);
 }
+/* ================================
+   SUPPLY DETAIL MODAL
+================================ */
 
+.supply-detail-modal{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:25px;
+
+  background:rgba(0,0,0,.78);
+  backdrop-filter:blur(10px);
+}
+
+.supply-detail-modal.hidden{
+  display:none!important;
+}
+
+.supply-detail-box{
+  width:min(900px,100%);
+  max-height:90vh;
+
+  display:grid;
+  grid-template-columns:45% 55%;
+
+  background:#101010;
+  border:1px solid #6b5228;
+
+  box-shadow:
+    0 30px 100px rgba(0,0,0,.8);
+
+  position:relative;
+
+  overflow:hidden;
+}
+
+/* รูป Supply */
+
+.supply-detail-image{
+  min-height:500px;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      #6b4d1e,
+      #1c160d 38%,
+      #080808 75%
+    );
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  overflow:hidden;
+}
+
+.supply-detail-image img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  display:block;
+}
+
+.supply-detail-placeholder{
+  width:100%;
+  height:100%;
+
+  display:grid;
+  place-items:center;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      #6b4d1e,
+      #1b150c 40%,
+      #080808 75%
+    );
+}
+
+.supply-detail-placeholder span{
+  font:700 80px Cinzel;
+  color:#d9ad52;
+
+  text-shadow:
+    0 0 35px #8d641e;
+}
+
+/* เนื้อหา */
+
+.supply-detail-content{
+  padding:45px 40px;
+}
+
+.supply-detail-type{
+  display:inline-block;
+
+  padding:6px 10px;
+
+  border:1px solid #72572b;
+
+  color:#d9ad52;
+
+  font:600 9px Cinzel;
+
+  letter-spacing:2px;
+}
+
+.supply-detail-content h2{
+  font:600 30px Cinzel;
+
+  color:#eee9df;
+
+  margin:18px 0 8px;
+}
+
+.supply-detail-line{
+  height:1px;
+
+  background:#2d261b;
+
+  margin:25px 0;
+}
+
+.supply-detail-content h3{
+  font-size:9px;
+
+  letter-spacing:2px;
+
+  color:#d9ad52;
+
+  margin-bottom:10px;
+}
+
+.supply-detail-content p{
+  color:#aaa39a;
+
+  font-size:13px;
+
+  line-height:1.8;
+}
+
+/* ราคา */
+
+.supply-detail-price-box{
+  margin-top:35px;
+
+  padding:18px;
+
+  border:1px solid #342b1d;
+
+  background:#0b0b0b;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+}
+
+.supply-detail-price-box span{
+  font-size:9px;
+
+  letter-spacing:2px;
+
+  color:#777066;
+}
+
+.supply-detail-price-box strong{
+  font:600 22px Cinzel;
+
+  color:#d9ad52;
+}
+
+/* ปุ่มปิด */
+
+.supply-detail-close{
+  position:absolute;
+
+  right:12px;
+  top:8px;
+
+  width:38px;
+  height:38px;
+
+  border:0;
+
+  background:rgba(0,0,0,.55);
+
+  color:#d9ad52;
+
+  font-size:30px;
+
+  cursor:pointer;
+
+  z-index:5;
+}
+
+.supply-detail-close:hover{
+  color:#fff;
+
+  background:#241b0d;
+}
+
+
+/* Mobile */
+
+@media(max-width:700px){
+
+  .supply-detail-box{
+    grid-template-columns:1fr;
+
+    max-height:92vh;
+
+    overflow:auto;
+  }
+
+  .supply-detail-image{
+    min-height:300px;
+    height:300px;
+  }
+
+  .supply-detail-content{
+    padding:25px;
+  }
+
+  .supply-detail-content h2{
+    font-size:24px;
+  }
+
+}
+/* ===== SUPPLY DETAIL — AUTO IMAGE SIZE ===== */
+
+.supply-detail-box{
+  width:auto;
+  max-width:90vw;
+  max-height:90vh;
+
+  display:grid;
+  grid-template-columns:auto minmax(420px, 530px);
+
+  background:#101010;
+  border:1px solid #6b5228;
+
+  position:relative;
+  overflow:hidden;
+}
+
+/* ให้พื้นที่รูปปรับตามรูปจริง */
+.supply-detail-image{
+  width:auto;
+  height:auto;
+  min-height:0;
+
+  max-width:45vw;
+  max-height:85vh;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#080808;
+  overflow:hidden;
+}
+
+/* รูปไม่ถูก crop */
+.supply-detail-image img{
+  display:block;
+
+  width:auto;
+  height:auto;
+
+  max-width:45vw;
+  max-height:85vh;
+
+  object-fit:contain;
+}
+
+/* ถ้าไม่มีรูป */
+.supply-detail-placeholder{
+  width:350px;
+  height:500px;
+
+  display:grid;
+  place-items:center;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      #6b4d1e,
+      #1b150c 40%,
+      #080808 75%
+    );
+}
+.deck-mini-card {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+.deck-mini-card .deck-add-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  inset: 0;
+}
 /* Click card in Deck Builder picker to view details */
 .picker-card-clickable{cursor:pointer;transition:.16s}
 .picker-card-clickable:hover{background:#17130d;border-top-color:#5b4725}
@@ -3372,7 +3685,7 @@ select option:hover{
 }
 .ability-icon-Peek{
   width:auto !important;
-  height:18px !important;
+  height:20px !important;
 }
 
 .ability-icon-E{
@@ -3431,3 +3744,307 @@ select option:hover{
   margin-top:0 !important;
   margin-bottom:0 !important;
 }
+
+/* ขนาดไอคอน Keyword ในหน้า HOW TO PLAY */
+.howtoplay-keyword-grid img {
+  width: 80px !important;
+  height: 60px !important;
+  max-width: none !important;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.howtoplay-keyword-grid img.keyword-counter {
+  width: 60px !important;
+  height: 40px !important;
+}
+
+.howtoplay-keyword-grid img.keyword-Peek {
+  width: 60px !important;
+  height: 40px !important;
+}
+
+.howtoplay-keyword-grid img.keyword-perTurn {
+  width: 60px !important;
+  height: 40px !important;
+}
+
+.howtoplay-keyword-grid img.keyword-OpenZone {
+  width: 80px !important;
+  height: 60px !important;
+}
+
+.howtoplay-keyword-grid img.keyword-Pocket {
+  width: 60px !important;
+  height: 40px !important;
+}
+
+.howtoplay-keyword-grid img.keyword-EnergySoul  {
+  width: 100px !important;
+  height: 40px !important;
+}
+.howtoplay-keyword-grid img.keyword-ZoneOpen {
+  width: 100px !important;
+  height: 40px !important;
+}
+.howtoplay-keyword-grid img.keyword-Energy {
+  width: 60px !important;
+  height: 40px !important;
+}
+.howtoplay-keyword-grid img.keyword-Enter {
+  width: 60px !important;
+  height: 40px !important;
+}
+.howtoplay-keyword-grid img.keyword-Block {
+  width: 60px !important;
+  height: 40px !important;
+}
+.howtoplay-keyword-grid img.keyword-Activat {
+  width: 60px !important;
+  height: 40px !important;
+}
+.howtoplay-keyword-grid img.keyword-forever {
+  width: 60px !important;
+  height: 40px !important;
+}
+/* ===== HOW TO PLAY PAGE (additive only) ===== */
+.howtoplay-section{max-width:1180px;margin:0 auto;padding-bottom:50px}
+.howtoplay-hero{position:relative;overflow:hidden;text-align:center;padding:48px 24px 38px;border:1px solid rgba(202,165,82,.35);background:radial-gradient(ellipse at 50% 0%,rgba(115,76,155,.22),transparent 58%),linear-gradient(135deg,#15120e,#090909 65%,#17110a);}
+.howtoplay-kicker{font:600 11px Cinzel,serif;letter-spacing:4px;color:#b89a5c}
+.howtoplay-hero h2{margin:12px 0 8px;color:#f0d79a;font:700 clamp(30px,5vw,52px) Cinzel,serif;letter-spacing:3px;text-shadow:0 0 22px rgba(211,171,83,.18)}
+.howtoplay-hero p{color:#c0b5a0;margin:0;font-size:14px}
+.howtoplay-ruleline{width:min(260px,70%);height:1px;margin:24px auto;background:linear-gradient(90deg,transparent,#c9a55a,transparent)}
+.howtoplay-note{color:#887c68;font-size:11px}
+.howtoplay-navcards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:16px 0 28px}
+.howtoplay-navcards a{display:flex;gap:10px;align-items:center;justify-content:center;min-height:56px;border:1px solid #393022;background:#12110f;color:#d9b86d;text-decoration:none;font:600 12px Cinzel,serif;transition:.2s}
+.howtoplay-navcards a span{color:#c9c1b2;font:500 12px Inter,sans-serif}
+.howtoplay-navcards a:hover{border-color:#c9a55a;background:#211a0f}
+.howtoplay-panel{scroll-margin-top:20px;margin:0 0 18px;padding:25px;border:1px solid rgba(202,165,82,.22);background:linear-gradient(145deg,rgba(24,22,19,.96),rgba(12,12,12,.98))}
+.howtoplay-section-label{font:600 10px Cinzel,serif;letter-spacing:2px;color:#a58a50}
+.howtoplay-panel h3{margin:8px 0 10px;color:#ead5a1;font-size:23px}
+.howtoplay-panel>p{color:#b8b0a2;line-height:1.8;font-size:13px}
+.howtoplay-callout{display:flex;gap:14px;margin-top:18px;padding:15px;border-left:2px solid #b99a58;background:rgba(197,158,74,.07);font-size:12px;line-height:1.8;color:#c8c0b2}
+.howtoplay-callout b{flex:0 0 auto;color:#e0c477}
+.howtoplay-deckgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
+.howtoplay-deckgrid>div{display:flex;flex-direction:column;gap:8px;padding:17px 14px;border:1px solid #393022;background:#0d0d0c}
+.howtoplay-deckgrid strong{font:600 11px Cinzel,serif;letter-spacing:1px;color:#b89a5c}
+.howtoplay-deckgrid b{font-size:19px;color:#eee1c1}
+.howtoplay-deckgrid small{font-size:11px;color:#928979;line-height:1.5}
+.howtoplay-type-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+.howtoplay-type-list>div{display:flex;gap:13px;align-items:flex-start;padding:14px;border:1px solid #302a20;background:#0d0d0c}
+.howtoplay-type-icon{display:grid;place-items:center;flex:0 0 38px;height:42px;border:1px solid #705a31;color:#e0c477;background:#17130d;font:700 12px Cinzel,serif}
+.howtoplay-type-list b{color:#e0c477;font-size:14px}
+.howtoplay-type-list p{margin:5px 0 0;color:#aaa294;font-size:12px;line-height:1.7}
+.howtoplay-keyword-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
+.howtoplay-keyword-grid>div{padding:14px;border:1px solid #302a20;background:#0d0d0c}
+.howtoplay-keyword-grid b{display:block;color:#e0c477;font:600 13px Cinzel,serif;margin-bottom:7px}
+.howtoplay-keyword-grid span{color:#aaa294;font-size:11px;line-height:1.6}
+.howtoplay-footer-note{margin-top:20px;padding-top:16px;border-top:1px solid #302a20;color:#928979;font-size:11px;line-height:1.8}
+@media(max-width:760px){.howtoplay-hero{padding:34px 16px 28px}.howtoplay-navcards{grid-template-columns:repeat(2,minmax(0,1fr))}.howtoplay-deckgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.howtoplay-type-list{grid-template-columns:1fr}.howtoplay-keyword-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.howtoplay-panel{padding:18px}}
+@media(max-width:380px){.howtoplay-deckgrid{grid-template-columns:1fr 1fr}.howtoplay-keyword-grid{grid-template-columns:1fr}.howtoplay-navcards a{gap:6px;font-size:11px}.howtoplay-navcards a span{font-size:11px}}
+
+
+/* ===== MOBILE PLAY TEST: PORTRAIT LAYOUT ===== */
+@media (max-width: 650px) {
+  #drawtest { min-width: 0; width: 100%; }
+  .draw-header { display:flex; flex-direction:column; align-items:stretch; gap:12px; }
+  .draw-header h2 { font-size:25px; }
+  .draw-header p { font-size:11px; line-height:1.5; }
+  .draw-controls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; width:100%; }
+  .draw-controls select { grid-column:1 / -1; width:100%; min-width:0; min-height:40px; }
+  .draw-controls button { min-width:0; padding:10px 7px; font-size:10px; }
+  .playtest-info { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; font-size:9px; }
+  .manual-playtest { min-width:0; width:100%; padding:8px; overflow:visible; }
+  .manual-playmat {
+    width:100%; min-width:0; min-height:0; height: min(70vh, 650px);
+    aspect-ratio:auto; overflow:hidden; border-radius:8px;
+  }
+  .manual-playmat:before { inset:7px; border-radius:7px; }
+  .playmat-hint { width:80%; font-size:9px; letter-spacing:.4px; }
+  .board-piles { right:8px; top:8px; gap:5px; }
+  .board-pile { width:43px; height:61px; box-shadow:0 3px 10px #000; }
+  .board-pile span { font-size:9px; letter-spacing:0; }
+  .board-pile b { font-size:8px; margin-top:4px; }
+  .test-board-cards .test-card {
+    width:48px!important; height:67px!important; min-width:48px!important; min-height:67px!important;
+    max-width:48px!important; max-height:67px!important; border-radius:3px!important;
+  }
+  .test-board-cards .board-rotate-btn,
+  .special-rotate-btn { width:19px!important; height:19px!important; font-size:12px!important; line-height:17px!important; }
+  .test-special-card .test-card {
+    width:54px!important; height:75px!important; min-width:54px!important; min-height:75px!important;
+    max-width:54px!important; max-height:75px!important; border-radius:3px!important;
+  }
+  .test-master-card { top:46%!important; }
+  .test-zone-card { top:68%!important; }
+  .test-soul-core-cards { top:10%!important; max-width:90%!important; gap:3px!important; }
+  .test-soul-core-cards .test-card {
+    width:35px!important; height:25px!important; min-width:35px!important; min-height:25px!important;
+    max-width:35px!important; max-height:25px!important; flex:0 0 35px!important;
+  }
+  .test-soul-core-under-zone { max-width:90%; }
+  .manual-hand-panel { min-width:0; width:100%; margin-top:10px; padding:10px 2px 2px; min-height:0; }
+  .manual-hand-panel .draw-hand-title { display:flex; flex-direction:column; gap:4px; }
+  .manual-hand-panel .draw-hand-title small { font-size:9px; line-height:1.4; }
+  .manual-hand-panel .draw-test-hand {
+    min-width:0!important; width:100%!important; min-height:0!important;
+    align-items:start!important; justify-items:stretch!important;
+    display:grid!important; grid-template-columns:repeat(auto-fit,minmax(42px,1fr))!important;
+    gap:6px!important; overflow:visible!important;
+  }
+  .manual-hand-panel .draw-test-hand .test-card {
+    position:relative!important; inset:auto!important;
+    width:100%!important; height:auto!important; aspect-ratio:48 / 67!important;
+    min-width:0!important; min-height:0!important; max-width:none!important; max-height:none!important;
+    flex:none!important; margin:0!important; transform:none!important; box-sizing:border-box!important;
+  }
+  .manual-hand-panel .draw-test-hand .test-card:hover {
+    transform:translateY(-3px)!important;
+  }
+  .playtest-actions { flex-wrap:wrap; gap:8px; line-height:1.5; }
+  .playtest-actions span { flex:1 1 100%; }
+}
+
+
+/* ===== MOBILE TOUCH DRAG FROM HAND TO PLAY TEST BOARD ===== */
+#testHand .test-card{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#testHand .test-card.mobile-drag-source{opacity:.28!important}
+.mobile-drag-ghost{border-radius:8px;overflow:hidden;outline:2px solid rgba(221,183,91,.95)}
+
+/* Mobile play-test: tap a card, then tap a destination on the playmat. */
+@media (pointer: coarse) {
+  .test-card.mobile-place-selected {
+    outline: 3px solid #e8c66a !important;
+    outline-offset: 3px;
+    filter: drop-shadow(0 0 8px rgba(185, 119, 255, .95));
+    z-index: 100 !important;
+  }
+  #playBoard.mobile-place-target {
+    cursor: crosshair;
+    box-shadow: inset 0 0 0 2px rgba(232, 198, 106, .75), 0 0 14px rgba(153, 90, 255, .28);
+  }
+}
+
+/* ===== MOBILE PLAY TEST HAND: FIT EVERY CARD ON SCREEN ===== */
+@media (max-width: 650px){
+  #drawtest .manual-hand-panel{
+    min-width:0!important;
+    width:100%!important;
+    min-height:0!important;
+    box-sizing:border-box!important;
+    padding:10px 6px!important;
+    overflow:visible!important;
+  }
+  #drawtest .manual-hand-panel #testHand,
+  #drawtest #testHand.draw-test-hand{
+    display:grid!important;
+    grid-template-columns:repeat(auto-fill,minmax(0,1fr))!important;
+    grid-template-columns:repeat(7,minmax(0,1fr))!important;
+    gap:5px!important;
+    width:100%!important;
+    min-width:0!important;
+    min-height:0!important;
+    height:auto!important;
+    padding:4px!important;
+    box-sizing:border-box!important;
+    align-items:start!important;
+    justify-content:stretch!important;
+    overflow:visible!important;
+  }
+  #drawtest .manual-hand-panel #testHand .test-card,
+  #drawtest #testHand.draw-test-hand .test-card{
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:63 / 88!important;
+    min-width:0!important;
+    min-height:0!important;
+    max-width:100%!important;
+    max-height:none!important;
+    flex:none!important;
+    box-sizing:border-box!important;
+    margin:0!important;
+    padding:2px!important;
+    overflow:hidden!important;
+    transform:none!important;
+  }
+  #drawtest .manual-hand-panel #testHand .test-card img,
+  #drawtest #testHand.draw-test-hand .test-card img{
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+  }
+  #drawtest .manual-hand-panel #testHand .test-card span,
+  #drawtest #testHand.draw-test-hand .test-card span{font-size:clamp(9px,2.5vw,14px)!important}
+  #drawtest .manual-hand-panel #testHand .test-card b,
+  #drawtest #testHand.draw-test-hand .test-card b{font-size:clamp(5px,1.7vw,8px)!important;margin-top:2px!important;overflow-wrap:anywhere!important}
+  #drawtest .manual-hand-panel #testHand .test-card small,
+  #drawtest #testHand.draw-test-hand .test-card small{font-size:clamp(4px,1.3vw,6px)!important;margin-top:1px!important;overflow-wrap:anywhere!important}
+}
+@media (max-width: 380px){
+  #drawtest .manual-hand-panel #testHand,
+  #drawtest #testHand.draw-test-hand{grid-template-columns:repeat(7,minmax(0,1fr))!important;gap:3px!important;padding:2px!important}
+}
+
+
+/* =========================
+   SOULVAULT ONLINE TWO-PLAYER
+========================= */
+.sim-online-panel{margin:0 0 22px;padding:18px;border:1px solid rgba(210,174,91,.38);border-radius:16px;background:linear-gradient(135deg,rgba(30,25,18,.92),rgba(12,13,17,.96));color:inherit}
+.sim-online-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}
+.sim-online-heading h3{margin:4px 0 5px}.sim-online-heading p{margin:0;opacity:.78;font-size:.9rem}
+.sim-online-status{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:7px 11px;font-size:.78rem;white-space:nowrap;color:#ddd;background:rgba(255,255,255,.04)}
+.sim-online-status::before{content:"";width:7px;height:7px;border-radius:50%;background:#888;display:inline-block}
+.sim-online-status.is-connected::before{background:#61d39a;box-shadow:0 0 8px #61d39a}.sim-online-status.is-waiting::before{background:#e9bd5b}.sim-online-status.is-error::before{background:#f07171}
+.sim-online-config{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
+.sim-online-config label{display:flex;flex-direction:column;gap:6px;font-size:.8rem;opacity:.95}
+.sim-online-config input,.sim-room-code{min-width:0;width:100%;box-sizing:border-box;background:#0c0d10;color:inherit;border:1px solid rgba(255,255,255,.18);border-radius:9px;padding:11px 12px;font:inherit;font-size:.9rem}
+.sim-online-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.sim-online-actions button{min-height:40px}.sim-room-code{width:150px;text-transform:uppercase;letter-spacing:.08em}
+.sim-secondary-btn{border:1px solid rgba(211,177,97,.55);background:rgba(211,177,97,.08);color:inherit;border-radius:9px;padding:10px 13px;cursor:pointer}.sim-secondary-btn:disabled,.sim-online-actions button:disabled{opacity:.42;cursor:not-allowed}
+.sim-online-note{font-size:.78rem;line-height:1.55;opacity:.68;margin:12px 0 0}
+.sim-player.is-opponent .sim-hand{min-height:68px;display:flex;align-items:center;justify-content:center}.sim-hidden-hand{padding:14px 18px;border:1px dashed rgba(211,177,97,.45);border-radius:10px;color:rgba(255,255,255,.72);font-size:.86rem;text-align:center}
+.sim-online-room-pill{display:inline-flex;gap:6px;align-items:center;margin-top:8px;border:1px solid rgba(211,177,97,.35);border-radius:8px;padding:6px 9px;font-size:.8rem}
+@media(max-width:700px){.sim-online-config{grid-template-columns:1fr}.sim-online-heading{flex-direction:column}.sim-online-actions>*{flex:1 1 42%}.sim-room-code{width:100%}.sim-online-actions button{font-size:.82rem}}
+
+
+/* Two-player simulator */
+.playtest-mode-switch{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 16px}
+.playtest-mode-switch span{font-size:11px;color:var(--muted)}
+#drawtest.sim-two-player .draw-controls,#drawtest.sim-two-player .playtest-info,#drawtest.sim-two-player .manual-playtest,#drawtest.sim-two-player .playtest-actions{display:none!important}
+.two-player-simulator{margin-top:14px;background:#080808;border:1px solid #40331b;padding:16px;color:#e9dfc8}
+.two-player-simulator[hidden]{display:none!important}
+.two-player-topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #332918}
+.two-player-topbar h3{font:600 25px Cinzel,serif;margin:5px 0;color:#e8c878}
+.two-player-topbar p{font-size:11px;color:#9b9282;margin:0}
+.two-player-global-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sim-turn-label{font-size:11px;color:#e9d18e;border:1px solid #6c5425;padding:8px 10px;border-radius:3px}
+.two-player-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.sim-player{min-width:0;border:1px solid #3a3020;background:linear-gradient(180deg,#12110e,#080808);padding:12px;border-radius:4px}
+.sim-player.sim-active{border-color:#c49a3d;box-shadow:0 0 0 1px #c49a3d55,0 0 20px #c49a3d12}
+.sim-player-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.sim-player-head h3{font:600 20px Cinzel,serif;margin:4px 0;color:#f0d58b}
+.sim-player-tag{font-size:9px;letter-spacing:2px;color:#9e8751}
+.sim-deck-select{max-width:55%;min-width:100px;background:#111;color:#e9dfc8;border:1px solid #55472d;padding:8px;border-radius:3px}
+.sim-player-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-bottom:12px}
+.sim-player-stats span{display:flex;flex-direction:column;gap:3px;background:#15130f;border:1px solid #282319;padding:7px 5px;font-size:8px;letter-spacing:.7px;color:#8e846f}
+.sim-player-stats b{font-size:15px;color:#e7d7ae}
+.sim-specials{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.sim-specials>div{min-width:0;background:#0a0908;border:1px solid #2c261a;padding:7px;display:flex;align-items:center;gap:8px}
+.sim-specials small{font-size:8px;letter-spacing:1px;color:#a18a52}
+.sim-special-card{min-width:0;flex:1;font-size:10px;color:#d9cba8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sim-special-card .test-card{width:35px!important;height:49px!important;min-height:49px!important;min-width:35px!important;max-width:35px!important;max-height:49px!important;flex:0 0 auto}
+.sim-player-controls{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 14px}
+.sim-player-controls button,.sim-tomb-toggle{font-size:10px!important;padding:8px 10px!important}
+.sim-zone-title{display:flex;align-items:baseline;gap:8px;font:600 11px Cinzel,serif;letter-spacing:1px;color:#d4b56a;margin:12px 0 7px}
+.sim-zone-title small{font:normal 9px Inter,sans-serif;letter-spacing:0;color:#827a6a}
+.sim-field,.sim-hand,.sim-tomb-list{display:flex;flex-wrap:wrap;gap:8px;min-height:82px;align-items:flex-start;padding:8px;background:#070707;border:1px solid #27231b;border-radius:3px}
+.sim-hand{min-height:110px}
+.sim-field .test-card,.sim-hand .test-card,.sim-tomb-list .test-card{position:relative!important;width:68px!important;height:95px!important;min-width:68px!important;min-height:95px!important;max-width:68px!important;max-height:95px!important;transform:none!important;cursor:pointer;flex:0 0 auto}
+.sim-field .test-card img,.sim-hand .test-card img,.sim-tomb-list .test-card img{width:100%;height:100%;object-fit:cover}
+.sim-card-actions{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-top:4px}
+.sim-card-actions button{font-size:8px;background:#17130b;border:1px solid #5d4824;color:#e5ce8c;border-radius:2px;padding:5px;cursor:pointer}
+.sim-card-wrap{width:72px;max-width:72px;min-width:0}
+.sim-empty{font-size:10px;color:#625c50;align-self:center;padding:8px}
+.sim-tomb-toggle{margin-top:9px;background:#17130b;border:1px solid #594624;color:#d7c28d;cursor:pointer;border-radius:3px}
+.sim-tomb-list[hidden]{display:none!important}
+.sim-footnote{font-size:10px;color:#756d5d;margin:13px 0 0}
+@media(max-width:900px){.two-player-grid{grid-template-columns:1fr}.two-player-topbar{align-items:flex-start;flex-direction:column}.sim-player-head{flex-wrap:wrap}.sim-deck-select{max-width:100%}}
+

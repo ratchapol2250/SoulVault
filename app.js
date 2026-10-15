@@ -1,24 +1,8 @@
 const cards=[
-{id:"SA-001",set:"BT01",name:"Varethorn",subtitle:"The Shadow Thief",type:"Character",rarity:"Legendary",element:"Void",cost:"6",ability:"เมื่อเข้าสู่สนาม สามารถเลือกการ์ด 1 ใบจากมือฝ่ายตรงข้ามและทำให้การ์ดนั้นถูกล็อกชั่วคราว",symbol:"V"},
-{id:"SA-002",set:"BT01",name:"Draconic Fury",subtitle:"Wrath of the Dragon",type:"Action",rarity:"Epic",element:"Inferno",cost:"3",ability:"เพิ่มพลังโจมตีให้ตัวละครของคุณ และสร้างแรงกดดันต่อคู่ต่อสู้ในเทิร์นนี้",symbol:"D"},
-{id:"SA-003",set:"BT01",name:"Soulvault",subtitle:"The Endless Archive",type:"Skill",rarity:"Rare",element:"Soul",cost:"2",ability:"เก็บการ์ด 1 ใบจากสุสานของคุณกลับมาไว้ในมือ",symbol:"S"},
-{id:"SA-004",set:"BT01",name:"Azrakar",subtitle:"Keeper of the Red Core",type:"Character",rarity:"Legendary",element:"Red Core",cost:"7",ability:"เมื่อพลังชีวิตของคุณลดลงต่ำกว่าครึ่ง ความสามารถของ Azrakar จะทำงานทันที",symbol:"A"},
-{id:"SA-006",set:"BT01",name:"Scarlet Night",subtitle:"Blood Moon Protocol",type:"Action",rarity:"Epic",element:"Crimson",cost:"4",ability:"เปลี่ยนสนามให้เข้าสู่สถานะ Scarlet Night และเพิ่มผลของการ์ดธาตุ Crimson",symbol:"N"},
-{id:"SA-007",set:"BT02",name:"Core Shield",subtitle:"Relic Barrier",type:"Skill",rarity:"Common",element:"Relic",cost:"1",ability:"ป้องกันความเสียหายที่กำลังจะเกิดขึ้น 1 ครั้ง",symbol:"C"},
-{id:"SA-008",set:"BT02",name:"Forbidden Relic",subtitle:"Artifact of the Lost",type:"Item",rarity:"Common",element:"Relic",cost:"2",ability:"ค้นหาการ์ด Relic จาก Deck แล้วนำขึ้นมือ 1 ใบ",symbol:"R"},
-{id:"SA-017",name:"Untimeat",subtitle:"The Unbroken Oath",type:"Untimeat",rarity:"Legendary",element:"Void",cost:"0",ability:"Untimeat — การ์ดประจำเด็คที่ต้องมี 1 ใบ",symbol:"U",set:"BT03"},
-{id:"SA-009",set:"BT02",name:"Eclipse King",subtitle:"Master of the Black Sun",type:"Master",rarity:"Legendary",element:"Eclipse",cost:"8",ability:"Master — กำหนดกฎพิเศษของ Deck และเพิ่มพลังให้การ์ด Eclipse",symbol:"K"},
-{id:"SA-010",set:"BT02",name:"Land of Eternal Love",subtitle:"Forbidden Zone",type:"Zone",rarity:"Epic",element:"Mystic",cost:"0",ability:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityFront:"Zone — สนามนี้เปลี่ยนผลของการ์ด Skill และ Character บางประเภท",abilityBack:"เมื่อเปิดใช้งานด้านหลัง: การ์ด Skill และ Character ที่ตรงเงื่อนไขจะได้รับผลของ Zone ตามข้อความด้านหลัง",symbol:"Z"},
-{id:"SA-011",set:"BT02",name:"Neon Succubus",subtitle:"Temptation Protocol",type:"Character",rarity:"Epic",element:"Neon",cost:"5",ability:"เมื่อการ์ดนี้ทำงาน ให้เลือกการ์ดฝ่ายตรงข้าม 1 ใบและลดประสิทธิภาพของมัน",symbol:"N"},
-{id:"SA-012",set:"BT03",name:"Relic Core",subtitle:"Ancient Power",type:"Item",rarity:"Rare",element:"Relic",cost:"2",ability:"ติดตั้งให้ Character 1 ใบเพื่อเพิ่มผลของความสามารถ",symbol:"C"},
-{id:"SA-013",set:"BT03",name:"Soul Core Alpha",subtitle:"Origin of the Soul",type:"Soul Core",rarity:"Legendary",element:"Soul",cost:"0",ability:"Soul Core — แกนพลังประจำ Deck ใช้สำหรับกำหนดพลังเริ่มต้นของผู้เล่น",symbol:"SC"},
-{id:"SA-014",set:"BT03",name:"Soul Core Eclipse",subtitle:"Black Soul Reactor",type:"Soul Core",rarity:"Epic",element:"Eclipse",cost:"0",ability:"Soul Core — เพิ่มผลของการ์ด Eclipse เมื่อถูกวางในสนาม",symbol:"SC"},
-{id:"SA-015",set:"BT03",name:"Pocket Relic",subtitle:"Stored Artifact",type:"POCKET",rarity:"Art Rare",element:"Relic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ในพื้นที่ Pocket และเรียกใช้ในจังหวะที่กำหนด",symbol:"P"},
-{id:"SA-016",set:"BT03",name:"Pocket Trick",subtitle:"Hidden Move",type:"POCKET",rarity:"Secret Rare",element:"Mystic",cost:"1",ability:"Pocket — เก็บการ์ดไว้ใน Pocket เพื่อเตรียมใช้เป็นการกระทำพิเศษ",symbol:"P"},
 
 {id:"HD-001",set:"HD",name:"Aegiron The Starforged",subtitle:"ข้าจะไม่หยุด…จนกว่าความมืดจะพังทลาย",type:"Character",rarity:"Common",element:"นักรบเกราะเหล็ก",cost:"5",ability:"-",artist:"Krianza the Decline",power:"700",steal:"1",symbol:"A",image:"/public/images/cards/Aegiron The Starforged.jpg"},
 {id:"HD-002",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg",set:"HD",name:"เกลสาวโหด ณ 3 แยก",subtitle:"ยิ่งดิ้นรน ก็ยิ่งจมลึกลงไป",type:"Character",rarity:"Common",element:"Crimson",cost:"4",ability:"{Dot}เมื่อการ์ดใบนี้เข้าสู่สนาม คู่แข่งสมารถจ่าย 1 {Pocket} ถ้าไม่จ่าย ทำการ Kill Criminal ที่มีคอส 3 หรือต่ำกว่า 1 ใบของคู่แข่ง",power:"500",steal:"1",artist:"ตีนแมว",symbol:"G",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg"},
-{id:"HD-003",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg",set:"HD",name:"จอมโจรร้อยหน้า ลูแพร์",subtitle:"ข้าจะแฝงตัวไปกับสิ่งที่เจ้ารักและเอามันไปจากเจ้า",type:"Character",rarity:"Common",element:"จอมโจร",cost:"3",ability:"{Activat}{PerTurn} ใช้ความสามารถนี้ได้ถ้าคุณเคยใช้งานความสามารถของ Masterไปแล้วในเทิร์นนี้ เลือก Character 1 ใบได้รับพลัง+100 จนจบเทิร์น และ คุณจั่ว 1 ใบ \n(เป็นความสามารถสั่งใช้งานและใช้ได้เพียง 1 ครั้งใน 1 เทิร์น)",symbol:"L",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg"},
+{id:"HD-003",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg",set:"HD",name:"จอมโจรร้อยหน้า ลูแพร์",subtitle:"ข้าจะแฝงตัวไปกับสิ่งที่เจ้ารักและเอามันไปจากเจ้า",type:"Character",rarity:"Common",element:"จอมโจร",cost:"3",power:"500",steal:"1",artist:"inalone",ability:"{Activat}{PerTurn} ใช้ความสามารถนี้ได้ถ้าคุณเคยใช้งานความสามารถของ Masterไปแล้วในเทิร์นนี้ เลือก Character 1 ใบได้รับพลัง+100 จนจบเทิร์น และ คุณจั่ว 1 ใบ \n(เป็นความสามารถสั่งใช้งานและใช้ได้เพียง 1 ครั้งใน 1 เทิร์น)",symbol:"L",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg"},
 {id:"HD-004",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg",set:"HD",name:"ไนธีเรีย ผู้เฝ้าประตูนรก",subtitle:"จงอย่ากลัวความตาย เพราะมันกำลังรอเจ้าอยู่",type:"Character",rarity:"Common",element:"ยมฑูต",cost:"2",ability:"{Block}\n{Dot} เมื่อการ์ดใบนี้ออกจากสนาม {Peek} 3 ใบ ล่างสุดจากกองเลือก Character 1 ใบจากที่เปิดดู นำขึ้นมือที่เหลือนำกลับเข้ากองแล้วสลับ\n(สามารถเปลี่ยนสภาพการ์ดนี้จาก Ok เป็น Don’t ได้ เพื่อเปลี่ยนเป้าหมายการโจมตีมาที่การ์ดใบนี้แทน)",symbol:"N",power:"300",steal:"1",artist:"Haruki",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg"},
 {id:"HD-005",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg",set:"HD",name:"เพอร่า ยามค่ำคืน",subtitle:"หลับตาลงเถิด…แล้วปล่อยให้ฝันร้ายเริ่มต้น",artist:"Hika mori",type:"Character",rarity:"Common",element:"ผู้หญิง",cost:"2",steal:"1",power:"400",ability:"{Enter} เมื่อเข้าสู่สนาม จั่วการ์ด 1 ใบ ",symbol:"P",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg"},
 {id:"HD-006",image:"/public/images/cards/Cerberus Blade.jpg",set:"HD",name:"Cerberus Blade",subtitle:"Cerberus Blade",type:"Gear",rarity:"Common",element:"ดาบ",cost:"2",ability:"การ์ดใบนี้สามารถสวมใส่ได้แค่ Character เท่านั้น\n{Dot} เมื่อ Character  ที่สวมใส่การ์ดใบนี้โจมตีหรือขโมย การ์ดนั้นได้รับพลัง +200 จนจบเทิร์น",artist:"อาราย อีกว้าา",symbol:"C",image:"/public/images/cards/Cerberus Blade.jpg"},
@@ -26,20 +10,23 @@ const cards=[
 {id:"HD-008",image:"/public/images/cards/Heaven's Embrace.jpg",set:"HD",name:"Heaven's Embrace",subtitle:"เมื่อดวงดาวเปล่งประกาย ปาฏิหาริย์จะบังเกิด",type:"Action",rarity:"Common",element:"พร",cost:"1",artist:"Karen'n",ability:"{Dot} นำการ์ด Character 1 ใบจาก Tomb ขึ้นมือจากนั้น นำการ์ด        {Pocket} 1 ใบบนสนามลง Tomb",symbol:"H",image:"/public/images/cards/Heaven's Embrace.jpg"},
 {id:"HD-009",image:"/public/images/cards/You Die!.jpg",set:"HD",name:"You Die!",subtitle:"ตายกี่รอบก็ได้ ดีใช่มั้ยละ",type:"Action",rarity:"Common",element:"เงา",cost:"2",ability:"ใช้การ์ดใบนี้ก็ต่อเมื่อ Character ของเราโดน kill\n{Counter} เลือก Character คู่แข่ง 1 ใบ kill การ์ดใบนั้น คุณจั่วการ์ด 1 ใบ",artist:"harukix",symbol:"Y",image:"/public/images/cards/You Die!.jpg"},
 {id:"HD-010",image:"/public/images/cards/คำเชิญชวนแห่งภูติ.jpg",set:"HD",name:"คำเชิญชวนแห่งภูติ",subtitle:"อย่ากลัวเลย… แค่หลับตา แล้วตามเสียงเรียกของข้ามา",type:"Action",rarity:"Common",element:"ภูติ",cost:"1",artist:"Punch",ability:"{Peek} 5 ใบ เลือก Character  หรือ Gear ไม่เกิน 1 ใบ นำขึ้นมือ และ นำที่เหลือกลับเข้ากองการ์ดแล้วสลับ",symbol:"F",image:"/public/images/cards/คำเชิญชวนแห่งภูติ.jpg"},
-{id:"HD-011",image:"/public/images/cards/It’s Show Time!!.jpg",set:"HD",name:"It’s Show Time!!",subtitle:"ได้เวลาปิดม่านแล้ว",type:"Untimeat",rarity:"Common",element:"ปิดฉาก",cost:"5",artist:"Adamas",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone หอนาฬิกาเที่ยงคืนเคยทำงานแล้ว และ คุณขโมย Soul Core มาแล้ว 2 ชิ้น  ฝั่งตรงข้ามมี Character 1 ใบหรือมากกว่า\nจ่าย {E} 2\nเลือก Character บนสนามเรา 1 ใบ เมื่อจบการต่อสู้ของการ์ดที่เลือก สามารถนำการ์ดใบนั้นลง Tomb ได้ ถ้าทำ นำ Character  ใน Tomb ของคู่แข่ง 2 ใบเข้ามาในสนามคุณได้",symbol:"T",image:"/public/images/cards/It’s Show Time!!.jpg"},
+{id:"HD-011",image:"/public/images/cards/It’s Show Time!!.jpg",set:"HD",name:"It’s Show Time!!",subtitle:"ได้เวลาปิดม่านแล้ว",type:"Untimeat",rarity:"Common",element:"ปิดฉาก",cost:"5",artist:"Adamas",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone หอนาฬิกาเที่ยงคืนเคยทำงานแล้ว และ คุณขโมย Soul Core มาแล้ว 2 ชิ้น  คู่แข่งมี Character 1 ใบหรือมากกว่า\nจ่าย {E} 2\nเลือก Character บนสนามเรา 1 ใบ เมื่อจบการต่อสู้ของการ์ดที่เลือก สามารถนำการ์ดใบนั้นลง Tomb ได้ ถ้าทำ นำ Character  ใน Tomb ของคู่แข่ง 2 ใบเข้ามาในสนามคุณได้",symbol:"T",image:"/public/images/cards/It’s Show Time!!.jpg"},
 {id:"HD-012",image:"/public/images/cards/Soul Guard.jpg",set:"HD",name:"Soul Guard",subtitle:"ข้าจะใช้วิญญาณของข้า เป็นเกราะเพื่อเจ้า",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"1",ability:"ใช้ได้ต่อเมื่อคู่แข่งสั่งโจมตี \n {Counter} จ่าย 1  {E} ทำให้การโจมตีนั้นไร้ผล",artist:"IMO",symbol:"C",image:"/public/images/cards/Soul Guard.jpg"},
-{id:"HD-013",image:"/public/images/cards/Fortune Orb.jpg",set:"HD",name:"Fortune Orb",subtitle:"ข้าจะใช้วิญญาณของข้า เป็นเกราะเพื่อเจ้า",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"1",ability:"{Dot} จั่วการ์ดจากกองการ์ด 2 ใบ ",artist:"kanyarat  luengtrakulrung",symbol:"C",image:"/public/images/cards/Fortune Orb.jpg"},
-{id:"HD-014",set:"HD",name:"Arsen, Lupaire",subtitle:"จอมโจรคือ ศิลปินผู้รังสรรค์การขโมยสิ่งที่ต้องการอย่างวิจิตรงดงาม!",type:"Master",rarity:"Legendary",element:"จอมโจร,คน ",cost:"M",abilityLeft:"{Activat}{PerTurn} ทิ้งการ์ดจากบนมือ 1  ใบ {Peek} Deck คู่แข่ง และสามารถใช้ skill หรือ Gear ที่มีคอส 2 หรือต่ำกว่าได้โดยไม่ต้องจ่ายค่าคอสและไม่สนเงื่อนไข ",abilityRight:"{ZoneOpen1}\nหลังใช้ความสามารถของการ์ดใบนี้สามารถจั่วการ์ดได้ 1 ใบ",symbol:"K",steal:"1",power:"500",image:"/public/images/cards/Arsene LUPIN.jpg"},
+{id:"HD-013",image:"/public/images/cards/Fortune Orb.jpg",set:"HD",name:"Fortune Orb",subtitle:"จงยื่นมือเข้าหาโชคชะตา…แต่อย่าลืมว่าโชคชะตาอาจยื่นมือกลับมา",type:"Action",rarity:"Common",element:"โชคลาภ",cost:"1",ability:"{Dot} จั่วการ์ดจากกองการ์ด 2 ใบ ",artist:"kanyarat  luengtrakulrung",symbol:"C",image:"/public/images/cards/Fortune Orb.jpg"},
+{id:"HD-014",set:"HD",name:"Arsen, Lupaire",subtitle:"จอมโจรคือ ศิลปินผู้รังสรรค์การขโมยสิ่งที่ต้องการอย่างวิจิตรงดงาม!",type:"Master",rarity:"Legendary",element:"จอมโจร,คน ",cost:"M",abilityLeft:"{Activat}{PerTurn} ทิ้งการ์ดจากบนมือ 1  ใบ {Peek} Deck คู่แข่ง 2 ใบ และสามารถใช้ skill หรือ Gear ที่มีคอส 2 หรือต่ำกว่าได้โดยไม่ต้องจ่ายค่าคอสและไม่สนเงื่อนไข ",abilityRight:"{ZoneOpen1}\nหลังใช้ความสามารถของการ์ดใบนี้สามารถจั่วการ์ดได้ 1 ใบ",symbol:"K",steal:"1",power:"500",artist:"Yak",image:"/public/images/cards/Arsene LUPIN.jpg"},
 {id:"HD-015",set:"HD",name:"Pirate's Destination!",subtitle:"ในจุดที่คนอื่นเห็นจุดจบ โจรสลัดกลับเห็นจุดเริ่มต้น",type:"Untimeat",rarity:"Legendary",element:"สถานที่",cost:"5",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone เรือโจรสลัดเคยทำงานแล้ว และคุณขโมย Soul Core มาแล้ว 2 ชิ้นคุณมี Character 1 ใบหรือมากกว่า\nจ่าย {E} 2\nเลือก Character จากใน Tomb 1 ใบ นำเข้ามาในสนามได้และการ์ดใบน้ันได้รับ“เมื่อการ์ดใบนี้โจมตีหรือโมย จะสามารถเลือกได้ 2 เป้าหมายพร้อมกัน และคู่แข่วจะต้องป้องกันแยกกันเท่านั้น”จนจบเทิร์น",artist:"Chotiwat Nilthanee",symbol:"K",image:"/public/images/cards/Pirate's Destination!.jpg"},
 {id:"HD-016",set:"HD",name:"Wounded Heart",subtitle:"ทำอะไรไว้ก็ต้องรับผิดชอบสิ่งที่ทำด้วยละ",type:"Untimeat",rarity:"Legendary",element:"จิตใจ",cost:"5",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone วิมานแห่งรักเคยทำงานแล้ว และ คุณขโมย Soul Core มาแล้ว 2 ชิ้น  คุณไม่มี Character อยู่บนสนาม\nจ่าย {E} 2\nทำการนำ Character ทุกใบในสนามคู่แข่งมาอยู่ใต้ Zone วิมานแห่งรักและนำ Character 1 ใบ จากบนมือ ที่มีคอสไม่เกิน 2 ลงมาบนสนามได้",artist:"Teerawee",symbol:"K",image:"/public/images/cards/Wounded Heart.jpg"},
 {id:"HD-017",set:"HD",name:"Skull, Pirate Captain",subtitle:"ทะเลไม่เคยปราณีและข้าก็เช่นกัน",type:"Master",rarity:"Legendary",element:"โจรสลัด,กัปตัน",cost:"M",abilityLeft:"{Activat}{PerTurn} จ่าย 1 {Pocket} สามารถนำ  Character คอสไม่เกิน 2 ลงมาบนสนามได้ 1 ใบ",abilityRight:"{ZoneOpen2}\nความสามารถของการ์ดใบนี้จะเปลี่ยนเป็น “คอสไม่เกิน 3 ลงมาบนสนามได้ 1 ใบ” แทน",symbol:"K",steal:"1",power:"500",image:"/public/images/cards/Captain Pirates.jpg"},
-{id:"HD-018",set:"HD",name:"Thip Lady of the Night",subtitle:"เข้ามาใกล้อีกนิดสิ...ฉันไม่กัดหรอก(ถ้าคุณไม่ขอ)",type:"Master",rarity:"Legendary",element:"ผู้หญิง",cost:"M",abilityLeft:"เมื่อเริ่มเกม {ES} 1 ใบ\n{Activat}{PerTurn} จ่าย 1 {E} นำการ์ด {Pocket} 1 ใบจาก Deck หรือ Tomb เข้ามาในสนามได้",abilityRight:"{ZoneOpen3}\nจั่วการ์ด 1 ใบ คู่แข่งสามารถจ่าย 1 {Pocket} ถ้าไม่จ่ายจะต้องทิ้งมือ 1 ใบ",symbol:"K",steal:"1",power:"500",image:"/public/images/cards/prostitute.jpg"},
+{id:"HD-018",set:"HD",name:"Thip Lady of the Night",subtitle:"เข้ามาใกล้อีกนิดสิ...ฉันไม่กัดหรอก(ถ้าคุณไม่ขอ)",type:"Master",rarity:"Legendary",element:"ผู้หญิง",cost:"M",abilityLeft:"เมื่อเริ่มเกม {ES} 1 ใบ\n{Activat}{PerTurn} จ่าย 1 {E} นำการ์ด {Pocket} 1 ใบจาก Deck หรือ Tomb เข้ามาในสนามได้",abilityRight:"{ZoneOpen3}\nจั่วการ์ด 1 ใบ คู่แข่งสามารถจ่าย 1 {Pocket} ถ้าไม่จ่ายจะต้องทิ้งมือ 1 ใบ",symbol:"K",steal:"1",power:"500",artist:"Punch",image:"/public/images/cards/prostitute.jpg"},
 {id:"HD-Z-01",set:"HD",name:"วิมานแห่งรัก",subtitle:"-",type:"Zone",rarity:"Common",element:"ในใจ",cost:"Z",abilityFront:"เมื่อ Zone นี้ทำงาน  เลือก Character บนสนามของคู่แข่ง 1 ใบ นำมาไว้ใต้การ์ดใบนี้(การ์ดที่อยู่ใต้การ์ดใบนี้จะถือว่าไม่อยู่ในเกมและไม่อยู่ในUnderworld)\n{PerTurn} เมื่อคู่แข่งจ่าย {Pocket} ในเทิร์นคุณ คุณจั่วการ์ด 1 ใบ",abilityBack:"{OpenZone}\nเมื่อคุณมี {Pocket} ในสนามครบ 6 ใบคุณ สามารถจ่าย 2 {Pocket} เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backวิมานแห่งรัก.jpg",symbol:"Z",artist:"wavecolorstudio",image:"/public/images/cards/วิมานแห่งรัก.jpg"},
 {id:"HD-Z-02",set:"HD",name:"หอนาฬิกาเที่ยงคืน",subtitle:"-",type:"Zone",rarity:"Common",element:"ใจกลางเมือง",cost:"Z",abilityFront:"เมื่อ Zone นี้ทำงาน เมื่อคุณโจมตีหรือขโมยในเทิร์นนี้คู่แข่งไม่สามารถ ใช้งานการ์ด Action ที่มีความสามารถ {Counter} ได้ และ Character ของคุณทุกใบได้รับพลัง +100 จนจบเทิร์น",abilityBack:"{OpenZone}\nเมื่อคุณใช้ความสามารถของ Master ครบ 3 ครั้ง สามารถจ่าย 3 {Pocket} เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backหอนาฬิกา.jpg",symbol:"Z",artist:"wavecolorstudio",image:"/public/images/cards/หอนาฬิกาเที่ยงคืน.jpg"},
-{id:"HD-Z-03",set:"HD",name:"เรือโจรสลัด",subtitle:"-",type:"Zone",rarity:"Common",element:"เรือ",cost:"Z",abilityFront:"เมื่อ Zone นี้ทำงาน  เลือก Character บนมือ 1 ใบ ที่มีคอสไม่เกิน 2 นำลงบนสนาม\n{Forever} ในเทิร์นคุณการ์ด Character ทุกใบในสนามได้รับพลัง +100",abilityBack:"{OpenZone}\nเมื่อคุณมี Soul Core ใต้การ์ด Zone ครบ 2 ใบคุณสามารถจ่าย 2 {Pocket} เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backเรือโจรสลัด.jpg",symbol:"Z",artist:"-",image:"/public/images/cards/เรือโจรสลัด.jpg"},
+{id:"HD-Z-03",set:"HD",name:"เรือโจรสลัด",subtitle:"-",type:"Zone",rarity:"Common",element:"เรือ",cost:"Z",abilityFront:"เมื่อ Zone นี้ทำงาน  เลือก Character บนมือ 1 ใบ ที่มีคอสไม่เกิน 2 นำลงบนสนาม\n{Forever} ในเทิร์นคุณการ์ด Character ทุกใบในสนามได้รับพลัง +100",abilityBack:"{OpenZone}\nเมื่อคุณมี Soul Core ใต้การ์ด Zone ครบ 2 ใบคุณสามารถจ่าย 2 {Pocket} เพื่อเปิดการ์ดใบนี้ได้",imageBack:"/public/images/cards/backเรือโจรสลัด.jpg",symbol:"Z",artist:"IMO",image:"/public/images/cards/เรือโจรสลัด.jpg"},
 {id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",artist:"IMO",set:"HD",name:"pocket",subtitle:"-",type:"POCKET",rarity:"Common",element:"-",cost:"-",ability:"{Counter} ใช้ความสามารถนี้ได้จากบนมือคุณเท่านั้น จ่าย 1 {Pocket} จากนั้นเลือก Master หรือ Criminal ที่กำลังต่อสู้อยู่ได้ 1 ใบการ์ดใบนั้นได้รับพลัง +200 จนจบการต่อสู้นั้น",artist:"IMO",image:"/public/images/cards/Pocket3.jpg"},
 {id:"HD-SC01",image:"/public/images/cards/Soul Core.jpg",set:"HD",name:"Soul Core 1",subtitle:"-",type:"Soul Core",rarity:"Common",element:"-",cost:"-",artist:"Pupa",ability:"เมื่อคุณได้รับการ์ดใบนี้ คู่แข่งได้ {ES} 1 ใบ",image:"/public/images/cards/Soul Core.jpg"},
+{id:"FPR",image:"/public/images/cards/มิวะ นุ่มฟู.jpg",set:"Promo",name:"มิวะ นุ่มฟู",subtitle:"-",type:"Character",rarity:"FPR",element:"ไม่ทราบ,ก้อนขน",cost:"2",artist:"หนองในเล็บ",steal:"1",power:"300",ability:"{Enter} แสดงการ์ดใบบนสุดของคู่แข่ง ถ้าเป็น Gear ให้นำลง Tomp",image:"/public/images/cards/มิวะ นุ่มฟู.jpg"},
+{id:"FPRS",image:"/public/images/cards/มิวะ นุ่มฟู FPRS.jpg",set:"Promo",name:"มิวะ นุ่มฟู",subtitle:"-",type:"Character",rarity:"FPRS",element:"ไม่ทราบ,ก้อนขน",cost:"2",artist:"หนองในเล็บ",steal:"1",power:"300",ability:"{Enter} แสดงการ์ดใบบนสุดของคู่แข่ง ถ้าเป็น Gear ให้นำลง Tomp",image:"/public/images/cards/มิวะ นุ่มฟู FPRS.jpg"},
 ];
+
 
 const rarityClass=r=>`rarity-${String(r).toLowerCase().replace(/\s+/g,"-")}`;
 function cardImageHTML(c, className="card-real-image"){
@@ -70,7 +57,10 @@ function render(){
    document.querySelectorAll("#grid .card").forEach(el=>{
      el.onclick=e=>{
        if(e.target.closest(".collection-add-btn")||e.target.closest(".deck-add-btn")||e.target.closest(".variant-select"))return;
-       openCard(cards.find(c=>c.id===el.dataset.id));
+       openCard(
+  cards.find(c => String(c.id) === String(el.dataset.id)),
+  list
+);
      };
    });
    document.querySelectorAll("#grid .variant-select").forEach(sel=>{
@@ -137,33 +127,42 @@ function syncZoneDetailAbility(c,side="front"){
 /* ---------------- CARD DETAIL NAVIGATION ---------------- */
 
 let currentDetailIndex = -1;
+let currentDetailList = cards;
 
-function showPreviousCard(){
-  if(!cards.length)return;
+function showPreviousCard() {
+  if (!currentDetailList.length) return;
 
-  if(currentDetailIndex <= 0){
-    currentDetailIndex = cards.length - 1;
-  }else{
-    currentDetailIndex--;
-  }
+  currentDetailIndex =
+    (currentDetailIndex - 1 + currentDetailList.length)
+    % currentDetailList.length;
 
-  openCard(cards[currentDetailIndex]);
+  openCard(
+    currentDetailList[currentDetailIndex],
+    currentDetailList
+  );
 }
 
-function showNextCard(){
-  if(!cards.length)return;
+function showNextCard() {
+  if (!currentDetailList.length) return;
 
-  if(currentDetailIndex >= cards.length - 1){
-    currentDetailIndex = 0;
-  }else{
-    currentDetailIndex++;
-  }
+  currentDetailIndex =
+    (currentDetailIndex + 1) % currentDetailList.length;
 
-  openCard(cards[currentDetailIndex]);
+  openCard(
+    currentDetailList[currentDetailIndex],
+    currentDetailList
+  );
 }
-function openCard(c){
-	currentDetailIndex = cards.findIndex(x => String(x.id) === String(c.id));
- if(!c)return;
+function openCard(c, navigationList = cards) {
+  if (!c) return;
+
+  currentDetailList = Array.isArray(navigationList)
+    ? navigationList
+    : cards;
+
+  currentDetailIndex = currentDetailList.findIndex(
+    x => String(x.id) === String(c.id)
+  );
  document.querySelector("#detailType").textContent=c.type.toUpperCase();
  document.querySelector("#detailRarity").textContent=`(${c.rarity.toUpperCase()})`;
  document.querySelector("#detailName").textContent=c.name;
@@ -256,12 +255,8 @@ document.querySelector("#clearRosterFilters")?.addEventListener("click",()=>{
 });
 /* ---------------- SUPPLY ---------------- */
 const defaultSupplies=[
-{id:"PM1",type:"PLAYMAT",name:"Steal Area — Black Gold",image:"",desc:"Playmat ธีมหลักของ STEAL AREA",price:"590"},
-{id:"PM2",type:"PLAYMAT",name:"Scarlet Night",image:"",desc:"Playmat โทนแดงดำ",price:"590"},
-{id:"PM3",type:"PLAYMAT",name:"Eternal Void",image:"",desc:"Playmat โทนม่วงเข้ม",price:"650"},
-{id:"SL1",type:"SLEEVE",name:"Steal Area — Gold",image:"",desc:"Card Sleeve ลายโลโก้ STEAL AREA",price:"250"},
-{id:"SL2",type:"SLEEVE",name:"Scarlet Night",image:"",desc:"Card Sleeve ธีม Scarlet Night",price:"250"},
-{id:"SL3",type:"SLEEVE",name:"Void Core",image:"",desc:"Card Sleeve โทนม่วงดำ",price:"280"}];
+{id:"PM1",type:"PLAYMAT",name:"Steal Area — Black Gold",image:"/public/images/supply/เพลย์แมต30.60.jpg",desc:"Playmat ธีมหลักของ SOULVAULT",price:"-"},
+{id:"SL1",type:"SLEEVE",name:"Steal Area — Gold",image:"/public/images/supply/หลังการ์ดL.jpg",desc:"Card Sleeve ลายหลังการ์ด Master",price:"-"},];
 let supplies=JSON.parse(localStorage.getItem("stealAreaSupplies")||"null")||defaultSupplies;
 let supplyFilter="ALL";
 
@@ -294,9 +289,12 @@ function renderSupplies(){
  <div class="supply-footer"><strong>${s.price?escapeHtml(s.price)+" ฿":"—"}</strong><button class="supply-detail" data-id="${s.id}">DETAIL</button></div></div></article>`).join("");
  document.querySelector("#supplyEmpty").classList.toggle("hidden",list.length>0);
  grid.classList.toggle("hidden",list.length===0);
- grid.querySelectorAll(".supply-detail").forEach(b=>b.onclick=()=>{
-   const s=supplies.find(x=>x.id===b.dataset.id); if(s)alert(`${s.name}\n\nประเภท: ${s.type}\n${s.desc||""}\n\nราคา: ${s.price?s.price+" ฿":"ไม่ระบุ"}`);
- });
+ grid.querySelectorAll(".supply-detail").forEach(b=>{
+  b.onclick=()=>{
+    const s=supplies.find(x=>String(x.id)===String(b.dataset.id));
+    if(s) openSupplyDetail(s);
+  };
+});
 }
 function initSupply(){renderSupplies()}
 
@@ -314,7 +312,55 @@ document.querySelector("#saveSupplyBtn")?.addEventListener("click",()=>{
  persistSupplies(); document.querySelector("#supplyModal").classList.add("hidden");
  ["supplyName","supplyImage","supplyDesc","supplyPrice"].forEach(id=>document.querySelector("#"+id).value=""); renderSupplies();
 });
+function openSupplyDetail(s){
+  if(!s) return;
 
+  const modal=document.querySelector("#supplyDetailModal");
+  if(!modal) return;
+
+  const image=document.querySelector("#supplyDetailImage");
+  const type=document.querySelector("#supplyDetailType");
+  const name=document.querySelector("#supplyDetailName");
+  const desc=document.querySelector("#supplyDetailDesc");
+  const price=document.querySelector("#supplyDetailPrice");
+
+  type.textContent=s.type;
+  name.textContent=s.name;
+  desc.textContent=s.desc || "ไม่มีรายละเอียด";
+  price.textContent=s.price ? `${s.price} ฿` : "ไม่ระบุ";
+
+  if(s.image){
+    image.innerHTML=`
+      <img
+        src="${escapeHtml(s.image)}"
+        alt="${escapeHtml(s.name)}"
+      >
+    `;
+  }else{
+    image.innerHTML=`
+      <div class="supply-detail-placeholder">
+        <span>${s.type==="PLAYMAT" ? "PM" : "SL"}</span>
+      </div>
+    `;
+  }
+
+  modal.classList.remove("hidden");
+}
+
+function closeSupplyDetail(){
+  document.querySelector("#supplyDetailModal")?.classList.add("hidden");
+}
+
+document.querySelector("#supplyDetailClose")?.addEventListener(
+  "click",
+  closeSupplyDetail
+);
+
+document.querySelector("#supplyDetailModal")?.addEventListener("click",e=>{
+  if(e.target.id==="supplyDetailModal"){
+    closeSupplyDetail();
+  }
+});
 /* ---------------- COLLECTION / WISHLIST ---------------- */
 let wantedCards=[];
 try{
@@ -399,7 +445,10 @@ function renderCollection(){
   grid.querySelectorAll(".collection-card").forEach(el=>{
     el.onclick=e=>{
       if(e.target.closest(".wanted-btn"))return;
-      openCard(cards.find(c=>String(c.id)===String(el.dataset.id)));
+      openCard(
+  cards.find(c => String(c.id) === String(el.dataset.id)),
+  list
+);
     };
   });
 }
@@ -457,7 +506,7 @@ function openAddToDeckModal(cardId){
     return `<button class="deck-select-card ${selected?"selected":""}" data-deck-id="${escapeHtml(String(d.id))}">
       <span class="deck-select-main">
         <strong>${escapeHtml(d.name||"New Deck")}</strong>
-        <small>MAIN DECK ${getMainDeckCount(d)}/50</small>
+        <small>MAIN DECK ${getMainDeckCount(d)}/60</small>
       </span>
       ${selected?'<span class="deck-selected-mark">✓</span>':""}
     </button>`;
@@ -475,8 +524,11 @@ function openAddToDeckModal(cardId){
 
       <div class="deck-add-card-preview">
         <div class="deck-mini-card ${rarityClass(card.rarity)}">
-          <span>${escapeHtml(card.symbol)}</span>
-        </div>
+  ${card.image
+    ? cardImageHTML(card, "deck-add-preview-image")
+    : `<span>${escapeHtml(card.symbol || card.name?.charAt(0) || "?")}</span>`
+  }
+</div>
         <div>
           <div class="deck-card-type">${escapeHtml(card.type)} · ${escapeHtml(card.rarity)}</div>
           <h3>${escapeHtml(card.name)}</h3>
@@ -509,17 +561,31 @@ function openAddToDeckModal(cardId){
 
   let selectedDeckId=null;
   const selectedSaved=localStorage.getItem("stealAreaActiveDeckId");
-  if(decks.some(d=>String(d.id)===String(selectedSaved))) selectedDeckId=String(selectedSaved);
+  if(decks.some(d=>String(d.id)===String(selectedSaved))) selectedDeckId=String(selectedSaved)
+  modal.querySelector("#confirmDeckAdd").disabled = !selectedDeckId;
 
   const buttons=modal.querySelectorAll(".deck-select-card");
-  buttons.forEach(btn=>{
-    btn.onclick=()=>{
-      selectedDeckId=String(btn.dataset.deckId);
-      buttons.forEach(b=>b.classList.remove("selected"));
-      btn.classList.add("selected");
-      modal.querySelector("#confirmDeckAdd").disabled=false;
-    };
-  });
+ buttons.forEach(btn => {
+  btn.onclick = () => {
+    selectedDeckId = String(btn.dataset.deckId);
+
+    buttons.forEach(b => {
+      b.classList.remove("selected");
+
+      const mark = b.querySelector(".deck-selected-mark");
+      if (mark) mark.remove();
+    });
+
+    btn.classList.add("selected");
+
+    const mark = document.createElement("span");
+    mark.className = "deck-selected-mark";
+    mark.textContent = "✓";
+    btn.appendChild(mark);
+
+    modal.querySelector("#confirmDeckAdd").disabled = false;
+  };
+});
 
   const input=modal.querySelector("#deckAddQty");
   const clampQty=()=>{
@@ -569,7 +635,7 @@ function addCardFromRosterToDeck(cardId,deckId,requestedQty=1){
     if(qty!==1){alert("Untimeat ใส่ได้ 1 ใบเท่านั้น");return;}
     if(deck.untimeat && deck.untimeat!==card.id){alert("Deck นี้มี Untimeat อยู่แล้ว 1 ใบ");return;}
     const oldQty=Number(deck.main[card.id]||0);
-    if(oldQty<1 && getMainDeckCount(deck)>=50){alert("MAIN DECK ครบ 50 ใบแล้ว");return;}
+    if(oldQty<1 && getMainDeckCount(deck)>=60){alert("MAIN DECK ครบ 60 ใบแล้ว");return;}
     deck.untimeat=card.id;
     deck.main[card.id]=1;
   }else{
@@ -579,7 +645,7 @@ function addCardFromRosterToDeck(cardId,deckId,requestedQty=1){
       alert(`${card.type==="POCKET"?"Pocket":"การ์ดใบนี้"} ใส่ได้สูงสุด ${limit} ใบ (ตอนนี้มี ${currentQty} ใบ)`);
       return;
     }
-    const available=50-getMainDeckCount(deck);
+    const available=60-getMainDeckCount(deck);
     if(qty>available){
       alert(`MAIN DECK เหลือพื้นที่อีก ${available} ใบ`);
       return;
@@ -684,7 +750,7 @@ function renderDeckLibrary(){
     const active=d.id===currentDeckId?" active":"";
     const coverHTML=cover?.image
       ? `<img class="library-cover-real-image" src="${escapeHtml(cover.image)}" alt="${escapeHtml(cover.name)}">`
-      : `<span>${escapeHtml(cover?.symbol||"SA")}</span>`;
+      : `<span>${escapeHtml(cover?.symbol||"-")}</span>`;
     return `<div class="deck-library-card${active}" data-deck="${d.id}">
       <div class="library-cover ${coverClass} ${cover?.type==="Zone"?"zone-page-flippable":""}" data-zone-id="${cover?.type==="Zone"?escapeHtml(cover.id):""}">${coverHTML}</div>
       <div class="library-info">
@@ -887,7 +953,7 @@ function renderDeck(){
     if(el)el.textContent=value;
   };
 
-  set("statMainDeck",`${mainCount} / 50`);
+  set("statMainDeck",`${mainCount} / 60`);
   set("statCharacter",counts.Character);
   set("statAction",counts.Action);
   set("statItem",counts.Item);
@@ -999,7 +1065,7 @@ function renderDeckStats(){
     if(el)el.textContent=value;
   };
 
-  set("statMainDeck",`${mainCount} / 50`);
+  set("statMainDeck",`${mainCount} / 60`);
   set("statCharacter",counts.Character);
   set("statAction",counts.Action);
   set("statGear",counts.Gear);
@@ -1060,12 +1126,12 @@ function updateCover(){
     if(c.image){
   cover.innerHTML=`<img class="deck-cover-real-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">`;
 }else{
-      cover.innerHTML=`<span id="coverSymbol">${escapeHtml(c.symbol||"SA")}</span>`;
+      cover.innerHTML=`<span id="coverSymbol">${escapeHtml(c.symbol||"-")}</span>`;
     }
   }else{
     cover.className="deck-cover rarity-common";
     cover.dataset.zoneId="";
-    cover.innerHTML=`<span id="coverSymbol">SA</span>`;
+    cover.innerHTML=`<span id="coverSymbol">-</span>`;
   }
   bindZonePageFlips(cover.parentElement||document);
 }
@@ -1104,8 +1170,8 @@ function getPocketCount(deck=currentDeck){
 
 function validateDeckBeforeSave(){
   const mainCount=getMainDeckCount(currentDeck);
-  if(mainCount>50){
-    alert("ไม่สามารถบันทึก Deck ได้ MAIN DECK มี "+mainCount+" ใบ สูงสุด 50 ใบ Pocket และ Untimeat นับรวมใน 50 ใบนี้");
+  if(mainCount>60){
+    alert("ไม่สามารถบันทึก Deck ได้ MAIN DECK มี "+mainCount+" ใบ สูงสุด 60 ใบ Pocket และ Untimeat นับรวมใน 60 ใบนี้");
     return false;
   }
   const pocketCount=getPocketCount();
@@ -1227,7 +1293,7 @@ async function shareCurrentDeck(){
 function openImportDeckModal(){
   document.querySelector("#deckLinkInput").value="";
   document.querySelector("#deckLinkModal").classList.remove("hidden");
-  setTimeout(()=>document.querySelector("#deckLinkInput").focus(),50);
+  setTimeout(()=>document.querySelector("#deckLinkInput").focus(),60);
 }
 
 function closeImportDeckModal(){
@@ -1392,7 +1458,7 @@ function buildTestDeck(){
     const uid=String(testDeck.untimeat);
     if(!Object.prototype.hasOwnProperty.call(testDeck.main||{},uid)) testStack.push(uid);
   }
-  testStack=testStack.slice(0,50);
+  testStack=testStack.slice(0,60);
   testStack.sort(()=>Math.random()-.5);
   testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={master:0};testZoneFlipped=true;
   renderTest();
@@ -1882,6 +1948,65 @@ document.querySelector("#drawPileBtn").onclick=()=>drawCards(1);
 
 const playBoard=document.querySelector("#playBoard");
 const testHandEl=document.querySelector("#testHand");
+
+// Mobile tap-to-place: tap a card to select it, then tap a position on the playmat.
+// Desktop keeps the original native drag/drop behavior below.
+(function enableMobileTapPlacement(){
+  if(!testHandEl || !playBoard) return;
+  const coarsePointer = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  if(!coarsePointer) return;
+  let selected=null; // {source:"hand"|"board", id:string}
+
+  function clearSelection(){
+    document.querySelectorAll(".test-card.mobile-place-selected").forEach(el=>el.classList.remove("mobile-place-selected"));
+    selected=null;
+    playBoard.classList.remove("mobile-place-target");
+  }
+  function selectCard(card){
+    const source=card.dataset.source;
+    if(source!=="hand" && source!=="board") return;
+    if(selected && selected.source===source && selected.id===String(card.dataset.id)){
+      clearSelection();
+      return;
+    }
+    document.querySelectorAll(".test-card.mobile-place-selected").forEach(el=>el.classList.remove("mobile-place-selected"));
+    selected={source,id:String(card.dataset.id)};
+    card.classList.add("mobile-place-selected");
+    playBoard.classList.add("mobile-place-target");
+  }
+
+  document.addEventListener("click",e=>{
+    if(e.target.closest("button")) return; // keep Tomb/rotate buttons working
+    const card=e.target.closest(".test-card[data-source]");
+    if(card && (testHandEl.contains(card) || playBoard.contains(card))){
+      e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+      selectCard(card);
+      return;
+    }
+    if(!selected) return;
+    const handArea=e.target.closest("#testHand");
+    if(handArea && selected.source==="board"){
+      const index=testBoard.freeCards.findIndex(item=>String(item.id)===selected.id);
+      if(index>=0){testHand.push(testBoard.freeCards[index].id);testBoard.freeCards.splice(index,1);clearSelection();renderTest();}
+      e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+      return;
+    }
+    if(!playBoard.contains(e.target)) return;
+    const rect=playBoard.getBoundingClientRect();
+    const x=(e.clientX-rect.left)/rect.width;
+    const y=(e.clientY-rect.top)/rect.height;
+    if(selected.source==="hand"){
+      const index=testHand.findIndex(id=>String(id)===selected.id);
+      if(index>=0){const id=testHand.splice(index,1)[0];addBoardCard(id,x-.07,y-.13);}
+    }else{
+      const item=testBoard.freeCards.find(item=>String(item.id)===selected.id);
+      if(item){item.x=Math.max(.02,Math.min(.90,x-.07));item.y=Math.max(.02,Math.min(.68,y-.12));}
+    }
+    clearSelection();
+    e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+    renderTest();
+  },true);
+})();
 
 function boardDropHandler(e){
   e.preventDefault();
