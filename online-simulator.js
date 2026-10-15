@@ -124,10 +124,18 @@ cfgKey.value =
     simActivePlayer=0;render();
   }
   async function connectRoom(code,seat) {
-    const url=cfgUrl.value.trim(); const key=cfgKey.value.trim();
-    if(!url || !key){setStatus('กรอก Supabase URL และ Publishable key ก่อน','error');return;}
-    if(!window.supabase?.createClient){setStatus('โหลด Supabase client ไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วรีเฟรช','error');return;}
-    await leaveOnline(true);
+  const url = cfgUrl.value.trim() || DEFAULT_SUPABASE_URL;
+  const key = cfgKey.value.trim() || DEFAULT_SUPABASE_KEY;
+
+  if (!url || !key) {
+    setStatus('ยังไม่ได้ตั้งค่า Supabase', 'error');
+    return;
+  }
+
+  if (!window.supabase?.createClient) {
+    setStatus('โหลด Supabase client ไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วรีเฟรช', 'error');
+    return;
+  }
     localStorage.setItem('svRealtimeUrl',url);localStorage.setItem('svRealtimePublishableKey',key);
     onlineClient=window.supabase.createClient(url,key,{realtime:{params:{eventsPerSecond:10}}});
     onlineRoomCode=code;localSeat=seat;onlineActive=true;
