@@ -62,10 +62,21 @@ cfgKey.value =
     if(deck.untimeat && !Object.prototype.hasOwnProperty.call(deck.main||{},String(deck.untimeat))) stack.push(String(deck.untimeat));
     stack.splice(60);
     for(let i=stack.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[stack[i],stack[j]]=[stack[j],stack[i]];}
-    return {deck,stack,hand:[],field:[],tomb:[],remoteDeckCount:stack.length,remoteHandCount:0};
+    return {deck,stack,hand:[],field:[],character:[],pocket:[],soulcore:Array.isArray(deck.soulCores)?deck.soulCores.slice(0,7):[],tomb:[],remoteDeckCount:stack.length,remoteHandCount:0};
   }
   function cardMarkup(id) { return typeof testCardHTML==='function' ? testCardHTML(id,true,0,'sim') : `<span>${escapeHtml(id)}</span>`; }
   function getCount(s,key) { return s ? (key==='deck' && s.remoteDeckCount!==undefined ? s.remoteDeckCount : key==='hand' && s.remoteHandCount!==undefined ? s.remoteHandCount : (s[key]||[]).length) : 0; }
+  function cardType(id) {
+    try {
+      const list = typeof cards !== 'undefined' && Array.isArray(cards) ? cards : [];
+      const found = list.find(c => String(c.id) === String(id));
+      return String(found?.type || '').trim().toLowerCase();
+    } catch (_) { return ''; }
+  }
+  function slotMarkup(ids, index, slot) {
+    if (!ids?.length) return `<span class="sim-empty">${slot==='character'?'CHARACTER':slot==='pocket'?'POCKET':slot==='soulcore'?'SOUL CORE':'ยังไม่มีการ์ดบนสนาม'}</span>`;
+    return ids.map((id,i)=>`<div class="sim-card-wrap">${cardMarkup(id)}<div class="sim-card-actions"><button data-sim-action="slotdetail" data-slot="${slot}" data-player="${index}" data-index="${i}" type="button">ดู</button><button data-sim-action="slottomb" data-slot="${slot}" data-player="${index}" data-index="${i}" type="button">TOMB</button></div></div>`).join('');
+  }
   function render() {
     deckOptions();
     $$('.sim-player').forEach((player,index)=>{
@@ -81,10 +92,16 @@ cfgKey.value =
       special('master',s?.deck?.master);special('zone',s?.deck?.zone);
       const field=$('[data-sim-area="field"]',player);
       if(field)field.innerHTML=s?.field?.length?s.field.map((id,i)=>`<div class="sim-card-wrap">${cardMarkup(id)}<div class="sim-card-actions"><button data-sim-action="fielddetail" data-player="${index}" data-index="${i}" type="button">ดู</button>${!remote?`<button data-sim-action="fieldtomb" data-player="${index}" data-index="${i}" type="button">ส่ง TOMB</button>`:''}</div></div>`).join(''):'<span class="sim-empty">ยังไม่มีการ์ดบนสนาม</span>';
+      const characterArea=$('[data-sim-area="character"]',player);
+      if(characterArea)characterArea.innerHTML=slotMarkup(s?.character,index,'character');
+      const pocketArea=$('[data-sim-area="pocket"]',player);
+      if(pocketArea)pocketArea.innerHTML=slotMarkup(s?.pocket,index,'pocket');
+      const soulArea=$('[data-sim-area="soulcore"]',player);
+      if(soulArea)soulArea.innerHTML=slotMarkup(s?.soulcore,index,'soulcore');
       const hand=$('[data-sim-area="hand"]',player);
       if(hand){
         if(remote) hand.innerHTML=`<div class="sim-hidden-hand">🔒 การ์ดในมือคู่แข่งถูกซ่อนไว้<br>มี ${getCount(s,'hand')} ใบ</div>`;
-        else hand.innerHTML=s?.hand?.length?s.hand.map((id,i)=>`<div class="sim-card-wrap">${cardMarkup(id)}<div class="sim-card-actions"><button data-sim-action="play" data-player="${index}" data-index="${i}" type="button">ลงสนาม</button><button data-sim-action="handtomb" data-player="${index}" data-index="${i}" type="button">TOMB</button></div></div>`).join(''):'<span class="sim-empty">ยังไม่มีการ์ดในมือ</span>';
+        else hand.innerHTML=s?.hand?.length?s.hand.map((id,i)=>{const t=cardType(id);const action=t==='character'?'playcharacter':(t==='pocket'?'playpocket':(t==='soul core'?'playsoulcore':'play'));const label=t==='character'?'ลงช่อง C':(t==='pocket'?'ลงช่อง Pocket':(t==='soul core'?'ลงช่อง Soul Core':'ลงสนาม'));return `<div class="sim-card-wrap">${cardMarkup(id)}<div class="sim-card-actions"><button data-sim-action="${action}" data-player="${index}" data-index="${i}" type="button">${label}</button><button data-sim-action="handtomb" data-player="${index}" data-index="${i}" type="button">TOMB</button></div></div>`}).join(''):'<span class="sim-empty">ยังไม่มีการ์ดในมือ</span>';
       }
       const tomb=$('[data-sim-area="tomb"]',player);
       if(tomb)tomb.innerHTML=s?.tomb?.length?s.tomb.map(id=>`<div class="sim-card-wrap">${cardMarkup(id)}</div>`).join(''):'<span class="sim-empty">TOMB ว่าง</span>';
@@ -95,7 +112,7 @@ cfgKey.value =
   }
   function publicState(index) {
     const s=simStates[index]; if(!s) return null;
-    return {seat:index,deck:s.deck?{id:s.deck.id,name:s.deck.name,master:s.deck.master,zone:s.deck.zone}:null,deckCount:s.stack?.length||0,handCount:s.hand?.length||s.remoteHandCount||0,field:(s.field||[]).slice(),tomb:(s.tomb||[]).slice(),activePlayer:simActivePlayer};
+    return {seat:index,deck:s.deck?{id:s.deck.id,name:s.deck.name,master:s.deck.master,zone:s.deck.zone}:null,deckCount:s.stack?.length||0,handCount:s.hand?.length||s.remoteHandCount||0,field:(s.field||[]).slice(),character:(s.character||[]).slice(),pocket:(s.pocket||[]).slice(),soulcore:(s.soulcore||[]).slice(),tomb:(s.tomb||[]).slice(),activePlayer:simActivePlayer};
   }
   async function broadcastOwnState() {
     if(!onlineActive || !onlineChannel || localSeat===null || suppressBroadcast) return;
@@ -107,7 +124,7 @@ cfgKey.value =
     if(!onlineActive || !data || Number(data.seat)===localSeat) return;
     const seat=Number(data.seat); if(seat!==0&&seat!==1)return;
     const old=simStates[seat]||{};
-    simStates[seat]={deck:data.deck||old.deck||null,stack:[],hand:[],field:Array.isArray(data.field)?data.field:[],tomb:Array.isArray(data.tomb)?data.tomb:[],remoteDeckCount:Math.max(0,Number(data.deckCount)||0),remoteHandCount:Math.max(0,Number(data.handCount)||0)};
+    simStates[seat]={deck:data.deck||old.deck||null,stack:[],hand:[],field:Array.isArray(data.field)?data.field:[],character:Array.isArray(data.character)?data.character:[],pocket:Array.isArray(data.pocket)?data.pocket:[],soulcore:Array.isArray(data.soulcore)?data.soulcore:[],tomb:Array.isArray(data.tomb)?data.tomb:[],remoteDeckCount:Math.max(0,Number(data.deckCount)||0),remoteHandCount:Math.max(0,Number(data.handCount)||0)};
     if(Number.isInteger(data.activePlayer))simActivePlayer=data.activePlayer;
     render();
   }
@@ -200,7 +217,20 @@ cfgKey.value =
       if(action==='draw5')drawOwn(5,index);
       else if(action==='draw1')drawOwn(1,index);
       else if(action==='reset')resetOwnState(index);
-      else if(action==='play'&&s.hand[cardIndex]!==undefined){s.field.push(s.hand.splice(cardIndex,1)[0]);simActivePlayer=index;render();broadcastOwnState();}
+      else if(['play','playcharacter','playpocket','playsoulcore'].includes(action)&&s.hand[cardIndex]!==undefined){
+         const id=s.hand[cardIndex],type=cardType(id);
+         if(action==='playcharacter' && type!=='character'){setStatus('ช่อง C วางได้เฉพาะ Character','error');return;}
+         if(action==='playpocket' && type!=='pocket'){setStatus('ช่อง Pocket วางได้เฉพาะ Pocket','error');return;}
+         if(action==='playsoulcore' && type!=='soul core'){setStatus('ช่อง Soul Core วางได้เฉพาะ Soul Core','error');return;}
+         const target=action==='playcharacter'?'character':action==='playpocket'?'pocket':action==='playsoulcore'?'soulcore':'field';
+         if(action==='play' && ['character','pocket','soul core'].includes(type)){setStatus('เลือกช่องเฉพาะของการ์ดใบนี้','error');return;}
+         s[target].push(s.hand.splice(cardIndex,1)[0]);simActivePlayer=index;render();broadcastOwnState();
+       }
+       else if((action==='slottomb'||action==='slotdetail')&&s[btn.dataset.slot]?.[cardIndex]!==undefined){
+         const slot=btn.dataset.slot,id=s[slot][cardIndex];
+         if(action==='slotdetail'&&typeof openTestCardDetail==='function')openTestCardDetail(id);
+         else {s.tomb.push(s[slot].splice(cardIndex,1)[0]);render();broadcastOwnState();}
+       }
       else if(action==='handtomb'&&s.hand[cardIndex]!==undefined){s.tomb.push(s.hand.splice(cardIndex,1)[0]);render();broadcastOwnState();}
       else if(action==='fieldtomb'&&s.field[cardIndex]!==undefined){s.tomb.push(s.field.splice(cardIndex,1)[0]);render();broadcastOwnState();}
       else if(action==='fielddetail'&&s.field[cardIndex]!==undefined&&typeof openTestCardDetail==='function')openTestCardDetail(s.field[cardIndex]);

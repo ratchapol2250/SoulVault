@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOULVAULT CARD GAME — การ์ดทั้งหมด</title>
-  <link rel="stylesheet" href="style.css?v=20261014-touchdrag">
+  <link rel="stylesheet" href="style.css?v=20261015-slots">
 </head>
 <body>
 <aside class="sidebar">
@@ -420,7 +420,12 @@
             <div class="sim-player-stats"><span>DECK <b data-sim-stat="deck">0</b></span><span>HAND <b data-sim-stat="hand">0</b></span><span>FIELD <b data-sim-stat="field">0</b></span><span>TOMB <b data-sim-stat="tomb">0</b></span></div>
             <div class="sim-specials"><div><small>MASTER</small><div data-sim-special="master" class="sim-special-card"></div></div><div><small>ZONE</small><div data-sim-special="zone" class="sim-special-card"></div></div></div>
             <div class="sim-player-controls"><button class="gold-btn" data-sim-action="draw5" data-player="0" type="button">DRAW 5</button><button class="gold-btn" data-sim-action="draw1" data-player="0" type="button">DRAW 1</button><button class="danger-btn" data-sim-action="reset" data-player="0" type="button">RESET</button></div>
-            <div class="sim-zone-title">FIELD <small>กดการ์ดเพื่อดูรายละเอียด · ส่ง TOMB ได้</small></div><div class="sim-field" data-sim-area="field" data-player="0"><span class="sim-empty">ยังไม่มีการ์ดบนสนาม</span></div>
+            <div class="sim-board-slots">
+              <div class="sim-slot-block"><div class="sim-zone-title">C <small>วางได้เฉพาะ Character</small></div><div class="sim-field sim-card-slot" data-sim-area="character" data-player="0"><span class="sim-empty">CHARACTER</span></div></div>
+              <div class="sim-slot-block"><div class="sim-zone-title">POCKET <small>วางได้เฉพาะ Pocket</small></div><div class="sim-field sim-card-slot" data-sim-area="pocket" data-player="0"><span class="sim-empty">POCKET</span></div></div>
+              <div class="sim-slot-block sim-soulcore-block"><div class="sim-zone-title">SOUL CORE <small>วางแนวนอน</small></div><div class="sim-field sim-soulcore-slot" data-sim-area="soulcore" data-player="0"><span class="sim-empty">SOUL CORE</span></div></div>
+              <div class="sim-slot-block"><div class="sim-zone-title">OTHER FIELD <small>Action / Gear / Untimeat</small></div><div class="sim-field" data-sim-area="field" data-player="0"><span class="sim-empty">ยังไม่มีการ์ดบนสนาม</span></div></div>
+            </div>
             <div class="sim-zone-title">HAND <small>กดปุ่มลงสนาม หรือส่งไป TOMB</small></div><div class="sim-hand" data-sim-area="hand" data-player="0"><span class="sim-empty">ยังไม่มีการ์ดในมือ</span></div>
             <button class="sim-tomb-toggle" data-sim-action="showtomb" data-player="0" type="button">เปิด TOMB (<b data-sim-stat="tombButton">0</b>)</button><div class="sim-tomb-list" data-sim-area="tomb" data-player="0" hidden></div>
           </article>
@@ -429,7 +434,12 @@
             <div class="sim-player-stats"><span>DECK <b data-sim-stat="deck">0</b></span><span>HAND <b data-sim-stat="hand">0</b></span><span>FIELD <b data-sim-stat="field">0</b></span><span>TOMB <b data-sim-stat="tomb">0</b></span></div>
             <div class="sim-specials"><div><small>MASTER</small><div data-sim-special="master" class="sim-special-card"></div></div><div><small>ZONE</small><div data-sim-special="zone" class="sim-special-card"></div></div></div>
             <div class="sim-player-controls"><button class="gold-btn" data-sim-action="draw5" data-player="1" type="button">DRAW 5</button><button class="gold-btn" data-sim-action="draw1" data-player="1" type="button">DRAW 1</button><button class="danger-btn" data-sim-action="reset" data-player="1" type="button">RESET</button></div>
-            <div class="sim-zone-title">FIELD <small>กดการ์ดเพื่อดูรายละเอียด · ส่ง TOMB ได้</small></div><div class="sim-field" data-sim-area="field" data-player="1"><span class="sim-empty">ยังไม่มีการ์ดบนสนาม</span></div>
+            <div class="sim-board-slots">
+              <div class="sim-slot-block"><div class="sim-zone-title">C <small>วางได้เฉพาะ Character</small></div><div class="sim-field sim-card-slot" data-sim-area="character" data-player="1"><span class="sim-empty">CHARACTER</span></div></div>
+              <div class="sim-slot-block"><div class="sim-zone-title">POCKET <small>วางได้เฉพาะ Pocket</small></div><div class="sim-field sim-card-slot" data-sim-area="pocket" data-player="1"><span class="sim-empty">POCKET</span></div></div>
+              <div class="sim-slot-block sim-soulcore-block"><div class="sim-zone-title">SOUL CORE <small>วางแนวนอน</small></div><div class="sim-field sim-soulcore-slot" data-sim-area="soulcore" data-player="1"><span class="sim-empty">SOUL CORE</span></div></div>
+              <div class="sim-slot-block"><div class="sim-zone-title">OTHER FIELD <small>Action / Gear / Untimeat</small></div><div class="sim-field" data-sim-area="field" data-player="1"><span class="sim-empty">ยังไม่มีการ์ดบนสนาม</span></div></div>
+            </div>
             <div class="sim-zone-title">HAND <small>กดปุ่มลงสนาม หรือส่งไป TOMB</small></div><div class="sim-hand" data-sim-area="hand" data-player="1"><span class="sim-empty">ยังไม่มีการ์ดในมือ</span></div>
             <button class="sim-tomb-toggle" data-sim-action="showtomb" data-player="1" type="button">เปิด TOMB (<b data-sim-stat="tombButton">0</b>)</button><div class="sim-tomb-list" data-sim-area="tomb" data-player="1" hidden></div>
           </article>
@@ -762,7 +772,7 @@ End Phase = ใช้ความสามารถเมื่อจบเท�
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=20261015-online"></script>
-  <script src="online-simulator.js?v=20261015-online"></script>
+  <script src="app.js?v=20261015-slots"></script>
+  <script src="online-simulator.js?v=20261015-slots"></script>
 </body>
 </html>
