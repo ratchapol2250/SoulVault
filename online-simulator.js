@@ -6,8 +6,6 @@
   const $$ = (s, root=document) => [...root.querySelectorAll(s)];
   const cfgUrl = $('#simSupabaseUrl');
   const cfgKey = $('#simSupabaseKey');
-  const DEFAULT_SUPABASE_URL = 'https://utwdblubsqrpgpkxislj.supabase.co';
-const DEFAULT_SUPABASE_KEY = 'sb_publishable_9Z-S9cjQIFL6GM1q7Kks_w_fL60ER4a'; 
   const roomInput = $('#simRoomCode');
   const statusEl = $('#simOnlineStatus');
   const createBtn = $('#simCreateRoomBtn');
@@ -26,12 +24,8 @@ const DEFAULT_SUPABASE_KEY = 'sb_publishable_9Z-S9cjQIFL6GM1q7Kks_w_fL60ER4a';
   const simStates = [null, null];
   let simActivePlayer = 0;
 
-const DEFAULT_SUPABASE_URL = 'https://utwdblubsqrpgpkxislj.supabase.co';
-const DEFAULT_SUPABASE_KEY = 'sb_publishable_9Z-S9cjQIFL6GM1q7Kks_w_fL60ER4a';
-
-
-cfgUrl.value = localStorage.getItem('svRealtimeUrl') || '';
-cfgKey.value = localStorage.getItem('svRealtimePublishableKey') || '';
+  cfgUrl.value = localStorage.getItem('svRealtimeUrl') || '';
+  cfgKey.value = localStorage.getItem('svRealtimePublishableKey') || '';
   const params = new URLSearchParams(location.search);
   if (params.get('svroom')) roomInput.value = params.get('svroom').toUpperCase();
 
