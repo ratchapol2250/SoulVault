@@ -638,20 +638,50 @@ function addCardFromRosterToDeck(cardId,deckId,requestedQty=1){
     if(oldQty<1 && getMainDeckCount(deck)>=60){alert("MAIN DECK ครบ 60 ใบแล้ว");return;}
     deck.untimeat=card.id;
     deck.main[card.id]=1;
-  }else{
-    const limit=card.type==="POCKET"?10:3;
-    const currentQty=Number(deck.main[card.id]||0);
-    if(currentQty+qty>limit){
-      alert(`${card.type==="POCKET"?"Pocket":"การ์ดใบนี้"} ใส่ได้สูงสุด ${limit} ใบ (ตอนนี้มี ${currentQty} ใบ)`);
+ } else {
+  const currentQty = Number(deck.main[card.id] || 0);
+
+  if (card.type === "POCKET") {
+    const limit = 10;
+    const pocketTotal = Object.entries(deck.main).reduce(
+      (sum, [id, qty]) => {
+        const c = cards.find(x => x.id === id);
+        return sum + (c?.type === "POCKET"
+          ? Number(qty) || 0
+          : 0);
+      },
+      0
+    );
+
+    if (pocketTotal + qty > 10) {
+      alert("POCKET มีได้สูงสุด 10 ใบ");
       return;
     }
-    const available=60-getMainDeckCount(deck);
-    if(qty>available){
-      alert(`MAIN DECK เหลือพื้นที่อีก ${available} ใบ`);
+
+    if (currentQty + qty > limit) {
+      alert("POCKET ใบนี้ใส่ได้สูงสุด 10 ใบ");
       return;
     }
-    deck.main[card.id]=currentQty+qty;
+  } else {
+    const sameNameTotal = getSameNameCount(deck, card);
+
+    if (sameNameTotal + qty > 3) {
+      alert(
+        `การ์ดชื่อ "${card.name}" ใส่รวมทุกความแรร์ได้สูงสุด 3 ใบ (ตอนนี้มี ${sameNameTotal} ใบ)`
+      );
+      return;
+    }
   }
+
+  const available = 60 - getMainDeckCount(deck);
+
+  if (qty > available) {
+    alert(`MAIN DECK เหลือพื้นที่อีก ${available} ใบ`);
+    return;
+  }
+
+  deck.main[card.id] = currentQty + qty;
+}
 
   localStorage.setItem("stealAreaDecks",JSON.stringify(decks));
   localStorage.setItem("stealAreaActiveDeckId",deck.id);
@@ -805,7 +835,25 @@ function getCount(){
     +(currentDeck.zone?1:0)
     +((currentDeck.soulCores||[]).length);
 }
+function getSameNameCount(deck, card) {
+  if (!deck || !card) return 0;
 
+  return Object.entries(deck.main || {}).reduce(
+    (total, [id, qty]) => {
+      const existingCard = cards.find(c => c.id === id);
+
+      if (
+        existingCard &&
+        existingCard.name.trim() === card.name.trim()
+      ) {
+        return total + (Number(qty) || 0);
+      }
+
+      return total;
+    },
+    0
+  );
+}
 function addToDeck(id){
   const c=cards.find(x=>x.id===id);
   if(!c||!currentDeck)return;
@@ -829,17 +877,30 @@ function addToDeck(id){
     const soulTotal=currentDeck.soulCores.length;
     if(soulTotal>=7)return alert("Soul Core มีได้สูงสุด 7 ใบ");
     currentDeck.soulCores.push(c.id);
-  }else{
-    const n=currentDeck.main[c.id]||0;
-    if(c.type==="POCKET"){
-      const pocketTotal=getPocketCount();
-      if(pocketTotal>=10)return alert("POCKET มีได้สูงสุด 10 ใบ");
-      if(n>=10)return alert("POCKET ใบนี้ใส่ได้สูงสุด 10 ใบ");
-    }else{
-      if(n>=3)return alert("การ์ดใบนี้ใส่ได้สูงสุด 3 ใบ");
+ } else {
+  const n = Number(currentDeck.main[c.id] || 0);
+
+  if (c.type === "POCKET") {
+    const pocketTotal = getPocketCount();
+
+    if (pocketTotal >= 10)
+      return alert("POCKET มีได้สูงสุด 10 ใบ");
+
+    if (n >= 10)
+      return alert("POCKET ใบนี้ใส่ได้สูงสุด 10 ใบ");
+
+  } else {
+    const sameNameTotal = getSameNameCount(currentDeck, c);
+
+    if (sameNameTotal >= 3) {
+      return alert(
+        `การ์ดชื่อ "${c.name}" ใส่รวมทุกความแรร์ได้สูงสุด 3 ใบ`
+      );
     }
-    currentDeck.main[c.id]=n+1;
   }
+
+  currentDeck.main[c.id] = n + 1;
+}
   persistDecks();
   renderDeck();
   renderDeckLibrary();
