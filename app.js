@@ -1911,7 +1911,7 @@ function formatAbility(text) {
   if (!text) return "";
 
   const icons = {
-    Counter: "public/images/icon/Counter.jpg",
+    Counter: "public/images/icon/Counter.png",
   E: "public/images/icon/E.png",
   Pocket: "public/images/icon/Pocket.png",
   Dot: "public/images/icon/Dot.jpg",
