@@ -24,7 +24,7 @@ const cards=[
 {id:"HD-P01",image:"/public/images/cards/Pocket3.jpg",artist:"IMO",set:"HD",name:"pocket",subtitle:"-",type:"POCKET",rarity:"Common",element:"-",cost:"-",ability:"{Counter} ใช้ความสามารถนี้ได้จากบนมือคุณเท่านั้น จ่าย 1 {Pocket} จากนั้นเลือก Master หรือ Criminal ที่กำลังต่อสู้อยู่ได้ 1 ใบการ์ดใบนั้นได้รับพลัง +200 จนจบการต่อสู้นั้น",artist:"IMO",image:"/public/images/cards/Pocket3.jpg"},
 {id:"HD-SC01",image:"/public/images/cards/Soul Core.jpg",set:"HD",name:"Soul Core 1",subtitle:"-",type:"Soul Core",rarity:"Common",element:"-",cost:"-",artist:"Pupa",ability:"เมื่อคุณได้รับการ์ดใบนี้ คู่แข่งได้ {ES} 1 ใบ",image:"/public/images/cards/Soul Core.jpg"},
 {id:"FPR",image:"/public/images/cards/มิวะ นุ่มฟู.jpg",set:"Promo",name:"มิวะ นุ่มฟู",subtitle:"-",type:"Character",rarity:"FPR",element:"ไม่ทราบ,ก้อนขน",cost:"2",artist:"หนองในเล็บ",steal:"1",power:"300",ability:"{Enter} แสดงการ์ดใบบนสุดของคู่แข่ง ถ้าเป็น Gear ให้นำลง Tomp",image:"/public/images/cards/มิวะ นุ่มฟู.jpg"},
-{id:"FPRS",image:"/public/images/cards/มิวะ นุ่มฟู FPRS.jpg",set:"Promo",name:"มิวะ นุ่มฟู",subtitle:"-",type:"Character",rarity:"FPRS",element:"ไม่ทราบ,ก้อนขน",cost:"2",artist:"หนองในเล็บ",steal:"1",power:"300",ability:"{Enter} แสดงการ์ดใบบนสุดของคู่แข่ง ถ้าเป็น Gear ให้นำลง Tomp",image:"/public/images/cards/มิวะ นุ่มฟู FPRS.jpg"},
+{id:"FPRS",image:"/public/images/cards/มิวะ นุ่มฟู FPRS.jpg",set:"Promo",name:"มิวะ นุ่มฟู",subtitle:"-",type:"Character",rarity:"Secret Rare",element:"ไม่ทราบ,ก้อนขน",cost:"2",artist:"หนองในเล็บ",steal:"1",power:"300",ability:"{Enter} แสดงการ์ดใบบนสุดของคู่แข่ง ถ้าเป็น Gear ให้นำลง Tomp",image:"/public/images/cards/มิวะ นุ่มฟู FPRS.jpg"},
 ];
 
 
