@@ -1,7 +1,7 @@
 const cards=[
 
 {id:"HD-001",set:"HD",name:"Aegiron The Starforged",subtitle:"ข้าจะไม่หยุด…จนกว่าความมืดจะพังทลาย",type:"Character",rarity:"Common",element:"นักรบเกราะเหล็ก",cost:"5",ability:"-",artist:"Krianza the Decline",power:"700",steal:"1",symbol:"A",image:"/public/images/cards/Aegiron The Starforged.jpg"},
-{id:"HD-002",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg",set:"HD",name:"เกลสาวโหด ณ 3 แยก",subtitle:"ยิ่งดิ้นรน ก็ยิ่งจมลึกลงไป",type:"Character",rarity:"Common",element:"Crimson",cost:"4",ability:"{Dot}เมื่อการ์ดใบนี้เข้าสู่สนาม คู่แข่งสมารถจ่าย 1 {Pocket} ถ้าไม่จ่าย ทำการ Kill Criminal ที่มีคอส 3 หรือต่ำกว่า 1 ใบของคู่แข่ง",power:"500",steal:"1",artist:"ตีนแมว",symbol:"G",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg"},
+{id:"HD-002",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg",set:"HD",name:"เกลสาวโหด ณ 3 แยก",subtitle:"ยิ่งดิ้นรน ก็ยิ่งจมลึกลงไป",type:"Character",rarity:"Common",element:"ผู้หญิง,สาวดุ",cost:"4",ability:"{Dot}เมื่อการ์ดใบนี้เข้าสู่สนาม คู่แข่งสมารถจ่าย 1 {Pocket} ถ้าไม่จ่าย ทำการ Kill Criminal ที่มีคอส 3 หรือต่ำกว่า 1 ใบของคู่แข่ง",power:"500",steal:"1",artist:"ตีนแมว",symbol:"G",image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg"},
 {id:"HD-003",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg",set:"HD",name:"จอมโจรร้อยหน้า ลูแพร์",subtitle:"ข้าจะแฝงตัวไปกับสิ่งที่เจ้ารักและเอามันไปจากเจ้า",type:"Character",rarity:"Common",element:"จอมโจร",cost:"3",power:"500",steal:"1",artist:"inalone",ability:"{Activat}{PerTurn} ใช้ความสามารถนี้ได้ถ้าคุณเคยใช้งานความสามารถของ Masterไปแล้วในเทิร์นนี้ เลือก Character 1 ใบได้รับพลัง+100 จนจบเทิร์น และ คุณจั่ว 1 ใบ \n(เป็นความสามารถสั่งใช้งานและใช้ได้เพียง 1 ครั้งใน 1 เทิร์น)",symbol:"L",image:"/public/images/cards/จอมโจร100หน้า LUPIN.jpg"},
 {id:"HD-004",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg",set:"HD",name:"ไนธีเรีย ผู้เฝ้าประตูนรก",subtitle:"จงอย่ากลัวความตาย เพราะมันกำลังรอเจ้าอยู่",type:"Character",rarity:"Common",element:"ยมฑูต",cost:"2",ability:"{Block}\n{Dot} เมื่อการ์ดใบนี้ออกจากสนาม {Peek} 3 ใบ ล่างสุดจากกองเลือก Character 1 ใบจากที่เปิดดู นำขึ้นมือที่เหลือนำกลับเข้ากองแล้วสลับ\n(สามารถเปลี่ยนสภาพการ์ดนี้จาก Ok เป็น Don’t ได้ เพื่อเปลี่ยนเป้าหมายการโจมตีมาที่การ์ดใบนี้แทน)",symbol:"N",power:"300",steal:"1",artist:"Haruki",image:"/public/images/cards/ไนธีเรีย ผู้เฝ้าประตูนรก.jpg"},
 {id:"HD-005",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg",set:"HD",name:"เพอร่า ยามค่ำคืน",subtitle:"หลับตาลงเถิด…แล้วปล่อยให้ฝันร้ายเริ่มต้น",artist:"Hika mori",type:"Character",rarity:"Common",element:"ผู้หญิง",cost:"2",steal:"1",power:"400",ability:"{Enter} เมื่อเข้าสู่สนาม จั่วการ์ด 1 ใบ ",symbol:"P",image:"/public/images/cards/เพอร่า ยามค่ำคืน.jpg"},
@@ -1915,8 +1915,8 @@ function formatAbility(text) {
   E: "public/images/icon/E.png",
   Pocket: "public/images/icon/Pocket.png",
   Dot: "public/images/icon/Dot.jpg",
-  OpenZone: "public/images/icon/OpenZone.jpg",
-  Forever: "public/images/icon/Forever.jpg",
+  OpenZone: "public/images/icon/OpenZone.png",
+  Forever: "public/images/icon/Forever.png",
   Activat:"public/images/icon/Activat.png",
   PerTurn:"public/images/icon/1_Turn.png",
   Block:"public/images/icon/Block.png",
