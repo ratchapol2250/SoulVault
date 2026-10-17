@@ -1204,7 +1204,7 @@ function openCoverPicker(){
     `<button class="cover-option ${rarityClass(c.rarity)} ${c.type==="Zone"?"zone-page-flippable":""}" data-zone-id="${c.type==="Zone"?escapeHtml(c.id):""}" onclick="chooseCover('${c.id}')">
       ${c.image
         ? `<img class="cover-option-image" src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">`
-        : `<span>${escapeHtml(c.symbol||"SA")}</span>`}
+        : `<span>${escapeHtml(c.symbol||"-")}</span>`}
       <b>${escapeHtml(c.name)}</b><small>${escapeHtml(c.type)} · ${escapeHtml(c.rarity)}</small>
     </button>`
   ).join("") : `<div class="cover-empty">ยังไม่มีการ์ดในเด็คสำหรับใช้เป็นหน้าปก</div>`;
