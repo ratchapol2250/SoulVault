@@ -975,7 +975,7 @@ function renderArtistDirectory(){
   profileGrid.innerHTML=visibleNames.map(name=>{
     const profile=artistProfiles[name]||{}, related=artistCardsFor(name), url=String(profile.contactUrl||"").trim();
     const validUrl=/^https?:\/\//i.test(url);
-    return `<article class="artist-profile-card" style="--artist-bg-image:url(&quot;${escapeHtml(related.find(c=>c.image)?.image||"")}&quot;)"><div class="artist-profile-copy"><h3>${escapeHtml(name)}</h3><p>${escapeHtml(profile.bio||"นักวาด/ผู้สร้างสรรค์ผลงาน")}</p><small>${related.length} ใบจากการ์ดทั้งหมด</small>${validUrl?`<a class="artist-contact-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">ช่องทางติดต่อ / ผลงาน ↗</a>`:`<span class="artist-contact-missing">ยังไม่ได้เพิ่มลิงก์ติดต่อ</span>`}</div><button class="artist-view-cards" type="button" data-artist-select="${escapeHtml(name)}">ดูการ์ดของนักวาด</button></article>`;
+    return `<article class="artist-profile-card" style="--artist-bg-image:url(&quot;${escapeHtml(related.find(c=>c.image)?.image||"")}&quot;)"><div class="artist-profile-copy"><h3>${escapeHtml(name)}</h3><p>${escapeHtml(profile.bio||"นักวาด/ผู้สร้างสรรค์ผลงาน")}</p><small>${related.length} ใบจากการ์ดทั้งหมด</small>${validUrl?`<a class="artist-contact-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">ช่องทางติดต่อ / ผลงาน</a>`:`<span class="artist-contact-missing">ยังไม่ได้เพิ่มลิงก์ติดต่อ</span>`}</div><button class="artist-view-cards" type="button" data-artist-select="${escapeHtml(name)}">ดูการ์ดของนักวาด</button></article>`;
   }).join("");
   const shownCards=cards.filter(c=>{const name=String(c.artist||c.by||"").trim();return visibleNames.includes(name)&&(!q||name.toLocaleLowerCase().includes(q)||c.name.toLocaleLowerCase().includes(q));});
   cardGrid.innerHTML=shownCards.map(c=>`<article class="card artist-card-tile" data-artist-card-id="${escapeHtml(c.id)}"><div class="card-art ${rarityClass(c.rarity)}">${cardImageHTML(c)}${c.image?"":`<div class="card-symbol">${escapeHtml(c.symbol||"◇")}</div>`}</div><div class="card-info"><div class="tag-row"><span class="tag">${escapeHtml(c.type||"")}</span><span class="tag rarity">${escapeHtml(c.rarity||"")}</span></div><h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.artist||c.by||"")}</p></div></article>`).join("");
@@ -2097,7 +2097,7 @@ zoneEl.appendChild(badge);
       placeBtn.type="button";
       placeBtn.className="soul-core-place-btn";
       placeBtn.title="นำ Soul Core ไปไว้ใต้ Zone";
-      placeBtn.textContent="↓ ZONE";
+      placeBtn.textContent="ZONE";
       placeBtn.disabled=testSoulCoreUnderZone.length >= (testDeck.soulCores||[]).length;
       placeBtn.addEventListener("click",ev=>{
         ev.preventDefault(); ev.stopPropagation();
@@ -2616,67 +2616,36 @@ function setLanguage(lang){
     const nav=document.querySelector(`.nav[data-section="${target}"]`);
     if(nav) nav.click();
   };
+  let touchStartX=0, touchStartY=0, swipeHandled=false;
+  banner.addEventListener("touchstart",event=>{
+    if(!event.touches || event.touches.length!==1) return;
+    touchStartX=event.touches[0].clientX;
+    touchStartY=event.touches[0].clientY;
+    swipeHandled=false;
+  },{passive:true});
+  banner.addEventListener("touchend",event=>{
+    if(!event.changedTouches || !event.changedTouches.length) return;
+    const dx=event.changedTouches[0].clientX-touchStartX;
+    const dy=event.changedTouches[0].clientY-touchStartY;
+    if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)*1.2){
+      swipeHandled=true;
+      show(current+(dx<0?1:-1));
+    }
+  },{passive:true});
   banner.addEventListener("click",event=>{
-    if(event.target.closest(".sv-home-arrow,.sv-home-dots")) return;
+    if(swipeHandled){swipeHandled=false;return;}
+    if(event.target.closest(".sv-home-dots")) return;
     navigateToCurrentSlide();
   });
   banner.addEventListener("keydown",event=>{
-    if((event.key==="Enter"||event.key===" ") && !event.target.closest(".sv-home-arrow,.sv-home-dots")){
+    if((event.key==="Enter"||event.key===" ") && !event.target.closest(".sv-home-dots")){
       event.preventDefault(); navigateToCurrentSlide();
     }
   });
-  banner.querySelector(".sv-home-prev")?.addEventListener("click",event=>{event.stopPropagation();show(current-1)});
-  banner.querySelector(".sv-home-next")?.addEventListener("click",event=>{event.stopPropagation();show(current+1)});
   banner.querySelectorAll("[data-home-slide]").forEach(dot=>dot.addEventListener("click",event=>{event.stopPropagation();show(Number(dot.dataset.homeSlide))}));
   document.querySelectorAll("[data-home-go]").forEach(button=>button.addEventListener("click",()=>{
     const target=button.dataset.homeGo;
     const nav=document.querySelector(`.nav[data-section="${target}"]`);
     if(nav) nav.click();
   }));
-})();
-
-
-/* Mobile-only navigation enhancements; no desktop navigation changes. */
-(function improveMobileNavigation(){
-  const mobile = window.matchMedia && window.matchMedia("(max-width: 720px)");
-  const sidebar = document.querySelector(".sidebar");
-  const menuBtn = document.querySelector("#menuBtn");
-  if(!mobile || !sidebar || !menuBtn) return;
-  let backdrop = document.querySelector(".sidebar-backdrop");
-  if(!backdrop){
-    backdrop = document.createElement("div");
-    backdrop.className = "sidebar-backdrop";
-    backdrop.setAttribute("aria-hidden","true");
-    document.body.insertBefore(backdrop, document.body.firstChild);
-  }
-  const closeMenu = () => {
-    sidebar.classList.remove("open");
-    backdrop.classList.remove("visible");
-    menuBtn.setAttribute("aria-expanded","false");
-  };
-  const openMenu = () => {
-    sidebar.classList.add("open");
-    backdrop.classList.add("visible");
-    menuBtn.setAttribute("aria-expanded","true");
-  };
-  menuBtn.setAttribute("aria-controls","site-navigation");
-  menuBtn.setAttribute("aria-expanded","false");
-  const nav = sidebar.querySelector("nav");
-  if(nav) nav.id = "site-navigation";
-  menuBtn.onclick = () => {
-    if(sidebar.classList.contains("open")) closeMenu();
-    else openMenu();
-  };
-  backdrop.addEventListener("click",closeMenu);
-  sidebar.querySelectorAll(".nav").forEach(button=>{
-    button.addEventListener("click",()=>{
-      if(mobile.matches) closeMenu();
-    });
-  });
-  window.addEventListener("resize",()=>{
-    if(!mobile.matches){
-      closeMenu();
-      backdrop.classList.remove("visible");
-    }
-  },{passive:true});
 })();
