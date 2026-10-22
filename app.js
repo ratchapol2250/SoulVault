@@ -12,7 +12,7 @@ const cards=[
 {id:"HD-010",image:"/public/images/cards/คำเชิญชวนแห่งภูติ.jpg",set:"HD",name:"คำเชิญชวนแห่งภูติ",subtitle:"อย่ากลัวเลย… แค่หลับตา แล้วตามเสียงเรียกของข้ามา",type:"Action",rarity:"Common",element:"ภูติ",cost:"1",artist:"Punch",ability:"{Peek} 5 ใบ เลือก Character  หรือ Gear ไม่เกิน 1 ใบ นำขึ้นมือ และ นำที่เหลือกลับเข้ากองการ์ดแล้วสลับ",symbol:"F",image:"/public/images/cards/คำเชิญชวนแห่งภูติ.jpg"},
 {id:"HD-011",image:"/public/images/cards/It’s Show Time!!.jpg",set:"HD",name:"It’s Show Time!!",subtitle:"ได้เวลาปิดม่านแล้ว",type:"Untimeat",rarity:"Common",element:"ปิดฉาก",cost:"5",artist:"Adamas",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone หอนาฬิกาเที่ยงคืนเคยทำงานแล้ว และ คุณขโมย Soul Core มาแล้ว 2 ชิ้น  คู่แข่งมี Character 1 ใบหรือมากกว่า\nจ่าย {E} 2\nเลือก Character บนสนามเรา 1 ใบ เมื่อจบการต่อสู้ของการ์ดที่เลือก สามารถนำการ์ดใบนั้นลง Tomb ได้ ถ้าทำ นำ Character  ใน Tomb ของคู่แข่ง 2 ใบเข้ามาในสนามคุณได้",symbol:"T",image:"/public/images/cards/It’s Show Time!!.jpg"},
 {id:"HD-012",image:"/public/images/cards/Soul Guard.jpg",set:"HD",name:"Soul Guard",subtitle:"ข้าจะใช้วิญญาณของข้า เป็นเกราะเพื่อเจ้า",type:"Action",rarity:"Common",element:"วิญญาณ",cost:"1",ability:"ใช้ได้ต่อเมื่อคู่แข่งสั่งโจมตี \n {Counter} จ่าย 1  {E} ทำให้การโจมตีนั้นไร้ผล",artist:"IMO",symbol:"C",image:"/public/images/cards/Soul Guard.jpg"},
-{id:"HD-013",image:"/public/images/cards/Fortune Orb.jpg",set:"HD",name:"Fortune Orb",subtitle:"จงยื่นมือเข้าหาโชคชะตา…แต่อย่าลืมว่าโชคชะตาอาจยื่นมือกลับมา",type:"Action",rarity:"Common",element:"โชคลาภ",cost:"1",ability:"{Dot} จั่วการ์ดจากกองการ์ด 2 ใบ ",artist:"kanyarat  luengtrakulrung",symbol:"C",image:"/public/images/cards/Fortune Orb.jpg"},
+{id:"HD-013",image:"/public/images/cards/Fortune Orb.jpg",set:"HD",name:"Fortune Orb",subtitle:"จงยื่นมือเข้าหาโชคชะตา…แต่อย่าลืมว่าโชคชะตาอาจยื่นมือกลับมา",type:"Action",rarity:"Common",element:"โชคลาภ",cost:"1",ability:"{Dot} จั่วการ์ดจากกองการ์ด 2 ใบ ",artist:"kanyarat luengtrakulrung",symbol:"C",image:"/public/images/cards/Fortune Orb.jpg"},
 {id:"HD-014",set:"HD",name:"Arsen, Lupaire",subtitle:"จอมโจรคือ ศิลปินผู้รังสรรค์การขโมยสิ่งที่ต้องการอย่างวิจิตรงดงาม!",type:"Master",rarity:"Legendary",element:"จอมโจร,คน ",cost:"M",abilityLeft:"{Activat}{PerTurn} ทิ้งการ์ดจากบนมือ 1  ใบ {Peek} Deck คู่แข่ง 2 ใบ และสามารถใช้ skill หรือ Gear ที่มีคอส 2 หรือต่ำกว่าได้โดยไม่ต้องจ่ายค่าคอสและไม่สนเงื่อนไข ",abilityRight:"{ZoneOpen1}\nหลังใช้ความสามารถของการ์ดใบนี้สามารถจั่วการ์ดได้ 1 ใบ",symbol:"K",steal:"1",power:"500",artist:"Yak",image:"/public/images/cards/Arsene LUPIN.jpg"},
 {id:"HD-015",set:"HD",name:"Pirate's Destination!",subtitle:"ในจุดที่คนอื่นเห็นจุดจบ โจรสลัดกลับเห็นจุดเริ่มต้น",type:"Untimeat",rarity:"Legendary",element:"สถานที่",cost:"5",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone เรือโจรสลัดเคยทำงานแล้ว และคุณขโมย Soul Core มาแล้ว 2 ชิ้นคุณมี Character 1 ใบหรือมากกว่า\nจ่าย {E} 2\nเลือก Character จากใน Tomb 1 ใบ นำเข้ามาในสนามได้และการ์ดใบน้ันได้รับ“เมื่อการ์ดใบนี้โจมตีหรือโมย จะสามารถเลือกได้ 2 เป้าหมายพร้อมกัน และคู่แข่วจะต้องป้องกันแยกกันเท่านั้น”จนจบเทิร์น",artist:"Chotiwat Nilthanee",symbol:"K",image:"/public/images/cards/Pirate's Destination!.jpg"},
 {id:"HD-016",set:"HD",name:"Wounded Heart",subtitle:"ทำอะไรไว้ก็ต้องรับผิดชอบสิ่งที่ทำด้วยละ",type:"Untimeat",rarity:"Legendary",element:"จิตใจ",cost:"5",ability:"ใช้งานการ์ดใบนี้ได้เมื่อ Zone วิมานแห่งรักเคยทำงานแล้ว และ คุณขโมย Soul Core มาแล้ว 2 ชิ้น  คุณไม่มี Character อยู่บนสนาม\nจ่าย {E} 2\nทำการนำ Character ทุกใบในสนามคู่แข่งมาอยู่ใต้ Zone วิมานแห่งรักและนำ Character 1 ใบ จากบนมือ ที่มีคอสไม่เกิน 2 ลงมาบนสนามได้",artist:"Teerawee",symbol:"K",image:"/public/images/cards/Wounded Heart.jpg"},
@@ -27,6 +27,255 @@ const cards=[
 {id:"FPRS",image:"/public/images/cards/มิวะ นุ่มฟู FPRS.jpg",set:"Promo",name:"มิวะ นุ่มฟู",subtitle:"-",type:"Character",rarity:"Secret Rare",element:"ไม่ทราบ,ก้อนขน",cost:"2",artist:"หนองในเล็บ",steal:"1",power:"300",ability:"{Enter} แสดงการ์ดใบบนสุดของคู่แข่ง ถ้าเป็น Gear ให้นำลง Tomp",image:"/public/images/cards/มิวะ นุ่มฟู FPRS.jpg"},
 ];
 
+
+// เพิ่มลิงก์ติดต่อ/พอร์ตโฟลิโอของนักวาดได้ที่ artistProfiles โดยใช้ชื่อให้ตรงกับค่า artist บนการ์ด
+// ตัวอย่าง: "ชื่อ Artist": { contactUrl: "https://...", bio: "คำแนะนำตัวที่นักวาดอนุญาตให้เผยแพร่" }
+const artistProfiles = {
+	"Krianza the Decline": {
+    contactUrl: "https://www.facebook.com/teerasak.janyod"
+  },
+  "IMO": {
+    contactUrl: "https://www.facebook.com/sutut.petmaneechichana"
+  },
+  "Pupa": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61558620735322"
+  },
+  "Princ3ss.xx": {
+    contactUrl: "https://www.facebook.com/pr3ttyprincessxx"
+  },
+  "Azuki": {
+    contactUrl: "https://www.facebook.com/azu.kiur4"
+  },
+  "yulinrii": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61590425588758"
+  },
+  "Hoshi~": {
+    contactUrl: "https://www.facebook.com/kittima.suntakun"
+  },
+  "Teerawee": {
+    contactUrl: "https://www.facebook.com/teerawee.darawong"
+  },
+  "Somlnk": {
+    contactUrl: "https://www.facebook.com/profile.php?id=100095174726050"
+  },
+  "SEB": {
+    contactUrl: "https://www.facebook.com/aiwa.ak"
+  },
+  "ผัดขม ชุบแป้ง": {
+    contactUrl: "https://www.facebook.com/nithirot.bunnmee"
+  },
+  "maka": {
+    contactUrl: "https://www.facebook.com/ma.ka.771095"
+  },
+  "givven13": {
+    contactUrl: "https://www.facebook.com/ubam.710139"
+  },
+  "Poni Koma": {
+    contactUrl: "https://www.facebook.com/poni.koma"
+  },
+  "Peet": {
+    contactUrl: "https://www.facebook.com/peet.4z"
+  },
+  "คูมเดียร์ชอบกินแซลมอน": {
+    contactUrl: "https://www.facebook.com/phannakan.sonchol.2024"
+  },
+  "Wave": {
+    contactUrl: "https://www.facebook.com/groups/270204683431401/user/61577995180204/"
+  },
+  "กาเลอ": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61570962243617"
+  },
+  "Khxa Phunn": {
+    contactUrl: "https://www.facebook.com/khaokwax"
+  },
+  "YULA": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61585426634784"
+  },
+  "นัทโน๊ะ กล๊มกลม": {
+    contactUrl: "https://www.facebook.com/nath.noa.kl.mk.lm"
+  },
+  "七2": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61571820836559&mibextid=wwXIfr&rdid=rydiqHcsJ9rDGyVG&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1HsaxXqsKX%2F%3Fmibextid%3DwwXIfr#"
+  },
+  "Miiru Meru": {
+    contactUrl: "https://www.facebook.com/Miiiirume?rdid=497ZKedXGEKn7pI4&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1ChDKrsWEZ%2F#"
+  },
+  "MaRu": {
+    contactUrl: "-"
+  },
+  "ตีนแมว": {
+    contactUrl: "https://www.facebook.com/profile.php?id=100039081109390"
+  },
+  "Adamas": {
+    contactUrl: "-"
+  },
+  "ศาลพระภูมิ": {
+    contactUrl: "https://www.facebook.com/puripat.kanlaya"
+  },
+  "Greenmaple P. Kanaria": {
+    contactUrl: "https://www.facebook.com/profile.php?id=100073482976693"
+  },
+  "Grace Zx": {
+    contactUrl: "https://www.facebook.com/kam.sier.71"
+  },
+  "ART•I•TON": {
+    contactUrl: "https://www.facebook.com/sanhnat.lukkaew.9"
+  },
+  "อาราย อีกว้าา": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61558620735322"
+  },
+  "Rate File": {
+    contactUrl: "https://www.facebook.com/d.m.n.ta.2025"
+  },
+  "Nong Aum": {
+    contactUrl: "https://www.facebook.com/thanchanok.sueawai"
+  },
+  "Pinmu": {
+    contactUrl: "https://www.facebook.com/share/14rzP9b2jN4/"
+  },
+  "Voo Voo": {
+    contactUrl: "https://www.facebook.com/voo.voo.219474"
+  },
+  "NegiArt": {
+    contactUrl: "https://www.facebook.com/ne.neki.977355"
+  },
+  "decinite_x_01": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61579803219426"
+  },
+  "decinite_x_07": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61579803219426"
+  },
+  "SeePee": {
+    contactUrl: "https://www.facebook.com/see.pee.7902"
+  },
+  "Haruki": {
+    contactUrl: "https://www.facebook.com/Arasaki.makoto"
+  },
+  "Milky Way": {
+    contactUrl: "https://www.facebook.com/milky.way.599632"
+  },
+  "Muusin art": {
+    contactUrl: "https://www.facebook.com/muza.lookmuza"
+  },
+  "Yurin": {
+    contactUrl: "https://www.facebook.com/cxllme.pim.281450"
+  },
+  "ปวดขี้ ทำอย่างไรดี": {
+    contactUrl: "https://www.facebook.com/profile.php?id=100074189713730"
+  },
+  "Karen'n": {
+    contactUrl: "https://www.facebook.com/botann.sujinda.9"
+  },
+  "ทันจิ ชอบหนุ่มรางดาว": {
+    contactUrl: "https://www.facebook.com/Bairxi"
+  },
+  "yully.yul ( 율 )": {
+    contactUrl: "https://www.facebook.com/jellistt"
+  },
+  "แมวไม่ดีแมวเลว": {
+    contactUrl: "https://www.facebook.com/groups/719839965083826/user/100017689217214/"
+  },
+  "ไผ่ไผ่": {
+    contactUrl: "https://www.facebook.com/plai.pittafai"
+  },
+  "黒い　花": {
+    contactUrl: "https://www.facebook.com/aphirak.kongsang.7"
+  },
+  "NineNineZ89": {
+    contactUrl: "https://www.facebook.com/LesNineNineZ"
+  },
+  "N44": {
+    contactUrl: "https://www.facebook.com/xen.xo.834592"
+  },
+  "Soöria": {
+    contactUrl: "https://www.facebook.com/saranrat.ruenlue"
+  },
+  "Khai Pham": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61572510028992"
+  },
+  "AB Oonto": {
+    contactUrl: "https://www.facebook.com/araya.boonto"
+  },
+  "auiiua_06": {
+    contactUrl: "https://www.facebook.com/aui.rakanime"
+  },
+   "wavecolorstudio": {
+    contactUrl: "https://www.facebook.com/BOOKWAVECOLOR"
+  },
+   "Lumoirmore": {
+    contactUrl: "https://www.facebook.com/rumoilumoir"
+  },
+   "Mint Chamaiporn": {
+    contactUrl: "https://www.facebook.com/mint2014pp"
+  },
+   "พี่เเมวซาวานน่า": {
+    contactUrl: "https://www.facebook.com/phi.emew.sa.wan.na.khea.klaw.phi.markh.sa.ka.be.xk"
+  },
+   "Satria": {
+    contactUrl: "https://www.facebook.com/satria.lawrence"
+  },
+   "เซนดา": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61571645272146"
+  },
+   "Kaiser Natnicha": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61578307213235"
+  },
+   "CORONA": {
+    contactUrl: "https://www.facebook.com/tn.kla.475466"
+  },
+   "Lafie_ven": {
+    contactUrl: "https://www.facebook.com/rak.mamwng.dxng"
+  },
+  "Fina": {
+    contactUrl: "https://www.facebook.com/pasakorn.homfung"
+  },
+  "somkaizoiz": {
+    contactUrl: "https://www.facebook.com/profile.php?id=100037648083328"
+  },
+  "Yak": {
+    contactUrl: "https://www.facebook.com/yakinsect"
+  },
+  "pun": {
+    contactUrl: "https://www.facebook.com/punyatorn.tongoiam"
+  },
+  "harukix": {
+    contactUrl: "https://www.facebook.com/haruki.marisuya"
+  },
+  "Chotiwat Nilthanee": {
+    contactUrl: "https://www.facebook.com/chotiwat.nilthanee"
+  },
+  "Sedle": {
+    contactUrl: "https://www.facebook.com/biwth.ti.biwth.ti"
+  },
+  "หนองในเล็บ": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61557207578237"
+  },
+  "Nop9": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61565372067739"
+  },
+  "Hompoy": {
+    contactUrl: "https://www.facebook.com/ar.rakoda.3"
+  },
+  "Chathai Suchii": {
+    contactUrl: "https://www.facebook.com/ilovemisterzeus"
+  },
+  "jonny": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61588003048245"
+  },
+  "inalone": {
+    contactUrl: "https://www.facebook.com/inalone.2024"
+  },
+  "Punch": {
+    contactUrl: "https://www.facebook.com/profile.php?id=61561491848693"
+  },
+  "Hika mori": {
+    contactUrl: "https://www.facebook.com/mitsuba.tatsu"
+  },
+  "kanyarat luengtrakulrung": {
+    contactUrl: "https://www.facebook.com/kanyarat.leangtrakulrung"
+  },
+  // "Krianza the Decline": { contactUrl: "https://...", bio: "" },
+};
 
 const rarityClass=r=>`rarity-${String(r).toLowerCase().replace(/\s+/g,"-")}`;
 function cardImageHTML(c, className="card-real-image"){
@@ -208,6 +457,21 @@ function openCard(c, navigationList = cards) {
  document.querySelector("#detailPower").textContent=c.power ?? "—";
  document.querySelector("#detailSteal").textContent=c.steal ?? "—";
  document.querySelector("#detailBy").textContent=c.by ?? c.artist ?? "—";
+ const artistName=String(c.artist||c.by||"").trim();
+ const artistProfile=artistProfiles[artistName]||{};
+ const artistContact=document.querySelector("#detailArtistContact");
+ const artistNameNode=document.querySelector("#detailArtistName");
+ const artistLinkNode=document.querySelector("#detailArtistLink");
+ if(artistNameNode)artistNameNode.textContent=artistName||"ไม่ระบุ";
+ if(artistLinkNode){
+   const contactUrl=String(artistProfile.contactUrl||"").trim();
+   const safeUrl=/^https?:\/\//i.test(contactUrl);
+   artistLinkNode.href=safeUrl?contactUrl:"#";
+   artistLinkNode.classList.toggle("hidden",!safeUrl);
+   artistLinkNode.setAttribute("aria-disabled",String(!safeUrl));
+   artistLinkNode.onclick=safeUrl?null:(e=>e.preventDefault());
+ }
+ if(artistContact)artistContact.classList.toggle("hidden",!artistName);
  document.querySelector("#detailLevel").textContent=c.cost ?? "—";
  const powerBox=document.querySelector("#detailPowerBox");
  const stealBox=document.querySelector("#detailStealBox");
@@ -255,8 +519,8 @@ document.querySelector("#clearRosterFilters")?.addEventListener("click",()=>{
 });
 /* ---------------- SUPPLY ---------------- */
 const defaultSupplies=[
-{id:"PM1",type:"PLAYMAT",name:"Steal Area — Black Gold",image:"/public/images/supply/เพลย์แมต30.60.jpg",desc:"Playmat ธีมหลักของ SOULVAULT",price:"-"},
-{id:"SL1",type:"SLEEVE",name:"Steal Area — Gold",image:"/public/images/supply/หลังการ์ดL.jpg",desc:"Card Sleeve ลายหลังการ์ด Master",price:"-"},];
+{id:"PM1",type:"PLAYMAT",name:"SOULVAULT",image:"/public/images/supply/เพลย์แมต30.60.jpg",desc:"Playmat ธีมหลักของ SOULVAULT",price:"-"},
+{id:"SL1",type:"SLEEVE",name:"SOULVAULT",image:"/public/images/supply/หลังการ์ดL.jpg",desc:"Card Sleeve ลายหลังการ์ด Master",price:"-"},];
 let supplies=JSON.parse(localStorage.getItem("stealAreaSupplies")||"null")||defaultSupplies;
 let supplyFilter="ALL";
 
@@ -691,6 +955,38 @@ function addCardFromRosterToDeck(cardId,deckId,requestedQty=1){
   render();
 }
 
+/* ---------------- ARTIST DIRECTORY ---------------- */
+function getArtistNames(){
+  return [...new Set(cards.map(c=>String(c.artist||c.by||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"th"));
+}
+function artistCardsFor(name){return cards.filter(c=>String(c.artist||c.by||"").trim()===name);}
+function renderArtistDirectory(){
+  const searchNode=document.querySelector("#artistSearch"), filterNode=document.querySelector("#artistFilter");
+  const profileGrid=document.querySelector("#artistProfiles"), cardGrid=document.querySelector("#artistCardGrid");
+  if(!searchNode||!filterNode||!profileGrid||!cardGrid)return;
+  const names=getArtistNames(), selected=filterNode.value||"All";
+  filterNode.innerHTML='<option value="All">นักวาดทั้งหมด</option>'+names.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join("");
+  filterNode.value=names.includes(selected)?selected:"All";
+  const q=searchNode.value.trim().toLocaleLowerCase();
+  const visibleNames=names.filter(name=>{
+    const profile=artistProfiles[name]||{}, related=artistCardsFor(name);
+    return (filterNode.value==="All"||name===filterNode.value) && (!q||name.toLocaleLowerCase().includes(q)||String(profile.bio||"").toLocaleLowerCase().includes(q)||related.some(c=>c.name.toLocaleLowerCase().includes(q)));
+  });
+  profileGrid.innerHTML=visibleNames.map(name=>{
+    const profile=artistProfiles[name]||{}, related=artistCardsFor(name), url=String(profile.contactUrl||"").trim();
+    const validUrl=/^https?:\/\//i.test(url);
+    return `<article class="artist-profile-card" style="--artist-bg-image:url(&quot;${escapeHtml(related.find(c=>c.image)?.image||"")}&quot;)"><div class="artist-profile-copy"><h3>${escapeHtml(name)}</h3><p>${escapeHtml(profile.bio||"นักวาด/ผู้สร้างสรรค์ผลงาน")}</p><small>${related.length} ใบจากการ์ดทั้งหมด</small>${validUrl?`<a class="artist-contact-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">ช่องทางติดต่อ / ผลงาน ↗</a>`:`<span class="artist-contact-missing">ยังไม่ได้เพิ่มลิงก์ติดต่อ</span>`}</div><button class="artist-view-cards" type="button" data-artist-select="${escapeHtml(name)}">ดูการ์ดของนักวาด</button></article>`;
+  }).join("");
+  const shownCards=cards.filter(c=>{const name=String(c.artist||c.by||"").trim();return visibleNames.includes(name)&&(!q||name.toLocaleLowerCase().includes(q)||c.name.toLocaleLowerCase().includes(q));});
+  cardGrid.innerHTML=shownCards.map(c=>`<article class="card artist-card-tile" data-artist-card-id="${escapeHtml(c.id)}"><div class="card-art ${rarityClass(c.rarity)}">${cardImageHTML(c)}${c.image?"":`<div class="card-symbol">${escapeHtml(c.symbol||"◇")}</div>`}</div><div class="card-info"><div class="tag-row"><span class="tag">${escapeHtml(c.type||"")}</span><span class="tag rarity">${escapeHtml(c.rarity||"")}</span></div><h3>${escapeHtml(c.name)}</h3><p>${escapeHtml(c.artist||c.by||"")}</p></div></article>`).join("");
+  const countNode=document.querySelector("#artistCardCount"); if(countNode)countNode.textContent=`${shownCards.length} ใบ`;
+  document.querySelector("#artistEmpty")?.classList.toggle("hidden",shownCards.length>0);
+  profileGrid.querySelectorAll("[data-artist-select]").forEach(btn=>btn.addEventListener("click",()=>{filterNode.value=btn.dataset.artistSelect;renderArtistDirectory();document.querySelector("#artistCardGrid")?.scrollIntoView({behavior:"smooth",block:"start"});}));
+  cardGrid.querySelectorAll("[data-artist-card-id]").forEach(el=>el.addEventListener("click",()=>{const card=cards.find(c=>String(c.id)===String(el.dataset.artistCardId));if(card)openCard(card,shownCards);}));
+}
+document.querySelector("#artistSearch")?.addEventListener("input",renderArtistDirectory);
+document.querySelector("#artistFilter")?.addEventListener("change",renderArtistDirectory);
+
 document.querySelectorAll(".nav").forEach(btn=>btn.onclick=()=>{
  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
  document.querySelectorAll(".section").forEach(x=>x.classList.remove("active-section"));
@@ -699,6 +995,7 @@ document.querySelectorAll(".nav").forEach(btn=>btn.onclick=()=>{
  if(btn.dataset.section==="deck") initDeck();
  if(btn.dataset.section==="collection") renderCollection();
  if(btn.dataset.section==="supply") initSupply();
+ if(btn.dataset.section==="artists") renderArtistDirectory();
 });
 
 /* ---------------- DECK BUILDER ---------------- */
@@ -2293,3 +2590,93 @@ function setLanguage(lang){
 }
 
 
+
+
+/* ===== SOULVAULT HOME PAGE INTERACTIONS (isolated) ===== */
+(()=>{
+  const banner=document.getElementById("svHomeBanner");
+  if(!banner) return;
+  const slides=[
+    {image:"/public/images/logo/ผี.jpg",alt:"SOULVAULT — รายการการ์ด",target:"roster"},
+    {image:"/public/images/cards/เกลสาวโหด ณ 3 แยก.jpg",alt:"SOULVAULT — Collection",target:"collection"},
+    {image:"/public/images/cards/Death Error.jpg",alt:"SOULVAULT — Play Test",target:"drawtest"}
+  ];
+  let current=0;
+  const show=(index)=>{
+    current=(index+slides.length)%slides.length;
+    const slide=slides[current];
+    const bannerImage=document.getElementById("svHomeBannerImage");
+    if(bannerImage){bannerImage.src=slide.image;bannerImage.alt=slide.alt;}
+    banner.dataset.slide=String(current);
+    banner.setAttribute("aria-label",`คลิกภาพเพื่อเปิด${current===0?"หน้า List Card":current===1?"หน้า Collection":"หน้า Play Test"}`);
+    banner.querySelectorAll("[data-home-slide]").forEach((dot,i)=>dot.classList.toggle("active",i===current));
+  };
+  const navigateToCurrentSlide=()=>{
+    const target=slides[current].target;
+    const nav=document.querySelector(`.nav[data-section="${target}"]`);
+    if(nav) nav.click();
+  };
+  banner.addEventListener("click",event=>{
+    if(event.target.closest(".sv-home-arrow,.sv-home-dots")) return;
+    navigateToCurrentSlide();
+  });
+  banner.addEventListener("keydown",event=>{
+    if((event.key==="Enter"||event.key===" ") && !event.target.closest(".sv-home-arrow,.sv-home-dots")){
+      event.preventDefault(); navigateToCurrentSlide();
+    }
+  });
+  banner.querySelector(".sv-home-prev")?.addEventListener("click",event=>{event.stopPropagation();show(current-1)});
+  banner.querySelector(".sv-home-next")?.addEventListener("click",event=>{event.stopPropagation();show(current+1)});
+  banner.querySelectorAll("[data-home-slide]").forEach(dot=>dot.addEventListener("click",event=>{event.stopPropagation();show(Number(dot.dataset.homeSlide))}));
+  document.querySelectorAll("[data-home-go]").forEach(button=>button.addEventListener("click",()=>{
+    const target=button.dataset.homeGo;
+    const nav=document.querySelector(`.nav[data-section="${target}"]`);
+    if(nav) nav.click();
+  }));
+})();
+
+
+/* Mobile-only navigation enhancements; no desktop navigation changes. */
+(function improveMobileNavigation(){
+  const mobile = window.matchMedia && window.matchMedia("(max-width: 720px)");
+  const sidebar = document.querySelector(".sidebar");
+  const menuBtn = document.querySelector("#menuBtn");
+  if(!mobile || !sidebar || !menuBtn) return;
+  let backdrop = document.querySelector(".sidebar-backdrop");
+  if(!backdrop){
+    backdrop = document.createElement("div");
+    backdrop.className = "sidebar-backdrop";
+    backdrop.setAttribute("aria-hidden","true");
+    document.body.insertBefore(backdrop, document.body.firstChild);
+  }
+  const closeMenu = () => {
+    sidebar.classList.remove("open");
+    backdrop.classList.remove("visible");
+    menuBtn.setAttribute("aria-expanded","false");
+  };
+  const openMenu = () => {
+    sidebar.classList.add("open");
+    backdrop.classList.add("visible");
+    menuBtn.setAttribute("aria-expanded","true");
+  };
+  menuBtn.setAttribute("aria-controls","site-navigation");
+  menuBtn.setAttribute("aria-expanded","false");
+  const nav = sidebar.querySelector("nav");
+  if(nav) nav.id = "site-navigation";
+  menuBtn.onclick = () => {
+    if(sidebar.classList.contains("open")) closeMenu();
+    else openMenu();
+  };
+  backdrop.addEventListener("click",closeMenu);
+  sidebar.querySelectorAll(".nav").forEach(button=>{
+    button.addEventListener("click",()=>{
+      if(mobile.matches) closeMenu();
+    });
+  });
+  window.addEventListener("resize",()=>{
+    if(!mobile.matches){
+      closeMenu();
+      backdrop.classList.remove("visible");
+    }
+  },{passive:true});
+})();
