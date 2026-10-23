@@ -6617,87 +6617,229 @@ body.show-page-welcome-heading .topbar .page-welcome-heading { display: block; }
 }
 
 
-/* ===== LOCAL 2 PLAYER MODE (keeps existing Play Test logic isolated per iframe) ===== */
-.two-player-section{min-width:0}
-.two-player-notice{margin:-8px 0 16px;padding:10px 14px;border:1px solid #28231a;background:#101010;color:#9b9386;font-size:12px}
-.two-player-boards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
-.two-player-board-panel{min-width:0;border:1px solid #332a1d;background:#090909;overflow:hidden}
-.two-player-player-title{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:#111;border-bottom:1px solid #332a1d}
-.two-player-player-title b{color:var(--gold2);font-size:12px;letter-spacing:1px}
-.two-player-player-title span{color:var(--muted);font-size:11px}
-.two-player-board-panel iframe{display:block;width:100%;height: min(74vh, 760px);border:0;background:#070707}
-html.two-player-board,html.two-player-board body{min-height:100%;height:100%;overflow:auto}
-html.two-player-board .sidebar,html.two-player-board .topbar{display:none!important}
-html.two-player-board main{margin:0!important;padding:8px!important;min-height:0!important}
-html.two-player-board main>.section:not(#drawtest){display:none!important}
-html.two-player-board #drawtest{display:block!important}
-html.two-player-board #drawtest>.draw-header{align-items:center;gap:8px;margin-bottom:7px}
-html.two-player-board #drawtest .draw-header h2{font-size:18px;margin:2px 0}
-html.two-player-board #drawtest .draw-header p{font-size:10px;margin:2px 0}
-html.two-player-board #drawtest .eyebrow{font-size:8px}
-html.two-player-board #drawtest .draw-controls{gap:4px}
-html.two-player-board #drawtest .draw-controls select{min-width:0;max-width:125px;padding:6px;font-size:10px}
-html.two-player-board #drawtest .draw-controls button{padding:7px;font-size:9px}
-html.two-player-board #drawtest .playtest-info{gap:8px;padding:6px 8px;margin-bottom:7px;font-size:8px}
-html.two-player-board #drawtest .manual-playmat{width:100%;max-height:none}
-html.two-player-board #drawtest .playtest-actions{gap:5px;margin-top:6px}
-html.two-player-board #drawtest .playtest-actions button{padding:6px;font-size:9px}
-html.two-player-board #drawtest .playtest-actions span{font-size:9px}
-@media(max-width:900px){
- .two-player-boards{grid-template-columns:1fr}
- .two-player-board-panel iframe{height:72vh}
+/* ===== MOBILE USABILITY PATCH — additive overrides for the supplied build ===== */
+html { -webkit-text-size-adjust: 100%; }
+body { overflow-x: hidden; }
+button, a, [role="button"], select, input, textarea {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
+button { cursor: pointer; }
+img { max-width: 100%; }
 
-/* ===== ONLINE PLAYTEST: isolated additive styles ===== */
-.online-play-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%;padding:12px;background:#101010;border:1px solid #28231a;margin:0 0 14px}
-.online-play-controls input{min-width:130px;max-width:180px;background:#080808;color:#eee;border:1px solid #45371f;padding:10px;font:inherit}
-.online-status{font:11px 'Kanit',sans-serif;color:#d9ad52;padding:0 8px}
-.online-status.is-connected{color:#8fda9a}
-@media(max-width:720px){.online-play-controls{align-items:stretch}.online-play-controls>*{flex:1}.online-play-controls input{max-width:none;min-width:0}}
-
-
-/* ===== HOME MOBILE INTERACTION FIX (scoped to Home only) ===== */
-#home.sv-home-section{position:relative;isolation:isolate;min-width:0;overflow:visible}
-#home .sv-home-banner{position:relative;z-index:1;touch-action:pan-y;pointer-events:auto;-webkit-tap-highlight-color:transparent}
-#home .sv-home-banner-image,#home .sv-home-banner-frame{pointer-events:none!important}
-#home .sv-home-dots{z-index:20!important;pointer-events:auto!important}
-#home .sv-home-dots button{position:relative;z-index:21;min-width:24px;min-height:24px;touch-action:manipulation;pointer-events:auto}
-#home .sv-home-shortcuts{position:relative;z-index:2;isolation:isolate}
-#home .sv-home-shortcut{position:relative;z-index:3;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:48px}
-#home .sv-home-shortcut>*{pointer-events:none}
-@media(max-width:720px){
-  #home.sv-home-section{width:100%;max-width:100%;padding-left:0;padding-right:0}
-  #home .sv-home-banner{width:100%;height:clamp(300px,68svh,520px);min-height:300px;margin-bottom:20px}
-  #home .sv-home-dots{bottom:max(12px,env(safe-area-inset-bottom));gap:10px;padding:8px 12px}
-  #home .sv-home-dots button{min-width:28px;min-height:28px;padding:7px;background-clip:content-box}
-  #home .sv-home-shortcuts{grid-template-columns:minmax(0,1fr);gap:12px;padding:0 10px 12px}
-  #home .sv-home-shortcut{width:100%;min-height:64px;padding:16px 22px;align-items:flex-start}
+/* Keep the mobile menu and sidebar above page content and reliably tappable. */
+.sidebar {
+  z-index: 100 !important;
+  width: min(84vw, 300px);
+  max-width: 100vw;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
-@media(hover:none){#home .sv-home-shortcut:hover{transform:none;filter:none}}
+.sidebar.open { transform: translateX(0) !important; }
+.mobile-menu {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 120 !important;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  touch-action: manipulation;
+  pointer-events: auto !important;
+}
+#siteLogo, .brand, #siteBrand {
+  position: relative;
+  z-index: 102;
+  pointer-events: auto !important;
+  touch-action: manipulation;
+}
+#siteLogo { display: block; max-width: 100%; height: auto; }
 
-/* ===== HOME MOBILE TAP/TIMER FIX (scoped and additive) ===== */
-#home .sv-home-banner,
-#home .sv-home-banner-image,
-#home .sv-home-dots,
-#home .sv-home-dots button,
-#home .sv-home-shortcuts,
-#home .sv-home-shortcut {
+/* Home banner: the image/frame are decorative layers; dots remain real controls. */
+#home.sv-home-section {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-width: 0;
+}
+#home .sv-home-banner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 100%;
+  cursor: pointer;
+  touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
 }
-#home .sv-home-banner { position: relative; isolation: isolate; touch-action: pan-y; }
+#home .sv-home-banner::before,
+#home .sv-home-banner::after,
 #home .sv-home-banner-image,
-#home .sv-home-banner-frame { pointer-events: none !important; }
-#home .sv-home-dots { position: absolute; z-index: 30 !important; pointer-events: auto !important; }
-#home .sv-home-dots button { position: relative; z-index: 31; cursor: pointer; touch-action: manipulation; pointer-events: auto !important; }
-#home .sv-home-shortcuts { position: relative; z-index: 5; }
-#home .sv-home-shortcut { position: relative; z-index: 6; cursor: pointer; pointer-events: auto !important; touch-action: manipulation; }
+#home .sv-home-banner-frame {
+  pointer-events: none !important;
+}
+#home .sv-home-banner .sv-home-dots {
+  position: absolute;
+  z-index: 20 !important;
+  pointer-events: auto !important;
+}
+#home .sv-home-dots button {
+  position: relative;
+  z-index: 21 !important;
+  display: block;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  padding: 7px;
+  margin: 0;
+  border-radius: 50%;
+  background-clip: content-box;
+  pointer-events: auto !important;
+  touch-action: manipulation;
+}
+#home .sv-home-dots button.active {
+  background-color: #fff4a6;
+}
+#home .sv-home-shortcuts {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 14px;
+  pointer-events: auto;
+}
+#home .sv-home-shortcut {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 76px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 18px 28px;
+  cursor: pointer;
+  pointer-events: auto !important;
+  touch-action: manipulation;
+  user-select: none;
+}
 #home .sv-home-shortcut > * { pointer-events: none; }
-.sidebar { z-index: 80 !important; }
-#siteLogo { position: relative; z-index: 82; display: block; cursor: pointer; pointer-events: auto !important; touch-action: manipulation; }
-#menuBtn { z-index: 100 !important; pointer-events: auto !important; touch-action: manipulation; }
+#home .sv-home-shortcut:active { filter: brightness(1.18); transform: scale(.99); }
+
+/* Form controls and content widths remain inside the viewport. */
+input, select, textarea { max-width: 100%; }
+.search-wrap { min-width: 0; }
+.search-wrap input { min-width: 0; }
+.toolbar, .artist-toolbar, .collection-toolbar, .draw-controls,
+.deck-actions, .deck-summary, .supply-toolbar, .news-toolbar {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.grid, .collection-grid, .artist-profile-grid, .deck-cards,
+.news-grid, .supply-grid {
+  min-width: 0;
+}
+.card, .deck-library-card, .artist-profile-card, .news-card, .supply-card {
+  min-width: 0;
+  max-width: 100%;
+}
+.modal { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.modal-card, .cover-picker-modal {
+  max-width: 100%;
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible,
+textarea:focus-visible, [role="button"]:focus-visible {
+  outline: 2px solid var(--gold2);
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  main { width: 100%; margin-left: 0 !important; padding-left: 20px; padding-right: 20px; }
+  .toolbar select, .artist-toolbar select { min-width: 0; }
+  .deck-layout { grid-template-columns: minmax(0, 1fr); }
+  .card-picker { position: static; width: 100%; }
+  .deck-top { flex-wrap: wrap; }
+  .deck-meta { min-width: 0; }
+  .deck-actions { flex-wrap: wrap; }
+  .playmat-wrap, .manual-playtest { max-width: 100%; }
+}
 @media (max-width: 720px) {
-  #home .sv-home-banner { min-height: 280px; height: clamp(280px, 62svh, 480px); }
-  #home .sv-home-dots { bottom: max(10px, env(safe-area-inset-bottom)); }
-  #home .sv-home-dots button { min-width: 32px; min-height: 32px; }
-  #home .sv-home-shortcut { min-height: 64px; }
+  main { padding: 68px 14px 32px !important; }
+  .topbar { align-items: flex-start; gap: 10px; margin-bottom: 18px; }
+  .topbar .stats { margin-left: auto; text-align: right; padding-top: 7px; }
+  .topbar h1 { font-size: clamp(20px, 6vw, 28px); }
+  .page-welcome-heading { min-width: 0; padding-left: 44px; }
+  .toolbar, .artist-toolbar, .collection-toolbar { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
+  .toolbar > *, .artist-toolbar > *, .collection-toolbar > * { width: 100%; min-width: 0 !important; }
+  .toolbar select, .artist-toolbar select, .collection-toolbar select,
+  .draw-controls select, .card-picker select {
+    width: 100%;
+    min-height: 42px;
+  }
+  .numeric-filter-group { width: 100%; min-width: 0; }
+  .numeric-filter-inputs { display: flex; align-items: center; gap: 7px; }
+  .numeric-filter-inputs input { min-width: 0; width: 100%; min-height: 42px; }
+  .clear-filter-btn, .gold-btn, .danger-btn, .cover-btn {
+    min-height: 42px;
+    max-width: 100%;
+    white-space: normal;
+  }
+  .deck-header, .draw-header, .library-head {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .deck-header > *, .draw-header > *, .library-head > * { min-width: 0; max-width: 100%; }
+  .deck-workspace { padding: 10px; }
+  .deck-actions > button { flex: 1 1 130px; }
+  .deck-summary { gap: 8px 12px; }
+  .deck-summary > span { max-width: 100%; }
+  .detail { padding: 20px 15px; }
+  .detail-navigation { display: flex; gap: 8px; }
+  .detail-navigation button { min-height: 44px; flex: 1; }
+  .empty { padding: 36px 14px; }
+  .modal { padding: 12px; place-items: center; }
+  .modal-card { grid-template-columns: minmax(0, 1fr); width: 100%; }
+  .detail-image { min-height: 240px; }
+  .cover-picker-modal { padding: 18px 14px; }
+  .playtest-info { gap: 8px 12px; }
+}
+@media (max-width: 600px) {
+  #home .sv-home-banner {
+    height: clamp(290px, 92vw, 460px) !important;
+    min-height: 290px !important;
+    max-height: 460px;
+    margin-bottom: 24px;
+  }
+  #home .sv-home-shortcuts { grid-template-columns: minmax(0, 1fr) !important; }
+  #home .sv-home-shortcut { min-height: 84px; padding: 17px 25px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .card-info { padding: 9px; }
+  .card h3 { font-size: 14px; overflow-wrap: anywhere; }
+  .card p { font-size: 10px; }
+  .artist-profile-grid { grid-template-columns: minmax(0, 1fr); }
+  .deck-cards { grid-template-columns: minmax(0, 1fr); }
+  .cover-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .deck-top { align-items: flex-start; }
+  .deck-name { width: 100%; max-width: 100%; }
+  .deck-list .deck-row { gap: 6px; }
+  .row-name { min-width: 0; }
+  .row-name b, .row-name small { overflow-wrap: anywhere; }
+  .qty { gap: 5px; }
+  .qty button { min-width: 32px; min-height: 32px; }
+  .news-grid, .supply-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .modal-card { max-height: calc(100dvh - 24px); }
+}
+@media (max-width: 380px) {
+  main { padding-left: 10px !important; padding-right: 10px !important; }
+  .grid { gap: 7px; }
+  .card-info { padding: 7px; }
+  .tag { font-size: 7px; padding: 3px 4px; }
+  .sv-home-dots { gap: 6px !important; }
+  #home .sv-home-shortcut { padding-left: 20px; padding-right: 20px; }
 }

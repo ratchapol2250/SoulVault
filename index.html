@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOULVAULT CARD GAME — การ์ดทั้งหมด</title>
-  <script>if(new URLSearchParams(location.search).has("twoPlayerBoard"))document.documentElement.classList.add("two-player-board");</script>
-  <link rel="stylesheet" href="style.css?v=20261024-home-mobile-fix2">
+  <link rel="stylesheet" href="style.css?v=20261024-mobile-responsive-final">
 </head>
 <body class="show-page-welcome-heading">
 <aside class="sidebar">
-   <div class="brand">
+   <div class="brand" id="siteBrand">
   <img id="siteLogo" src="public/images/logo/Logo.png" alt="SOULVAULT CARD GAME" role="button" tabindex="0" aria-label="กลับหน้า Home" title="กลับหน้า Home" onerror="this.style.display='none';this.parentElement.classList.add('logo-fallback')">
 </div>
     <nav>
@@ -19,7 +18,6 @@
       <button class="nav" data-section="collection"><span>Collaction</span></button>
       <button class="nav" data-section="deck"><span>Deck building</span></button>
       <button class="nav" data-section="drawtest"><span>Play Test</span></button>
-       <button class="nav" data-section="twoPlayer"><span>2 Player</span></button>
       <button class="nav" data-section="supply"><span>Supply</span></button>
       <button class="nav" data-section="howtoplay"><span>How to Play</span></button>
       <button class="nav" data-section="news"><span>ข่าวสาร</span></button>
@@ -398,13 +396,6 @@
           <button class="gold-btn" id="drawOneBtn">DRAW 1</button>
           <button class="danger-btn" id="resetTestBtn">RESET</button>
         </div>
-        <div class="online-play-controls" id="onlinePlayControls">
-          <span class="online-status" id="onlinePlayStatus">ONLINE: OFFLINE</span>
-          <button class="gold-btn" type="button" id="onlineCreateRoom">สร้างห้องออนไลน์</button>
-          <input id="onlineRoomCode" type="text" maxlength="8" placeholder="รหัสห้อง" aria-label="รหัสห้องออนไลน์">
-          <button class="gold-btn" type="button" id="onlineJoinRoom">เข้าร่วมห้อง</button>
-          <button class="danger-btn" type="button" id="onlineLeaveRoom">ออกจากห้อง</button>
-        </div>
       </div>
 <div id="tombViewerModal" class="modal hidden">
 
@@ -474,29 +465,7 @@
       </div>
     </section>
 
-    
-
-    <section id="twoPlayer" class="section two-player-section">
-      <div class="deck-header">
-        <div>
-          <div class="eyebrow">LOCAL MATCH</div>
-          <h2>เล่น 2 คน</h2>
-          <p>ทดลองเล่นพร้อมกันบนเครื่องเดียวกัน โดยผู้เล่นแต่ละฝั่งมีสนามและมือแยกกัน ใช้ระบบ Play Test เป็นต้นแบบ</p>
-        </div>
-      </div>
-      <div class="two-player-notice">เลือก Deck และควบคุมการจั่ว/ลากการ์ดแยกกันในแต่ละฝั่ง · ข้อมูลการเล่นของทั้งสองฝั่งแยกจากกัน</div>
-      <div class="two-player-boards">
-        <div class="two-player-board-panel">
-          <div class="two-player-player-title"><b>PLAYER 1</b><span>ผู้เล่นที่ 1</span></div>
-          <iframe title="สนามเล่น Player 1" src="index.html?twoPlayerBoard=1&player=1" loading="eager"></iframe>
-        </div>
-        <div class="two-player-board-panel">
-          <div class="two-player-player-title"><b>PLAYER 2</b><span>ผู้เล่นที่ 2</span></div>
-          <iframe title="สนามเล่น Player 2" src="index.html?twoPlayerBoard=1&player=2" loading="eager"></iframe>
-        </div>
-      </div>
-    </section>
-<section id="supply" class="section">
+    <section id="supply" class="section">
       <div class="supply-header">
         <div>
           <div class="eyebrow">SUPPLY</div>
@@ -893,7 +862,6 @@
       </div>
     </div>
   </div>
-  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
-<script src="app.js?v=20261024-home-mobile-fix2"></script>
+  <script src="app.js?v=20261024-mobile-responsive-final"></script>
 </body>
 </html>

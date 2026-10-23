@@ -611,7 +611,26 @@ document.querySelector("#detailNextBtn")?.addEventListener(
   showNextCard
 );
 document.querySelector("#modal").onclick=e=>{if(e.target.id==="modal")closeModal()};
-document.querySelector("#menuBtn").onclick=()=>document.querySelector(".sidebar").classList.toggle("open");
+const mobileMenuButton=document.querySelector("#menuBtn");
+if(mobileMenuButton){
+  mobileMenuButton.setAttribute("aria-controls","siteSidebar");
+  mobileMenuButton.setAttribute("aria-expanded","false");
+  const sidebar=document.querySelector(".sidebar");
+  if(sidebar) sidebar.id="siteSidebar";
+  mobileMenuButton.addEventListener("click",event=>{
+    event.preventDefault();
+    event.stopPropagation();
+    if(!sidebar) return;
+    const isOpen=sidebar.classList.toggle("open");
+    mobileMenuButton.setAttribute("aria-expanded",String(isOpen));
+  });
+  document.addEventListener("click",event=>{
+    if(!sidebar || !sidebar.classList.contains("open")) return;
+    if(sidebar.contains(event.target) || mobileMenuButton.contains(event.target)) return;
+    sidebar.classList.remove("open");
+    mobileMenuButton.setAttribute("aria-expanded","false");
+  });
+}
 document.querySelector("#clearRosterFilters")?.addEventListener("click",()=>{
   resetRosterFilters();
   render();
@@ -3664,129 +3683,198 @@ function setLanguage(lang){
 
 
 
-/* ===== SOULVAULT HOME PAGE INTERACTIONS (mobile-safe, scoped) ===== */
+/* ===== SOULVAULT HOME PAGE INTERACTIONS — mobile-safe ===== */
 (()=>{
   const banner=document.getElementById("svHomeBanner");
-  if(!banner || banner.dataset.homeInteractionsReady==="1") return;
-  banner.dataset.homeInteractionsReady="1";
+  if(!banner) return;
 
-  const latestHomeNews=(Array.isArray(newsList)?newsList:[])
-    .map((news,index)=>({news,index,sortDate:(()=>{
-      const match=String(news.date||"").match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
-      return match ? new Date(Number(match[3]),Number(match[2])-1,Number(match[1])).getTime() : 0;
-    })()}))
-    .sort((a,b)=>b.sortDate-a.sortDate)
-    .slice(0,3);
-  const slides=[
-    {image:"/public/images/logo/ผี.jpg",alt:"SOULVAULT — รายการการ์ด",target:"roster"},
-    ...latestHomeNews.map(({news,index})=>({
-      image:(()=>{const path=String((Array.isArray(news.images)&&news.images[0])||news.image||"").trim();return path.startsWith("/")?path:(path.startsWith("public/")?"/"+path:path);})(),
-      alt:`SOULVAULT — ข่าวสาร: ${news.title||"ข่าวสาร"}`,
-      target:"news",newsIndex:index,title:news.title||"ข่าวสาร"
-    }))
-  ];
+  const getSlides=()=>{
+    const latest=(Array.isArray(newsList)?newsList:[])
+      .map((news,index)=>({
+        news,index,
+        sortDate:(()=>{
+          const m=String(news.date||"").match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
+          return m?new Date(Number(m[3]),Number(m[2])-1,Number(m[1])).getTime():0;
+        })()
+      }))
+      .sort((a,b)=>b.sortDate-a.sortDate)
+      .slice(0,3);
+    return [
+      {image:"/public/images/logo/ผี.jpg",alt:"SOULVAULT — รายการการ์ด",target:"roster"},
+      ...latest.map(({news,index})=>{
+        const raw=String((Array.isArray(news.images)&&news.images[0])||news.image||"").trim();
+        const image=raw.startsWith("/")?raw:(raw.startsWith("public/")?"/"+raw:raw);
+        return {image,alt:`SOULVAULT — ข่าวสาร: ${news.title||"ข่าวสาร"}`,target:"news",newsIndex:index,title:news.title||"ข่าวสาร"};
+      })
+    ];
+  };
+  const slides=getSlides();
   const dotsContainer=banner.querySelector(".sv-home-dots");
   if(dotsContainer){
     dotsContainer.innerHTML=slides.map((slide,index)=>
-      `<button class="${index===0?"active":""}" type="button" data-home-slide="${index}" aria-label="แบนเนอร์ ${index+1}"></button>`
+      `<button class="${index===0?"active":""}" type="button" data-home-slide="${index}" aria-label="แบนเนอร์ ${index+1}" aria-pressed="${index===0?"true":"false"}"></button>`
     ).join("");
   }
+
   let current=0;
+  let touchStartX=0,touchStartY=0;
+  let ignoreClickUntil=0;
   const show=(index)=>{
-    if(!slides.length) return;
-    current=(index+slides.length)%slides.length;
+    current=((Number(index)||0)%slides.length+slides.length)%slides.length;
     const slide=slides[current];
     const image=document.getElementById("svHomeBannerImage");
-    if(image){image.src=slide.image;image.alt=slide.alt;}
+    if(image){
+      image.src=slide.image;
+      image.alt=slide.alt;
+    }
     banner.dataset.slide=String(current);
     banner.setAttribute("aria-label",current===0
       ?"แตะเพื่อเปิดหน้า List Card"
       :`แตะเพื่ออ่านข่าว: ${slide.title||"ข่าวสาร"}`);
     banner.querySelectorAll("[data-home-slide]").forEach((dot,i)=>{
-      dot.classList.toggle("active",i===current);
-      dot.setAttribute("aria-current",i===current?"true":"false");
+      const active=i===current;
+      dot.classList.toggle("active",active);
+      dot.setAttribute("aria-pressed",String(active));
     });
+  };
+  const goToSection=(target)=>{
+    const nav=document.querySelector(`.nav[data-section="${target}"]`);
+    if(nav){
+      nav.click();
+      return true;
+    }
+    const section=document.getElementById(target);
+    if(!section) return false;
+    document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(x=>x.classList.remove("active-section"));
+    section.classList.add("active-section");
+    document.querySelector(".sidebar")?.classList.remove("open");
+    return true;
   };
   const navigateToCurrentSlide=()=>{
     const slide=slides[current];
     if(!slide) return;
-    const nav=document.querySelector(`.nav[data-section="${slide.target}"]`);
-    if(nav) nav.click();
-    else {
-      document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
-      document.getElementById(slide.target)?.classList.add("active-section");
-      document.querySelector(".sidebar")?.classList.remove("open");
-    }
+    goToSection(slide.target);
     if(slide.target==="news" && Number.isInteger(slide.newsIndex)){
-      requestAnimationFrame(()=>{
+      // Wait briefly for the news section to become visible before opening its detail.
+      window.setTimeout(()=>{
         const card=document.querySelector(`#newsGrid .news-card[data-news-index="${slide.newsIndex}"]`);
         if(card) card.click();
-      });
+      },80);
     }
   };
 
-  // Use click for taps and desktop; touch events are only used to detect swipes.
-  let touchStartX=0,touchStartY=0,swiped=false;
+  // Use delegated/capture handling so dots and shortcut buttons remain tappable on mobile.
+  banner.addEventListener("click",event=>{
+    const dot=event.target.closest("[data-home-slide]");
+    if(dot){
+      event.preventDefault();
+      event.stopPropagation();
+      show(Number(dot.dataset.homeSlide));
+      return;
+    }
+    if(Date.now()<ignoreClickUntil) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    navigateToCurrentSlide();
+  },true);
+
+  banner.addEventListener("keydown",event=>{
+    if(event.target.closest("[data-home-slide]")) {
+      if(event.key==="Enter"||event.key===" "){
+        event.preventDefault();
+        show(Number(event.target.closest("[data-home-slide]").dataset.homeSlide));
+      }
+      return;
+    }
+    if(event.key==="Enter"||event.key===" "){
+      event.preventDefault();
+      navigateToCurrentSlide();
+    }else if(event.key==="ArrowRight"){
+      event.preventDefault();show(current+1);
+    }else if(event.key==="ArrowLeft"){
+      event.preventDefault();show(current-1);
+    }
+  });
+
   banner.addEventListener("touchstart",event=>{
     if(!event.touches||event.touches.length!==1) return;
-    touchStartX=event.touches[0].clientX;touchStartY=event.touches[0].clientY;swiped=false;
+    touchStartX=event.touches[0].clientX;
+    touchStartY=event.touches[0].clientY;
   },{passive:true});
   banner.addEventListener("touchend",event=>{
     if(!event.changedTouches||!event.changedTouches.length) return;
     const dx=event.changedTouches[0].clientX-touchStartX;
     const dy=event.changedTouches[0].clientY-touchStartY;
-    if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)*1.2){
-      swiped=true;show(current+(dx<0?1:-1));window.setTimeout(()=>{swiped=false;},450);
+    if(Math.abs(dx)>42&&Math.abs(dx)>Math.abs(dy)*1.2){
+      ignoreClickUntil=Date.now()+700;
+      show(current+(dx<0?1:-1));
     }
   },{passive:true});
-  banner.addEventListener("click",event=>{
-    const dot=event.target.closest("[data-home-slide]");
-    if(dot){event.preventDefault();event.stopPropagation();show(Number(dot.dataset.homeSlide));return;}
-    if(swiped){swiped=false;return;}
-    navigateToCurrentSlide();
-  });
-  banner.addEventListener("keydown",event=>{
-    if(event.target.closest("[data-home-slide]")) return;
-    if(event.key==="Enter"||event.key===" "){event.preventDefault();navigateToCurrentSlide();}
-    if(event.key==="ArrowRight") show(current+1);
-    if(event.key==="ArrowLeft") show(current-1);
-  });
 
-  // Never pause the carousel on touch devices: mobile browsers may emulate mouseenter
-  // after a tap and otherwise leave the timer stopped indefinitely.
-  const canHover=window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  let autoSlideTimer=window.setInterval(()=>show(current+1),2000);
-  if(canHover){
-    banner.addEventListener("mouseenter",()=>window.clearInterval(autoSlideTimer));
-    banner.addEventListener("mouseleave",()=>{
-      window.clearInterval(autoSlideTimer);
-      autoSlideTimer=window.setInterval(()=>show(current+1),2000);
-    });
-  }
-
-  const activateHomeShortcut=button=>{
-    const target=button?.dataset?.homeGo;
-    if(!target) return;
-    const nav=document.querySelector(`.nav[data-section="${target}"]`);
-    if(nav){nav.click();return;}
-    document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
-    document.getElementById(target)?.classList.add("active-section");
-    document.body.classList.toggle("show-page-welcome-heading",["home","roster"].includes(target));
-    document.querySelector(".sidebar")?.classList.remove("open");
-    if(target==="deck") initDeck();
-    if(target==="supply") initSupply();
-    if(target==="artists") renderArtistDirectory();
-    if(target==="news") renderNews();
-  };
-  // Delegate clicks so buttons still work if their labels or layout are changed.
-  document.addEventListener("click",event=>{
-    const button=event.target.closest("[data-home-go]");
-    if(!button) return;
-    event.preventDefault();activateHomeShortcut(button);
-  });
+  // Never pause on mouseenter: mobile browsers may emulate it and leave the timer stopped.
   show(0);
+  window.setInterval(()=>show(current+1),2000);
+
+  document.addEventListener("click",event=>{
+    const shortcut=event.target.closest("[data-home-go]");
+    if(!shortcut) return;
+    event.preventDefault();
+    const target=shortcut.dataset.homeGo;
+    goToSection(target);
+  },true);
 })();
 
+/* Click/tap the site logo to return to Home. */
+(()=>{
+  const logo=document.getElementById("siteLogo");
+  if(!logo) return;
+  const goHome=()=>{
+    document.querySelectorAll(".nav").forEach(button=>button.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
+    document.getElementById("home")?.classList.add("active-section");
+    document.body.classList.add("show-page-welcome-heading");
+    document.querySelector(".sidebar")?.classList.remove("open");
+    document.querySelector("#menuBtn")?.setAttribute("aria-expanded","false");
+    window.scrollTo({top:0,behavior:"auto"});
+  };
+  logo.addEventListener("click",event=>{
+    event.preventDefault();
+    goHome();
+  });
+  logo.addEventListener("keydown",event=>{
+    if(event.key==="Enter"||event.key===" "){
+      event.preventDefault();
+      goHome();
+    }
+  });
+})();
+
+
+/* Brand area is also a Home target if the logo image cannot be loaded. */
+(()=>{
+  const brand=document.getElementById("siteBrand");
+  const logo=document.getElementById("siteLogo");
+  if(!brand) return;
+  brand.addEventListener("click",event=>{
+    if(event.target===logo) return;
+    document.querySelectorAll(".nav").forEach(button=>button.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
+    document.getElementById("home")?.classList.add("active-section");
+    document.body.classList.add("show-page-welcome-heading");
+    document.querySelector(".sidebar")?.classList.remove("open");
+    document.querySelector("#menuBtn")?.setAttribute("aria-expanded","false");
+    window.scrollTo({top:0,behavior:"auto"});
+  });
+  brand.addEventListener("keydown",event=>{
+    if(event.key==="Enter"||event.key===" "){
+      event.preventDefault();
+      brand.click();
+    }
+  });
+})();
 // initialize news cards when the page loads
 renderNews(); // initialize news cards
 
@@ -3807,134 +3895,26 @@ window.addEventListener("load", () => {
 }, { once: true });
 
 
-/* Click/tap the site logo to return to Home. */
-(()=>{
-  const logo=document.getElementById("siteLogo");
-  if(!logo || logo.dataset.homeLogoReady==="1") return;
-  logo.dataset.homeLogoReady="1";
-  const goHome=event=>{
-    if(event){event.preventDefault();event.stopPropagation();}
-    const homeNav=document.querySelector('.nav[data-section="home"]');
-    if(homeNav){homeNav.click();return;}
-    document.querySelectorAll(".nav").forEach(button=>button.classList.remove("active"));
-    document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
-    document.getElementById("home")?.classList.add("active-section");
+/* Click the site logo to return to Home; Home no longer needs a sidebar menu item. */
+(() => {
+  const logo = document.getElementById("siteLogo");
+  if (!logo) return;
+
+  const goHome = () => {
+    document.querySelectorAll(".nav").forEach(button => button.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(section => section.classList.remove("active-section"));
+    const home = document.getElementById("home");
+    if (home) home.classList.add("active-section");
     document.body.classList.add("show-page-welcome-heading");
     document.querySelector(".sidebar")?.classList.remove("open");
-    window.scrollTo({top:0,behavior:"auto"});
+    window.scrollTo({ top: 0, behavior: "auto" });
   };
-  logo.addEventListener("click",goHome);
-  logo.addEventListener("keydown",event=>{
-    if(event.key==="Enter"||event.key===" ") goHome(event);
-  });
-})();
 
-/* ===== ONLINE SHARED PLAYMAT (PeerJS) — additive; Play Test rules remain unchanged ===== */
-(function initOnlinePlaytest(){
-  const status=document.getElementById("onlinePlayStatus");
-  if(!status)return;
-  const createBtn=document.getElementById("onlineCreateRoom");
-  const joinBtn=document.getElementById("onlineJoinRoom");
-  const leaveBtn=document.getElementById("onlineLeaveRoom");
-  const codeInput=document.getElementById("onlineRoomCode");
-  let peer=null, connection=null, isHost=false, applyingRemote=false, lastSent="";
-  const roomPrefix="soulvault-match-";
-  const setStatus=(message,connected=false)=>{
-    status.textContent=message;
-    status.classList.toggle("is-connected",connected);
-  };
-  const getSnapshot=()=>{
-    try{
-      return {
-        testDeck,testStack,testHand,testTomb,testEnergyCards,testPocketCards,testTurn,
-        testBoard,testMasterGear,testSoulCoreUnderZone,testSpecialRotation,testZoneFlipped
-      };
-    }catch(_){return null;}
-  };
-  const fingerprint=value=>JSON.stringify(value);
-  const sendSnapshot=()=>{
-    if(!connection||!connection.open||applyingRemote)return;
-    const state=getSnapshot();
-    if(!state)return;
-    const encoded=fingerprint(state);
-    if(encoded===lastSent)return;
-    lastSent=encoded;
-    try{connection.send({type:"soulvault-state",state});}catch(_){}
-  };
-  const applySnapshot=state=>{
-    if(!state||typeof state!=="object")return;
-    applyingRemote=true;
-    try{
-      if("testDeck" in state)testDeck=state.testDeck;
-      ["testStack","testHand","testTomb","testEnergyCards","testPocketCards","testTurn","testBoard","testMasterGear","testSoulCoreUnderZone","testSpecialRotation","testZoneFlipped"].forEach(key=>{
-        if(key in state)window[key]=state[key];
-      });
-      // These variables are lexical bindings, so assign them explicitly.
-      testStack=state.testStack||[];
-      testHand=state.testHand||[];
-      testTomb=state.testTomb||[];
-      testEnergyCards=state.testEnergyCards||[];
-      testPocketCards=state.testPocketCards||[];
-      testTurn=Number(state.testTurn)||0;
-      testBoard=state.testBoard||{freeCards:[],characters:[]};
-      testMasterGear=state.testMasterGear||[];
-      testSoulCoreUnderZone=state.testSoulCoreUnderZone||[];
-      testSpecialRotation=state.testSpecialRotation||{master:0};
-      testZoneFlipped=state.testZoneFlipped!==false;
-      lastSent=fingerprint(getSnapshot());
-      if(typeof renderTest==="function")renderTest();
-    }catch(error){console.warn("Online state sync failed",error);}
-    finally{applyingRemote=false;}
-  };
-  const teardown=(message="ONLINE: OFFLINE")=>{
-    try{connection?.close();}catch(_){}
-    try{peer?.destroy();}catch(_){}
-    connection=null;peer=null;isHost=false;lastSent="";
-    setStatus(message,false);
-  };
-  const wireConnection=conn=>{
-    connection=conn;
-    conn.on("open",()=>{
-      setStatus("ONLINE: CONNECTED",true);
-      if(isHost)sendSnapshot();
-      else { try{conn.send({type:"soulvault-request-state"});}catch(_){} }
-    });
-    conn.on("data",message=>{
-      if(!message)return;
-      if(message.type==="soulvault-state"){
-        if(isHost){applySnapshot(message.state);sendSnapshot();}
-        else applySnapshot(message.state);
-      }else if(message.type==="soulvault-request-state"&&isHost)sendSnapshot();
-    });
-    conn.on("close",()=>{connection=null;setStatus("ONLINE: DISCONNECTED",false);});
-    conn.on("error",()=>setStatus("ONLINE: CONNECTION ERROR",false));
-  };
-  createBtn?.addEventListener("click",()=>{
-    teardown("กำลังสร้างห้อง...");
-    if(!window.Peer){setStatus("โหลดระบบออนไลน์ไม่สำเร็จ");return;}
-    const room=(Math.floor(100000+Math.random()*900000)).toString();
-    codeInput.value=room;
-    isHost=true;
-    peer=new Peer(roomPrefix+room);
-    peer.on("open",()=>setStatus("ห้อง "+room+" พร้อมให้เข้าร่วม",true));
-    peer.on("connection",conn=>{if(connection){conn.close();return;}wireConnection(conn);});
-    peer.on("error",error=>{
-      if(error.type==="unavailable-id")setStatus("รหัสห้องซ้ำ กรุณาสร้างห้องใหม่");
-      else setStatus("สร้างห้องไม่สำเร็จ: "+(error.type||"network"));
-    });
+  logo.addEventListener("click", goHome);
+  logo.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      goHome();
+    }
   });
-  joinBtn?.addEventListener("click",()=>{
-    const room=(codeInput.value||"").trim().replace(/\s/g,"");
-    if(!/^\d{6}$/.test(room)){setStatus("กรุณาใส่รหัสห้อง 6 หลัก");return;}
-    teardown("กำลังเข้าร่วมห้อง...");
-    if(!window.Peer){setStatus("โหลดระบบออนไลน์ไม่สำเร็จ");return;}
-    peer=new Peer();
-    peer.on("open",()=>wireConnection(peer.connect(roomPrefix+room,{reliable:true})));
-    peer.on("error",error=>setStatus("เชื่อมต่อไม่สำเร็จ: "+(error.type||"network")));
-  });
-  leaveBtn?.addEventListener("click",()=>teardown());
-  window.addEventListener("beforeunload",()=>{try{connection?.close();peer?.destroy();}catch(_){}});
-  // renderTest and board interactions update these shared state objects; polling also
-  // captures mutations made by drag/rotate controls without modifying their handlers.
-  setInterval(sendSnapshot,500);
 })();
