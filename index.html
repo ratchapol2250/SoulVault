@@ -4,16 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOULVAULT CARD GAME — การ์ดทั้งหมด</title>
-  <link rel="stylesheet" href="style.css?v=20261022-home">
+  <link rel="stylesheet" href="style.css?v=20261023-unified-card-filters">
 </head>
-<body>
+<body class="show-page-welcome-heading">
 <aside class="sidebar">
    <div class="brand">
-  <img id="siteLogo" src="public/images/logo/Logo.png" alt="SOULVAULT CARD GAME" onerror="this.style.display='none';this.parentElement.classList.add('logo-fallback')">
+  <img id="siteLogo" src="public/images/logo/Logo.png" alt="SOULVAULT CARD GAME" role="button" tabindex="0" aria-label="กลับหน้า Home" title="กลับหน้า Home" onerror="this.style.display='none';this.parentElement.classList.add('logo-fallback')">
 </div>
     <nav>
 	
-      <button class="nav active" data-section="home"><span>Home</span></button>
       <button class="nav" data-section="roster"><span>List Card</span></button>
        <button class="nav" data-section="artists"><span>Artists</span></button>
       <button class="nav" data-section="collection"><span>Collaction</span></button>
@@ -21,6 +20,7 @@
       <button class="nav" data-section="drawtest"><span>Play Test</span></button>
       <button class="nav" data-section="supply"><span>Supply</span></button>
       <button class="nav" data-section="howtoplay"><span>How to Play</span></button>
+      <button class="nav" data-section="news"><span>ข่าวสาร</span></button>
     </nav>
     <div class="sidebar-bottom">
       <div class="version">SOULVAULT v1.0</div>
@@ -30,7 +30,7 @@
   <main>
     <header class="topbar">
       <button class="mobile-menu" id="menuBtn">☰</button>
-      <div>
+      <div class="page-welcome-heading">
         <div class="eyebrow">Official</div>
         <h1>Welcome Na Kub</h1>
       </div>
@@ -103,6 +103,11 @@
       <option value="Common">COMMON</option>
     </select>
 
+    <div class="numeric-filter-group" aria-label="กรองค่าคอสและพลัง">
+      <label>ค่าคอส <span>ช่วงต่ำสุด–สูงสุด</span><div class="numeric-filter-inputs"><input id="costMinFilter" type="number" min="0" max="10" step="1" placeholder="ต่ำสุด" aria-label="ค่าคอสต่ำสุด"><span>–</span><input id="costMaxFilter" type="number" min="0" max="10" step="1" placeholder="สูงสุด" aria-label="ค่าคอสสูงสุด"></div></label>
+      <label>พลัง <span>ช่วงต่ำสุด–สูงสุด</span><div class="numeric-filter-inputs"><input id="powerMinFilter" type="number" min="0" max="3000" step="100" placeholder="ต่ำสุด" aria-label="พลังต่ำสุด"><span>–</span><input id="powerMaxFilter" type="number" min="0" max="3000" step="100" placeholder="สูงสุด" aria-label="พลังสูงสุด"></div></label>
+    </div>
+
     <button class="clear-filter-btn" id="clearRosterFilters">
       ✕ เคลียร์ตัวกรอง
     </button>
@@ -122,6 +127,11 @@
       <div class="artist-toolbar">
         <div class="search-wrap"><span>⌕</span><input id="artistSearch" type="search" placeholder="ค้นหาชื่อนักวาดหรือชื่อการ์ด..."></div>
         <select id="artistFilter"><option value="All">นักวาดทั้งหมด</option></select>
+        <div class="numeric-filter-group" aria-label="กรองค่าคอสและพลัง">
+          <label>ค่าคอส <span>ช่วงต่ำสุด–สูงสุด</span><div class="numeric-filter-inputs"><input id="artistCostMinFilter" type="number" min="0" max="10" step="1" placeholder="ต่ำสุด" aria-label="ค่าคอสต่ำสุด"><span>–</span><input id="artistCostMaxFilter" type="number" min="0" max="10" step="1" placeholder="สูงสุด" aria-label="ค่าคอสสูงสุด"></div></label>
+          <label>พลัง <span>ช่วงต่ำสุด–สูงสุด</span><div class="numeric-filter-inputs"><input id="artistPowerMinFilter" type="number" min="0" max="3000" step="100" placeholder="ต่ำสุด" aria-label="พลังต่ำสุด"><span>–</span><input id="artistPowerMaxFilter" type="number" min="0" max="3000" step="100" placeholder="สูงสุด" aria-label="พลังสูงสุด"></div></label>
+        </div>
+        <button class="clear-filter-btn" id="clearArtistFilters" type="button">✕ เคลียร์ตัวกรอง</button>
       </div>
       <div id="artistProfiles" class="artist-profile-grid"></div>
       <div class="artist-cards-heading"><h3>การ์ดของนักวาด</h3><span id="artistCardCount">0 ใบ</span></div>
@@ -173,6 +183,10 @@
         <select id="collectionViewFilter">
           <option value="wanted">การ์ดใน Collection</option>
         </select>
+        <div class="numeric-filter-group" aria-label="กรองค่าคอสและพลัง">
+          <label>ค่าคอส <span>ช่วงต่ำสุด–สูงสุด</span><div class="numeric-filter-inputs"><input id="collectionCostMinFilter" type="number" min="0" max="10" step="1" placeholder="ต่ำสุด" aria-label="ค่าคอสต่ำสุด"><span>–</span><input id="collectionCostMaxFilter" type="number" min="0" max="10" step="1" placeholder="สูงสุด" aria-label="ค่าคอสสูงสุด"></div></label>
+          <label>พลัง <span>ช่วงต่ำสุด–สูงสุด</span><div class="numeric-filter-inputs"><input id="collectionPowerMinFilter" type="number" min="0" max="3000" step="100" placeholder="ต่ำสุด" aria-label="พลังต่ำสุด"><span>–</span><input id="collectionPowerMaxFilter" type="number" min="0" max="3000" step="100" placeholder="สูงสุด" aria-label="พลังสูงสุด"></div></label>
+        </div>
 		<button class="clear-filter-btn" id="clearCollectionFilters">
   ✕ เคลียร์ตัวกรอง
 </button>
@@ -309,6 +323,10 @@
           <option value="Rare">RARE</option>
           <option value="Common">COMMON</option>
         </select>
+        <div class="numeric-filter-group" aria-label="กรองค่าคอสและพลัง">
+          <label>ค่าคอส <span>ช่วงต่ำสุด–สูงสุด</span><div class="numeric-filter-inputs"><input id="deckCostMinFilter" type="number" min="0" max="10" step="1" placeholder="ต่ำสุด" aria-label="ค่าคอสต่ำสุด"><span>–</span><input id="deckCostMaxFilter" type="number" min="0" max="10" step="1" placeholder="สูงสุด" aria-label="ค่าคอสสูงสุด"></div></label>
+          <label>พลัง <span>ช่วงต่ำสุด–สูงสุด</span><div class="numeric-filter-inputs"><input id="deckPowerMinFilter" type="number" min="0" max="3000" step="100" placeholder="ต่ำสุด" aria-label="พลังต่ำสุด"><span>–</span><input id="deckPowerMaxFilter" type="number" min="0" max="3000" step="100" placeholder="สูงสุด" aria-label="พลังสูงสุด"></div></div>
+        </div>
 		<button class="clear-filter-btn" id="clearDeckFilters">
   ✕ เคลียร์ตัวกรอง
 </button>
@@ -339,6 +357,20 @@
         </div>
       </div>
     </section>
+<div id="deckViewerModal" class="modal hidden">
+  <div class="cover-picker-modal deck-viewer-modal">
+    <button class="close" id="closeDeckViewer" type="button" aria-label="ปิด">×</button>
+    <h2>ดูการ์ดใน DECK</h2>
+    <p id="deckViewerSummary">เลือกจำนวนการ์ดที่ต้องการดู จากนั้นคลิกการ์ดเพื่อเลือกขึ้น HAND หรือลงสนาม</p>
+    <div class="deck-viewer-choices" role="group" aria-label="เลือกจำนวนการ์ด">
+      <button type="button" data-deck-view-count="1">1 ใบ</button>
+      <button type="button" data-deck-view-count="5">5 ใบ</button>
+      <button type="button" data-deck-view-count="10">10 ใบ</button>
+      <button type="button" data-deck-view-count="all">ทั้งหมด</button>
+    </div>
+    <div id="deckViewerGrid" class="deck-picker-grid deck-viewer-grid"></div>
+  </div>
+</div>
 <div id="deckPickerModal" class="modal hidden">
   <div class="cover-picker-modal deck-picker-modal">
 
@@ -389,21 +421,32 @@
       </div>
 
       <div class="manual-playtest">
-        <div class="manual-playmat" id="playBoard">
-          <div class="playmat-hint">ลากการ์ดจาก HAND มาวางตรงไหนก็ได้</div>
+        <div class="manual-playmat playmat60-board" id="playBoard" aria-label="สนามเล่นตามเพลแมต 60">
+          <div class="playmat-hint">ลากการ์ดจาก HAND ไปวางบนช่องเพลแมต · ดับเบิลคลิกการ์ดเพื่อส่ง TOMB</div>
+          <div id="testEnergyArea" class="test-energy-area" aria-label="ช่อง Energy">
+            <button id="addEnergyBtn" class="energy-add-btn energy-icon-btn" type="button" title="นำการ์ดใบบนสุดจาก Deck มาวางคว่ำใน Energy" aria-label="เพิ่ม Energy"><img src="public/images/icon/E.png" alt="เพิ่ม Energy"></button>
+            <div id="testEnergyCards" class="test-energy-cards"></div>
+            <button id="payEnergyBtn" class="energy-pay-btn energy-icon-btn" type="button" title="จ่ายการ์ด Energy ใบบนสุดลง Tomb" aria-label="จ่าย Energy ลง Tomb"><img src="public/images/icon/E.png" alt="จ่าย Energy"><span class="energy-pay-cross" aria-hidden="true">×</span></button>
+            <span id="testEnergyCount" class="test-energy-count">0 ใบ</span>
+          </div>
           <div class="board-piles">
-            <div class="board-pile" id="testDeckPile" title="คลิกเพื่อจั่ว 1 ใบ">
-              <span>DECK</span><b id="pileCount">0</b>
+            <div class="board-pile" id="testDeckPile" title="จำนวนการ์ดที่เหลือใน Deck">
+              <span aria-hidden="true">▤</span><b id="pileCount">0</b>
             </div>
-            <div class="board-pile tomb-pile-manual" id="testTombPile" title="สุสาน">
-              <span>TOMB</span><b id="tombCount">0</b>
+            <button class="pile-action-btn deck-draw-action" id="deckDrawAction" type="button" title="จั่วการ์ด 1 ใบ">＋ จั่ว 1 ใบ</button>
+            <button class="pile-action-btn deck-top-tomb-action" id="deckTopToTombAction" type="button" title="นำการ์ดใบบนสุดจาก Deck ลง Tomb 1 ใบ">↓ Deck ลง Tomb 1 ใบ</button>
+            <button class="pile-action-btn deck-shuffle-action" id="deckShuffleAction" type="button" title="สลับลำดับการ์ดที่เหลือใน Deck">⤨ สลับ Deck</button>
+            <div class="board-pile tomb-pile-manual" id="testTombPile" title="จำนวนการ์ดใน Tomb">
+              <b id="tombCount">0</b>
             </div>
           </div>
           <div id="testBoardCards" class="test-board-cards"></div>
+          <div id="testCharacterSlots" class="test-character-slots" aria-label="ช่องวาง Character"></div>
           <div id="testMasterCard" class="test-special-card test-master-card"></div>
           <div id="testZoneCard" class="test-special-card test-zone-card"></div>
           <div id="testSoulCoreUnderZone" class="test-soul-core-under-zone"></div>
           <div id="testSoulCoreCards" class="test-soul-core-cards"></div>
+          <div id="testPocketZone" class="test-pocket-zone" role="button" tabindex="0" aria-label="เลือกการ์ด Pocket มาวางที่ช่อง Pocket"><span class="test-pocket-zone-label"><img class="test-pocket-zone-icon" src="public/images/icon/Pocket.png" alt="Pocket"><b id="testPocketZoneCount">0</b></span><div id="testPocketCards" class="test-pocket-cards"></div></div>
         </div>
 
         <div class="manual-hand-panel">
@@ -417,6 +460,7 @@
 
       <div class="playtest-actions">
         <button class="gold-btn" id="drawPileBtn">DRAW 1 CARD</button>
+        <button class="gold-btn pocket-rotate-vertical-action" type="button" onclick="rotateAllPocketVertical()" title="เปลี่ยนการ์ด Pocket ทุกใบให้เป็นแนวตั้ง">↻ เปลี่ยน Pocket ทั้งหมดเป็นแนวตั้ง</button>
         <span>คลิกการ์ดในสนามเพื่อดูรายละเอียด · ลากการ์ดบนสนามเพื่อย้ายตำแหน่ง</span>
       </div>
     </section>
@@ -506,15 +550,13 @@
 
     <section id="howtoplay" class="section howtoplay-section">
       <div class="howtoplay-hero">
-        <div class="howtoplay-kicker">SOULVAULT CARD GAME</div>
-        <h2>HOW TO PLAY</h2>
-        <p>รู้การจัดเด็คและองค์ประกอบของเกม SOULVAULT</p>
+        <h2><span class="text-red">HOW TO PLAY</span></h2>
+        <p>รายละเอียดการเล่น SOULVAULT</p>
         <div class="howtoplay-ruleline"></div>
-        <span class="howtoplay-note">คู่มือเริ่มต้น</span>
       </div>
 
       <div class="howtoplay-navcards">
-        <a href="#ht-start">01 <span>พื้นฐาน</span></a>
+        <a href="#ht-start">01 <span>วิธีเล่นพื้นฐานฉบับชุดการ์ดปกติ</span></a>
         <a href="#ht-deck">02 <span>การจัดเด็ค</span></a>
         <a href="#ht-types">03 <span>ประเภทการ์ด</span></a>
         <a href="#ht-keywords">04 <span>คำศัพท์บนการ์ด</span></a>
@@ -522,52 +564,92 @@
 
       <article class="howtoplay-panel" id="ht-start">
         <div class="howtoplay-section-label">01 / HOW TO PLAY</div>
-        <h3>พื้นฐาน</h3>
-        <p>เฟสเบื้องต้น<br>
-เริ่มเทิร์น - Pocket Phase - Main Phase - End Phase <br>
-Pocket Phase = จั่วการ์ด 1 ใบ ทำการหา Pocket รวมกัน 2 ใบจาก เด็ค , Tomp , Energy ,การ์ดบนมือหากนำจากบนมือให้ทำการจั่วการ์ด1ใบ,หากนำจากในเด็คให้สลับกองการ์ด,หากนำจาก Energy,ให้ทำการนำการ์ดใบบนสุดไปวางคว่ำหน้าที่เป็น Energy แทน สามารถเลือกได้ว่าจะจั่วการ์ดหรือหาPocketก่อน<br>
-Main Phase = สามารถลง Character ใช้งาน Acrion ติดตั้ง Gear เปิดใช้งาน Zone ได้ ใช้ความสามารถที่ไม่มี Counter <br>
-สามารถสั่งโจมตี, สามารถขโมย Soul Core ,สามารถใช้งาน untiment ได้,สามารสั่งใช้งานความสามารถได้ <br>
-End Phase = ใช้ความสามารถเมื่อจบเทิร์นและเปลี่ยนให้ฝั่งตรงข้ามเล่นต่อ<br>
+        <h3>วิธีเล่นพื้นฐานฉบับชุดการ์ดปกติ</h3>
+        <p><span class="text-red">Phase </span>เบื้องต้น<br>
+เริ่มเทิร์น - <span class="text-red">Pocket Phase</span> - <span class="text-red">Main Phase</span> - <span class="text-red">End Phase</span> <br>
+<span class="text-red">Pocket Phase =</span> ในช่วงนี้จะมีการกระทำ <span class="text-red">2</span> อย่างคือ <br>
+<span class="text-red">1</span> ) ทำการเปลี่ยนสภาพการ์ดบนสนามเป็นสภาพ <span class="text-red">OK</span> จากสภาพ <span class="text-red">Don't</span> และ จั่วการ์ด <span class="text-red">1</span> ใบ<br> 
+<span class="text-red">2</span> ) ทำการหา <span class="text-red">Pocket</span> รวมกัน <span class="text-red">1-2</span> ใบจาก <span class="text-red">เด็ค</span>, <span class="text-red">Tomp</span>, <span class="text-red">Energy, </span> <span class="text-red">การ์ดบนมือ</span> หากนำจากบนมือให้ทำการจั่วการ์ด <span class="text-red">1</span> ใบ, หากนำจากในเด็คให้สลับกองการ์ด, หากนำจาก <span class="text-red">Energy</span>, ให้ทำการนำการ์ดใบบนสุดไปวางคว่ำหน้าที่เป็น <span class="text-red">Energy</span> แทน <br>
+โดยทั้ง <span class="text-red">2</span> อย่างนี้จะต้องทำ ให้ครบ และสามารถเรียงลำดับได้ว่าจะทำขั้นตอนไหนก่อน<br>
+<span class="text-red">Main Phase =</span> สามารถลง <span class="text-red">Character</span>, ใช้งาน <span class="text-red">Action</span>, ติดตั้ง <span class="text-red">Gear</span>, เปิดใช้งาน <span class="text-red">Zone</span>, ใช้ความสามารถ <br>
+สั่งโจมตี, ขโมย <span class="text-red">Soul Core</span>, ใช้งาน <span class="text-red">Ultimant</span>, สั่งใช้งานความสามารถ <span class="text-red">Activat</span> <br>
+<span class="text-red">End Phase =</span> ใช้ความสามารถเมื่อจบเทิร์นและเปลี่ยนให้ฝั่งตรงข้ามเล่นต่อ<br>
+<span class="text-red">Critical Condition =</span> ช่วงนี้จะเป็นพิเศษที่เพิ่มขึ้นมาจากช่วงปกติ โดยเงื่อนไขการเพิ่มขึ้นมาคือเมื่อผ่านเทิร์นที่ <span class="text-red">6</span> ของผู้เล่นแต่ละคน จะทำให้ผู้เล่นนั้นได้รับช่วง <span class="text-red">Critical Condition</span> ในช่วงก่อน <span class="text-red">End Phase</span>  
 <br>
 <br>
 วิธีการเล่นพื้นฐาน<br>
-1 ) เริ่มเกม การ์ดบนมือ 5 ใบ หากบนมือมีการ์ด Pocket 4 หรือ 5 ใบ ให้แสดงการ์ดบนมือทั้งหมดให้คู่แข่งเห็นและนำการ์ดบนมือทั้งหมดสลับกลับกองการ์ด จากนั้นจั่วใหม่ 5 ใบ จากนั้น นำการ์ด Soul Core ไปวางที่ SC Area และนำการ์ด Master กับ Zone ไปวางที่โซน M และ Z <br>
-2 ) Pocket Phase คนเริ่มแรกจะไม่ได้จั่วการ์ด แล้วให้หาการ์ด Pocket จากที่ไหนก็ได้ ไม่ว่าจะเป็น กองการ์ด, Tomp, บนมือ, Energy แล้วเอามาวางที่ Pocket Area ถ้าเอาจากมือให้จั่วการ์ดตามจำนวน และ ถ้าเอาจาก Energy ให้นำใบบนสุดจากกองไปคว่ำหน้าไว้ตรง Energy Area ตามจำนวน ขั้นตอนนี้จะจั่วก่อนหรือจะหา Pocket ก่อนก็ได้<br>
-3 ) Main Phase ช่วงนี้จะทำได้ทุกอย่างเลย ลงการ์ดจากมือ ใช้ความสามารถของการ์ด ประกาศโจมตีหรือขโมย เปิดใช้งาน Zone วิธีการลงการ์ด character จะต้องเปลี่ยนสภาพของการ์ด Pocket ให้เป็นสภาพ Don't ตามจำนวนค่าคอสมุมซ้ายบนเลย Action และ Gear ก็วิธีเดียวกัน วิธีการโจมตีและขโมย ให้เปลี่ยนสภาพของการ์ดที่จะโจมตีหรือขโมย เป็น Don't เพื่อทำการโจมตีใครที่มีพลังมากกว่าจะเป็นคนชนะ หากมีพลังเท่ากัน คนที่โจมตีจะเป็นฝ่ายชนะ<br>
-4 ) ช่วง End Phase จะสามารถใช้งานความสามารถที่บอกว่าเมื่อจบเทิร์นได้จากนั้นให้คู่แข่งเล่นต่อได้เลย <br>
+<span class="text-red">1</span> ) เริ่มเกม จั่วการ์ดขึ้นมือ <span class="text-red">5</span> ใบ หากบนมือมีการ์ด <span class="text-red">Pocket</span> <span class="text-red">4</span> หรือ <span class="text-red">5</span> ใบ ให้แสดงการ์ดบนมือทั้งหมดให้คู่แข่งเห็นและนำการ์ดบนมือทั้งหมดสลับกลับกองการ์ด จากนั้นจั่วใหม่ <span class="text-red">5</span> ใบ <span class="text-red">(</span>หากมี <span class="text-red">Pocket</span> <span class="text-red">3</span> ใบหรือน้อยกว่าจะไม่สามารถเปลี่ยนได้<span class="text-red">)</span> จากนั้น นำการ์ด <span class="text-red">Soul</span> <span class="text-red">Core</span> ไปวางที่โซน <span class="text-red">SC</span>  และนำการ์ด <span class="text-red">Master</span> กับ <span class="text-red">Zone</span> ไปวางที่โซน <span class="text-red">M</span> และ <span class="text-red">Z</span> <br>
+<span class="text-red">2</span> ) <span class="text-red">Pocket</span> <span class="text-red">Phase</span> จะต้องทำทั้ง <span class="text-red">2</span> ตัวเลือก <br>
+    <span class="text-red">2.1</span> ) ทำการเปลี่ยนสภาพการ์ดบนสนามเป็นสภาพ <span class="text-red">Ok</span> จากสภาพ <span class="text-red">Don't</span> และ จั่วการ์ด <span class="text-red">1</span> ใบ <br>
+	<span class="text-red">2.2</span> ) หาการ์ด <span class="text-red">Pocket</span> จากที่ไหนก็ได้ ไม่ว่าจะเป็น กองการ์ด, <span class="text-red">Tomp</span>, บนมือ, <span class="text-red">Energy</span> รวมกัน <span class="text-red">1-2</span> ใบแล้วเอามาวางที่ <span class="text-red">Pocket</span> <span class="text-red">Area</span> ถ้าเอาจากมือให้จั่วการ์ดตามจำนวน และ ถ้าเอาจาก <span class="text-red">Energy</span> ให้นำใบบนสุดจากกองไปคว่ำหน้าไว้ตรง <span class="text-red">Energy</span> <span class="text-red">Area</span> ตามจำนวน และหลังจากนั้น หากคุณนำการ์ด<span class="text-red">Pocket</span>มาวางที่<span class="text-red">Pocket</span> <span class="text-red">Area</span> <span class="text-red">1</span> ใบ ให้จั่วการ์ดเพิ่ม <span class="text-red">1</span> ใบ <span class="text-red">(</span>ยกเว้นบน<span class="text-red">Pocket</span> <span class="text-red">Area</span> ของคุณมี<span class="text-red">Pocket</span> ครบ <span class="text-red">10</span> ใบ แล้วเงื่อนไขนี้จะไม่ทำงาน<span class="text-red">)</span><br>
+	ขั้นตอนนี้จะจั่วก่อนหรือจะหา <span class="text-red">Pocket</span> ก่อนก็ได้<br>
+<span class="text-red">3</span> ) <span class="text-red">Main</span> <span class="text-red">Phase</span> ช่วงนี้จะทำได้ทุกอย่างเลย ลงการ์ดจากมือ ใช้ความสามารถของการ์ด ประกาศโจมตีหรือขโมย เปิดใช้งาน <span class="text-red">Zone</span> วิธีการลงการ์ด <span class="text-red">character</span> จะต้องเปลี่ยนสภาพของการ์ด <span class="text-red">Pocket</span> ให้เป็นสภาพ <span class="text-red">Don't</span> ตามจำนวนค่าคอสมุมซ้ายบน <span class="text-red">Action</span> และ <span class="text-red">Gear</span> ก็วิธีเดียวกัน วิธีการโจมตีและขโมย ให้เปลี่ยนสภาพของการ์ดที่จะโจมตีหรือขโมย เป็น <span class="text-red">Don't</span> เพื่อทำการโจมตีใครที่มีพลังมากกว่าจะเป็นคนชนะ หากมีพลังเท่ากัน คนที่โจมตีจะเป็นฝ่ายชนะ<br>
+<span class="text-red">4</span> ) ช่วง <span class="text-red">End</span> <span class="text-red">Phase</span> จะสามารถใช้งานความสามารถที่บอกว่าเมื่อจบเทิร์นได้จากนั้นให้คู่แข่งเล่นต่อ <br>
 <br>
 <br>
-เงื่อนไขการจบเกม มีทั้งหมด 4 แบบ <br>
-1 ) Soul Core ฝ่ายใดหมดก่อนจะถือว่าแพ้<br>
-2 ) มีฝ่ายใดขโมย Soul Core ได้ 7 ใบก่อนจะถือว่าชนะ<br>
-3 ) เมื่อกองการ์ดของฝ่ายใดหมด จะถือว่าแพ้<br>
-4 ) สามารถชนะด้วยเงื่อนไขพิเศษของการ์ดได้<br>
+เงื่อนไขการจบเกม มีทั้งหมด <span class="text-red">4</span> แบบ <br>
+<span class="text-red">1</span> ) <span class="text-red">Soul</span> <span class="text-red">Core</span> ฝ่ายใดหมดก่อนและโจมตี <span class="text-red">Master</span> อีก <span class="text-red">1</span> รอบจะถือว่าชนะ<br>
+<span class="text-red">2</span> ) มีฝ่ายใดขโมย <span class="text-red">Soul</span> <span class="text-red">Core</span> ได้ <span class="text-red">7</span> ใบก่อนและโจมตี <span class="text-red">Master</span> อีก <span class="text-red">1</span> รอบจะถือว่าชนะ <br>
+<span class="text-red">3</span> ) เมื่อไม่สามารถจั่วการ์ดได้จะถือว่าแพ้<br>
+<span class="text-red">4</span> ) สามารถชนะด้วยเงื่อนไขพิเศษของการ์ดได้<br>
 <br>
 <br>
 กฏเกมพื้นฐาน<br>
-1 ) คนเริ่มคนแรกจะไม่ได้จั่วการ์ด ตอน Pocket Phase (ถ้านำ Pocket จากมือไปวางยังได้จั่วเหมือนเดิมนะ)<br>
-2 ) การ์ด Action จะใช้ได้ก็ต่อเมื่ออยู่ใน Main phase เทิร์นตัวเอง ยกเว้นใบนั้นจะมี counter ถึงจะใช้ในเทิร์นอีกฝ่ายได้ <br>
-3 ) ความสามารถของการ์ดถ้าไม่ได้บอกว่าใช้ในเทิร์นอีกฝ่ายได้หรือมี counter จะไม่สามารถใช้ในเทิร์นคู่แข่งได้ ต้องใช้งานใน Main Phase เท่านั้น<br>
-4 ) ความสามารถ Forever จะทำงานตลอดต่อเมื่อเงื่อนไขครบ <br>
-5 ) เมื่อใช้ Ultimant แล้ว จะไม่สามารถใช้การ์ดอื่นได้อีกและไม่สามารถโจมตีได้อีก ยกเว้นจะมีความสามารถของท่าไม้ตายทำให้ตีได้ <br>
-6 ) จะเปิดการ์ด Zone ได้ต่อเมื่อใน Main Phase เทิร์นตัวเองเท่านั้น<br>
-7 ) เมื่อ character ลงบนสนาม จะสามารถโจมตีหรือขโมยได้ทันทียกเว้นจะมีความสามารถทำให้โจมตีไม่ได้ <br>
-8 ) การ์ด Gear จะสามารถสวมใส่ให้ได้เฉพาะการ์ดตามเงื่อนไขเท่านั้น<br>
-9 ) การ์ด Master จะสามารถจะสามารถเปิดZoneได้เฉพาะชื่อ Zone บนการ์ดเท่านั้น<br>
-10 ) Character ถ้าช่องเต็ม4ช่องไม่สามารถลงเพิ่มหรือทับได้นอกจากจะมีความสามารถที่ทำให้เกิดขึ้นได้<br>
-11 ) การ์ดใน Underworld ถือเป็นการ์ดที่อยู่ด้านนอกเกม ไม่สามารถนำออกมาได้ นอกจากจะมีความสามารถเจาะจง<br>
-12 ) character 1ใบ สามารถ สวมใส่ Gear ได้ 1 ใบเท่านั้น ยกเว้นจะมีความสามารถเพิ่มเติม<br>
-13 ) การจ่ายหรือขโมยการ์ด Enenegy Soul จะต้องเปิดการ์ดใบแรกสุดจากด้านบนเสมอ<br>
-14 ) ฝ่ายโจมตีถ้าพลังเท่ากับหรือน้อยกว่าฝ่ายรับ ฝ่ายตีจะไม่ตายจากการต่อสู้ <br>
-15 ) ถ้ามีการทอยลูกเต๋า ต้องทอยลูกเต๋าที่มีจำนวนหน้าตามที่การ์ดบอกเท่านั้น เช่น D6 D12 D20 <br>
-16 ) ถ้ามีการทอยเหรียญ จะต้องเป็นเหรียญที่มีหัวก้อยเท่านั้น <br>
-17 ) คนที่ชนะการทอยลูกเต๋าหรือชนะอะไรก็ตามๆที่ตกลง จะมีสิทธิ์เลือกเล่นก่อนหลังได้<br>
-18 ) หากเมื่อโจมตีแล้วพลังเท่ากันฝ่ายโจมตีหรือขโมยจะเป็นฝ่ายชนะเสมอ<br>
-19 ) เมื่อเปิด Zone จะไม่ถือว่าเป็นการกระทำไม่สามารถใช้งาน Counter ได้ต่อเมื่อใน<br>
-20 ) Soul Core จะต้องเรียงลำดับตามเลขของการ์ดเท่านั้น<br>
+<span class="text-red">1</span> ) คนเริ่มคนแรกจะไม่มีตัวเลือกการจั่วการ์ดในช่วง <span class="text-red">Pocket</span> <span class="text-red">Phase</span> <span class="text-red">(</span>ถ้านำ <span class="text-red">Pocket</span> จากมือไปวางจะยังได้จั่วเหมือนเดิม<span class="text-red">)</span><br>
+
+<span class="text-red">2</span> ) การ์ด <span class="text-red">Action</span> จะใช้ได้ก็ต่อเมื่ออยู่ใน <span class="text-red">Main</span> <span class="text-red">phase</span> เทิร์นตัวเอง ยกเว้นใบนั้นจะมี <span class="text-red">counter</span> ถึงจะใช้ในเทิร์นอีกฝ่ายได้ <br>
+
+<span class="text-red">3</span> ) ความสามารถของการ์ดถ้าไม่ได้บอกว่าใช้ในเทิร์นอีกฝ่ายได้หรือมี <span class="text-red">counter</span> จะไม่สามารถใช้ในเทิร์นคู่แข่งได้ ต้องใช้งานใน <span class="text-red">Main</span> <span class="text-red">Phase</span> เท่านั้น<br>
+
+<span class="text-red">4</span> ) ความสามารถ <span class="text-red">Forever</span> จะทำงานตลอดต่อเมื่อเงื่อนไขครบ <br>
+
+<span class="text-red">5</span> ) เมื่อใช้ <span class="text-red">Ultimant</span> แล้ว จะไม่สามารถใช้การ์ดอื่นได้อีกยกเว้นจะมีความสามารถของ <span class="text-red">Ultimant</span> เพิ่มเติม <br>
+
+<span class="text-red">6</span> ) จะเปิดการ์ด <span class="text-red">Zone</span> ได้ต่อเมื่ออยู่ในช่วง <span class="text-red">Main</span> <span class="text-red">Phase</span> เทิร์นตัวเองเท่านั้น<br>
+
+<span class="text-red">7</span> ) เมื่อ <span class="text-red">character</span> ลงบนสนาม จะสามารถโจมตีหรือขโมยได้ทันทียกเว้นจะมีความสามารถทำให้โจมตีไม่ได้ <br>
+
+<span class="text-red">8</span> ) การ์ด <span class="text-red">Gear</span> จะสามารถสวมใส่ให้ได้เฉพาะการ์ดตามเงื่อนไขเท่านั้น<br>
+
+<span class="text-red">9</span> ) การ์ด <span class="text-red">Master</span> จะสามารถจะสามารถเปิด<span class="text-red">Zone</span>ได้เฉพาะชื่อ <span class="text-red">Zone</span> บนการ์ด<span class="text-red">Master</span>เท่านั้น หากชื่อไม่ตรงกับที่ระบุไว้ จะไม่สามารถเปิดใช้งานได้<br>
+
+<span class="text-red">10</span> ) <span class="text-red">Character</span> ถ้าช่องเต็ม <span class="text-red">4</span> ช่องไม่สามารถลงเพิ่มหรือทับได้นอกจากจะมีความสามารถที่ทำให้เกิดขึ้นได้<br>
+
+<span class="text-red">11</span> ) การ์ดใน <span class="text-red">Underworld</span> ถือเป็นการ์ดที่อยู่ด้านนอกเกม ไม่สามารถนำออกมาได้ นอกจากจะมีความสามารถเจาะจง<br>
+
+<span class="text-red">12</span> ) <span class="text-red">character</span>, <span class="text-red">Master</span> <span class="text-red">1</span> ใบ สามารถ สวมใส่ <span class="text-red">Gear</span> ได้ <span class="text-red">1</span> ใบเท่านั้น ยกเว้นจะมีความสามารถเพิ่มเติม<br>
+
+<span class="text-red">13</span> ) การจ่ายหรือขโมยการ์ด <span class="text-red">Energy</span> <span class="text-red">Soul</span> จะต้องเปิดการ์ดใบแรกสุดจากด้านบนเสมอ<br>
+
+<span class="text-red">14</span> ) ฝ่ายโจมตีถ้าพลังเท่ากับหรือน้อยกว่าฝ่ายรับ ฝ่ายตีจะไม่โดน Kill จากการต่อสู้ <br>
+
+<span class="text-red">15</span> ) ถ้ามีการทอยลูกเต๋า ต้องทอยลูกเต๋าที่มีจำนวนหน้าตามที่การ์ดบอกเท่านั้น เช่น <span class="text-red">D6 D12 D20</span> <br>
+
+<span class="text-red">16</span> ) ถ้ามีการทอยเหรียญ จะต้องเป็นเหรียญที่มีหัวก้อยเท่านั้น <br>
+
+<span class="text-red">17</span> ) คนที่ชนะการทอยลูกเต๋าหรือชนะอะไรก็ตามๆที่ตกลง จะมีสิทธิ์เลือกเล่นก่อนหลังได้<br>
+
+<span class="text-red">18</span> ) หากเมื่อโจมตีแล้วพลังเท่ากันฝ่ายโจมตีหรือขโมยจะเป็นฝ่ายชนะเสมอ<br>
+
+<span class="text-red">19</span> ) เมื่อเปิด <span class="text-red">Zone</span> จะไม่ถือว่าเป็นการกระทำไม่สามารถใช้งาน <span class="text-red">Counter</span> ได้ต่อเมื่อใน<br>
+
+<span class="text-red">20</span> ) <span class="text-red">Soul</span> <span class="text-red">Core</span> จะต้องเรียงลำดับตามเลขของการ์ดเท่านั้น<br>
+
+<span class="text-red">21</span> ) การ์ด <span class="text-red">Energy Soul</span> จะสามารถเปิดดูได้ตลอดเวลาโดยไม่ให้คู่แข่งเห็น  แต่จะต้องอยู่ในตำแหน่งเดิมห้ามเปลี่ยนแปลง<br>
+
+<span class="text-red">22</span> ) การ์ดที่มีความสามารถ <span class="text-red">counter</span> จะสามารถใช้ได้เมื่อมีการกระทำเกิดขึ้นเท่านั้น<br>
+
+<span class="text-red">23</span> ) การเปลี่ยน <span class="text-red">Phase</span> จะไม่นับว่าเป็นการกระทำและไม่สามารถใช้งานการ์ดที่มีความสามารถ <span class="text-red">counter</span> ได้ <br>
+
+<span class="text-red">24</span> ) หากผ่านเทิร์นที่ <span class="text-red">6</span> ของผู้เล่นแต่ละคน จะเข้าสู่ช่วง <span class="text-red">Critical Condition</span>เมื่อเข้าสู่ช่วงนี้การเล่นของผู้เล่นแต่ละคน หากจบเทิร์นโดยที่ไม่ได้รับ <span class="text-red">Soul Core</span> ในเทิร์นนั้น จะถูกทำลาย <span class="text-red">Soul Core 1</span> ใบ  <br>
+
+<span class="text-red">25</span> ) <span class="text-red">Soul Core</span> ที่ถูกทำลาย จะถูกนำไปยัง<span class="text-red">Underworld</span> ของเจ้าของและความสามารถของการใบนั้นจะไม่ทำงาน<br>
+
+<span class="text-red">26</span> ) การ์ดในชุด HD ไม่สามารถใช้งานร่วมกับการ์ดในชุดปกติได้<br>
+
+<span class="text-red">26</span> ) ช่วง <span class="text-red">Critical Condition</span> จะไม่สามารถโดนทำลาย <span class="text-red">Soul Core</span> ใบสุดท้ายได้ แต่จะเปลี่ยนเป็น
 </p>
-        <div class="howtoplay-callout"><b>หมายเหตุ</b><span>วิธีเริ่มเกม ลำดับการเล่นในเทิร์น วิธีโจมตี และเงื่อนไขการจบเกม อาจจะมีเพิ่มเติมในภายหลัง</span></div>
+        <div class="howtoplay-callout"><b>หมายเหตุ</b><span>วิธีเริ่มเกม ลำดับการเล่นในเทิร์น วิธีโจมตี และเงื่อนไขการจบเกม และกฏ อาจจะมีเพิ่มเติมในภายหลัง โดยวิธีเล่นนี้จะใช้กับชุดการ์ดปกติ เฉพาะผู้เล่น 2 คน และไม่ใช่ชุด HD เท่านั้น</span></div>
       </article>
 
       <article class="howtoplay-panel" id="ht-deck">
@@ -592,11 +674,13 @@ End Phase = ใช้ความสามารถเมื่อจบเท�
           <div><span class="howtoplay-type-icon">M</span><div><b>Master</b><p>การ์ด Master ประจำเด็ค แยกจากตัวเด็ค เป็นการ์ดผู้นำที่รับผิดชอบเก็บและปกป้อง Soul Core มีความสามารถ 2 ฝั่ง ฝั่งซ้ายเป็นความสามารถที่เป็นความสามารถที่ใช้ได้ตั้งแต่เริ่มเกม ความสามารถฝั่งขวาคือความสามารถที่ต้องรอให้ Zone ทำงานก่อนถึงจะสามารถใช้งานได้</p></div></div>
           <div><span class="howtoplay-type-icon">Z</span><div><b>Zone</b><p>แยกจากตัวเด็ค เป็นการ์ดพื้นที่ที่มีด้านหน้าและด้านหลัง โดยด้านหลังจะเป็นเงื่อนไขในการเปิดใช้งาน Zone ส่วนด้านหน้าจะเป็นความสามารถของ Zone</p></div></div>
           <div><span class="howtoplay-type-icon">SC</span><div><b>Soul Core</b><p>เป็นการ์ดที่แยกออกจากตัวเด็คจำนวน 7 ใบ เมื่อถูกขโมยหรือทำลายจนครบ 7 ใบก็แพ้ หรือถ้าขโมยจนครบ 7 ใบก็ชนะ</p></div></div>
-          <div><span class="howtoplay-type-icon">P</span><div><b>Pocket</b><p>เป็นการ์ดที่รวมอยู่ในเด็ค ทำหน้าที่เป็นค่าคอสเหมือนเป็นสิ่งที่เรียกใช้วิญญาณได้ ด้วยจำนวนที่กำหนด และ ยังสามารถใช้งานความสามารถ Counter ของ Pocket ได้ด้วย ต้องมีจำนวน 10 ใบในเด็ค</p></div></div>
-          <div><span class="howtoplay-type-icon">U</span><div><b>Untimeat</b><p>เป็นการ์ดที่รวมอยู่ในเด็ค การ์ดใบนี้จะมีอยู่ในเด็คได้เพียง 1 ใบ เท่านั้น เป็นการ์ดท่าไม้ตาย เมื่อใช้งานแล้วจะลง Tomp นอกจากจะมีความสามารถพิเศษ หลังจากใช้งานแล้วจะไม่สามารถใช้งานการ์ดอื่นได้ และไม่สามารถโจมตีหรือขโมยได้ </p></div></div>
+          <div><span class="howtoplay-type-icon">Pocket</span><div><b>Pocket</b><p>เป็นการ์ดที่รวมอยู่ในเด็ค ทำหน้าที่เป็นค่าคอสเหมือนเป็นสิ่งที่เรียกใช้วิญญาณได้ ด้วยจำนวนที่กำหนด และ ยังสามารถใช้งานความสามารถ Counter ของ Pocket ได้ด้วย ต้องมีจำนวน 10 ใบในเด็ค</p></div></div>
           <div><span class="howtoplay-type-icon">C</span><div><b>Character</b><p>เป็นการ์ดที่รวมอยู่ในเด็ค เป็นการ์ดตัวละคร เหมือนเป็นพวกพองที่ฝากจิตวิญญาณไว้กับ Master โดยมี ค่าคอส ในการลงสนาม และความสามารถจากการ์ดจริง</p></div></div>
-          <div><span class="howtoplay-type-icon">A</span><div><b>Action</b><p>การ์ด Action ที่มีเงื่อนไขและผลแตกต่างกันตามข้อความบนการ์ด</p></div></div>
-          <div><span class="howtoplay-type-icon">G</span><div><b>Gear</b><p>การ์ดอุปกรณ์ โปรดตรวจสอบข้อกำหนดการสวมใส่ที่ระบุไว้บนการ์ด</p></div></div>
+          <div><span class="howtoplay-type-icon">-</span><div><b>Action</b><p>การ์ด Action ที่มีเงื่อนไขและผลแตกต่างกันตามข้อความบนการ์ด</p></div></div>
+          <div><span class="howtoplay-type-icon">-</span><div><b>Gear</b><p>การ์ดอุปกรณ์ โปรดตรวจสอบข้อกำหนดการสวมใส่ที่ระบุไว้บนการ์ด</p></div></div>
+		  <div><span class="howtoplay-type-icon">-</span><div><b>Untimeat</b><p>เป็นการ์ดที่รวมอยู่ในเด็ค การ์ดใบนี้จะมีอยู่ในเด็คได้เพียง 1 ใบ เท่านั้น เป็นการ์ดท่าไม้ตาย เมื่อใช้งานแล้วจะลง Tomp นอกจากจะมีความสามารถพิเศษ หลังจากใช้งานแล้วจะไม่สามารถใช้งานการ์ดอื่นได้ และไม่สามารถโจมตีหรือขโมยได้ </p></div></div>
+		  <div><span class="howtoplay-type-icon">Energy</span><div><b>Energy</b><p>เป็นช่องที่เอาไว้จ่าย Energy Soul และ การ์ดในช่องนี้จะเป็นสภาพคว่ำ สามารถดูได้ตลอดเวลาโดยห้ามเปลี่ยนตำแหน่ง</p></div></div>
+		  <div><span class="howtoplay-type-icon">U</span><div><b>Underworld</b><p>เป็นช่องที่ถือว่าอยู่ด้านนอกของเกมไม่สามารถใช้งานการ์ดในช่องนี้ได้ นอกจากจะมีความสามารถพิเศษ</p></div></div>
         </div>
       </article>
 
@@ -699,6 +783,36 @@ End Phase = ใช้ความสามารถเมื่อจบเท�
       </article>
     </section>
 
+    <section id="news" class="section news-section">
+      <div class="deck-header">
+        <div>
+          <div class="eyebrow">SOULVAULT UPDATES</div>
+          <h2>ข่าวสาร</h2>
+          <p>ติดตามข่าวสารและประกาศต่าง ๆ ของ SOULVAULT CARD GAME</p>
+        </div>
+      </div>
+      <div id="newsGrid" class="news-grid"></div>
+      <div id="newsEmpty" class="news-empty hidden">
+        <div class="news-empty-symbol">✦</div>
+        <h3>ยังไม่มีข่าวสารในขณะนี้</h3>
+        <p>โปรดติดตามประกาศและข่าวสารใหม่ ๆ ได้ที่นี่</p>
+      </div>
+
+      <article id="newsDetail" class="news-detail hidden" aria-live="polite">
+        <button id="newsBackBtn" class="news-back-btn" type="button">← กลับไปหน้าข่าวสาร</button>
+        <div class="news-detail-layout">
+          <div id="newsDetailMedia" class="news-detail-media"></div>
+          <div class="news-detail-content">
+            <div id="newsDetailDate" class="news-card-date"></div>
+            <h2 id="newsDetailTitle"></h2>
+            <div class="news-detail-divider"></div>
+            <p id="newsDetailText"></p>
+            <div id="newsDetailLinks" class="news-detail-links hidden"></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
 </main>
 
   <div class="modal hidden" id="modal">
@@ -748,6 +862,6 @@ End Phase = ใช้ความสามารถเมื่อจบเท�
       </div>
     </div>
   </div>
-  <script src="app.js?v=20261022-home"></script>
+  <script src="app.js?v=20261023-news-slideshow"></script>
 </body>
 </html>
