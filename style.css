@@ -6617,110 +6617,60 @@ body.show-page-welcome-heading .topbar .page-welcome-heading { display: block; }
 }
 
 
-/* ===== MOBILE USABILITY PATCH (additive; preserves existing game logic) ===== */
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body { overflow-x: hidden; }
-img, video, canvas, iframe { max-width: 100%; }
-button, input, select, textarea { font: inherit; }
-button, .nav, .card, .deck-library-card, .mat-slot, .manual-playmat button {
-  touch-action: manipulation;
+/* ===== LOCAL 2 PLAYER MODE (keeps existing Play Test logic isolated per iframe) ===== */
+.two-player-section{min-width:0}
+.two-player-notice{margin:-8px 0 16px;padding:10px 14px;border:1px solid #28231a;background:#101010;color:#9b9386;font-size:12px}
+.two-player-boards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+.two-player-board-panel{min-width:0;border:1px solid #332a1d;background:#090909;overflow:hidden}
+.two-player-player-title{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:#111;border-bottom:1px solid #332a1d}
+.two-player-player-title b{color:var(--gold2);font-size:12px;letter-spacing:1px}
+.two-player-player-title span{color:var(--muted);font-size:11px}
+.two-player-board-panel iframe{display:block;width:100%;height: min(74vh, 760px);border:0;background:#070707}
+html.two-player-board,html.two-player-board body{min-height:100%;height:100%;overflow:auto}
+html.two-player-board .sidebar,html.two-player-board .topbar{display:none!important}
+html.two-player-board main{margin:0!important;padding:8px!important;min-height:0!important}
+html.two-player-board main>.section:not(#drawtest){display:none!important}
+html.two-player-board #drawtest{display:block!important}
+html.two-player-board #drawtest>.draw-header{align-items:center;gap:8px;margin-bottom:7px}
+html.two-player-board #drawtest .draw-header h2{font-size:18px;margin:2px 0}
+html.two-player-board #drawtest .draw-header p{font-size:10px;margin:2px 0}
+html.two-player-board #drawtest .eyebrow{font-size:8px}
+html.two-player-board #drawtest .draw-controls{gap:4px}
+html.two-player-board #drawtest .draw-controls select{min-width:0;max-width:125px;padding:6px;font-size:10px}
+html.two-player-board #drawtest .draw-controls button{padding:7px;font-size:9px}
+html.two-player-board #drawtest .playtest-info{gap:8px;padding:6px 8px;margin-bottom:7px;font-size:8px}
+html.two-player-board #drawtest .manual-playmat{width:100%;max-height:none}
+html.two-player-board #drawtest .playtest-actions{gap:5px;margin-top:6px}
+html.two-player-board #drawtest .playtest-actions button{padding:6px;font-size:9px}
+html.two-player-board #drawtest .playtest-actions span{font-size:9px}
+@media(max-width:900px){
+ .two-player-boards{grid-template-columns:1fr}
+ .two-player-board-panel iframe{height:72vh}
 }
-button, input, select, textarea, a { -webkit-tap-highlight-color: transparent; }
-:where(button, input, select, textarea, a, [tabindex]):focus-visible {
-  outline: 2px solid var(--gold2, #f2d48a);
-  outline-offset: 2px;
-}
-input, select, textarea { max-width: 100%; }
-.modal, .modal-overlay, .card-modal, .cover-picker-overlay {
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-.modal-card, .detail, .cover-picker-modal { min-width: 0; }
-main, .section, .deck-workspace, .deck-layout, .deck-meta { min-width: 0; }
-.toolbar, .artist-toolbar, .collection-toolbar, .draw-controls,
-.deck-actions, .deck-summary, .topbar, .deck-header, .draw-header {
-  min-width: 0;
-}
-.toolbar > *, .artist-toolbar > *, .collection-toolbar > * { min-width: 0; }
 
-@media (max-width: 720px) {
-  main { padding: 14px 12px 34px !important; }
-  .sidebar { z-index: 1000; width: min(84vw, 300px); overflow-y: auto; padding: 18px 14px; }
-  .mobile-menu { position: relative; z-index: 1001; flex: 0 0 auto; min-width: 44px; min-height: 44px; }
-  .topbar { align-items: center; flex-wrap: wrap; margin-bottom: 18px; }
-  .topbar h1, h1 { font-size: clamp(21px, 5vw, 29px); overflow-wrap: anywhere; }
-  .stats { font-size: 10px; }
-  .hero { padding: 22px 18px; }
-  .hero h2 { font-size: clamp(22px, 6vw, 30px); }
-  .toolbar, .artist-toolbar, .collection-toolbar, .draw-controls {
-    display: flex; flex-direction: column; align-items: stretch; gap: 9px;
-  }
-  .toolbar > *, .artist-toolbar > *, .collection-toolbar > *,
-  .draw-controls > *, .numeric-filter-group { width: 100%; }
-  .toolbar select, .artist-toolbar select, .collection-toolbar select,
-  .draw-controls select { width: 100%; min-width: 0; min-height: 44px; }
-  .search-wrap { min-height: 44px; width: 100%; }
-  .search-wrap input, input, select, textarea { font-size: 16px; }
-  .numeric-filter-inputs { display: flex; align-items: center; gap: 7px; }
-  .numeric-filter-inputs input { width: 0; min-width: 0; flex: 1; min-height: 42px; }
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .card-info { padding: 10px; }
-  .card h3 { font-size: clamp(13px, 3.7vw, 17px); overflow-wrap: anywhere; }
-  .tag-row { flex-wrap: wrap; }
-  .tag { font-size: 8px; }
-  .deck-header { flex-wrap: wrap; }
-  .deck-header > * { max-width: 100%; }
-  .deck-header h2 { font-size: clamp(22px, 6vw, 29px); }
-  .deck-top { flex-wrap: wrap; align-items: flex-start; }
-  .deck-cover-wrap { flex: 0 0 100px; }
-  .deck-meta { flex: 1 1 180px; }
-  .deck-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .deck-actions > * { min-width: 0; max-width: 100%; }
-  .deck-actions button { min-height: 42px; padding: 10px 8px; overflow-wrap: anywhere; }
-  .save-rule { grid-column: 1 / -1; line-height: 1.6; }
-  .deck-layout { grid-template-columns: minmax(0, 1fr); }
-  .card-picker { position: static; width: 100%; }
-  .deck-list, .special-slot { min-width: 0; }
-  .deck-row { gap: 7px; flex-wrap: wrap; }
-  .row-name { min-width: 100px; }
-  .qty { gap: 7px; }
-  .qty button, .picker-row button, .remove-card { min-width: 36px; min-height: 36px; }
-  .deck-cards { grid-template-columns: minmax(0, 1fr); }
-  .detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .modal { padding: 10px; place-items: start center; }
-  .modal-card { width: 100%; max-height: calc(100dvh - 20px); overflow-y: auto; grid-template-columns: minmax(0, 1fr); }
-  .detail-image { min-height: 220px; max-height: 42dvh; }
-  .detail { padding: 20px 16px; }
-  .cover-picker-modal { width: 100%; max-height: calc(100dvh - 20px); overflow-y: auto; padding: 18px 14px; }
-  .cover-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cover-option { min-height: 120px; height: auto; padding: 10px 6px; }
-  .manual-playtest { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .manual-playmat, .playmat60-board { min-width: 640px; }
-  .draw-header { align-items: flex-start; flex-direction: column; gap: 10px; }
-  .playtest-info { gap: 10px; padding: 10px; font-size: 10px; }
-  .playtest-info b { font-size: 12px; }
-  table { display: block; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .artist-profile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .news-grid, .news-list, .supply-grid { grid-template-columns: minmax(0, 1fr); }
-  .sv-home-shortcuts { grid-template-columns: minmax(0, 1fr); }
-  .sv-home-banner { max-width: 100%; }
+/* ===== ONLINE PLAYTEST: isolated additive styles ===== */
+.online-play-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%;padding:12px;background:#101010;border:1px solid #28231a;margin:0 0 14px}
+.online-play-controls input{min-width:130px;max-width:180px;background:#080808;color:#eee;border:1px solid #45371f;padding:10px;font:inherit}
+.online-status{font:11px 'Kanit',sans-serif;color:#d9ad52;padding:0 8px}
+.online-status.is-connected{color:#8fda9a}
+@media(max-width:720px){.online-play-controls{align-items:stretch}.online-play-controls>*{flex:1}.online-play-controls input{max-width:none;min-width:0}}
+
+
+/* ===== HOME MOBILE INTERACTION FIX (scoped to Home only) ===== */
+#home.sv-home-section{position:relative;isolation:isolate;min-width:0;overflow:visible}
+#home .sv-home-banner{position:relative;z-index:1;touch-action:pan-y;pointer-events:auto;-webkit-tap-highlight-color:transparent}
+#home .sv-home-banner-image,#home .sv-home-banner-frame{pointer-events:none!important}
+#home .sv-home-dots{z-index:20!important;pointer-events:auto!important}
+#home .sv-home-dots button{position:relative;z-index:21;min-width:24px;min-height:24px;touch-action:manipulation;pointer-events:auto}
+#home .sv-home-shortcuts{position:relative;z-index:2;isolation:isolate}
+#home .sv-home-shortcut{position:relative;z-index:3;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:48px}
+#home .sv-home-shortcut>*{pointer-events:none}
+@media(max-width:720px){
+  #home.sv-home-section{width:100%;max-width:100%;padding-left:0;padding-right:0}
+  #home .sv-home-banner{width:100%;height:clamp(300px,68svh,520px);min-height:300px;margin-bottom:20px}
+  #home .sv-home-dots{bottom:max(12px,env(safe-area-inset-bottom));gap:10px;padding:8px 12px}
+  #home .sv-home-dots button{min-width:28px;min-height:28px;padding:7px;background-clip:content-box}
+  #home .sv-home-shortcuts{grid-template-columns:minmax(0,1fr);gap:12px;padding:0 10px 12px}
+  #home .sv-home-shortcut{width:100%;min-height:64px;padding:16px 22px;align-items:flex-start}
 }
-@media (max-width: 420px) {
-  main { padding-left: 9px !important; padding-right: 9px !important; }
-  .grid { gap: 7px; }
-  .card-info { padding: 8px; }
-  .card-symbol { font-size: 38px; }
-  .deck-workspace { padding: 10px; }
-  .deck-actions { grid-template-columns: minmax(0, 1fr); }
-  .detail-grid { grid-template-columns: minmax(0, 1fr); }
-  .artist-profile-grid { grid-template-columns: minmax(0, 1fr); }
-  .cover-grid { gap: 7px; }
-}
-/* Tablet landscape and small laptops */
-@media (min-width: 721px) and (max-width: 1024px) {
-  main { padding: 22px 22px 44px; }
-  .sidebar { width: 210px; }
-  main { margin-left: 210px; }
-  .deck-layout { grid-template-columns: minmax(0, 1fr) 280px; gap: 14px; }
-  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
+@media(hover:none){#home .sv-home-shortcut:hover{transform:none;filter:none}}

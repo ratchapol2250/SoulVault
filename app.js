@@ -3715,12 +3715,13 @@ function setLanguage(lang){
       if(newsCard) newsCard.click();
     }
   };
-  let touchStartX=0, touchStartY=0, swipeHandled=false;
+  let touchStartX=0, touchStartY=0, swipeHandled=false, touchTapHandled=false;
   banner.addEventListener("touchstart",event=>{
     if(!event.touches || event.touches.length!==1) return;
     touchStartX=event.touches[0].clientX;
     touchStartY=event.touches[0].clientY;
     swipeHandled=false;
+    touchTapHandled=false;
   },{passive:true});
   banner.addEventListener("touchend",event=>{
     if(!event.changedTouches || !event.changedTouches.length) return;
@@ -3729,10 +3730,17 @@ function setLanguage(lang){
     if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)*1.2){
       swipeHandled=true;
       show(current+(dx<0?1:-1));
+      return;
+    }
+    // Mobile browsers can suppress a synthetic click after a gesture. Handle a clean tap directly.
+    if(Math.abs(dx)<18 && Math.abs(dy)<18 && !event.target.closest(".sv-home-dots")){
+      touchTapHandled=true;
+      navigateToCurrentSlide();
     }
   },{passive:true});
   banner.addEventListener("click",event=>{
     if(swipeHandled){swipeHandled=false;return;}
+    if(touchTapHandled){touchTapHandled=false;return;}
     if(event.target.closest(".sv-home-dots")) return;
     navigateToCurrentSlide();
   });
@@ -3746,11 +3754,32 @@ function setLanguage(lang){
   let autoSlideTimer=setInterval(()=>show(current+1),2000);
   banner.addEventListener("mouseenter",()=>clearInterval(autoSlideTimer));
   banner.addEventListener("mouseleave",()=>{clearInterval(autoSlideTimer);autoSlideTimer=setInterval(()=>show(current+1),2000);});
-  document.querySelectorAll("[data-home-go]").forEach(button=>button.addEventListener("click",()=>{
-    const target=button.dataset.homeGo;
+  const activateHomeShortcut=button=>{
+    const target=button && button.dataset ? button.dataset.homeGo : "";
+    if(!target) return;
     const nav=document.querySelector(`.nav[data-section="${target}"]`);
-    if(nav) nav.click();
-  }));
+    if(nav){nav.click();return;}
+    // Fallback keeps Home shortcuts usable even if the sidebar navigation is unavailable.
+    document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
+    const section=document.getElementById(target);
+    if(section) section.classList.add("active-section");
+    document.body.classList.toggle("show-page-welcome-heading",["home","roster"].includes(target));
+    document.querySelector(".sidebar")?.classList.remove("open");
+    if(target==="deck") initDeck();
+    if(target==="supply") initSupply();
+    if(target==="artists") renderArtistDirectory();
+    if(target==="news") renderNews();
+  };
+  document.querySelectorAll("[data-home-go]").forEach(button=>{
+    button.addEventListener("click",event=>{event.preventDefault();if(button.dataset.homeTouchActivated==="1"){delete button.dataset.homeTouchActivated;return;}activateHomeShortcut(button);});
+    button.addEventListener("touchend",event=>{
+      if(event.changedTouches && event.changedTouches.length){
+        event.preventDefault();
+        activateHomeShortcut(button);
+        button.dataset.homeTouchActivated="1";
+      }
+    },{passive:false});
+  });
 })();
 
 // initialize news cards when the page loads
@@ -3795,4 +3824,115 @@ window.addEventListener("load", () => {
       goHome();
     }
   });
+})();
+
+
+/* ===== ONLINE SHARED PLAYMAT (PeerJS) — additive; Play Test rules remain unchanged ===== */
+(function initOnlinePlaytest(){
+  const status=document.getElementById("onlinePlayStatus");
+  if(!status)return;
+  const createBtn=document.getElementById("onlineCreateRoom");
+  const joinBtn=document.getElementById("onlineJoinRoom");
+  const leaveBtn=document.getElementById("onlineLeaveRoom");
+  const codeInput=document.getElementById("onlineRoomCode");
+  let peer=null, connection=null, isHost=false, applyingRemote=false, lastSent="";
+  const roomPrefix="soulvault-match-";
+  const setStatus=(message,connected=false)=>{
+    status.textContent=message;
+    status.classList.toggle("is-connected",connected);
+  };
+  const getSnapshot=()=>{
+    try{
+      return {
+        testDeck,testStack,testHand,testTomb,testEnergyCards,testPocketCards,testTurn,
+        testBoard,testMasterGear,testSoulCoreUnderZone,testSpecialRotation,testZoneFlipped
+      };
+    }catch(_){return null;}
+  };
+  const fingerprint=value=>JSON.stringify(value);
+  const sendSnapshot=()=>{
+    if(!connection||!connection.open||applyingRemote)return;
+    const state=getSnapshot();
+    if(!state)return;
+    const encoded=fingerprint(state);
+    if(encoded===lastSent)return;
+    lastSent=encoded;
+    try{connection.send({type:"soulvault-state",state});}catch(_){}
+  };
+  const applySnapshot=state=>{
+    if(!state||typeof state!=="object")return;
+    applyingRemote=true;
+    try{
+      if("testDeck" in state)testDeck=state.testDeck;
+      ["testStack","testHand","testTomb","testEnergyCards","testPocketCards","testTurn","testBoard","testMasterGear","testSoulCoreUnderZone","testSpecialRotation","testZoneFlipped"].forEach(key=>{
+        if(key in state)window[key]=state[key];
+      });
+      // These variables are lexical bindings, so assign them explicitly.
+      testStack=state.testStack||[];
+      testHand=state.testHand||[];
+      testTomb=state.testTomb||[];
+      testEnergyCards=state.testEnergyCards||[];
+      testPocketCards=state.testPocketCards||[];
+      testTurn=Number(state.testTurn)||0;
+      testBoard=state.testBoard||{freeCards:[],characters:[]};
+      testMasterGear=state.testMasterGear||[];
+      testSoulCoreUnderZone=state.testSoulCoreUnderZone||[];
+      testSpecialRotation=state.testSpecialRotation||{master:0};
+      testZoneFlipped=state.testZoneFlipped!==false;
+      lastSent=fingerprint(getSnapshot());
+      if(typeof renderTest==="function")renderTest();
+    }catch(error){console.warn("Online state sync failed",error);}
+    finally{applyingRemote=false;}
+  };
+  const teardown=(message="ONLINE: OFFLINE")=>{
+    try{connection?.close();}catch(_){}
+    try{peer?.destroy();}catch(_){}
+    connection=null;peer=null;isHost=false;lastSent="";
+    setStatus(message,false);
+  };
+  const wireConnection=conn=>{
+    connection=conn;
+    conn.on("open",()=>{
+      setStatus("ONLINE: CONNECTED",true);
+      if(isHost)sendSnapshot();
+      else { try{conn.send({type:"soulvault-request-state"});}catch(_){} }
+    });
+    conn.on("data",message=>{
+      if(!message)return;
+      if(message.type==="soulvault-state"){
+        if(isHost){applySnapshot(message.state);sendSnapshot();}
+        else applySnapshot(message.state);
+      }else if(message.type==="soulvault-request-state"&&isHost)sendSnapshot();
+    });
+    conn.on("close",()=>{connection=null;setStatus("ONLINE: DISCONNECTED",false);});
+    conn.on("error",()=>setStatus("ONLINE: CONNECTION ERROR",false));
+  };
+  createBtn?.addEventListener("click",()=>{
+    teardown("กำลังสร้างห้อง...");
+    if(!window.Peer){setStatus("โหลดระบบออนไลน์ไม่สำเร็จ");return;}
+    const room=(Math.floor(100000+Math.random()*900000)).toString();
+    codeInput.value=room;
+    isHost=true;
+    peer=new Peer(roomPrefix+room);
+    peer.on("open",()=>setStatus("ห้อง "+room+" พร้อมให้เข้าร่วม",true));
+    peer.on("connection",conn=>{if(connection){conn.close();return;}wireConnection(conn);});
+    peer.on("error",error=>{
+      if(error.type==="unavailable-id")setStatus("รหัสห้องซ้ำ กรุณาสร้างห้องใหม่");
+      else setStatus("สร้างห้องไม่สำเร็จ: "+(error.type||"network"));
+    });
+  });
+  joinBtn?.addEventListener("click",()=>{
+    const room=(codeInput.value||"").trim().replace(/\s/g,"");
+    if(!/^\d{6}$/.test(room)){setStatus("กรุณาใส่รหัสห้อง 6 หลัก");return;}
+    teardown("กำลังเข้าร่วมห้อง...");
+    if(!window.Peer){setStatus("โหลดระบบออนไลน์ไม่สำเร็จ");return;}
+    peer=new Peer();
+    peer.on("open",()=>wireConnection(peer.connect(roomPrefix+room,{reliable:true})));
+    peer.on("error",error=>setStatus("เชื่อมต่อไม่สำเร็จ: "+(error.type||"network")));
+  });
+  leaveBtn?.addEventListener("click",()=>teardown());
+  window.addEventListener("beforeunload",()=>{try{connection?.close();peer?.destroy();}catch(_){}});
+  // renderTest and board interactions update these shared state objects; polling also
+  // captures mutations made by drag/rotate controls without modifying their handlers.
+  setInterval(sendSnapshot,500);
 })();
