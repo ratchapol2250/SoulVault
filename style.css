@@ -6674,3 +6674,30 @@ html.two-player-board #drawtest .playtest-actions span{font-size:9px}
   #home .sv-home-shortcut{width:100%;min-height:64px;padding:16px 22px;align-items:flex-start}
 }
 @media(hover:none){#home .sv-home-shortcut:hover{transform:none;filter:none}}
+
+/* ===== HOME MOBILE TAP/TIMER FIX (scoped and additive) ===== */
+#home .sv-home-banner,
+#home .sv-home-banner-image,
+#home .sv-home-dots,
+#home .sv-home-dots button,
+#home .sv-home-shortcuts,
+#home .sv-home-shortcut {
+  -webkit-tap-highlight-color: transparent;
+}
+#home .sv-home-banner { position: relative; isolation: isolate; touch-action: pan-y; }
+#home .sv-home-banner-image,
+#home .sv-home-banner-frame { pointer-events: none !important; }
+#home .sv-home-dots { position: absolute; z-index: 30 !important; pointer-events: auto !important; }
+#home .sv-home-dots button { position: relative; z-index: 31; cursor: pointer; touch-action: manipulation; pointer-events: auto !important; }
+#home .sv-home-shortcuts { position: relative; z-index: 5; }
+#home .sv-home-shortcut { position: relative; z-index: 6; cursor: pointer; pointer-events: auto !important; touch-action: manipulation; }
+#home .sv-home-shortcut > * { pointer-events: none; }
+.sidebar { z-index: 80 !important; }
+#siteLogo { position: relative; z-index: 82; display: block; cursor: pointer; pointer-events: auto !important; touch-action: manipulation; }
+#menuBtn { z-index: 100 !important; pointer-events: auto !important; touch-action: manipulation; }
+@media (max-width: 720px) {
+  #home .sv-home-banner { min-height: 280px; height: clamp(280px, 62svh, 480px); }
+  #home .sv-home-dots { bottom: max(10px, env(safe-area-inset-bottom)); }
+  #home .sv-home-dots button { min-width: 32px; min-height: 32px; }
+  #home .sv-home-shortcut { min-height: 64px; }
+}

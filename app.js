@@ -3664,13 +3664,12 @@ function setLanguage(lang){
 
 
 
-/* ===== SOULVAULT HOME PAGE INTERACTIONS (isolated) ===== */
+/* ===== SOULVAULT HOME PAGE INTERACTIONS (mobile-safe, scoped) ===== */
 (()=>{
   const banner=document.getElementById("svHomeBanner");
-  if(!banner) return;
-  // แบนเนอร์แรกคงรูปและปลายทางเดิม ส่วนแบนเนอร์ถัดไปเชื่อมกับข่าวแต่ละรายการ
-  // แบนเนอร์แรกคงรูปและปลายทางเดิม ส่วนข่าวบนแบนเนอร์แสดงเฉพาะ 3 ข่าวล่าสุด
-  // เรียงตามวันที่ใหม่ไปเก่า โดยยังเก็บ index ต้นฉบับไว้เพื่อเปิดรายละเอียดข่าวที่ถูกต้อง
+  if(!banner || banner.dataset.homeInteractionsReady==="1") return;
+  banner.dataset.homeInteractionsReady="1";
+
   const latestHomeNews=(Array.isArray(newsList)?newsList:[])
     .map((news,index)=>({news,index,sortDate:(()=>{
       const match=String(news.date||"").match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
@@ -3683,8 +3682,7 @@ function setLanguage(lang){
     ...latestHomeNews.map(({news,index})=>({
       image:(()=>{const path=String((Array.isArray(news.images)&&news.images[0])||news.image||"").trim();return path.startsWith("/")?path:(path.startsWith("public/")?"/"+path:path);})(),
       alt:`SOULVAULT — ข่าวสาร: ${news.title||"ข่าวสาร"}`,
-      target:"news",
-      newsIndex:index
+      target:"news",newsIndex:index,title:news.title||"ข่าวสาร"
     }))
   ];
   const dotsContainer=banner.querySelector(".sv-home-dots");
@@ -3695,74 +3693,84 @@ function setLanguage(lang){
   }
   let current=0;
   const show=(index)=>{
+    if(!slides.length) return;
     current=(index+slides.length)%slides.length;
     const slide=slides[current];
-    const bannerImage=document.getElementById("svHomeBannerImage");
-    if(bannerImage){bannerImage.src=slide.image;bannerImage.alt=slide.alt;}
+    const image=document.getElementById("svHomeBannerImage");
+    if(image){image.src=slide.image;image.alt=slide.alt;}
     banner.dataset.slide=String(current);
     banner.setAttribute("aria-label",current===0
-      ?"คลิกภาพเพื่อเปิดหน้า List Card"
-      :`คลิกภาพเพื่ออ่านข่าว: ${(newsList[current-1]&&newsList[current-1].title)||"ข่าวสาร"}`);
-    banner.querySelectorAll("[data-home-slide]").forEach((dot,i)=>dot.classList.toggle("active",i===current));
+      ?"แตะเพื่อเปิดหน้า List Card"
+      :`แตะเพื่ออ่านข่าว: ${slide.title||"ข่าวสาร"}`);
+    banner.querySelectorAll("[data-home-slide]").forEach((dot,i)=>{
+      dot.classList.toggle("active",i===current);
+      dot.setAttribute("aria-current",i===current?"true":"false");
+    });
   };
   const navigateToCurrentSlide=()=>{
     const slide=slides[current];
+    if(!slide) return;
     const nav=document.querySelector(`.nav[data-section="${slide.target}"]`);
     if(nav) nav.click();
-    // หลังเปิดหน้าข่าว ให้เปิดรายละเอียดของข่าวที่ตรงกับแบนเนอร์นั้น
+    else {
+      document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
+      document.getElementById(slide.target)?.classList.add("active-section");
+      document.querySelector(".sidebar")?.classList.remove("open");
+    }
     if(slide.target==="news" && Number.isInteger(slide.newsIndex)){
-      const newsCard=document.querySelector(`#newsGrid .news-card[data-news-index="${slide.newsIndex}"]`);
-      if(newsCard) newsCard.click();
+      requestAnimationFrame(()=>{
+        const card=document.querySelector(`#newsGrid .news-card[data-news-index="${slide.newsIndex}"]`);
+        if(card) card.click();
+      });
     }
   };
-  let touchStartX=0, touchStartY=0, swipeHandled=false, touchTapHandled=false;
+
+  // Use click for taps and desktop; touch events are only used to detect swipes.
+  let touchStartX=0,touchStartY=0,swiped=false;
   banner.addEventListener("touchstart",event=>{
-    if(!event.touches || event.touches.length!==1) return;
-    touchStartX=event.touches[0].clientX;
-    touchStartY=event.touches[0].clientY;
-    swipeHandled=false;
-    touchTapHandled=false;
+    if(!event.touches||event.touches.length!==1) return;
+    touchStartX=event.touches[0].clientX;touchStartY=event.touches[0].clientY;swiped=false;
   },{passive:true});
   banner.addEventListener("touchend",event=>{
-    if(!event.changedTouches || !event.changedTouches.length) return;
+    if(!event.changedTouches||!event.changedTouches.length) return;
     const dx=event.changedTouches[0].clientX-touchStartX;
     const dy=event.changedTouches[0].clientY-touchStartY;
     if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)*1.2){
-      swipeHandled=true;
-      show(current+(dx<0?1:-1));
-      return;
-    }
-    // Mobile browsers can suppress a synthetic click after a gesture. Handle a clean tap directly.
-    if(Math.abs(dx)<18 && Math.abs(dy)<18 && !event.target.closest(".sv-home-dots")){
-      touchTapHandled=true;
-      navigateToCurrentSlide();
+      swiped=true;show(current+(dx<0?1:-1));window.setTimeout(()=>{swiped=false;},450);
     }
   },{passive:true});
   banner.addEventListener("click",event=>{
-    if(swipeHandled){swipeHandled=false;return;}
-    if(touchTapHandled){touchTapHandled=false;return;}
-    if(event.target.closest(".sv-home-dots")) return;
+    const dot=event.target.closest("[data-home-slide]");
+    if(dot){event.preventDefault();event.stopPropagation();show(Number(dot.dataset.homeSlide));return;}
+    if(swiped){swiped=false;return;}
     navigateToCurrentSlide();
   });
   banner.addEventListener("keydown",event=>{
-    if((event.key==="Enter"||event.key===" ") && !event.target.closest(".sv-home-dots")){
-      event.preventDefault(); navigateToCurrentSlide();
-    }
+    if(event.target.closest("[data-home-slide]")) return;
+    if(event.key==="Enter"||event.key===" "){event.preventDefault();navigateToCurrentSlide();}
+    if(event.key==="ArrowRight") show(current+1);
+    if(event.key==="ArrowLeft") show(current-1);
   });
-  banner.querySelectorAll("[data-home-slide]").forEach(dot=>dot.addEventListener("click",event=>{event.stopPropagation();show(Number(dot.dataset.homeSlide))}));
-  // เปลี่ยนแบนเนอร์อัตโนมัติทุก 3 วินาที
-  let autoSlideTimer=setInterval(()=>show(current+1),2000);
-  banner.addEventListener("mouseenter",()=>clearInterval(autoSlideTimer));
-  banner.addEventListener("mouseleave",()=>{clearInterval(autoSlideTimer);autoSlideTimer=setInterval(()=>show(current+1),2000);});
+
+  // Never pause the carousel on touch devices: mobile browsers may emulate mouseenter
+  // after a tap and otherwise leave the timer stopped indefinitely.
+  const canHover=window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  let autoSlideTimer=window.setInterval(()=>show(current+1),2000);
+  if(canHover){
+    banner.addEventListener("mouseenter",()=>window.clearInterval(autoSlideTimer));
+    banner.addEventListener("mouseleave",()=>{
+      window.clearInterval(autoSlideTimer);
+      autoSlideTimer=window.setInterval(()=>show(current+1),2000);
+    });
+  }
+
   const activateHomeShortcut=button=>{
-    const target=button && button.dataset ? button.dataset.homeGo : "";
+    const target=button?.dataset?.homeGo;
     if(!target) return;
     const nav=document.querySelector(`.nav[data-section="${target}"]`);
     if(nav){nav.click();return;}
-    // Fallback keeps Home shortcuts usable even if the sidebar navigation is unavailable.
     document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
-    const section=document.getElementById(target);
-    if(section) section.classList.add("active-section");
+    document.getElementById(target)?.classList.add("active-section");
     document.body.classList.toggle("show-page-welcome-heading",["home","roster"].includes(target));
     document.querySelector(".sidebar")?.classList.remove("open");
     if(target==="deck") initDeck();
@@ -3770,16 +3778,13 @@ function setLanguage(lang){
     if(target==="artists") renderArtistDirectory();
     if(target==="news") renderNews();
   };
-  document.querySelectorAll("[data-home-go]").forEach(button=>{
-    button.addEventListener("click",event=>{event.preventDefault();if(button.dataset.homeTouchActivated==="1"){delete button.dataset.homeTouchActivated;return;}activateHomeShortcut(button);});
-    button.addEventListener("touchend",event=>{
-      if(event.changedTouches && event.changedTouches.length){
-        event.preventDefault();
-        activateHomeShortcut(button);
-        button.dataset.homeTouchActivated="1";
-      }
-    },{passive:false});
+  // Delegate clicks so buttons still work if their labels or layout are changed.
+  document.addEventListener("click",event=>{
+    const button=event.target.closest("[data-home-go]");
+    if(!button) return;
+    event.preventDefault();activateHomeShortcut(button);
   });
+  show(0);
 })();
 
 // initialize news cards when the page loads
@@ -3802,30 +3807,27 @@ window.addEventListener("load", () => {
 }, { once: true });
 
 
-/* Click the site logo to return to Home; Home no longer needs a sidebar menu item. */
-(() => {
-  const logo = document.getElementById("siteLogo");
-  if (!logo) return;
-
-  const goHome = () => {
-    document.querySelectorAll(".nav").forEach(button => button.classList.remove("active"));
-    document.querySelectorAll(".section").forEach(section => section.classList.remove("active-section"));
-    const home = document.getElementById("home");
-    if (home) home.classList.add("active-section");
+/* Click/tap the site logo to return to Home. */
+(()=>{
+  const logo=document.getElementById("siteLogo");
+  if(!logo || logo.dataset.homeLogoReady==="1") return;
+  logo.dataset.homeLogoReady="1";
+  const goHome=event=>{
+    if(event){event.preventDefault();event.stopPropagation();}
+    const homeNav=document.querySelector('.nav[data-section="home"]');
+    if(homeNav){homeNav.click();return;}
+    document.querySelectorAll(".nav").forEach(button=>button.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
+    document.getElementById("home")?.classList.add("active-section");
     document.body.classList.add("show-page-welcome-heading");
     document.querySelector(".sidebar")?.classList.remove("open");
-    window.scrollTo({ top: 0, behavior: "auto" });
+    window.scrollTo({top:0,behavior:"auto"});
   };
-
-  logo.addEventListener("click", goHome);
-  logo.addEventListener("keydown", event => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      goHome();
-    }
+  logo.addEventListener("click",goHome);
+  logo.addEventListener("keydown",event=>{
+    if(event.key==="Enter"||event.key===" ") goHome(event);
   });
 })();
-
 
 /* ===== ONLINE SHARED PLAYMAT (PeerJS) — additive; Play Test rules remain unchanged ===== */
 (function initOnlinePlaytest(){
