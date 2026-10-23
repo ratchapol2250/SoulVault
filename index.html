@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOULVAULT CARD GAME — การ์ดทั้งหมด</title>
-  <link rel="stylesheet" href="style.css?v=20261024-mobile-responsive-final">
+  <link rel="stylesheet" href="style.css?v=20261024-mobile-button-fix-v2">
 </head>
 <body class="show-page-welcome-heading">
 <aside class="sidebar">
@@ -474,6 +474,7 @@
         </div>
       </div>
       <div class="supply-toolbar">
+        <button class="gold-btn" id="addSupplyBtn" type="button">＋ เพิ่มอุปกรณ์เสริม</button>
         <div class="supply-tabs">
           <button class="supply-tab active" data-supply-filter="ALL">ทั้งหมด</button>
 <button class="supply-tab" data-supply-filter="PLAYMAT">เพลย์แมต</button>
@@ -497,7 +498,7 @@
             <label>รายละเอียด<textarea id="supplyDesc" rows="3" placeholder="รายละเอียดของ อุปกรณ์เสริม"></textarea></label>
             <label>ราคา<input id="supplyPrice" placeholder="เช่น 590"></label>
           </div>
-          <button class="gold-btn supply-save" id="saveอุปกรณ์เสริมBtn">บันทึกอุปกรณ์เสริม</button>
+          <button class="gold-btn supply-save" id="saveSupplyBtn">บันทึกอุปกรณ์เสริม</button>
         </div>
       </div>
 	  <div id="supplyDetailModal" class="supply-detail-modal hidden">
@@ -862,6 +863,6 @@
       </div>
     </div>
   </div>
-  <script src="app.js?v=20261024-mobile-responsive-final"></script>
+  <script src="app.js?v=20261024-mobile-button-fix-v2"></script>
 </body>
 </html>
