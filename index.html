@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOULVAULT CARD GAME — การ์ดทั้งหมด</title>
-  <link rel="stylesheet" href="style.css?v=20261024-mobile-button-fix-v2">
+  <link rel="stylesheet" href="style.css?v=20261023-unified-card-filters">
 </head>
 <body class="show-page-welcome-heading">
 <aside class="sidebar">
-   <div class="brand" id="siteBrand">
+   <div class="brand">
   <img id="siteLogo" src="public/images/logo/Logo.png" alt="SOULVAULT CARD GAME" role="button" tabindex="0" aria-label="กลับหน้า Home" title="กลับหน้า Home" onerror="this.style.display='none';this.parentElement.classList.add('logo-fallback')">
 </div>
     <nav>
@@ -357,20 +357,6 @@
         </div>
       </div>
     </section>
-<div id="deckViewerModal" class="modal hidden">
-  <div class="cover-picker-modal deck-viewer-modal">
-    <button class="close" id="closeDeckViewer" type="button" aria-label="ปิด">×</button>
-    <h2>ดูการ์ดใน DECK</h2>
-    <p id="deckViewerSummary">เลือกจำนวนการ์ดที่ต้องการดู จากนั้นคลิกการ์ดเพื่อเลือกขึ้น HAND หรือลงสนาม</p>
-    <div class="deck-viewer-choices" role="group" aria-label="เลือกจำนวนการ์ด">
-      <button type="button" data-deck-view-count="1">1 ใบ</button>
-      <button type="button" data-deck-view-count="5">5 ใบ</button>
-      <button type="button" data-deck-view-count="10">10 ใบ</button>
-      <button type="button" data-deck-view-count="all">ทั้งหมด</button>
-    </div>
-    <div id="deckViewerGrid" class="deck-picker-grid deck-viewer-grid"></div>
-  </div>
-</div>
 <div id="deckPickerModal" class="modal hidden">
   <div class="cover-picker-modal deck-picker-modal">
 
@@ -421,32 +407,21 @@
       </div>
 
       <div class="manual-playtest">
-        <div class="manual-playmat playmat60-board" id="playBoard" aria-label="สนามเล่นตามเพลแมต 60">
-          <div class="playmat-hint">ลากการ์ดจาก HAND ไปวางบนช่องเพลแมต · ดับเบิลคลิกการ์ดเพื่อส่ง TOMB</div>
-          <div id="testEnergyArea" class="test-energy-area" aria-label="ช่อง Energy">
-            <button id="addEnergyBtn" class="energy-add-btn energy-icon-btn" type="button" title="นำการ์ดใบบนสุดจาก Deck มาวางคว่ำใน Energy" aria-label="เพิ่ม Energy"><img src="public/images/icon/E.png" alt="เพิ่ม Energy"></button>
-            <div id="testEnergyCards" class="test-energy-cards"></div>
-            <button id="payEnergyBtn" class="energy-pay-btn energy-icon-btn" type="button" title="จ่ายการ์ด Energy ใบบนสุดลง Tomb" aria-label="จ่าย Energy ลง Tomb"><img src="public/images/icon/E.png" alt="จ่าย Energy"><span class="energy-pay-cross" aria-hidden="true">×</span></button>
-            <span id="testEnergyCount" class="test-energy-count">0 ใบ</span>
-          </div>
+        <div class="manual-playmat" id="playBoard">
+          <div class="playmat-hint">ลากการ์ดจาก HAND มาวางตรงไหนก็ได้</div>
           <div class="board-piles">
-            <div class="board-pile" id="testDeckPile" title="จำนวนการ์ดที่เหลือใน Deck">
-              <span aria-hidden="true">▤</span><b id="pileCount">0</b>
+            <div class="board-pile" id="testDeckPile" title="คลิกเพื่อจั่ว 1 ใบ">
+              <span>DECK</span><b id="pileCount">0</b>
             </div>
-            <button class="pile-action-btn deck-draw-action" id="deckDrawAction" type="button" title="จั่วการ์ด 1 ใบ">＋ จั่ว 1 ใบ</button>
-            <button class="pile-action-btn deck-top-tomb-action" id="deckTopToTombAction" type="button" title="นำการ์ดใบบนสุดจาก Deck ลง Tomb 1 ใบ">↓ Deck ลง Tomb 1 ใบ</button>
-            <button class="pile-action-btn deck-shuffle-action" id="deckShuffleAction" type="button" title="สลับลำดับการ์ดที่เหลือใน Deck">⤨ สลับ Deck</button>
-            <div class="board-pile tomb-pile-manual" id="testTombPile" title="จำนวนการ์ดใน Tomb">
-              <b id="tombCount">0</b>
+            <div class="board-pile tomb-pile-manual" id="testTombPile" title="สุสาน">
+              <span>TOMB</span><b id="tombCount">0</b>
             </div>
           </div>
           <div id="testBoardCards" class="test-board-cards"></div>
-          <div id="testCharacterSlots" class="test-character-slots" aria-label="ช่องวาง Character"></div>
           <div id="testMasterCard" class="test-special-card test-master-card"></div>
           <div id="testZoneCard" class="test-special-card test-zone-card"></div>
           <div id="testSoulCoreUnderZone" class="test-soul-core-under-zone"></div>
           <div id="testSoulCoreCards" class="test-soul-core-cards"></div>
-          <div id="testPocketZone" class="test-pocket-zone" role="button" tabindex="0" aria-label="เลือกการ์ด Pocket มาวางที่ช่อง Pocket"><span class="test-pocket-zone-label"><img class="test-pocket-zone-icon" src="public/images/icon/Pocket.png" alt="Pocket"><b id="testPocketZoneCount">0</b></span><div id="testPocketCards" class="test-pocket-cards"></div></div>
         </div>
 
         <div class="manual-hand-panel">
@@ -460,7 +435,6 @@
 
       <div class="playtest-actions">
         <button class="gold-btn" id="drawPileBtn">DRAW 1 CARD</button>
-        <button class="gold-btn pocket-rotate-vertical-action" type="button" onclick="rotateAllPocketVertical()" title="เปลี่ยนการ์ด Pocket ทุกใบให้เป็นแนวตั้ง">↻ เปลี่ยน Pocket ทั้งหมดเป็นแนวตั้ง</button>
         <span>คลิกการ์ดในสนามเพื่อดูรายละเอียด · ลากการ์ดบนสนามเพื่อย้ายตำแหน่ง</span>
       </div>
     </section>
@@ -474,7 +448,6 @@
         </div>
       </div>
       <div class="supply-toolbar">
-        <button class="gold-btn" id="addSupplyBtn" type="button">＋ เพิ่มอุปกรณ์เสริม</button>
         <div class="supply-tabs">
           <button class="supply-tab active" data-supply-filter="ALL">ทั้งหมด</button>
 <button class="supply-tab" data-supply-filter="PLAYMAT">เพลย์แมต</button>
@@ -498,7 +471,7 @@
             <label>รายละเอียด<textarea id="supplyDesc" rows="3" placeholder="รายละเอียดของ อุปกรณ์เสริม"></textarea></label>
             <label>ราคา<input id="supplyPrice" placeholder="เช่น 590"></label>
           </div>
-          <button class="gold-btn supply-save" id="saveSupplyBtn">บันทึกอุปกรณ์เสริม</button>
+          <button class="gold-btn supply-save" id="saveอุปกรณ์เสริมBtn">บันทึกอุปกรณ์เสริม</button>
         </div>
       </div>
 	  <div id="supplyDetailModal" class="supply-detail-modal hidden">
@@ -579,12 +552,12 @@
 <br>
 <br>
 วิธีการเล่นพื้นฐาน<br>
-<span class="text-red">1</span> ) เริ่มเกม จั่วการ์ดขึ้นมือ <span class="text-red">5</span> ใบ หากบนมือมีการ์ด <span class="text-red">Pocket</span> <span class="text-red">4</span> หรือ <span class="text-red">5</span> ใบ ให้แสดงการ์ดบนมือทั้งหมดให้คู่แข่งเห็นและนำการ์ดบนมือทั้งหมดสลับกลับกองการ์ด จากนั้นจั่วใหม่ <span class="text-red">5</span> ใบ <span class="text-red">(</span>หากมี <span class="text-red">Pocket</span> <span class="text-red">3</span> ใบหรือน้อยกว่าจะไม่สามารถเปลี่ยนได้<span class="text-red">)</span> จากนั้น นำการ์ด <span class="text-red">Soul</span> <span class="text-red">Core</span> ไปวางที่โซน <span class="text-red">SC</span>  และนำการ์ด <span class="text-red">Master</span> กับ <span class="text-red">Zone</span> ไปวางที่โซน <span class="text-red">M</span> และ <span class="text-red">Z</span> <br>
+<span class="text-red">1</span> ) เริ่มเกม นำการ์ด <span class="text-red">Soul</span> <span class="text-red">Core</span> ไปวางที่โซน <span class="text-red">SC</span>  และนำการ์ด <span class="text-red">Master</span> กับ <span class="text-red">Zone</span> ไปวางที่โซน <span class="text-red">M</span> และ <span class="text-red">Z</span> ในสภาพคว่ำหน้า และเมื่อประกาศ <span class="text-red">UNSEAL!!!</span> เพื่อเริ่มการต่อสู้ ทำการจั่วการ์ดขึ้นมือ <span class="text-red">5</span> ใบ หากบนมือมีการ์ด <span class="text-red">Pocket</span> <span class="text-red">4</span> หรือ <span class="text-red">5</span> ใบ ให้แสดงการ์ดบนมือทั้งหมดให้คู่แข่งเห็นและนำการ์ดบนมือทั้งหมดสลับกลับกองการ์ด จากนั้นจั่วใหม่ <span class="text-red">5</span> ใบ <span class="text-red">(</span>หากมี <span class="text-red">Pocket</span> <span class="text-red">3</span> ใบหรือน้อยกว่าจะไม่สามารถเปลี่ยนได้<span class="text-red">)</span>  <br>
 <span class="text-red">2</span> ) <span class="text-red">Pocket</span> <span class="text-red">Phase</span> จะต้องทำทั้ง <span class="text-red">2</span> ตัวเลือก <br>
     <span class="text-red">2.1</span> ) ทำการเปลี่ยนสภาพการ์ดบนสนามเป็นสภาพ <span class="text-red">Ok</span> จากสภาพ <span class="text-red">Don't</span> และ จั่วการ์ด <span class="text-red">1</span> ใบ <br>
 	<span class="text-red">2.2</span> ) หาการ์ด <span class="text-red">Pocket</span> จากที่ไหนก็ได้ ไม่ว่าจะเป็น กองการ์ด, <span class="text-red">Tomp</span>, บนมือ, <span class="text-red">Energy</span> รวมกัน <span class="text-red">1-2</span> ใบแล้วเอามาวางที่ <span class="text-red">Pocket</span> <span class="text-red">Area</span> ถ้าเอาจากมือให้จั่วการ์ดตามจำนวน และ ถ้าเอาจาก <span class="text-red">Energy</span> ให้นำใบบนสุดจากกองไปคว่ำหน้าไว้ตรง <span class="text-red">Energy</span> <span class="text-red">Area</span> ตามจำนวน และหลังจากนั้น หากคุณนำการ์ด<span class="text-red">Pocket</span>มาวางที่<span class="text-red">Pocket</span> <span class="text-red">Area</span> <span class="text-red">1</span> ใบ ให้จั่วการ์ดเพิ่ม <span class="text-red">1</span> ใบ <span class="text-red">(</span>ยกเว้นบน<span class="text-red">Pocket</span> <span class="text-red">Area</span> ของคุณมี<span class="text-red">Pocket</span> ครบ <span class="text-red">10</span> ใบ แล้วเงื่อนไขนี้จะไม่ทำงาน<span class="text-red">)</span><br>
 	ขั้นตอนนี้จะจั่วก่อนหรือจะหา <span class="text-red">Pocket</span> ก่อนก็ได้<br>
-<span class="text-red">3</span> ) <span class="text-red">Main</span> <span class="text-red">Phase</span> ช่วงนี้จะทำได้ทุกอย่างเลย ลงการ์ดจากมือ ใช้ความสามารถของการ์ด ประกาศโจมตีหรือขโมย เปิดใช้งาน <span class="text-red">Zone</span> วิธีการลงการ์ด <span class="text-red">character</span> จะต้องเปลี่ยนสภาพของการ์ด <span class="text-red">Pocket</span> ให้เป็นสภาพ <span class="text-red">Don't</span> ตามจำนวนค่าคอสมุมซ้ายบน <span class="text-red">Action</span> และ <span class="text-red">Gear</span> ก็วิธีเดียวกัน วิธีการโจมตีและขโมย ให้เปลี่ยนสภาพของการ์ดที่จะโจมตีหรือขโมย เป็น <span class="text-red">Don't</span> เพื่อทำการโจมตีใครที่มีพลังมากกว่าจะเป็นคนชนะ หากมีพลังเท่ากัน คนที่โจมตีจะเป็นฝ่ายชนะ<br>
+<span class="text-red">3</span> ) <span class="text-red">Main</span> <span class="text-red">Phase</span> ช่วงนี้จะทำได้ทุกอย่างเลย ลงการ์ดจากมือ ใช้ความสามารถของการ์ด ประกาศโจมตีหรือขโมย ทำการ <span class="text-red">Unite Zone</span> วิธีการลงการ์ด <span class="text-red">character</span> จะต้องเปลี่ยนสภาพของการ์ด <span class="text-red">Pocket</span> ให้เป็นสภาพ <span class="text-red">Don't</span> ตามจำนวนค่าคอสมุมซ้ายบน <span class="text-red">Action</span> และ <span class="text-red">Gear</span> ก็วิธีเดียวกัน วิธีการโจมตีและขโมย ให้เปลี่ยนสภาพของการ์ดที่จะโจมตีหรือขโมย เป็น <span class="text-red">Don't</span> เพื่อทำการโจมตีใครที่มีพลังมากกว่าจะเป็นคนชนะ หากมีพลังเท่ากัน คนที่โจมตีจะเป็นฝ่ายชนะ<br>
 <span class="text-red">4</span> ) ช่วง <span class="text-red">End</span> <span class="text-red">Phase</span> จะสามารถใช้งานความสามารถที่บอกว่าเมื่อจบเทิร์นได้จากนั้นให้คู่แข่งเล่นต่อ <br>
 <br>
 <br>
@@ -612,7 +585,7 @@
 
 <span class="text-red">8</span> ) การ์ด <span class="text-red">Gear</span> จะสามารถสวมใส่ให้ได้เฉพาะการ์ดตามเงื่อนไขเท่านั้น<br>
 
-<span class="text-red">9</span> ) การ์ด <span class="text-red">Master</span> จะสามารถจะสามารถเปิด<span class="text-red">Zone</span>ได้เฉพาะชื่อ <span class="text-red">Zone</span> บนการ์ด<span class="text-red">Master</span>เท่านั้น หากชื่อไม่ตรงกับที่ระบุไว้ จะไม่สามารถเปิดใช้งานได้<br>
+<span class="text-red">9</span> ) การ์ด <span class="text-red">Master</span> จะสามารถจะสามารถ<span class="text-red">Unite Zone</span>ได้เฉพาะชื่อ <span class="text-red">Zone</span> บนการ์ด<span class="text-red">Master</span>เท่านั้น หากชื่อไม่ตรงกับที่ระบุไว้ จะไม่สามารถเปิดใช้งานได้<br>
 
 <span class="text-red">10</span> ) <span class="text-red">Character</span> ถ้าช่องเต็ม <span class="text-red">4</span> ช่องไม่สามารถลงเพิ่มหรือทับได้นอกจากจะมีความสามารถที่ทำให้เกิดขึ้นได้<br>
 
@@ -622,7 +595,7 @@
 
 <span class="text-red">13</span> ) การจ่ายหรือขโมยการ์ด <span class="text-red">Energy</span> <span class="text-red">Soul</span> จะต้องเปิดการ์ดใบแรกสุดจากด้านบนเสมอ<br>
 
-<span class="text-red">14</span> ) ฝ่ายโจมตีถ้าพลังเท่ากับหรือน้อยกว่าฝ่ายรับ ฝ่ายตีจะไม่โดน Kill จากการต่อสู้ <br>
+<span class="text-red">14</span> ) ฝ่ายโจมตีถ้าพลังเท่ากับหรือน้อยกว่าฝ่ายรับ ฝ่ายตีจะไม่โดน <span class="text-red">Kill</span> จากการต่อสู้ <br>
 
 <span class="text-red">15</span> ) ถ้ามีการทอยลูกเต๋า ต้องทอยลูกเต๋าที่มีจำนวนหน้าตามที่การ์ดบอกเท่านั้น เช่น <span class="text-red">D6 D12 D20</span> <br>
 
@@ -632,7 +605,7 @@
 
 <span class="text-red">18</span> ) หากเมื่อโจมตีแล้วพลังเท่ากันฝ่ายโจมตีหรือขโมยจะเป็นฝ่ายชนะเสมอ<br>
 
-<span class="text-red">19</span> ) เมื่อเปิด <span class="text-red">Zone</span> จะไม่ถือว่าเป็นการกระทำไม่สามารถใช้งาน <span class="text-red">Counter</span> ได้ต่อเมื่อใน<br>
+<span class="text-red">19</span> ) เมื่อทำการ <span class="text-red">Unite Zone</span> จะไม่ถือว่าเป็นการกระทำไม่สามารถใช้งาน <span class="text-red">Counter</span> ได้ต่อเมื่อใน<br>
 
 <span class="text-red">20</span> ) <span class="text-red">Soul</span> <span class="text-red">Core</span> จะต้องเรียงลำดับตามเลขของการ์ดเท่านั้น<br>
 
@@ -672,8 +645,8 @@
         <div class="howtoplay-section-label">03 / CARD TYPES</div>
         <h3>รู้จักประเภทการ์ด</h3>
         <div class="howtoplay-type-list">
-          <div><span class="howtoplay-type-icon">M</span><div><b>Master</b><p>การ์ด Master ประจำเด็ค แยกจากตัวเด็ค เป็นการ์ดผู้นำที่รับผิดชอบเก็บและปกป้อง Soul Core มีความสามารถ 2 ฝั่ง ฝั่งซ้ายเป็นความสามารถที่เป็นความสามารถที่ใช้ได้ตั้งแต่เริ่มเกม ความสามารถฝั่งขวาคือความสามารถที่ต้องรอให้ Zone ทำงานก่อนถึงจะสามารถใช้งานได้</p></div></div>
-          <div><span class="howtoplay-type-icon">Z</span><div><b>Zone</b><p>แยกจากตัวเด็ค เป็นการ์ดพื้นที่ที่มีด้านหน้าและด้านหลัง โดยด้านหลังจะเป็นเงื่อนไขในการเปิดใช้งาน Zone ส่วนด้านหน้าจะเป็นความสามารถของ Zone</p></div></div>
+          <div><span class="howtoplay-type-icon">M</span><div><b>Master</b><p>การ์ด Master ประจำเด็ค แยกจากตัวเด็ค เป็นการ์ดผู้นำที่รับผิดชอบเก็บและปกป้อง Soul Core มีความสามารถ 2 ฝั่ง ฝั่งซ้ายเป็นความสามารถที่เป็นความสามารถที่ใช้ได้ตั้งแต่เริ่มเกม ความสามารถฝั่งขวาคือความสามารถที่ต้องรอให้ Zone ทำการ Unite ก่อนถึงจะสามารถใช้งานได้</p></div></div>
+          <div><span class="howtoplay-type-icon">Z</span><div><b>Zone</b><p>แยกจากตัวเด็ค เป็นการ์ดพื้นที่ที่มีด้านหน้าและด้านหลัง โดยด้านหลังจะเป็นเงื่อนไขในการ Unite Zone ส่วนด้านหน้าจะเป็นความสามารถของ Zone</p></div></div>
           <div><span class="howtoplay-type-icon">SC</span><div><b>Soul Core</b><p>เป็นการ์ดที่แยกออกจากตัวเด็คจำนวน 7 ใบ เมื่อถูกขโมยหรือทำลายจนครบ 7 ใบก็แพ้ หรือถ้าขโมยจนครบ 7 ใบก็ชนะ</p></div></div>
           <div><span class="howtoplay-type-icon">Pocket</span><div><b>Pocket</b><p>เป็นการ์ดที่รวมอยู่ในเด็ค ทำหน้าที่เป็นค่าคอสเหมือนเป็นสิ่งที่เรียกใช้วิญญาณได้ ด้วยจำนวนที่กำหนด และ ยังสามารถใช้งานความสามารถ Counter ของ Pocket ได้ด้วย ต้องมีจำนวน 10 ใบในเด็ค</p></div></div>
           <div><span class="howtoplay-type-icon">C</span><div><b>Character</b><p>เป็นการ์ดที่รวมอยู่ในเด็ค เป็นการ์ดตัวละคร เหมือนเป็นพวกพองที่ฝากจิตวิญญาณไว้กับ Master โดยมี ค่าคอส ในการลงสนาม และความสามารถจากการ์ดจริง</p></div></div>
@@ -711,8 +684,8 @@
   <div>
     <img class="keyword-OpenZone"
 	src="public/images/icon/OpenZone.png" alt="OpenZone">
-    <b>OpenZone</b>
-    <span>เป็นเงื่อนไขการเปิด Zone </span>
+    <b>Unite Zone</b>
+    <span>เป็นเงื่อนไขการสั่ง Unite Zone เพื่อให้การ์ด Zone ทำงาน </span>
   </div>
 
   <div>
@@ -774,8 +747,8 @@
   <img class="keyword-ZoneOpen"
        src="public/images/icon/ZoneOpen.png"
        alt="ZoneOpen">
-  <b>ZoneOpen-...</b>
-  <span>ความสามารถหลังสัญลักษณ์นี้จะทำงานเมื่อการ์ด Zone เคยทำงานไปแล้วในเกมนี้เท่านั้น</span>
+  <b>Unite Zone - ...</b>
+  <span>ความสามารถหลังสัญลักษณ์นี้จะทำงานเมื่อการ์ด Zone เคย Unite ไปแล้วในเกมนี้เท่านั้น</span>
 </div>
 
 
@@ -863,6 +836,6 @@
       </div>
     </div>
   </div>
-  <script src="app.js?v=20261024-mobile-button-fix-v2"></script>
+  <script src="app.js?v=20261023-news-slideshow"></script>
 </body>
 </html>

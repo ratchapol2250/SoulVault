@@ -611,26 +611,7 @@ document.querySelector("#detailNextBtn")?.addEventListener(
   showNextCard
 );
 document.querySelector("#modal").onclick=e=>{if(e.target.id==="modal")closeModal()};
-const mobileMenuButton=document.querySelector("#menuBtn");
-if(mobileMenuButton){
-  mobileMenuButton.setAttribute("aria-controls","siteSidebar");
-  mobileMenuButton.setAttribute("aria-expanded","false");
-  const sidebar=document.querySelector(".sidebar");
-  if(sidebar) sidebar.id="siteSidebar";
-  mobileMenuButton.addEventListener("click",event=>{
-    event.preventDefault();
-    event.stopPropagation();
-    if(!sidebar) return;
-    const isOpen=sidebar.classList.toggle("open");
-    mobileMenuButton.setAttribute("aria-expanded",String(isOpen));
-  });
-  document.addEventListener("click",event=>{
-    if(!sidebar || !sidebar.classList.contains("open")) return;
-    if(sidebar.contains(event.target) || mobileMenuButton.contains(event.target)) return;
-    sidebar.classList.remove("open");
-    mobileMenuButton.setAttribute("aria-expanded","false");
-  });
-}
+document.querySelector("#menuBtn").onclick=()=>document.querySelector(".sidebar").classList.toggle("open");
 document.querySelector("#clearRosterFilters")?.addEventListener("click",()=>{
   resetRosterFilters();
   render();
@@ -2057,13 +2038,8 @@ let testDeck=null;
 let testStack=[];
 let testHand=[];
 let testTomb=[];
-let testEnergyCards=[];
-let testPocketCards=[];
-let selectedPocketUid=null;
-let selectedPocketCards=new Map();
 let testTurn=0;
-let testBoard={freeCards:[],characters:[]};
-let testMasterGear=[];
+let testBoard={freeCards:[]};
 let testSoulCoreUnderZone=[];
 let testSpecialRotation={master:0};
 let testZoneFlipped=true;
@@ -2087,7 +2063,7 @@ function buildTestDeck(){
   const id=sel?.value||localStorage.getItem("stealAreaActiveDeckId");
   testDeck=decks.find(d=>d.id===id)||decks[0]||null;
   if(!testDeck){
-    testStack=[];testHand=[];testTomb=[];testEnergyCards=[];testPocketCards=[];testTurn=0;testBoard={freeCards:[],characters:[]};testMasterGear=[];testSoulCoreUnderZone=[];testSpecialRotation={master:0};testZoneFlipped=true;
+    testStack=[];testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={master:0};testZoneFlipped=true;
     renderTest(); return;
   }
   localStorage.setItem("stealAreaActiveDeckId",testDeck.id);
@@ -2102,7 +2078,7 @@ function buildTestDeck(){
   }
   testStack=testStack.slice(0,60);
   testStack.sort(()=>Math.random()-.5);
-  testHand=[];testTomb=[];testEnergyCards=[];testPocketCards=[];testTurn=0;testBoard={freeCards:[],characters:[]};testMasterGear=[];testSoulCoreUnderZone=[];testSpecialRotation={master:0};testZoneFlipped=true;
+  testHand=[];testTomb=[];testTurn=0;testBoard={freeCards:[]};testSoulCoreUnderZone=[];testSpecialRotation={master:0};testZoneFlipped=true;
   renderTest();
 }
 
@@ -2112,88 +2088,7 @@ function drawCards(n){
   renderTest();
 }
 
-// Move exactly one top card from Deck directly into Tomb.
-function sendTopDeckCardToTomb(){
-  if(!testStack.length)return;
-  testTomb.push(String(testStack.pop()));
-  testTurn++;
-  renderTest();
-}
-window.sendTopDeckCardToTomb=sendTopDeckCardToTomb;
-
-// Shuffle only the cards that remain in the Deck; all other zones stay unchanged.
-function shuffleRemainingDeck(){
-  for(let i=testStack.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [testStack[i],testStack[j]]=[testStack[j],testStack[i]];
-  }
-  testTurn++;
-  renderTest();
-}
-
-// Move the current top card of the Deck into Energy, face down and landscape.
-function addTopCardToEnergy(){
-  if(!testStack.length)return;
-  testEnergyCards.push(String(testStack.pop()));
-  testTurn++;
-  renderTest();
-}
-window.addTopCardToEnergy=addTopCardToEnergy;
-
-// Pay the topmost Energy card to Tomb, one card per click.
-function payTopEnergyToTomb(){
-  if(!testEnergyCards.length)return;
-  const topEnergyId=testEnergyCards.pop();
-  testTomb.push(String(topEnergyId));
-  testTurn++;
-  renderTest();
-}
-window.payTopEnergyToTomb=payTopEnergyToTomb;
-
-// Pay the topmost Pocket card to Tomb, one card per click.
-function payTopPocketToTomb(){
-  if(!Array.isArray(testPocketCards)||!testPocketCards.length)return;
-  const topPocketCard=testPocketCards.pop();
-  if(!topPocketCard)return;
-  testTomb.push(String(topPocketCard.id));
-  if(selectedPocketUid===topPocketCard.uid)selectedPocketUid=null;
-  testTurn++;
-  renderTest();
-}
-window.payTopPocketToTomb=payTopPocketToTomb;
-
-function renderEnergyArea(){
-  const list=document.querySelector("#testEnergyCards");
-  const count=document.querySelector("#testEnergyCount");
-  const button=document.querySelector("#addEnergyBtn");
-  if(!list)return;
-  list.innerHTML=testEnergyCards.map((id,index)=>{
-    const c=cards.find(item=>String(item.id)===String(id));
-    const back="public/images/cards/หลังการ์ดปกติ.jpg";
-    return `<div class="energy-card-back" data-energy-index="${index}" style="top:${index*14}px;z-index:${index+1}" title="Energy ${index+1}">
-      <img src="${back}" alt="ด้านหลังการ์ด Energy" onerror="this.remove()"><span class="energy-back-ornament">✦</span><b>SOULVAULT</b><small>ENERGY SOUL</small><span class="energy-back-ornament">✦</span>
-    </div>`;
-  }).join("");
-  if(count)count.textContent=`${testEnergyCards.length} ใบ`;
-  if(button)button.disabled=!testStack.length;
-  const payButton=document.querySelector("#payEnergyBtn");
-  if(payButton)payButton.disabled=!testEnergyCards.length;
-}
-
 function resetTest(){buildTestDeck()}
-
-function canReturnBoardCardToHand(id){
-  const type=getTestCardType(id);
-  if(["master","zone","soul core","soulcore","energy"].includes(type))return false;
-  if(testDeck && [testDeck.master,testDeck.zone,...(testDeck.soulCores||[])].some(value=>String(value)===String(id)))return false;
-  return true;
-}
-function returnBoardCardToHand(id,removeCard){
-  if(!canReturnBoardCardToHand(id))return;
-  testHand.push(String(id));
-  removeCard();
-  renderTest();
-}
 
 function sendToTomb(id,fromHand=true){
   if(fromHand){
@@ -2227,706 +2122,109 @@ function addBoardCard(id,x=.45,y=.45){
   });
 }
 
-function getTestCardType(id){
-  return String(cards.find(c=>String(c.id)===String(id))?.type||"").trim().toLowerCase();
-}
-function isGearCard(id){ return getTestCardType(id)==="gear"; }
-function attachedGearStackHTML(ids=[],ownerType="",slotId=""){
-  if(!Array.isArray(ids)||!ids.length)return "";
-  return `<div class="attached-gear-stack" aria-label="Gear ที่สวมใส่">${ids.map((id,i)=>{
-    const c=cards.find(card=>String(card.id)===String(id));
-    if(!c)return "";
-    const image=c.image ? `<img src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name||"Gear")}">` : `<span class="attached-gear-fallback">${escapeHtml(c.name||"Gear")}</span>`;
-    return `<div class="attached-gear-item" style="--gear-index:${i}" title="${escapeHtml(c.name||"Gear")}">${image}<span class="attached-gear-label">${escapeHtml(c.name||"Gear")}</span><button type="button" class="attached-gear-tomb" data-gear-owner="${escapeHtml(ownerType)}" data-gear-slot="${escapeHtml(slotId)}" data-gear-index="${i}" title="นำ Gear ลง Tomb">T</button></div>`;
-  }).join("")}</div>`;
-}
-function sendAttachedGearToTomb(ownerType,slotId,index){
-  const gearIndex=Number(index);
-  let list=null;
-  if(ownerType==="master") list=testMasterGear;
-  else if(ownerType==="character") list=testBoard.characters?.find(item=>String(item.slot)===String(slotId))?.gearIds;
-  if(!Array.isArray(list)||!Number.isInteger(gearIndex)||gearIndex<0||gearIndex>=list.length)return;
-  const [gearId]=list.splice(gearIndex,1);
-  testTomb.push(String(gearId));
-  renderTest();
-}
-function attachGearFromSource(data,target){
-  if(!data || !["hand","board"].includes(data.source))return false;
-  const sourceList=data.source==="hand"?testHand:testBoard.freeCards;
-  const item=sourceList[data.index];
-  const id=data.source==="hand"?item:item?.id;
-  if(id==null || !isGearCard(id))return false;
-  if(data.source==="hand")testHand.splice(data.index,1);
-  else testBoard.freeCards.splice(data.index,1);
-  if(target.type==="master") testMasterGear.push(String(id));
-  else {
-    const character=testBoard.characters?.find(c=>c.slot===target.slotId);
-    if(!character){
-      // No Character occupies this slot; restore the source card and let normal drop behavior continue.
-      if(data.source==="hand")testHand.splice(data.index,0,String(id));
-      else testBoard.freeCards.splice(data.index,0,item);
-      return false;
-    }
-    if(!Array.isArray(character.gearIds))character.gearIds=[];
-    character.gearIds.push(String(id));
-  }
-  renderTest();
-  return true;
-}
-
-function openGearTargetPicker(data){
-  if(!data || !["hand","board"].includes(data.source))return false;
-  const sourceList=data.source==="hand"?testHand:testBoard.freeCards;
-  const item=sourceList[data.index];
-  const id=data.source==="hand"?item:item?.id;
-  if(id==null || !isGearCard(id))return false;
-  document.querySelector("#gearTargetPicker")?.remove();
-  const targets=[
-    ...(testDeck?.master?[{type:"master",label:"Master",id:String(testDeck.master)}]:[]),
-    ...(testBoard.characters||[]).map((c,i)=>({type:"character",slotId:c.slot,id:String(c.id),label:`Character ${i+1}: ${(cards.find(x=>String(x.id)===String(c.id))?.name)||"Character"}`}))
-  ];
-  const overlay=document.createElement("div");
-  overlay.id="gearTargetPicker";
-  overlay.className="gear-target-overlay";
-  overlay.innerHTML=`<div class="gear-target-panel" role="dialog" aria-modal="true" aria-label="เลือกการ์ดสำหรับสวม Gear">
-    <h3>เลือกการ์ดที่จะติดตั้ง Gear</h3>
-    <p>เลือก Master หรือ Character ที่อยู่บนสนาม</p>
-    <div class="gear-target-options">${targets.map((t,i)=>`<button type="button" class="gear-target-option" data-target-index="${i}">${escapeHtml(t.label)}</button>`).join("")}</div>
-    <button type="button" class="gear-target-cancel">ยกเลิก</button>
-  </div>`;
-  document.body.appendChild(overlay);
-  overlay.querySelectorAll("[data-target-index]").forEach(btn=>btn.addEventListener("click",()=>{
-    const target=targets[Number(btn.dataset.targetIndex)];
-    if(target)attachGearFromSource(data,target);
-    overlay.remove();
-  }));
-  overlay.querySelector(".gear-target-cancel")?.addEventListener("click",()=>overlay.remove());
-  overlay.addEventListener("click",e=>{if(e.target===overlay)overlay.remove();});
-  return true;
-}
-
 function openTestCardDetail(id){
   const c=cards.find(x=>String(x.id)===String(id));
   if(c) openCard(c);
 }
-function openDeckViewer(count=null){
-  const modal=document.querySelector("#deckViewerModal");
-  const grid=document.querySelector("#deckViewerGrid");
-  const summary=document.querySelector("#deckViewerSummary");
-  if(!modal || !grid || !summary)return;
-  const total=testStack.length;
-  if(count===null){
-    summary.textContent=`Deck มี ${total} ใบ · เลือกจำนวนการ์ดที่ต้องการดู`;
-    grid.innerHTML="";
-    grid.classList.add("deck-viewer-grid-hidden");
-    modal.querySelectorAll("[data-deck-view-count]").forEach(btn=>btn.classList.remove("active"));
-    modal.classList.remove("hidden");
-    return;
-  }
-  const amount=count==="all" ? total : Math.min(Math.max(1,Number(count)||1),total);
-  // testStack.pop() คือการ์ดบนสุด จึงแสดงจากบนสุดลงไป
-  const visibleIds=testStack.slice(Math.max(0,total-amount)).reverse();
-  summary.textContent=count==="all"
-    ? `แสดงการ์ดทั้งหมด ${total} ใบ · คลิกการ์ดเพื่อเลือกขึ้นมือหรือลงสนาม`
-    : `แสดง ${visibleIds.length} ใบจากด้านบนของ Deck · คลิกการ์ดเพื่อเลือกขึ้นมือหรือลงสนาม`;
-  grid.innerHTML=visibleIds.map((id,index)=>{
-    const c=cards.find(x=>String(x.id)===String(id));
-    if(!c)return "";
-    return `<div class="deck-picker-card deck-viewer-card ${rarityClass(c.rarity)}" data-id="${escapeHtml(id)}" title="คลิกเพื่อเลือก ${escapeHtml(c.name)}">
-      ${c.image ? `<img src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}" loading="lazy">` : `<b>${escapeHtml(c.name)}</b>`}
-      <span class="deck-picker-count">บนสุด ${index+1}</span>
-    </div>`;
-  }).join("") || `<div class="deck-viewer-empty">ไม่มีการ์ดเหลือใน Deck</div>`;
-  grid.classList.remove("deck-viewer-grid-hidden");
-  grid.querySelectorAll(".deck-viewer-card[data-id]").forEach(card=>{
-    card.addEventListener("click",()=>openDeckCardChoice(card.dataset.id));
-  });
-  modal.querySelectorAll("[data-deck-view-count]").forEach(btn=>{
-    btn.classList.toggle("active",String(btn.dataset.deckViewCount)===String(count));
-  });
-  modal.classList.remove("hidden");
-}
-function closeDeckViewer(){document.querySelector("#deckViewerModal")?.classList.add("hidden");}
-document.querySelector("#closeDeckViewer")?.addEventListener("click",closeDeckViewer);
-document.querySelectorAll("[data-deck-view-count]").forEach(btn=>btn.addEventListener("click",()=>openDeckViewer(btn.dataset.deckViewCount)));
-document.querySelector("#deckViewerModal")?.addEventListener("click",e=>{if(e.target.id==="deckViewerModal")closeDeckViewer();});
-window.closeDeckViewer=closeDeckViewer;
-
 function openDeckPicker(){
   const modal=document.querySelector("#deckPickerModal");
   const grid=document.querySelector("#deckPickerGrid");
   if(!modal || !grid)return;
+
+  // รวมการ์ดที่เหลือใน Deck และนับจำนวน
   const counts={};
-  testStack.forEach(id=>{counts[id]=(counts[id]||0)+1;});
+  testStack.forEach(id=>{
+    counts[id]=(counts[id]||0)+1;
+  });
+
   grid.innerHTML=Object.entries(counts).map(([id,count])=>{
     const c=cards.find(x=>String(x.id)===String(id));
     if(!c)return "";
-    return `<div class="deck-picker-card ${rarityClass(c.rarity)}" data-id="${escapeHtml(id)}">
-      ${c.image ? `<img src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">` : `<b>${escapeHtml(c.name)}</b>`}
-      <span class="deck-picker-count">×${count}</span>
-    </div>`;
+
+    return `
+      <div class="deck-picker-card ${rarityClass(c.rarity)}"
+           data-id="${escapeHtml(id)}">
+        ${c.image
+          ? `<img src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">`
+          : `<b>${escapeHtml(c.name)}</b>`
+        }
+        <span class="deck-picker-count">×${count}</span>
+      </div>
+    `;
   }).join("");
-  grid.querySelectorAll(".deck-picker-card").forEach(card=>card.addEventListener("click",()=>openDeckCardChoice(card.dataset.id)));
-  modal.classList.remove("hidden");
-}
+
+  grid.querySelectorAll(".deck-picker-card").forEach(card=>{
+    card.addEventListener("click",()=>{
+  const id=card.dataset.id;
+  openDeckCardChoice(id);
+});
+
+  });
 function openDeckCardChoice(id){
   const c=cards.find(x=>String(x.id)===String(id));
-  if(!c || !testStack.some(cardId=>String(cardId)===String(id)))return;
-  document.querySelectorAll(".deck-card-choice").forEach(el=>el.remove());
+  if(!c)return;
+
   const choice=document.createElement("div");
   choice.className="deck-card-choice";
-  choice.innerHTML=`<div class="deck-card-choice-box">
-    <button class="close deck-choice-close" type="button" aria-label="ปิด">×</button>
-    <h3>${escapeHtml(c.name)}</h3>
-    <p>ต้องการนำการ์ดนี้ไปไว้ที่ไหน?</p>
-    <div class="deck-choice-actions">
-      <button class="gold-btn" id="choiceToHand" type="button">✋ ขึ้น HAND</button>
-      <button class="gold-btn" id="choiceToBoard" type="button">◈ ลงสนาม</button>
+
+  choice.innerHTML=`
+    <div class="deck-card-choice-box">
+      <button class="close deck-choice-close">×</button>
+
+      <h3>${escapeHtml(c.name)}</h3>
+      <p>ต้องการนำการ์ดนี้ไปไว้ที่ไหน?</p>
+
+      <div class="deck-choice-actions">
+        <button class="gold-btn" id="choiceToHand">
+          ✋ ขึ้น HAND
+        </button>
+
+        <button class="gold-btn" id="choiceToBoard">
+          ◈ ลงสนาม
+        </button>
+      </div>
     </div>
-  </div>`;
+  `;
+
   document.body.appendChild(choice);
-  choice.querySelector(".deck-choice-close").onclick=()=>choice.remove();
-  choice.addEventListener("click",e=>{if(e.target===choice)choice.remove();});
-  choice.querySelector("#choiceToHand").onclick=()=>{takeCardFromDeck(id,"hand");choice.remove();};
-  choice.querySelector("#choiceToBoard").onclick=()=>{takeCardFromDeck(id,"board");choice.remove();};
+
+  choice.querySelector(".deck-choice-close").onclick=()=>{
+    choice.remove();
+  };
+
+  choice.querySelector("#choiceToHand").onclick=()=>{
+    takeCardFromDeck(id,"hand");
+    choice.remove();
+  };
+
+  choice.querySelector("#choiceToBoard").onclick=()=>{
+    takeCardFromDeck(id,"board");
+    choice.remove();
+  };
 }
 function takeCardFromDeck(id,destination){
-  const index=testStack.findIndex(cardId=>String(cardId)===String(id));
+  const index=testStack.indexOf(String(id));
   if(index<0)return;
-  const [pickedId]=testStack.splice(index,1);
-  if(destination==="hand")testHand.push(String(pickedId));
-  if(destination==="board")addBoardCard(String(pickedId),.70,.05);
+
+  testStack.splice(index,1);
+
+  if(destination==="hand"){
+    testHand.push(String(id));
+  }
+
+  if(destination==="board"){
+    addBoardCard(String(id),.70,.05);
+  }
+
   closeDeckPicker();
-  closeDeckViewer();
   renderTest();
 }
-function closeDeckPicker(){document.querySelector("#deckPickerModal")?.classList.add("hidden");}
-
-// Four Character slots marked C on the lower player's side of Playmat 60.
-// Coordinates are percentages of the supplied square playmat image.
-const TEST_CHARACTER_SLOTS = [
-  // Measured from the centers and inner edges of the four printed C frames
-  // on the lower-player side of เพลแมต60.jpg (2048 × 2048).
-  {id:0, x:.385, y:.666, w:.119, h:.151},
-  {id:1, x:.615, y:.666, w:.119, h:.151},
-  {id:2, x:.282, y:.819, w:.132, h:.140},
-  {id:3, x:.718, y:.819, w:.132, h:.140}
-];
-let pendingCharacterPlacement = null;
-
-function findCharacterSlot(x,y){
-  // Use a forgiving drop target around each printed C frame. Native drag-and-drop
-  // reports the pointer position (not necessarily the card center), so allow a
-  // little extra vertical tolerance while still choosing only a nearby C slot.
-  let best=null, bestScore=Infinity;
-  for(const slot of TEST_CHARACTER_SLOTS){
-    const dx=Math.abs(x-slot.x)/slot.w;
-    const dy=Math.abs(y-slot.y)/slot.h;
-    const score=dx*dx+dy*dy;
-    if(dx<=0.78 && dy<=1.25 && score<bestScore){
-      best=slot;
-      bestScore=score;
-    }
-  }
-  return best;
+  modal.classList.remove("hidden");
 }
 
-// Upper-right U frame accepts a regular board card and stores it horizontally.
-function isUSlotDrop(x,y){
-  // Coordinates follow the actual U frame on the square playmat. Include the
-  // full inner frame so a drop near its decorative border is still accepted.
-  return x>=0.775 && x<=0.985 && y>=0.145 && y<=0.385;
+function closeDeckPicker(){
+  document.querySelector("#deckPickerModal")?.classList.add("hidden");
 }
-function placeCardInUSlot(id){
-  // Place by the card's visual center. The original image stays portrait and
-  // CSS rotates the card, so the artwork is never stretched or cropped.
-  // The U frame is on the right side directly above the Deck.
-  // Position by the real board-card dimensions (96 × 134 px) so the
-  // rotated card sits inside the U frame instead of the upper C/M area.
-  const board=document.querySelector("#playBoard");
-  const rect=board?.getBoundingClientRect();
-  const cardWidth=rect?.width ? 96/rect.width : .064;
-  const cardHeight=rect?.height ? 134/rect.height : .17;
-  const centerX=.866;
-  const centerY=.55; // move the horizontal card into the U frame directly above the Deck
-  addBoardCard(String(id),centerX-cardWidth/2,centerY-cardHeight/2);
-  const item=testBoard.freeCards[testBoard.freeCards.length-1];
-  if(item)item.rotation=90;
-}
-
-function canMoveCardToUSlot(id){
-  const type=getTestCardType(id);
-  if(type==="master"||type==="zone")return false;
-  if(testDeck && [testDeck.master,testDeck.zone].some(value=>value!=null&&String(value)===String(id)))return false;
-  return true;
-}
-function moveCardToUSlot(source,index){
-  let id=null;
-  if(source==="hand"){
-    const at=Number(index); if(!Number.isInteger(at)||at<0||at>=testHand.length)return;
-    id=testHand[at]; if(!canMoveCardToUSlot(id))return;
-    testHand.splice(at,1);
-  }else if(source==="board"){
-    const at=Number(index); const item=testBoard.freeCards[at]; if(!item||!canMoveCardToUSlot(item.id))return;
-    id=item.id; testBoard.freeCards.splice(at,1);
-  }else if(source==="character"){
-    const at=Number(index); const item=testBoard.characters?.[at]; if(!item||!canMoveCardToUSlot(item.id))return;
-    id=item.id;
-    (item.gearIds||[]).forEach(gearId=>testHand.push(String(gearId)));
-    testBoard.characters.splice(at,1);
-  }
-  if(id==null)return;
-  placeCardInUSlot(id);
-  renderTest();
-}
-function makeUSlotButton(source,index,id){
-  if(!canMoveCardToUSlot(id))return null;
-  const btn=document.createElement("button");
-  btn.type="button";
-  btn.className="test-u-slot-btn";
-  btn.textContent="U";
-  btn.title="ย้ายการ์ดไปช่อง U (แนวนอน)";
-  btn.setAttribute("aria-label","ย้ายการ์ดไปช่อง U");
-  btn.draggable=false;
-  btn.addEventListener("pointerdown",e=>e.stopPropagation());
-  btn.addEventListener("click",e=>{
-    e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
-    moveCardToUSlot(source,index);
-  });
-  return btn;
-}
-
-function placeCharacterCard(id,slotId,gearIds=[]){
-  if(!testBoard.characters)testBoard.characters=[];
-  // Never delete a card when a C slot is already occupied: return the old one to HAND.
-  const occupied=testBoard.characters.find(item=>item.slot===slotId);
-  if(occupied){
-    testHand.push(String(occupied.id));
-    (occupied.gearIds||[]).forEach(gearId=>testHand.push(String(gearId)));
-    testBoard.characters=testBoard.characters.filter(item=>item.slot!==slotId);
-  }
-  testBoard.characters.push({uid:"C"+Date.now()+Math.random().toString(36).slice(2,7),id:String(id),slot:slotId,rotation:0,gearIds:Array.isArray(gearIds)?gearIds.slice():[]});
-}
-
-function renderCharacterSlots(){
-  const layer=document.querySelector("#testCharacterSlots");
-  if(!layer)return;
-  const placed=(testBoard.characters||[]).map((item,index)=>{
-    const slot=TEST_CHARACTER_SLOTS.find(s=>s.id===item.slot);
-    if(!slot)return "";
-    return `<div class="character-slot-card" data-character-index="${index}" data-slot-id="${slot.id}" style="left:${slot.x*100}% !important;top:${slot.y*100}% !important;width:${slot.w*92}% !important;height:${slot.h*92}% !important">
-      ${testCardHTML(item.id,true,index,"character")}
-      ${attachedGearStackHTML(item.gearIds||[],"character",item.slot)}
-    </div>`;
-  }).join("");
-  const pending=pendingCharacterPlacement;
-  const pendingCard=pending ? `
-    <div class="character-confirm-backdrop">
-      <div class="character-confirm-panel" role="dialog" aria-modal="true" aria-label="ยืนยันการวาง Character">
-        <strong>ยืนยันการวาง Character?</strong>
-        <div class="character-confirm-preview">${testCardHTML(pending.cardId,true,0,"pending-character")}</div>
-        <div class="character-confirm-actions">
-          <button type="button" class="character-confirm-yes">ยืนยัน</button>
-          <button type="button" class="character-confirm-no">ยกเลิก</button>
-        </div>
-      </div>
-    </div>` : "";
-  layer.innerHTML=placed+pendingCard;
-
-  layer.querySelectorAll(".character-slot-card .test-card").forEach(card=>{
-    const index=Number(card.dataset.index);
-    const item=testBoard.characters[index];
-    if(!item)return;
-    card.draggable=true;
-    card.ondragstart=e=>{
-      e.dataTransfer.setData("text/plain",JSON.stringify({source:"character",index}));
-    };
-    card.classList.toggle("board-horizontal",Number(item.rotation||0)===90);
-    const cardData=cards.find(c=>String(c.id)===String(item.id));
-    if(cardData && !["Zone","Soul Core"].includes(String(cardData.type||"").trim())){
-      const rotateBtn=document.createElement("button");
-      rotateBtn.type="button";
-      rotateBtn.className="character-rotate-btn";
-      rotateBtn.title=Number(item.rotation||0)===90 ? "หมุนกลับแนวตั้ง" : "วางแนวนอน";
-      rotateBtn.textContent="↻";
-      rotateBtn.addEventListener("click",ev=>{
-        ev.preventDefault();
-        ev.stopPropagation();
-        item.rotation=Number(item.rotation||0)===90 ? 0 : 90;
-        renderTest();
-      });
-      card.appendChild(rotateBtn);
-    }
-    card.onclick=()=>openTestCardDetail(item.id);
-    card.ondblclick=()=>sendCharacterToTomb(index);
-    if(canReturnBoardCardToHand(item.id)){
-      const handBtn=document.createElement("button");
-      handBtn.type="button";
-      handBtn.className="test-hand-btn character-hand-btn";
-      handBtn.textContent="HAND";
-      handBtn.title="นำการ์ดขึ้นมือ";
-      handBtn.draggable=false;
-      handBtn.addEventListener("pointerdown",ev=>ev.stopPropagation());
-      handBtn.addEventListener("click",ev=>{
-        ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
-        returnBoardCardToHand(item.id,()=>{
-          (item.gearIds||[]).forEach(gearId=>testHand.push(String(gearId)));
-          const currentIndex=testBoard.characters.indexOf(item);
-          if(currentIndex>=0)testBoard.characters.splice(currentIndex,1);
-        });
-      });
-      card.parentElement.appendChild(handBtn);
-    }
-    const uBtn=makeUSlotButton("character",index,item.id);
-    if(uBtn)card.parentElement.appendChild(uBtn);
-    const tombBtn=document.createElement("button");
-    tombBtn.type="button";
-    tombBtn.className="test-tomb-btn board-tomb-btn";
-    tombBtn.textContent="TOMB";
-    tombBtn.title="นำ Character ลง Tomb";
-    tombBtn.addEventListener("click",ev=>{
-      ev.preventDefault();ev.stopPropagation();sendCharacterToTomb(index);
-    });
-    card.appendChild(tombBtn);
-  });
-
-  layer.querySelector(".character-confirm-yes")?.addEventListener("click",confirmCharacterPlacement);
-  layer.querySelector(".character-confirm-no")?.addEventListener("click",cancelCharacterPlacement);
-}
-
-function requestCharacterPlacement(data,slotId){
-  let cardId=null;
-  if(data.source==="hand") cardId=testHand[data.index];
-  else if(data.source==="board") cardId=testBoard.freeCards[data.index]?.id;
-  else if(data.source==="character") cardId=testBoard.characters?.[data.index]?.id;
-  if(cardId==null || getTestCardType(cardId)!=="character")return false;
-  pendingCharacterPlacement={source:data.source,index:data.index,slotId,cardId:String(cardId)};
-  renderCharacterSlots();
-  return true;
-}
-
-function confirmCharacterPlacement(){
-  const pending=pendingCharacterPlacement;
-  if(!pending)return;
-  let cardId=pending.cardId;
-  let attachedGear=[];
-  if(pending.source==="hand"){
-    if(testHand[pending.index]==null){cancelCharacterPlacement();return;}
-    cardId=String(testHand.splice(pending.index,1)[0]);
-  }else if(pending.source==="board"){
-    const item=testBoard.freeCards[pending.index];
-    if(!item){cancelCharacterPlacement();return;}
-    cardId=String(item.id);
-    testBoard.freeCards.splice(pending.index,1);
-  }else if(pending.source==="character"){
-    const item=testBoard.characters?.[pending.index];
-    if(!item){cancelCharacterPlacement();return;}
-    cardId=String(item.id);
-    attachedGear=Array.isArray(item.gearIds)?item.gearIds.slice():[];
-    testBoard.characters.splice(pending.index,1);
-  }
-  pendingCharacterPlacement=null;
-  placeCharacterCard(cardId,pending.slotId,attachedGear);
-  renderTest();
-}
-
-function cancelCharacterPlacement(){
-  pendingCharacterPlacement=null;
-  renderCharacterSlots();
-}
-
-function sendCharacterToTomb(index){
-  const item=testBoard.characters?.[index];
-  if(!item)return;
-  testTomb.push(item.id);
-  (item.gearIds||[]).forEach(gearId=>testTomb.push(String(gearId)));
-  testBoard.characters.splice(index,1);
-  renderTest();
-}
-
-function moveCardToCharacterSlot(data,slotId){
-  if(data.source==="hand"){
-    const id=testHand[data.index];
-    if(id==null)return false;
-    testHand.splice(data.index,1);
-    placeCharacterCard(id,slotId);
-    return true;
-  }
-  if(data.source==="board"){
-    const item=testBoard.freeCards[data.index];
-    if(!item)return false;
-    testBoard.freeCards.splice(data.index,1);
-    placeCharacterCard(item.id,slotId);
-    return true;
-  }
-  if(data.source==="character"){
-    const item=testBoard.characters?.[data.index];
-    if(!item)return false;
-    testBoard.characters.splice(data.index,1);
-    placeCharacterCard(item.id,slotId);
-    return true;
-  }
-  return false;
-}
-
-
-function isPocketCard(id){
-  const c=cards.find(x=>String(x.id)===String(id));
-  return !!c && String(c.type||"").toLowerCase()==="pocket";
-}
-
-function openPocketPicker(){
-  let modal=document.querySelector("#pocketPickerModal");
-  if(!modal){
-    modal=document.createElement("div");
-    modal.id="pocketPickerModal";
-    modal.className="pocket-picker-modal";
-    modal.innerHTML=`
-      <div class="pocket-picker-panel" role="dialog" aria-modal="true" aria-label="เลือกการ์ด Pocket">
-        <button type="button" class="pocket-picker-close" aria-label="ปิด">×</button>
-        <h3>เลือกการ์ด POCKET</h3>
-        <p>เลือกการ์ดได้หลายใบจาก DECK, TOMB หรือ HAND แล้วกดยืนยัน</p>
-        <div class="pocket-source-tabs">
-          <button type="button" data-pocket-source="deck" class="active">DECK</button>
-          <button type="button" data-pocket-source="tomb">TOMB</button>
-          <button type="button" data-pocket-source="hand">HAND</button>
-        </div>
-        <div class="pocket-picker-list"></div>
-        <div class="pocket-picker-footer">
-          <small class="pocket-picker-note">เลือกเฉพาะการ์ดประเภท Pocket · วางได้สูงสุด 10 ใบ</small>
-          <span class="pocket-selected-count">เลือก 0 ใบ</span>
-          <button type="button" class="pocket-picker-confirm">ยืนยันการวาง</button>
-        </div>
-      </div>`;
-    document.body.appendChild(modal);
-    modal.querySelector(".pocket-picker-close").addEventListener("click",()=>{
-      modal.classList.remove("open");
-      selectedPocketCards.clear();
-    });
-    modal.addEventListener("click",e=>{
-      if(e.target===modal){modal.classList.remove("open");selectedPocketCards.clear();}
-    });
-    modal.querySelectorAll("[data-pocket-source]").forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        modal.querySelectorAll("[data-pocket-source]").forEach(b=>b.classList.toggle("active",b===btn));
-        renderPocketPickerList(btn.dataset.pocketSource);
-      });
-    });
-    modal.querySelector(".pocket-picker-confirm").addEventListener("click",confirmPocketSelection);
-  }
-  selectedPocketCards.clear();
-  modal.classList.add("open");
-  modal.querySelectorAll("[data-pocket-source]").forEach(b=>b.classList.toggle("active",b.dataset.pocketSource==="deck"));
-  renderPocketPickerList("deck");
-}
-
-function updatePocketPickerCount(){
-  const modal=document.querySelector("#pocketPickerModal");
-  const count=selectedPocketCards.size;
-  const countEl=modal?.querySelector(".pocket-selected-count");
-  const confirm=modal?.querySelector(".pocket-picker-confirm");
-  if(countEl)countEl.textContent=`เลือก ${count} ใบ · ช่อง Pocket ${testPocketCards.length+count}/10`;
-  if(confirm)confirm.disabled=count===0;
-}
-
-function renderPocketPickerList(source){
-  const modal=document.querySelector("#pocketPickerModal");
-  const list=modal?.querySelector(".pocket-picker-list");
-  if(!list)return;
-  let sourceArray=source==="deck"?testStack:(source==="hand"?testHand:testTomb);
-  const entries=sourceArray
-    .map((id,index)=>({id:String(id),source,index}))
-    .filter(item=>isPocketCard(item.id));
-  if(!entries.length){
-    list.innerHTML=`<div class="pocket-picker-empty">ไม่มีการ์ด Pocket ในแหล่งนี้</div>`;
-    updatePocketPickerCount();
-    return;
-  }
-  list.innerHTML=entries.map(item=>{
-    const c=cards.find(x=>String(x.id)===String(item.id));
-    const key=`${item.source}:${item.id}:${item.index}`;
-    const selected=selectedPocketCards.has(key);
-    return `<button type="button" class="pocket-picker-card${selected?" selected":""}" data-source="${item.source}" data-id="${escapeHtml(item.id)}" data-index="${item.index}" aria-pressed="${selected}">
-      ${c?.image?`<img src="${escapeHtml(c.image)}" alt="${escapeHtml(c.name)}">`:""}
-      <span><b>${escapeHtml(c?.name||item.id)}</b><small>${item.source==="deck"?"การ์ดใน Deck":item.source==="tomb"?"จาก Tomb":"จาก Hand"} · ใบที่ ${item.index+1}</small></span>
-      <strong>${selected?"เลือกแล้ว":"เลือก"}</strong>
-    </button>`;
-  }).join("");
-  list.querySelectorAll(".pocket-picker-card").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      const {source,id}=btn.dataset;
-      const index=Number(btn.dataset.index);
-      const key=`${source}:${id}:${index}`;
-      if(selectedPocketCards.has(key)){
-        selectedPocketCards.delete(key);
-      }else{
-        if(testPocketCards.length+selectedPocketCards.size>=10){
-          alert("POCKET วางได้สูงสุด 10 ใบ");
-          return;
-        }
-        selectedPocketCards.set(key,{source,id:String(id),index});
-      }
-      renderPocketPickerList(source);
-    });
-  });
-  updatePocketPickerCount();
-}
-
-function confirmPocketSelection(){
-  const modal=document.querySelector("#pocketPickerModal");
-  if(!modal||!selectedPocketCards.size)return;
-  const selected=[...selectedPocketCards.values()];
-  const available=10-testPocketCards.length;
-  if(selected.length>available){
-    alert(`ช่อง Pocket เหลือพื้นที่อีก ${available} ใบ`);
-    return;
-  }
-  const moved=[];
-  for(const source of ["deck","hand","tomb"]){
-    const items=selected.filter(item=>item.source===source).sort((a,b)=>b.index-a.index);
-    const sourceArray=source==="deck"?testStack:(source==="hand"?testHand:testTomb);
-    for(const item of items){
-      if(sourceArray[item.index]===item.id){
-        sourceArray.splice(item.index,1);
-        moved.push(item.id);
-      }
-    }
-  }
-  moved.reverse().forEach(id=>testPocketCards.push({
-    uid:"P"+Date.now()+Math.random().toString(36).slice(2,8),
-    id,
-    rotation:0
-  }));
-  selectedPocketCards.clear();
-  modal.classList.remove("open");
-  renderTest();
-}
-
-function renderPocketZone(){
-  const zone=document.querySelector("#testPocketZone");
-  const list=document.querySelector("#testPocketCards");
-  if(!zone||!list)return;
-  const pocketCountEl=document.querySelector("#testPocketZoneCount");
-  if(pocketCountEl)pocketCountEl.textContent=String(testPocketCards.length);
-  zone.setAttribute("aria-label",`Pocket มีการ์ด ${testPocketCards.length} ใบ · คลิกเพื่อเลือกการ์ด`);
-  let pocketAddBtn=zone.querySelector(".pocket-add-btn");
-  if(!pocketAddBtn){
-    pocketAddBtn=document.createElement("button");
-    pocketAddBtn.type="button";
-    pocketAddBtn.className="pocket-add-btn";
-    pocketAddBtn.title="จ่ายการ์ด Pocket ใบบนสุดลง Tomb";
-    pocketAddBtn.setAttribute("aria-label","จ่ายการ์ด Pocket ใบบนสุดลง Tomb");
-    pocketAddBtn.classList.add("pocket-pay-btn");
-    pocketAddBtn.innerHTML='<img src="public/images/icon/Pocket.png" alt="Pocket"><span class="pocket-pay-cross" aria-hidden="true">×</span>';
-    pocketAddBtn.addEventListener("click",e=>{
-      e.preventDefault();e.stopPropagation();
-      payTopPocketToTomb();
-    });
-    zone.appendChild(pocketAddBtn);
-  }
-  list.innerHTML=testPocketCards.map((item,index)=>`
-    <div class="test-pocket-card${Number(item.rotation||0)===90?" pocket-card-horizontal":""}${selectedPocketUid===item.uid?" pocket-card-selected":""}" data-pocket-index="${index}" title="คลิกเพื่อเลือกการ์ด · ดับเบิลคลิกเพื่อคืนการ์ดขึ้นมือ">
-      ${testCardHTML(item.id,true,index,"pocket-zone")}
-    </div>`).join("");
-  zone.onclick=e=>{
-    if(e.target.closest(".test-pocket-card"))return;
-    openPocketPicker();
-  };
-  zone.onkeydown=e=>{
-    if(e.key==="Enter"||e.key===" "){e.preventDefault();openPocketPicker();}
-  };
-  list.querySelectorAll(".test-pocket-card").forEach(wrap=>{
-    const card=wrap.querySelector(".test-card");
-    if(!card)return;
-    const index=Number(wrap.dataset.pocketIndex);
-    const item=testPocketCards[index];
-    // Keep later cards above earlier cards when horizontal cards overlap.
-    wrap.style.zIndex=String(index+1);
-    card.draggable=false;
-    card.style.transform=`rotate(${Number(item?.rotation||0)}deg)`;
-    const rotateBtn=document.createElement("button");
-    rotateBtn.type="button";
-    rotateBtn.className="pocket-rotate-btn";
-    rotateBtn.title=Number(item?.rotation||0)===90?"หมุนกลับแนวตั้ง":"วางแนวนอนเหมือน Master";
-    rotateBtn.textContent="↻";
-    rotateBtn.addEventListener("click",e=>{
-      e.preventDefault();e.stopPropagation();
-      const current=testPocketCards[index];
-      if(!current)return;
-      current.rotation=Number(current.rotation||0)===90?0:90;
-      renderTest();
-    });
-    // Keep the rotation control as a sibling of the card image, not inside it,
-    // so card overflow/rotation cannot clip the button on stacked cards.
-    wrap.appendChild(rotateBtn);
-    card.onclick=e=>{
-      if(e.target.closest(".pocket-rotate-btn"))return;
-      e.stopPropagation();
-      selectedPocketUid=item?.uid||null;
-      list.querySelectorAll(".test-pocket-card").forEach(node=>node.classList.toggle("pocket-card-selected",node===wrap));
-      openTestCardDetail(card.dataset.id);
-    };
-    card.ondblclick=e=>{
-      if(e.target.closest(".pocket-rotate-btn"))return;
-      e.preventDefault();e.stopPropagation();
-      const current=testPocketCards[index];
-      if(!current)return;
-      testHand.push(current.id);
-      if(selectedPocketUid===current.uid)selectedPocketUid=null;
-      testPocketCards.splice(index,1);
-      renderTest();
-    };
-    if(canReturnBoardCardToHand(item?.id)){
-      const handBtn=document.createElement("button");
-      handBtn.type="button";
-      handBtn.className="test-hand-btn pocket-hand-btn";
-      handBtn.textContent="HAND";
-      handBtn.title="นำการ์ดขึ้นมือ";
-      handBtn.draggable=false;
-      handBtn.addEventListener("pointerdown",e=>e.stopPropagation());
-      handBtn.addEventListener("click",e=>{
-        e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
-        const current=testPocketCards[index];
-        if(!current)return;
-        returnBoardCardToHand(current.id,()=>{
-          if(selectedPocketUid===current.uid)selectedPocketUid=null;
-          testPocketCards.splice(index,1);
-        });
-      });
-      wrap.appendChild(handBtn);
-    }
-  });
-}
-function rotateAllPocketVertical(){
-  // Reset every card the user can rotate back to portrait, including Pocket,
-  // free board cards, Character cards, and Master. Zone and Soul Core are untouched.
-  // Update the existing elements in place to preserve positions, stacking, and other state.
-  if(Array.isArray(testPocketCards)) testPocketCards.forEach(item=>{ item.rotation=0; });
-  if(Array.isArray(testBoard?.freeCards)) testBoard.freeCards.forEach(item=>{ item.rotation=0; });
-  if(Array.isArray(testBoard?.characters)) testBoard.characters.forEach(item=>{ item.rotation=0; });
-  if(testSpecialRotation) testSpecialRotation.master=0;
-  selectedPocketUid=null;
-
-  const pocketList=document.querySelector("#testPocketCards");
-  if(pocketList){
-    pocketList.querySelectorAll(".test-pocket-card").forEach(wrap=>{
-      wrap.classList.remove("pocket-card-horizontal");
-      const card=wrap.querySelector(".test-card");
-      if(card) card.style.transform="rotate(0deg)";
-    });
-  }
-  document.querySelectorAll("#testBoardCards .test-card, .character-slot-card .test-card, #testMasterCard .test-card").forEach(card=>{
-    card.classList.remove("board-horizontal");
-    card.style.transform="rotate(0deg)";
-    const btn=card.querySelector(".board-rotate-btn, .character-rotate-btn, .special-rotate-btn");
-    if(btn){ btn.title="วางแนวนอน"; }
-  });
-  // Refresh Pocket only; avoid rebuilding the whole field or changing card positions.
-  if(pocketList) renderPocketZone();
-}
-// Keep the inline button handler available even if script loading is later wrapped.
-window.rotateAllPocketVertical=rotateAllPocketVertical;
-
 function renderTest(){
   refreshTestDeckSelect();
   const nameEl=document.querySelector("#testDeckName");
@@ -2937,7 +2235,6 @@ function renderTest(){
   const soulEl=document.querySelector("#testSoulCoreCards");
   const soulUnderEl=document.querySelector("#testSoulCoreUnderZone");
   if(!testDeck){
-    renderEnergyArea();
     if(masterEl)masterEl.innerHTML="";
     if(zoneEl)zoneEl.innerHTML="";
     if(soulEl)soulEl.innerHTML="";
@@ -2945,10 +2242,6 @@ function renderTest(){
     if(nameEl)nameEl.textContent="-";
     if(handEl)handEl.innerHTML=`<div class="hand-empty">ยังไม่มี Deck สำหรับทดลองเล่น</div>`;
     if(boardEl)boardEl.innerHTML="";
-    const pocketZone=document.querySelector("#testPocketZone");
-    const pocketList=document.querySelector("#testPocketCards");
-    if(pocketList)pocketList.innerHTML="";
-    if(pocketZone){const count=pocketZone.querySelector("#testPocketZoneCount");if(count)count.textContent="0";}
     return;
   }
   const setText=(selector,value)=>{
@@ -2958,18 +2251,9 @@ function renderTest(){
   setText("#testCardsLeft",testStack.length);
   setText("#testHandCount",testHand.length);
   setText("#testTurn",testTurn);
-  setText("#testBoardCount",testBoard.freeCards.length+(testBoard.characters||[]).length);
+  setText("#testBoardCount",testBoard.freeCards.length);
   setText("#pileCount",testStack.length);
   setText("#tombCount",testTomb.length);
-  // Tomb displays the most recently sent card, aligned to the bottom of its frame.
-  const tombPile=document.querySelector("#testTombPile");
-  if(tombPile){
-    const latestTombId=testTomb.length ? String(testTomb[testTomb.length-1]) : "";
-    const latestTombCard=latestTombId ? cards.find(c=>String(c.id)===latestTombId) : null;
-    tombPile.innerHTML=`${latestTombCard?.image ? `<img class="tomb-top-card-image" src="${escapeHtml(latestTombCard.image)}" alt="${escapeHtml(latestTombCard.name||'Tomb card')}">` : ""}${testTomb.length ? `<b id="tombCount">${testTomb.length}</b>` : ""}`;
-    tombPile.title=testTomb.length ? `การ์ดล่าสุดใน Tomb: ${latestTombCard?.name||latestTombId} · ทั้งหมด ${testTomb.length} ใบ` : "Tomb ว่าง";
-  }
-  renderEnergyArea();
 
   // Initial battlefield layout: Master center, Zone below, Soul Core as a single clickable pile above.
   if(masterEl){
@@ -2979,23 +2263,18 @@ function renderTest(){
       card.style.transform=`rotate(${Number(testSpecialRotation.master||0)}deg)`;
       card.draggable=false;
       card.onclick=()=>openTestCardDetail(card.dataset.id);
-      // Keep the rotation button outside the transformed card so it stays upright and clickable.
-      const oldRotate=masterEl.querySelector(":scope > .master-rotate-btn");
-      if(oldRotate)oldRotate.remove();
       const btn=document.createElement("button");
       btn.type="button";
-      btn.className="special-rotate-btn master-rotate-btn";
+      btn.className="special-rotate-btn";
       btn.title=Number(testSpecialRotation.master||0)===90 ? "หมุนกลับแนวตั้ง" : "วางแนวนอน";
-      btn.setAttribute("aria-label",btn.title);
       btn.textContent="↻";
       btn.addEventListener("click",ev=>{
         ev.preventDefault(); ev.stopPropagation();
         testSpecialRotation.master=Number(testSpecialRotation.master||0)===90?0:90;
         renderTest();
       });
-      masterEl.appendChild(btn);
+      card.appendChild(btn);
     }
-    masterEl.insertAdjacentHTML("beforeend",attachedGearStackHTML(testMasterGear,"master",""));
   }
   if(zoneEl){
     zoneEl.innerHTML=testDeck.zone ? testCardHTML(testDeck.zone,true,0,"zone") : "";
@@ -3102,8 +2381,6 @@ zoneEl.appendChild(badge);
     });
   }
 
-  renderPocketZone();
-
   if(handEl){
     handEl.innerHTML=testHand.length
       ? testHand.map((id,index)=>testCardHTML(id,true,index,"hand")).join("")
@@ -3115,8 +2392,6 @@ zoneEl.appendChild(badge);
       };
       el.onclick=()=>openTestCardDetail(el.dataset.id);
       el.ondblclick=()=>sendToTomb(el.dataset.id,true);
-      const uBtn=makeUSlotButton("hand",Number(el.dataset.index),el.dataset.id);
-      if(uBtn)el.appendChild(uBtn);
       const tombBtn=document.createElement("button");
       tombBtn.type="button";
       tombBtn.className="test-tomb-btn";
@@ -3129,8 +2404,6 @@ zoneEl.appendChild(badge);
       el.appendChild(tombBtn);
     });
   }
-
-  renderCharacterSlots();
 
   if(boardEl){
     boardEl.innerHTML=testBoard.freeCards.map((item,index)=>testCardHTML(item.id,true,index,"board")).join("");
@@ -3163,25 +2436,6 @@ zoneEl.appendChild(badge);
         testBoard.freeCards.splice(idx,1);
         renderTest();
       };
-      if(canReturnBoardCardToHand(item.id)){
-        const handBtn=document.createElement("button");
-        handBtn.type="button";
-        handBtn.className="test-hand-btn board-hand-btn";
-        handBtn.title="นำการ์ดขึ้นมือ";
-        handBtn.textContent="HAND";
-        handBtn.draggable=false;
-        handBtn.addEventListener("pointerdown",ev=>ev.stopPropagation());
-        handBtn.addEventListener("click",ev=>{
-          ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
-          returnBoardCardToHand(item.id,()=>{
-            const currentIndex=testBoard.freeCards.indexOf(item);
-            if(currentIndex>=0)testBoard.freeCards.splice(currentIndex,1);
-          });
-        });
-        el.appendChild(handBtn);
-      }
-      const uBtn=makeUSlotButton("board",idx,item.id);
-      if(uBtn)el.appendChild(uBtn);
       const tombBtn=document.createElement("button");
       tombBtn.type="button";
       tombBtn.className="test-tomb-btn board-tomb-btn";
@@ -3194,13 +2448,6 @@ zoneEl.appendChild(badge);
       el.appendChild(tombBtn);
     });
   }
-
-  document.querySelectorAll(".attached-gear-tomb").forEach(btn=>{
-    btn.onclick=ev=>{
-      ev.preventDefault();ev.stopPropagation();
-      sendAttachedGearToTomb(btn.dataset.gearOwner,btn.dataset.gearSlot,btn.dataset.gearIndex);
-    };
-  });
 }
 
 function testCardHTML(id,clickable=false,index=0,source="hand"){
@@ -3314,23 +2561,8 @@ document.querySelector("#testDeckSelect").onchange=buildTestDeck;
 document.querySelector("#drawFiveBtn").onclick=()=>drawCards(5);
 document.querySelector("#drawOneBtn").onclick=()=>drawCards(1);
 document.querySelector("#resetTestBtn").onclick=resetTest;
-document.querySelector("#testDeckPile").onclick=()=>openDeckViewer();
-document.querySelector("#deckDrawAction")?.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();drawCards(1);});
-document.querySelector("#deckTopToTombAction")?.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();sendTopDeckCardToTomb();});
-document.querySelector("#deckShuffleAction")?.addEventListener("click",e=>{
-  e.preventDefault();e.stopPropagation();
-  const pile=document.querySelector("#testDeckPile");
-  if(pile){
-    pile.classList.remove("deck-shuffle-anim");
-    void pile.offsetWidth;
-    pile.classList.add("deck-shuffle-anim");
-    window.setTimeout(()=>pile.classList.remove("deck-shuffle-anim"),950);
-  }
-  shuffleRemainingDeck();
-});
+document.querySelector("#testDeckPile").onclick=()=>openDeckPicker();
 document.querySelector("#drawPileBtn").onclick=()=>drawCards(1);
-document.querySelector("#addEnergyBtn")?.addEventListener("click",addTopCardToEnergy);
-document.querySelector("#payEnergyBtn")?.addEventListener("click",payTopEnergyToTomb);
 
 const playBoard=document.querySelector("#playBoard");
 const testHandEl=document.querySelector("#testHand");
@@ -3350,7 +2582,7 @@ const testHandEl=document.querySelector("#testHand");
   }
   function selectCard(card){
     const source=card.dataset.source;
-    if(source!=="hand" && source!=="board" && source!=="character") return;
+    if(source!=="hand" && source!=="board") return;
     if(selected && selected.source===source && selected.id===String(card.dataset.id)){
       clearSelection();
       return;
@@ -3381,42 +2613,12 @@ const testHandEl=document.querySelector("#testHand");
     const rect=playBoard.getBoundingClientRect();
     const x=(e.clientX-rect.left)/rect.width;
     const y=(e.clientY-rect.top)/rect.height;
-    const slot=findCharacterSlot(x,y);
-    let selectedCardId=null;
-    if(selected.source==="hand")selectedCardId=testHand.find(id=>String(id)===selected.id);
-    else if(selected.source==="board")selectedCardId=testBoard.freeCards.find(item=>String(item.id)===selected.id)?.id;
-    else if(selected.source==="character")selectedCardId=testBoard.characters.find(item=>String(item.id)===selected.id)?.id;
-    if(isUSlotDrop(x,y)){
-      if(selected.source==="hand"){
-        const index=testHand.findIndex(id=>String(id)===selected.id);
-        if(index>=0){const id=testHand.splice(index,1)[0];placeCardInUSlot(id);}
-      }else if(selected.source==="board"){
-        const index=testBoard.freeCards.findIndex(item=>String(item.id)===selected.id);
-        if(index>=0){const item=testBoard.freeCards.splice(index,1)[0];placeCardInUSlot(item.id);}
-      }else if(selected.source==="character"){
-        const index=testBoard.characters.findIndex(item=>String(item.id)===selected.id);
-        if(index>=0){const item=testBoard.characters.splice(index,1)[0];placeCardInUSlot(item.id);(item.gearIds||[]).forEach(gearId=>testHand.push(String(gearId)));}
-      }
-    }else if(isGearCard(selectedCardId)){
-      let gearIndex=-1;
-      if(selected.source==="hand")gearIndex=testHand.findIndex(id=>String(id)===selected.id);
-      else if(selected.source==="board")gearIndex=testBoard.freeCards.findIndex(item=>String(item.id)===selected.id);
-      if(gearIndex>=0)openGearTargetPicker({source:selected.source,index:gearIndex});
-    }else if(slot){
-      let index=-1;
-      if(selected.source==="hand") index=testHand.findIndex(id=>String(id)===selected.id);
-      else if(selected.source==="board") index=testBoard.freeCards.findIndex(item=>String(item.id)===selected.id);
-      else if(selected.source==="character") index=testBoard.characters.findIndex(item=>String(item.id)===selected.id);
-      if(index>=0) requestCharacterPlacement({source:selected.source,index},slot.id);
-    }else if(selected.source==="hand"){
+    if(selected.source==="hand"){
       const index=testHand.findIndex(id=>String(id)===selected.id);
       if(index>=0){const id=testHand.splice(index,1)[0];addBoardCard(id,x-.07,y-.13);}
-    }else if(selected.source==="board"){
+    }else{
       const item=testBoard.freeCards.find(item=>String(item.id)===selected.id);
       if(item){item.x=Math.max(.02,Math.min(.90,x-.07));item.y=Math.max(.02,Math.min(.68,y-.12));}
-    }else if(selected.source==="character"){
-      const index=testBoard.characters.findIndex(item=>String(item.id)===selected.id);
-      if(index>=0){const item=testBoard.characters.splice(index,1)[0];addBoardCard(item.id,x-.07,y-.13);}
     }
     clearSelection();
     e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
@@ -3433,34 +2635,6 @@ function boardDropHandler(e){
   const rect=playBoard.getBoundingClientRect();
   const x=(e.clientX-rect.left)/rect.width;
   const y=(e.clientY-rect.top)/rect.height;
-  const characterSlot=findCharacterSlot(x,y);
-  const draggedId=data.source==="hand" ? testHand[data.index] : data.source==="board" ? testBoard.freeCards[data.index]?.id : data.source==="character" ? testBoard.characters[data.index]?.id : null;
-  // Test the U slot before the gear-target handler so dropping a card directly
-  // onto U always places it there instead of opening the gear attachment picker.
-  if(isUSlotDrop(x,y)){
-    if(data.source==="hand"){
-      const id=testHand[data.index]; if(!id)return;
-      testHand.splice(data.index,1); placeCardInUSlot(id);
-    }else if(data.source==="board"){
-      const item=testBoard.freeCards[data.index]; if(!item)return;
-      testBoard.freeCards.splice(data.index,1); placeCardInUSlot(item.id);
-    }else if(data.source==="character"){
-      const item=testBoard.characters?.[data.index]; if(!item)return;
-      testBoard.characters.splice(data.index,1); placeCardInUSlot(item.id);
-      (item.gearIds||[]).forEach(gearId=>testHand.push(String(gearId)));
-    }
-    renderTest();
-    return;
-  }
-  if(isGearCard(draggedId)){
-    openGearTargetPicker(data);
-    return;
-  }
-  if(characterSlot){
-    // C slots accept Character cards only; other card types remain where they are.
-    if(getTestCardType(draggedId)==="character")requestCharacterPlacement(data,characterSlot.id);
-    return;
-  }
   if(data.source==="hand"){
     const id=testHand[data.index];
     if(!id)return;
@@ -3471,11 +2645,6 @@ function boardDropHandler(e){
     if(!item)return;
     item.x=Math.max(.02,Math.min(.90,x-.07));
     item.y=Math.max(.02,Math.min(.68,y-.12));
-  }else if(data.source==="character"){
-    const item=testBoard.characters?.[data.index];
-    if(!item)return;
-    testBoard.characters.splice(data.index,1);
-    addBoardCard(item.id,x-.07,y-.13);
   }
   renderTest();
 }
@@ -3683,198 +2852,95 @@ function setLanguage(lang){
 
 
 
-/* ===== SOULVAULT HOME PAGE INTERACTIONS — mobile-safe ===== */
+/* ===== SOULVAULT HOME PAGE INTERACTIONS (isolated) ===== */
 (()=>{
   const banner=document.getElementById("svHomeBanner");
   if(!banner) return;
-
-  const getSlides=()=>{
-    const latest=(Array.isArray(newsList)?newsList:[])
-      .map((news,index)=>({
-        news,index,
-        sortDate:(()=>{
-          const m=String(news.date||"").match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
-          return m?new Date(Number(m[3]),Number(m[2])-1,Number(m[1])).getTime():0;
-        })()
-      }))
-      .sort((a,b)=>b.sortDate-a.sortDate)
-      .slice(0,3);
-    return [
-      {image:"/public/images/logo/ผี.jpg",alt:"SOULVAULT — รายการการ์ด",target:"roster"},
-      ...latest.map(({news,index})=>{
-        const raw=String((Array.isArray(news.images)&&news.images[0])||news.image||"").trim();
-        const image=raw.startsWith("/")?raw:(raw.startsWith("public/")?"/"+raw:raw);
-        return {image,alt:`SOULVAULT — ข่าวสาร: ${news.title||"ข่าวสาร"}`,target:"news",newsIndex:index,title:news.title||"ข่าวสาร"};
-      })
-    ];
-  };
-  const slides=getSlides();
+  // แบนเนอร์แรกคงรูปและปลายทางเดิม ส่วนแบนเนอร์ถัดไปเชื่อมกับข่าวแต่ละรายการ
+  // แบนเนอร์แรกคงรูปและปลายทางเดิม ส่วนข่าวบนแบนเนอร์แสดงเฉพาะ 3 ข่าวล่าสุด
+  // เรียงตามวันที่ใหม่ไปเก่า โดยยังเก็บ index ต้นฉบับไว้เพื่อเปิดรายละเอียดข่าวที่ถูกต้อง
+  const latestHomeNews=(Array.isArray(newsList)?newsList:[])
+    .map((news,index)=>({news,index,sortDate:(()=>{
+      const match=String(news.date||"").match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);
+      return match ? new Date(Number(match[3]),Number(match[2])-1,Number(match[1])).getTime() : 0;
+    })()}))
+    .sort((a,b)=>b.sortDate-a.sortDate)
+    .slice(0,3);
+  const slides=[
+    {image:"/public/images/logo/ผี.jpg",alt:"SOULVAULT — รายการการ์ด",target:"roster"},
+    ...latestHomeNews.map(({news,index})=>({
+      image:(()=>{const path=String((Array.isArray(news.images)&&news.images[0])||news.image||"").trim();return path.startsWith("/")?path:(path.startsWith("public/")?"/"+path:path);})(),
+      alt:`SOULVAULT — ข่าวสาร: ${news.title||"ข่าวสาร"}`,
+      target:"news",
+      newsIndex:index
+    }))
+  ];
   const dotsContainer=banner.querySelector(".sv-home-dots");
   if(dotsContainer){
     dotsContainer.innerHTML=slides.map((slide,index)=>
-      `<button class="${index===0?"active":""}" type="button" data-home-slide="${index}" aria-label="แบนเนอร์ ${index+1}" aria-pressed="${index===0?"true":"false"}"></button>`
+      `<button class="${index===0?"active":""}" type="button" data-home-slide="${index}" aria-label="แบนเนอร์ ${index+1}"></button>`
     ).join("");
   }
-
   let current=0;
-  let touchStartX=0,touchStartY=0;
-  let ignoreClickUntil=0;
   const show=(index)=>{
-    current=((Number(index)||0)%slides.length+slides.length)%slides.length;
+    current=(index+slides.length)%slides.length;
     const slide=slides[current];
-    const image=document.getElementById("svHomeBannerImage");
-    if(image){
-      image.src=slide.image;
-      image.alt=slide.alt;
-    }
+    const bannerImage=document.getElementById("svHomeBannerImage");
+    if(bannerImage){bannerImage.src=slide.image;bannerImage.alt=slide.alt;}
     banner.dataset.slide=String(current);
     banner.setAttribute("aria-label",current===0
-      ?"แตะเพื่อเปิดหน้า List Card"
-      :`แตะเพื่ออ่านข่าว: ${slide.title||"ข่าวสาร"}`);
-    banner.querySelectorAll("[data-home-slide]").forEach((dot,i)=>{
-      const active=i===current;
-      dot.classList.toggle("active",active);
-      dot.setAttribute("aria-pressed",String(active));
-    });
-  };
-  const goToSection=(target)=>{
-    const nav=document.querySelector(`.nav[data-section="${target}"]`);
-    if(nav){
-      nav.click();
-      return true;
-    }
-    const section=document.getElementById(target);
-    if(!section) return false;
-    document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
-    document.querySelectorAll(".section").forEach(x=>x.classList.remove("active-section"));
-    section.classList.add("active-section");
-    document.querySelector(".sidebar")?.classList.remove("open");
-    return true;
+      ?"คลิกภาพเพื่อเปิดหน้า List Card"
+      :`คลิกภาพเพื่ออ่านข่าว: ${(newsList[current-1]&&newsList[current-1].title)||"ข่าวสาร"}`);
+    banner.querySelectorAll("[data-home-slide]").forEach((dot,i)=>dot.classList.toggle("active",i===current));
   };
   const navigateToCurrentSlide=()=>{
     const slide=slides[current];
-    if(!slide) return;
-    goToSection(slide.target);
+    const nav=document.querySelector(`.nav[data-section="${slide.target}"]`);
+    if(nav) nav.click();
+    // หลังเปิดหน้าข่าว ให้เปิดรายละเอียดของข่าวที่ตรงกับแบนเนอร์นั้น
     if(slide.target==="news" && Number.isInteger(slide.newsIndex)){
-      // Wait briefly for the news section to become visible before opening its detail.
-      window.setTimeout(()=>{
-        const card=document.querySelector(`#newsGrid .news-card[data-news-index="${slide.newsIndex}"]`);
-        if(card) card.click();
-      },80);
+      const newsCard=document.querySelector(`#newsGrid .news-card[data-news-index="${slide.newsIndex}"]`);
+      if(newsCard) newsCard.click();
     }
   };
-
-  // Use delegated/capture handling so dots and shortcut buttons remain tappable on mobile.
-  banner.addEventListener("click",event=>{
-    const dot=event.target.closest("[data-home-slide]");
-    if(dot){
-      event.preventDefault();
-      event.stopPropagation();
-      show(Number(dot.dataset.homeSlide));
-      return;
-    }
-    if(Date.now()<ignoreClickUntil) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-    navigateToCurrentSlide();
-  },true);
-
-  banner.addEventListener("keydown",event=>{
-    if(event.target.closest("[data-home-slide]")) {
-      if(event.key==="Enter"||event.key===" "){
-        event.preventDefault();
-        show(Number(event.target.closest("[data-home-slide]").dataset.homeSlide));
-      }
-      return;
-    }
-    if(event.key==="Enter"||event.key===" "){
-      event.preventDefault();
-      navigateToCurrentSlide();
-    }else if(event.key==="ArrowRight"){
-      event.preventDefault();show(current+1);
-    }else if(event.key==="ArrowLeft"){
-      event.preventDefault();show(current-1);
-    }
-  });
-
+  let touchStartX=0, touchStartY=0, swipeHandled=false;
   banner.addEventListener("touchstart",event=>{
-    if(!event.touches||event.touches.length!==1) return;
+    if(!event.touches || event.touches.length!==1) return;
     touchStartX=event.touches[0].clientX;
     touchStartY=event.touches[0].clientY;
+    swipeHandled=false;
   },{passive:true});
   banner.addEventListener("touchend",event=>{
-    if(!event.changedTouches||!event.changedTouches.length) return;
+    if(!event.changedTouches || !event.changedTouches.length) return;
     const dx=event.changedTouches[0].clientX-touchStartX;
     const dy=event.changedTouches[0].clientY-touchStartY;
-    if(Math.abs(dx)>42&&Math.abs(dx)>Math.abs(dy)*1.2){
-      ignoreClickUntil=Date.now()+700;
+    if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)*1.2){
+      swipeHandled=true;
       show(current+(dx<0?1:-1));
     }
   },{passive:true});
-
-  // Never pause on mouseenter: mobile browsers may emulate it and leave the timer stopped.
-  show(0);
-  window.setInterval(()=>show(current+1),2000);
-
-  document.addEventListener("click",event=>{
-    const shortcut=event.target.closest("[data-home-go]");
-    if(!shortcut) return;
-    event.preventDefault();
-    const target=shortcut.dataset.homeGo;
-    goToSection(target);
-  },true);
-})();
-
-/* Click/tap the site logo to return to Home. */
-(()=>{
-  const logo=document.getElementById("siteLogo");
-  if(!logo) return;
-  const goHome=()=>{
-    document.querySelectorAll(".nav").forEach(button=>button.classList.remove("active"));
-    document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
-    document.getElementById("home")?.classList.add("active-section");
-    document.body.classList.add("show-page-welcome-heading");
-    document.querySelector(".sidebar")?.classList.remove("open");
-    document.querySelector("#menuBtn")?.setAttribute("aria-expanded","false");
-    window.scrollTo({top:0,behavior:"auto"});
-  };
-  logo.addEventListener("click",event=>{
-    event.preventDefault();
-    goHome();
+  banner.addEventListener("click",event=>{
+    if(swipeHandled){swipeHandled=false;return;}
+    if(event.target.closest(".sv-home-dots")) return;
+    navigateToCurrentSlide();
   });
-  logo.addEventListener("keydown",event=>{
-    if(event.key==="Enter"||event.key===" "){
-      event.preventDefault();
-      goHome();
+  banner.addEventListener("keydown",event=>{
+    if((event.key==="Enter"||event.key===" ") && !event.target.closest(".sv-home-dots")){
+      event.preventDefault(); navigateToCurrentSlide();
     }
   });
+  banner.querySelectorAll("[data-home-slide]").forEach(dot=>dot.addEventListener("click",event=>{event.stopPropagation();show(Number(dot.dataset.homeSlide))}));
+  // เปลี่ยนแบนเนอร์อัตโนมัติทุก 3 วินาที
+  let autoSlideTimer=setInterval(()=>show(current+1),2000);
+  banner.addEventListener("mouseenter",()=>clearInterval(autoSlideTimer));
+  banner.addEventListener("mouseleave",()=>{clearInterval(autoSlideTimer);autoSlideTimer=setInterval(()=>show(current+1),2000);});
+  document.querySelectorAll("[data-home-go]").forEach(button=>button.addEventListener("click",()=>{
+    const target=button.dataset.homeGo;
+    const nav=document.querySelector(`.nav[data-section="${target}"]`);
+    if(nav) nav.click();
+  }));
 })();
 
-
-/* Brand area is also a Home target if the logo image cannot be loaded. */
-(()=>{
-  const brand=document.getElementById("siteBrand");
-  const logo=document.getElementById("siteLogo");
-  if(!brand) return;
-  brand.addEventListener("click",event=>{
-    if(event.target===logo) return;
-    document.querySelectorAll(".nav").forEach(button=>button.classList.remove("active"));
-    document.querySelectorAll(".section").forEach(section=>section.classList.remove("active-section"));
-    document.getElementById("home")?.classList.add("active-section");
-    document.body.classList.add("show-page-welcome-heading");
-    document.querySelector(".sidebar")?.classList.remove("open");
-    document.querySelector("#menuBtn")?.setAttribute("aria-expanded","false");
-    window.scrollTo({top:0,behavior:"auto"});
-  });
-  brand.addEventListener("keydown",event=>{
-    if(event.key==="Enter"||event.key===" "){
-      event.preventDefault();
-      brand.click();
-    }
-  });
-})();
 // initialize news cards when the page loads
 renderNews(); // initialize news cards
 
